@@ -27,7 +27,7 @@ export function SignIn(){
     <Card className="md:w-[50vw] w-[90vw]">
       <CardHeader>
         <CardTitle className="text-2xl">Zephyr</CardTitle>
-        <CardDescription>Log into your zephyr's account.</CardDescription>
+        <CardDescription>Log into your zephyr&apos; account.</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
