@@ -29,7 +29,8 @@ export default function Home() {
       if (user) router.push("/signup/profile");
       return true;
     } catch (err) {
-      setError(err.message);
+      console.log(err);
+      setError(err?.message);
       return false;
     } finally {
       setLoading(false);
@@ -43,7 +44,8 @@ export default function Home() {
       if (user) router.push("/signup/profile");
       return true;
     } catch (err) {
-      setError(err.message);
+      console.log(err);
+      setError(err?.message);
       return false;
     } finally {
       setLoading(false);
@@ -57,7 +59,8 @@ export default function Home() {
       if (user) router.push("/signup/profile");
       return true;
     } catch (err) {
-      setError(err.message);
+      console.log(err);
+      setError(err?.message);
       return false;
     } finally {
       setLoading(false);
