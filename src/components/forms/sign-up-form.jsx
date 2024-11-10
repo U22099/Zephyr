@@ -21,8 +21,9 @@ import {
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { AiOutlineLoading } from "react-icons/ai";
 
-export function SignUp(){
+export function SignUp({setUsername, setEmail, setPassword, signUp, loading, error }){
   return (
     <Card className="md:w-[50vw] w-[90vw]">
       <CardHeader>
@@ -33,8 +34,12 @@ export function SignUp(){
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-4">
-              <Button className="w-full" variant="outline"><FcGoogle />Google</Button>
-              <Button className="w-full" variant="outline"><FaGithub />Github</Button>
+              <Button className="w-full" variant="outline"
+              onClick={async () => await signUp("google")}
+              ><FcGoogle />Google</Button>
+              <Button className="w-full" variant="outline"
+              onClick={async () => await signUp("github")}
+              ><FaGithub />Github</Button>
             </div>
           </div>
           <div className="flex gap-2 mx-auto items-center w-[90%] my-2 justify-center self-center">
@@ -45,17 +50,20 @@ export function SignUp(){
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">UserName</Label>
-              <Input id="name" placeholder="Input you username" />
+              <Input id="name" placeholder="Input you username" onChange={(e) => setUsername(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Email</Label>
-              <Input id="name" placeholder="Input you email" type="email" />
+              <Input id="name" placeholder="Input you email" type="email" onChange={(e) => setEmail(e.target.value)}/>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Password</Label>
-              <Input id="name" placeholder="Input you password" type="password"/>
+              <Input id="name" placeholder="Input you password" type="password" onChange={(e) => setPassword(e.target.value)}/>
             </div>
-            <Button className="w-full">Sign Up</Button>
+            {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
+            <Button className="w-full"
+            onClick={async () => await signUp("credentials")}
+            >{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign Up"}</Button>
           </div>
         </form>
       </CardContent>
