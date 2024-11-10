@@ -2,7 +2,8 @@
 
 import { SignIn } from "@/components/forms/sign-in-form";
 import { useState } from "react";
-import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks";
+import { motion } from "framer-motion";
+import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
 

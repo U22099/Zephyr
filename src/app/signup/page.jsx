@@ -2,7 +2,7 @@
 
 import { SignUp } from "@/components/forms/sign-up-form";
 import { useState } from "react";
-import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks";
+import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
 
