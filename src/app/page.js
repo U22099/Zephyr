@@ -1,6 +1,8 @@
+"use client";
+
 import { SignIn } from "@/components/forms/sign-in-form";
 import { useState } from "react";
-import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGoogle } from "react-firebase-hooks";
+import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
 
@@ -22,7 +24,7 @@ export default function Home() {
     }
     try {
       setLoading(true);
-      const user = await useSignInWithEmailAndPassword(email, password);
+      const user = await signInWithEmailAndPassword(email, password);
       if(user) router.push("/home");
       return true;
     } catch (err) {
