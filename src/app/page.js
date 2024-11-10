@@ -26,7 +26,8 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithEmailAndPassword(email, password);
-      if(user) router.push("/home");
+      console.log(user, "here");
+      //if(user) router.push("/home");
       return true;
     } catch (err) {
       console.log(err);
@@ -41,7 +42,8 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
-      if(user) router.push("/home");
+      console.log(user, "here");
+      //if(user) router.push("/home");
       return true;
     } catch (err) {
       console.log(err);
@@ -56,7 +58,8 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
-      if(user) router.push("/home");
+      console.log(user, "here");
+      //if(user) router.push("/home");
       return true;
     } catch (err) {
       console.log(err);
