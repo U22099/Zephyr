@@ -3,7 +3,7 @@
 import { SignIn } from "@/components/forms/sign-in-form";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
@@ -32,8 +32,21 @@ export default function Home() {
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.message);
-      return false;
+      if(err.code.includes("invalid-credential")){
+        try{
+          const user = await createUserWithEmailAndPassword(auth, email, password);
+          console.log(user, "here");
+          //if(user) router.push("/home");
+          return true;
+        } catch(err) {
+          console.log(err);
+          setError(err?.code);
+          return false;
+        }
+      } else {
+        setError(err?.code);
+        return false;
+      }
     } finally {
       setLoading(false);
     }
@@ -43,7 +56,6 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
-      console.log(user, "here");
       //if(user) router.push("/home");
       return true;
     } catch (err) {
@@ -59,7 +71,6 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
-      console.log(user, "here");
       //if(user) router.push("/home");
       return true;
     } catch (err) {
