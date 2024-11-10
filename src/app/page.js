@@ -26,27 +26,19 @@ export default function Home() {
     }
     try {
       setLoading(true);
-      const user = await signInWithEmailAndPassword(auth, email, password);
+      const existUser = await auth.getUserByEmail(email);
+      if(existUser){
+        const user = await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        const user = await createUserWithEmailAndPassword(auth, email, password);
+      }
       console.log(user, "here");
       //if(user) router.push("/home");
       return true;
     } catch (err) {
       console.log(err);
-      if(err.code.includes("invalid-credential")){
-        try{
-          const user = await createUserWithEmailAndPassword(auth, email, password);
-          console.log(user, "here");
-          //if(user) router.push("/home");
-          return true;
-        } catch(err) {
-          console.log(err);
-          setError(err?.code);
-          return false;
-        }
-      } else {
-        setError(err?.code);
-        return false;
-      }
+      setError(err?.code);
+      return false;
     } finally {
       setLoading(false);
     }
