@@ -3,7 +3,8 @@
 import { SignIn } from "@/components/forms/sign-in-form";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { useSignInWithEmailAndPassword, useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +15,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
+
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [signInWithGithub] = useSignInWithGithub(auth);
 
@@ -25,7 +26,7 @@ export default function Home() {
     }
     try {
       setLoading(true);
-      const user = await signInWithEmailAndPassword(email, password);
+      const user = await signInWithEmailAndPassword(auth, email, password);
       console.log(user, "here");
       //if(user) router.push("/home");
       return true;
