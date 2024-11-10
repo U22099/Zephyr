@@ -1,4 +1,5 @@
-import { SignUp } from "@/components/forms/sign-up-form"
+import { SignUp } from "@/components/forms/sign-up-form";
+import { OTP } from "@/components/forms/otp";
 
 export default function Home() {
   return (

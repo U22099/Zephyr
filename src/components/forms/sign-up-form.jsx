@@ -19,6 +19,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { FaGithub } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export function SignUp(){
   return (
@@ -31,8 +33,8 @@ export function SignUp(){
         <form>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-4">
-              <Button className="w-full" variant="outline">Google</Button>
-              <Button className="w-full" variant="outline">Github</Button>
+              <Button className="w-full" variant="outline"><FcGoogle />Google</Button>
+              <Button className="w-full" variant="outline"><FaGithub />Github</Button>
             </div>
           </div>
           <div className="flex gap-2 mx-auto items-center w-[90%] my-2 justify-center self-center">
@@ -59,7 +61,7 @@ export function SignUp(){
       </CardContent>
       <CardFooter className="flex justify-center w-full text-muted">
         Have a zephyr's account?&nbsp;
-        <Link href="/" className="text-violet-900">sign in</Link>
+        <Link href="/" className="text-violet-800">sign in</Link>
       </CardFooter>
     </Card>
   )
