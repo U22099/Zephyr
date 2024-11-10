@@ -27,7 +27,7 @@ export function SignUp(){
     <Card className="md:w-[50vw] w-[90vw]">
       <CardHeader>
         <CardTitle className="text-2xl">Zephyr</CardTitle>
-        <CardDescription>Create a new zephyr&apos; account.</CardDescription>
+        <CardDescription>Create a new zephyr&apos;s account.</CardDescription>
       </CardHeader>
       <CardContent>
         <form>
