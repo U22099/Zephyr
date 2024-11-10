@@ -60,7 +60,7 @@ export function SignUp(){
         </form>
       </CardContent>
       <CardFooter className="flex justify-center w-full text-muted">
-        Have a zephyr's account?&nbsp;
+        Have a zephyr&apos;s account?&nbsp;
         <Link href="/" className="text-violet-800">sign in</Link>
       </CardFooter>
     </Card>
