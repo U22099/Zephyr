@@ -28,11 +28,12 @@ export default function Home() {
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(email);
+      let user;
       console.log(existUser);
       if(Object.keys(existUser)?.length){
-        const user = await signInWithEmailAndPassword(auth, email, password);
+        user = await signInWithEmailAndPassword(auth, email, password);
       } else {
-        const user = await createUserWithEmailAndPassword(auth, email, password);
+        user = await createUserWithEmailAndPassword(auth, email, password);
       }
       console.log(user, "here");
       //if(user) router.push("/home");
