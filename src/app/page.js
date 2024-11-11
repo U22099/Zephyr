@@ -3,7 +3,7 @@
 import { SignIn } from "@/components/forms/sign-in-form";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
@@ -26,8 +26,8 @@ export default function Home() {
     }
     try {
       setLoading(true);
-      const existUser = await auth().getUserByEmail(email);
-      if(existUser){
+      const existUser = await fetchSignInMethodsForEmail(email);
+      if(existUser.length > 0){
         const user = await signInWithEmailAndPassword(auth, email, password);
       } else {
         const user = await createUserWithEmailAndPassword(auth, email, password);
