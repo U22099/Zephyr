@@ -29,7 +29,7 @@ export default function Home() {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(email);
       console.log(existUser);
-      if(existUser?.length){
+      if(Object.keys(existUser)?.length){
         const user = await signInWithEmailAndPassword(auth, email, password);
       } else {
         const user = await createUserWithEmailAndPassword(auth, email, password);
