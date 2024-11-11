@@ -27,12 +27,12 @@ export function ForgotPSW({ setEmail, sendCode, loading, error }) {
                     <Input id="name" placeholder="Input your email" type="email" onChange={(e) => setEmail(e.target.value)}/>
                   </div>
                   {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-                  <Button onClick={async () => await sendCode()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
+                  <Button onClick={async () => await sendCode()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Submit"}</Button>
                 </div> 
           </form>
         </CardContent>
         <CardFooter>
-          <Link href="/m" className="mt-5 mx-auto text-sm text-violet-800">Log In</Link>
+          <Link href="/" className="mt-5 mx-auto text-sm text-violet-800">Log In</Link>
         </CardFooter>
     </Card>
   )
