@@ -1,6 +1,6 @@
 "use client";
 
-import { ForgetPSW } from "@/components/forms/forgetpsw-form";
+import { ForgotPSW } from "@/components/forms/forgotpsw-form";
 import { useState } from "react";
 import { fetchSignInMethodsForEmail } from "firebase/auth";
 import { auth } from "@/firebase";
@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <ForgetPSW setEmail={setEmail} sendCode={sendCode} loading={loading} error={error}/>
+      <ForgotPSW setEmail={setEmail} sendCode={sendCode} loading={loading} error={error}/>
     </main>
   );
 }

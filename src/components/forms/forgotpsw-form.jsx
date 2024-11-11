@@ -4,7 +4,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { AiOutlineLoading } from "react-icons/ai";
 
-export function ForgetPSW({ setEmail, sendCode, loading, error }) {
+export function ForgotPSW({ setEmail, sendCode, loading, error }) {
   return (
   <form onSubmit={(e) => e.preventDefault()}>
     <div className="grid w-full items-center gap-4">
