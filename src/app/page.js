@@ -24,23 +24,24 @@ export default function Home() {
     if (!email || !password) {
       setError("invalid inputs");
       return false;
+    } else if(password.length < 6){
+      setError("password is too short");
+      return false;
     }
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(auth, email);
       let user;
-      console.log(existUser);
       if(existUser?.length){
         user = await signInWithEmailAndPassword(auth, email, password);
       } else {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
-      console.log(user, "here");
-      //if(user) router.push("/home");
+      if(user) router.push("/profile");
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.code || err?.message || "Ry again, an error occured");
+      setError(err?.code || err?.message || "try again, an error occured");
       return false;
     } finally {
       setLoading(false);
@@ -51,11 +52,11 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
-      //if(user) router.push("/home");
+      if(user) router.push("/profile");
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.code || err?.message || "Ry again, an error occured");
+      setError(err?.code || err?.message || "try again, an error occured");
       return false;
     } finally {
       setLoading(false);
@@ -66,11 +67,11 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
-      //if(user) router.push("/home");
+      if(user) router.push("/profile");
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.code || err?.message || "Ry again, an error occured");
+      setError(err?.code || err?.message || "try again, an error occured");
       return false;
     } finally {
       setLoading(false);

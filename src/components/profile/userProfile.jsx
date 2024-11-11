@@ -10,12 +10,19 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineLoading } from "react-icons/ai";
 
-export function SignIn({ setEmail, setPassword, signIn, loading, error }){
+export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
   return (
     <Card className="md:w-[50vw] w-[90vw]">
       <CardHeader>
