@@ -30,7 +30,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }){
         <CardDescription>Sign into your zephyr&apos;s account.</CardDescription>
       </CardHeader>
       <CardContent>
-        <form action="javascript:void(0)">
+        <form onSubmit={(e) => e.preventDefault()}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-4">
               <Button className="w-full" variant="outline" onClick={async () => await signIn("google")} ><FcGoogle />Google</Button>

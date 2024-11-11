@@ -19,6 +19,7 @@ export default function Home() {
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [signInWithGithub] = useSignInWithGithub(auth);
 
+
   const credentialsLogin = async () => {
     if (!email || !password) {
       setError("invalid inputs");
@@ -27,7 +28,8 @@ export default function Home() {
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(email);
-      if(existUser.length > 0){
+      console.log(existUser);
+      if(existUser?.length){
         const user = await signInWithEmailAndPassword(auth, email, password);
       } else {
         const user = await createUserWithEmailAndPassword(auth, email, password);
