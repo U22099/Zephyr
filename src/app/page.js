@@ -27,10 +27,10 @@ export default function Home() {
     }
     try {
       setLoading(true);
-      const existUser = await fetchSignInMethodsForEmail(email);
+      const existUser = await fetchSignInMethodsForEmail(auth, email);
       let user;
       console.log(existUser);
-      if(Object.keys(existUser)?.length){
+      if(existUser?.length){
         user = await signInWithEmailAndPassword(auth, email, password);
       } else {
         user = await createUserWithEmailAndPassword(auth, email, password);
@@ -40,7 +40,7 @@ export default function Home() {
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.code);
+      setError(err?.code || err?.message || "Ry again, an error occured");
       return false;
     } finally {
       setLoading(false);
@@ -55,7 +55,7 @@ export default function Home() {
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.message);
+      setError(err?.code || err?.message || "Ry again, an error occured");
       return false;
     } finally {
       setLoading(false);
@@ -70,7 +70,7 @@ export default function Home() {
       return true;
     } catch (err) {
       console.log(err);
-      setError(err?.message);
+      setError(err?.code || err?.message || "Ry again, an error occured");
       return false;
     } finally {
       setLoading(false);
