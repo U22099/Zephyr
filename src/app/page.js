@@ -26,7 +26,7 @@ export default function Home() {
     }
     try {
       setLoading(true);
-      const existUser = await auth.getUserByEmail(email);
+      const existUser = await auth().getUserByEmail(email);
       if(existUser){
         const user = await signInWithEmailAndPassword(auth, email, password);
       } else {
