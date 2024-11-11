@@ -46,7 +46,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }){
             </div>
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
             <Button onClick={async () => await signIn("credentials")} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
-            <Link href="/forgotpsw" className="mt-20 text-sm text-violet-800">forgot password?</Link>
+            <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-violet-800">forgot password?</Link>
           </div>
         </form>
       </CardContent>
