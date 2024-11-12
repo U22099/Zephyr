@@ -1,6 +1,6 @@
 "use client";
 import { UserProfile } from "@/components/profile/userProfile";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { storage, auth } from "@/firebase";
 import { updateProfile } from "firebase/auth";
