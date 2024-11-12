@@ -52,7 +52,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }){
       </CardContent>
       <CardFooter className="flex justify-center w-full text-muted flex-col text-wrap text-center">
         New to zephyr?&nbsp;
-        <p hreclassName="text-violet-800 text-sm">Don&apos;t worry zephyr automatically creates a new account for you</p>
+        <p className="text-violet-800 text-sm">Don&apos;t worry zephyr automatically creates a new account for you</p>
       </CardFooter>
     </Card>
   )
