@@ -14,7 +14,7 @@ import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineLoading } from "react-icons/ai";
-import { storeSession } from "@/lib/utils/utils/index";
+import { storeSession } from "@/lib/utility/index";
 
 export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
   return (
