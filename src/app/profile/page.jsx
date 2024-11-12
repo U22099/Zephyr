@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { storage, auth } from "@/firebase";
 import { updateProfile } from "firebase/auth";
-import { useAuthState } from "react-firebase-hooks";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Home() {
   const router = useRouter();
