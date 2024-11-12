@@ -24,7 +24,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 <img className="w-26 h-26 object-cover rounded-full" src={imageUrl} alt=""/>
                 <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>
                 <Input id="image" accept="image/*" type="file"
-                onChange={(e) => setImage(e.target.files[0])}/>
+                onChange={(e) => setImage(e.target.files[0])} hidden/>
               </div>
               <div className="flex items-center gap-2">
                 <Input id="name" value={username} onChange={(e) => setUsername(e.target.value)}/>
