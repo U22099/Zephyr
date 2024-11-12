@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/firebase";
 
-export default async function middleware(request) {
+export default function middleware(request) {
   let user = auth.currentUser;
   console.log(user);
 
