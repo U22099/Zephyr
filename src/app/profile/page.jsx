@@ -19,14 +19,14 @@ export default function Home() {
   const updateUserProfile = async () => {
     setLoading(true);
     let newImageUrl;
-    if(!image || !username || !gender){
+    if (!image || !username || !gender) {
       setError("invalid inputs")
       return;
     }
     if (image) {
-      try{
+      try {
         newImageUrl = await uploadImage(image);
-      } catch(err) {
+      } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err);
       }
@@ -45,20 +45,21 @@ export default function Home() {
     }
   }
   const uploadImage = async (image) => {
-  const uploadTask = storage.ref(`images/${image.name}`).put(image);
-  const snapshot = await uploadTask;
-  return snapshot.ref.getDownloadURL();
-}
+    const uploadTask = storage.ref(`images/${image.name}`).put(image);
+    const snapshot = await uploadTask;
+    return snapshot.ref.getDownloadURL();
+  }
   useEffect(() => {
     if (userError) {
       router.push("/");
     } else {
+      console.log(user);
       setUsername(user?.displayName);
       setImageUrl(user?.photoURL);
     }
   }, [user]);
   return (
-    <main>
+    <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <UserProfile imageUrl={imageUrl} setUsername={setUsername} username={username} setImage={setImage} loading={loading} error={error} updateUserProfile={updateUserProfile} gender={gender} setGender={setGender}/>
     </main>
   )

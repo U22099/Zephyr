@@ -21,7 +21,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
         <CardContent>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <img src={imageUrl}/>
+                <img className="w-26 h-26 object-cover rounded-full" src={imageUrl} alt=""/>
                 <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>
                 <Input id="image" accept="image/*" type="file"
                 onChange={(e) => setImage(e.target.files[0])}/>
@@ -40,7 +40,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 </Select>
               </div>
               {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-              <Button disabled={!!gender} onClick={async () => await updateUserInfo()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
+              <Button disabled={!gender} onClick={async () => await updateUserInfo()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
             </div>
         </CardContent>
       </Card>
