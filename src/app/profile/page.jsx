@@ -10,8 +10,8 @@ export default function Home() {
   const router = useRouter();
   const [user, userLoading, userError] = useAuthState(auth);
   const [image, setImage] = useState();
-  const [imageUrl, setImageUrl] = useState(user.photoURL);
-  const [username, setUsername] = useState(user.displayName);
+  const [imageUrl, setImageUrl] = useState(user?.photoURL);
+  const [username, setUsername] = useState(user?.displayName);
   const [gender, setGender] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -53,8 +53,8 @@ export default function Home() {
     if (userError) {
       router.push("/");
     } else {
-      setUsername(user.displayName);
-      setImageUrl(user.photoURL);
+      setUsername(user?.displayName);
+      setImageUrl(user?.photoURL);
     }
   }, [user]);
   return (
