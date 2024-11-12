@@ -7,7 +7,6 @@ import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithE
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
-import { storeSession } from "@/lib/utils";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -38,9 +37,6 @@ export default function Home() {
       } else {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
-      storeSession({
-        uid: user.uid
-      });
       if (user) router.push("/profile");
       return true;
     } catch (err) {
@@ -56,9 +52,6 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
-      storeSession({
-        uid: user.uid
-      });
       if (user) router.push("/profile");
       return true;
     } catch (err) {
@@ -74,9 +67,6 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
-      storeSession({
-        uid: user.uid
-      });
       if (user) router.push("/profile");
       return true;
     } catch (err) {

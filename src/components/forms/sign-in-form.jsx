@@ -14,8 +14,9 @@ import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineLoading } from "react-icons/ai";
+import { storeSession } from "@/lib/utils";
 
-export function SignIn({ setEmail, setPassword, signIn, loading, error }){
+export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
   return (
     <Card className="md:w-[50vw] w-[90vw]">
       <CardHeader>
@@ -26,8 +27,20 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }){
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-4">
-              <Button className="w-full" variant="outline" onClick={async () => await signIn("google")} ><FcGoogle />Google</Button>
-              <Button className="w-full" variant="outline" onClick={async () => await signIn("github")} ><FaGithub />Github</Button>
+              <Button className="w-full" variant="outline" onClick={
+              async () => {
+                await signIn("google");
+                storeSession({
+                  uid: Math.floor(Math.random() * 253637)
+                });
+                }
+              } ><FcGoogle />Google</Button>
+              <Button className="w-full" variant="outline" onClick={async () => {
+                    await signIn("github");
+                    storeSession({
+                      uid: Math.floor(Math.random() * 253637)
+                    });
+                  }} ><FaGithub />Github</Button>
             </div>
           </div>
           <div className="flex gap-2 mx-auto items-center w-[90%] my-2 justify-center self-center">
@@ -45,7 +58,12 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }){
               <Input id="name" placeholder="Input your password" type="password" onChange={(e) => setPassword(e.target.value)} required />
             </div>
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-            <Button onClick={async () => await signIn("credentials")} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
+            <Button onClick={async () => {
+                await signIn("credentials");
+                storeSession({
+                  uid: Math.floor(Math.random() * 253637)
+                });
+              }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
             <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-violet-800">Forgot password?</Link>
           </div>
         </form>
