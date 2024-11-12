@@ -7,6 +7,7 @@ import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithE
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
+import { storeSession } from "@/lib/utils";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -24,21 +25,23 @@ export default function Home() {
     if (!email || !password) {
       setError("invalid inputs");
       return false;
-    } else if(password.length < 6){
+    } else if (password.length < 6) {
       setError("password is too short");
       return false;
     }
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(auth, email);
-      console.log(existUser);
       let user;
-      if(existUser?.length){
+      if (existUser?.length) {
         user = await signInWithEmailAndPassword(auth, email, password);
       } else {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
-      if(user) router.push("/profile");
+      storeSession({
+        uid: user.uid
+      });
+      if (user) router.push("/profile");
       return true;
     } catch (err) {
       console.log(err);
@@ -53,7 +56,10 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
-      if(user) router.push("/profile");
+      storeSession({
+        uid: user.uid
+      });
+      if (user) router.push("/profile");
       return true;
     } catch (err) {
       console.log(err);
@@ -68,7 +74,10 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
-      if(user) router.push("/profile");
+      storeSession({
+        uid: user.uid
+      });
+      if (user) router.push("/profile");
       return true;
     } catch (err) {
       console.log(err);

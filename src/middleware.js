@@ -1,9 +1,21 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/firebase";
+import { cookies } from "next/headers";
 
 export default function middleware(request) {
-  let user = auth.currentUser;
-  console.log(user);
+  let user;
+  const sessionCookie = cookies().get("session")?.value;
+
+  // Parse the session cookie safely
+  try {
+    if (sessionCookie) {
+      // Decode the URL-encoded session string
+      const decodedCookie = decodeURIComponent(sessionCookie);
+      user = JSON.parse(decodedCookie);
+      console.log(user);
+    }
+  } catch (error) {
+    console.error("Error parsing session cookie:", error);
+  }
 
   const nextUrl = request.nextUrl;
   const authenticated = !!user && !!user.uid; // Ensure the user is truly authenticated
