@@ -31,6 +31,7 @@ export default function Home() {
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(auth, email);
+      console.log(existUser);
       let user;
       if(existUser?.length){
         user = await signInWithEmailAndPassword(auth, email, password);
@@ -79,6 +80,7 @@ export default function Home() {
   }
 
   const signIn = async (type) => {
+    setError("");
     switch (type) {
       case "credentials":
         return await credentialsLogin();
