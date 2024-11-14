@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/avatar";
 import { AiOutlineLoading } from "react-icons/ai";
 
-export function UserProfile({ setGender, gender, username, setUsername, imageUrl, setImage, updateUserInfo, loading, error }) {
+export function UserProfile({ setGender, gender, username, setUsername, imageUrl, setImage, imageBase64String, updateUserInfo, loading, error }) {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <Card className="md:w-[50vw] w-[90vw]">
@@ -27,7 +27,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Avatar>
-                  <AvatarImage className="w-26 h-26 object-cover rounded-full" src={imageUrl} alt="profile-image"/>
+                  <AvatarImage className="w-26 h-26 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
                   <AvatarFallback className="text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
                 </Avatar>
                 <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>

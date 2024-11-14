@@ -12,6 +12,7 @@ export default function Home() {
   const [user, userLoading, userError] = useAuthState(auth);
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState(user?.photoURL);
+  const [imageBase64String, setImageBase64String] = useState();
   const [username, setUsername] = useState(user?.displayName);
   const [gender, setGender] = useState();
   const [loading, setLoading] = useState(false);
@@ -27,7 +28,6 @@ export default function Home() {
     console.log(image, username, gender)
     if (image) {
       try {
-        const imageBase64String = toBase64(image);
         newImageUrl = await uploadFile(imageBase64String, "images");
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
@@ -56,9 +56,13 @@ export default function Home() {
       setImageUrl(user?.photoURL);
     }
   }, [user]);
+  useEffect(() => {
+    const data = toBase64(image);
+    setImageBase64String(data);
+  }, [image]);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <UserProfile imageUrl={imageUrl} setUsername={setUsername} username={username} setImage={setImage} loading={loading} error={error} updateUserProfile={updateUserProfile} gender={gender} setGender={setGender}/>
+      <UserProfile imageBase64String={imageBase64String}  imageUrl={imageUrl} setUsername={setUsername} username={username} setImage={setImage} loading={loading} error={error} updateUserProfile={updateUserProfile} gender={gender} setGender={setGender}/>
     </main>
   )
 }
