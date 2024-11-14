@@ -28,7 +28,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
               <div className="flex flex-col space-y-1.5">
                 <Avatar>
                   <AvatarImage className="w-26 h-26 object-cover rounded-full" src={imageUrl} alt="profile-image"/>
-                  <AvatarFallback className="text-violet-800">{username[0] || "Z"}</AvatarFallback>
+                  <AvatarFallback className="text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
                 </Avatar>
                 <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>
                 <input id="image" accept="image/*" type="file"
