@@ -25,10 +25,10 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
       <Card className="md:w-[50vw] w-[90vw]">
         <CardContent>
             <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col gap-1 items-center justify-center">
+              <div className="flex flex-col gap-1 items-start justify-center">
                 <Avatar className="mt-8">
-                  <AvatarImage className="w-48 h-48 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
-                  <AvatarFallback className="text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
+                  <AvatarImage className="w-48 h-48 object-cover" src={imageUrl || imageBase64String} alt="profile-image"/>
+                  <AvatarFallback className="w-48 h-48 object-cover text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
                 </Avatar>
                 <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>
                 <input id="image" accept="image/*" type="file"

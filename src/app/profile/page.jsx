@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { storage, auth } from "@/firebase";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { toBase64 } from "@/lib/utility/index";
 import axios from "axios";
 
 export default function Home() {
@@ -66,4 +65,13 @@ export default function Home() {
       <UserProfile imageBase64String={imageBase64String}  imageUrl={imageUrl} setUsername={setUsername} username={username} setImage={setImage} loading={loading} error={error} updateUserProfile={updateUserProfile} gender={gender} setGender={setGender}/>
     </main>
   )
+}
+export const toBase64 = (file) => {
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  const data = new Promise((resolve, reject) => {
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (err) => reject(err);
+  });
+  return data
 }
