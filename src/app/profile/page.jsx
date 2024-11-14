@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { storage, auth } from "@/firebase";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { uploadFile, toBase64 } from "@/components/cloudinary";
+import { uploadFile, toBase64 } from "@/cloudinary";
 
 export default function Home() {
   const router = useRouter();
