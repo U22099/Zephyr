@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { storage, auth } from "@/firebase";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { uploadFile, toBase64 } from "@/components/cloudinary";
 
 export default function Home() {
   const router = useRouter();
@@ -26,7 +27,8 @@ export default function Home() {
     console.log(image, username, gender)
     if (image) {
       try {
-        newImageUrl = await uploadImage(image);
+        const imageBase64String = toBase64(image);
+        newImageUrl = await uploadFile(imageBase64String, "images");
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err, "image url");
@@ -43,15 +45,6 @@ export default function Home() {
       console.log(err, "updateProfile");
     } finally {
       setLoading(false);
-    }
-  }
-  const uploadImage = async (image) => {
-    try{
-      const uploadTask = storage.ref(`images/${image.name}`).put(image);
-      const snapshot = await uploadTask;
-      return snapshot.ref.getDownloadURL();
-    } catch(err) {
-      console.log(err, "uploadImage");
     }
   }
   useEffect(() => {
