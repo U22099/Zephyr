@@ -18,7 +18,7 @@ async function uploadFile(data, folder) {
   }
 }
 
-export function POST(req){
+export const POST = async (req) => {
   try{
     const { file, folder } = req.json();
     const fileURL = await uploadFile(file, folder);
