@@ -23,12 +23,13 @@ export default function Home() {
       setError("invalid inputs")
       return;
     }
+    console.log(image, username, gender)
     if (image) {
       try {
         newImageUrl = await uploadImage(image);
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
-        console.log(err);
+        console.log(err, "image url");
       }
     }
     try {
@@ -39,15 +40,19 @@ export default function Home() {
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
-      console.log(err);
+      console.log(err, "updateProfile");
     } finally {
       setLoading(false);
     }
   }
   const uploadImage = async (image) => {
-    const uploadTask = storage.ref(`images/${image.name}`).put(image);
-    const snapshot = await uploadTask;
-    return snapshot.ref.getDownloadURL();
+    try{
+      const uploadTask = storage.ref(`images/${image.name}`).put(image);
+      const snapshot = await uploadTask;
+      return snapshot.ref.getDownloadURL();
+    } catch(err) {
+      console.log(err, "uploadImage");
+    }
   }
   useEffect(() => {
     if (userError) {
