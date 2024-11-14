@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { storage, auth } from "@/firebase";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { uploadFile, toBase64 } from "@/cloudinary";
+import { toBase64 } from "@/lib/utility/index";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function Home() {
     console.log(image, username, gender)
     if (image) {
       try {
-        newImageUrl = await uploadFile(imageBase64String, "images");
+        newImageUrl = await axios.post("/api/file-upload", {file: imageBase64String, folder: "images"});
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err, "image url");
