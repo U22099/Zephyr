@@ -44,8 +44,6 @@ export default function Home() {
           await setDoc(doc(db, "users", user.uid), {
             username: user.displayName,
             image: user.photoURL,
-            gender: "",
-            bio: "",
           }, { merge: true });
         } catch(err) {
           console.log(err);
@@ -53,7 +51,7 @@ export default function Home() {
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
-        router.push("/profile");
+        //router.push("/profile");
       }
       return true;
     } catch (err) {
@@ -73,8 +71,6 @@ export default function Home() {
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           image: user.photoURL,
-          gender: "",
-          bio: "",
         }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
@@ -99,8 +95,6 @@ export default function Home() {
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           image: user.photoURL,
-          gender: "",
-          bio: "",
         }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
