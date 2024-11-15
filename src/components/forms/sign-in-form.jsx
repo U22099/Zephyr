@@ -26,19 +26,13 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col gap-4">
-              <Button className="w-full" variant="outline" onClick={
+              <Button type="button" className="w-full" variant="outline" onClick={
               async () => {
                 await signIn("google");
-                storeSession({
-                  uid: Math.floor(Math.random() * 253637)
-                });
                 }
               } ><FcGoogle />Google</Button>
-              <Button className="w-full" variant="outline" onClick={async () => {
+              <Button type="button" className="w-full" variant="outline" onClick={async () => {
                     await signIn("github");
-                    storeSession({
-                      uid: Math.floor(Math.random() * 253637)
-                    });
                   }} ><FaGithub />Github</Button>
             </div>
           </div>
@@ -57,7 +51,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
               <Input id="name" placeholder="Input your password" type="password" onChange={(e) => setPassword(e.target.value)} required />
             </div>
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-            <Button onClick={async () => {
+            <Button type="submit" onClick={async () => {
                 await signIn("credentials");
               }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
             <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-violet-800">Forgot password?</Link>
