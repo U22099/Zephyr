@@ -5,7 +5,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
-import { auth } from "@/firebase";
+import { auth, db } from "@/firebase";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -37,6 +37,12 @@ export default function Home() {
       } else {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
+      await db.collections("users").doc(user.uid).set({
+        username: user.displayName,
+        image: user.photoURL,
+        gender: "",
+        bio: "",
+      });
       if (user) router.push("/profile");
       return true;
     } catch (err) {
@@ -52,6 +58,12 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
+      await db.collections("users").doc(user.uid).set({
+        username: user.displayName,
+        image: user.photoURL,
+        gender: "",
+        bio: "",
+      });
       if (user) router.push("/profile");
       return true;
     } catch (err) {
@@ -67,6 +79,12 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
+      await db.collections("users").doc(user.uid).set({
+        username: user.displayName,
+        image: user.photoURL,
+        gender: "",
+        bio: "",
+      });
       if (user) router.push("/profile");
       return true;
     } catch (err) {

@@ -9,7 +9,9 @@ cloudinary.config({
 
 async function uploadFile(data, folder) {
   try {
-    return await cloudinary.uploader.upload(data, { folder })?.secure_url;
+    const urlObj = await cloudinary.uploader.upload(data, { folder })
+    console.log(urlObj);
+    return urlObj;
   } catch (err) {
     console.log(err);
     return err.message;

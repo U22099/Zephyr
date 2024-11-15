@@ -17,9 +17,10 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { Textarea } from "@/components/ui/textarea";
 import { AiOutlineLoading } from "react-icons/ai";
 
-export function UserProfile({ setGender, gender, username, setUsername, imageUrl, setImage, imageBase64String, updateUserProfile, loading, error }) {
+export function UserProfile({ setGender, gender, username, setUsername, imageUrl, setImage, imageBase64String, updateUserProfile, bio, setBio, loading, error }) {
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <Card className="md:w-[50vw] w-[90vw]">
@@ -28,9 +29,9 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
               <div className="flex flex-col gap-1 w-fit self-start items-center justify-center">
                 <Avatar className="mt-8 w-36 h-36">
                   <AvatarImage className="w-36 h-36 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
-                  <AvatarFallback className="text-xl text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
+                  <AvatarFallback className="text-3xl text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
                 </Avatar>
-                <Label htmlFor="image" className="underlined text-violet-800 text-xl">Edit</Label>
+                <Label htmlFor="image" className="underlined text-violet-800 text-lg">Edit</Label>
                 <input id="image" accept="image/*" type="file"
                 onChange={(e) => setImage(e.target.files[0])} hidden/>
               </div>
@@ -46,6 +47,10 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                     <SelectItem value="anonymous">Anonymous</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+              <div>
+                <Label htmlFor="image">Bio</Label>
+                <Textarea placeholder="Add your bio" id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
               </div>
               {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
               <Button disabled={!gender&&!username} onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
