@@ -40,12 +40,16 @@ export default function Home() {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
       if (user) {
-        await setDoc(doc(db, "users", user.uid), {
-          username: user.displayName,
-          image: user.photoURL,
-          gender: "",
-          bio: "",
-        }, { merge: true });
+        try{
+          await setDoc(doc(db, "users", user.uid), {
+            username: user.displayName,
+            image: user.photoURL,
+            gender: "",
+            bio: "",
+          }, { merge: true });
+        } catch(err) {
+          console.log(err);
+        }
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
