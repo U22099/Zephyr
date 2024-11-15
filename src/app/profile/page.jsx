@@ -43,7 +43,7 @@ export default function Home() {
         displayName: username,
         photoURL: newImageUrl.fileURL || imageUrl
       });
-      await db.collections("users").doc(user.uid).set({
+      await db.collection("users").doc(user.uid).update({
         username,
         imageURL: newImageUrl.fileURL || imageUrl,
         gender,
@@ -63,7 +63,7 @@ export default function Home() {
   }
   const getUserData = async () => {
     try{
-      const dbUser = await db.collections("users").doc(user.uid).get();
+      const dbUser = await db.collection("users").doc(user.uid).get();
       const userData = dbUser.data();
       console.log(userData);
       setUsername(userData?.username);
