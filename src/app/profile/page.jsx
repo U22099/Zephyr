@@ -47,6 +47,10 @@ export default function Home() {
       setLoading(false);
     }
   }
+  const updateImage = async () => {
+    const data = await toBase64(image);
+    setImageBase64String(data);
+  }
   useEffect(() => {
     if (userError) {
       router.push("/");
@@ -58,8 +62,8 @@ export default function Home() {
   }, [user]);
   useEffect(() => {
     if(image){
-      const data = toBase64(image);
-      setImageBase64String(data);
+      console.log(image);
+      updateImage();
     }
   }, [image]);
   return (
