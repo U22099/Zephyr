@@ -37,7 +37,7 @@ export default function Home() {
       } else {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
-      await db.collections("users").doc(user.uid).set({
+      await db.collection("users").doc(user.uid).set({
         username: user.displayName,
         image: user.photoURL,
         gender: "",
@@ -58,7 +58,7 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGoogle();
-      await db.collections("users").doc(user.uid).set({
+      await db.collection("users").doc(user.uid).set({
         username: user.displayName,
         image: user.photoURL,
         gender: "",
@@ -79,7 +79,7 @@ export default function Home() {
     try {
       setLoading(true);
       const user = await signInWithGithub();
-      await db.collections("users").doc(user.uid).set({
+      await db.collection("users").doc(user.uid).set({
         username: user.displayName,
         image: user.photoURL,
         gender: "",
