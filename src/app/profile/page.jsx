@@ -57,8 +57,10 @@ export default function Home() {
     }
   }, [user]);
   useEffect(() => {
-    const data = toBase64(image);
-    setImageBase64String(data);
+    if(image){
+      const data = toBase64(image);
+      setImageBase64String(data);
+    }
   }, [image]);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
