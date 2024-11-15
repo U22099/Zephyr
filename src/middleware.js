@@ -29,7 +29,7 @@ export default function middleware(request) {
   console.log("Is public route:", isPublicRoute);
 
   const homepage = "/home";
-  const basePath = process.env.BASE_URL;
+  const basePath = process.env.NEXT_PUBLIC_BASE_URL;
 
   // Prevent a redirect loop: if user is authenticated and already on the homepage, don't redirect
   if (authenticated && currentPath === homepage) {
