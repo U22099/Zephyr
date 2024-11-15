@@ -88,8 +88,8 @@ export default function Home() {
     }
   }, [image, updateImage]);
   useEffect(() => {
-    //deleteSession();
-    //console.log("done");
+    deleteSession();
+    console.log("done");
   })
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
