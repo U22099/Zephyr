@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth, db } from "@/firebase";
+import { doc, setDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { storeSession } from "@/lib/utility/index";
 
@@ -39,12 +40,12 @@ export default function Home() {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
       if (user) {
-        await db.collection("users").doc(user.uid).set({
+        await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           image: user.photoURL,
           gender: "",
           bio: "",
-        });
+        }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
@@ -65,12 +66,12 @@ export default function Home() {
       setLoading(true);
       const user = await signInWithGoogle();
       if (user) {
-        await db.collection("users").doc(user.uid).set({
+        await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           image: user.photoURL,
           gender: "",
           bio: "",
-        });
+        }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
@@ -91,12 +92,12 @@ export default function Home() {
       setLoading(true);
       const user = await signInWithGithub();
       if (user) {
-        await db.collection("users").doc(user.uid).set({
+        await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           image: user.photoURL,
           gender: "",
           bio: "",
-        });
+        }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });

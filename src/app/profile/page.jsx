@@ -3,6 +3,7 @@ import { UserProfile } from "@/components/profile/userProfile";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "@/firebase";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { deleteSession } from "@/lib/utility/index";
@@ -30,7 +31,7 @@ export default function Home() {
     console.log(image, username, gender)
     if (image) {
       try {
-        const newImageObj = await axios.post("/api/file-upload", {file: imageBase64String, folder: "images"});
+        const newImageObj = await axios.post("/api/file-upload", { file: imageBase64String, folder: "images" });
         newImageUrl = newImageObj?.secure_url;
         console.log(newImageObj)
       } catch (err) {
@@ -43,12 +44,12 @@ export default function Home() {
         displayName: username,
         photoURL: newImageUrl.fileURL || imageUrl
       });
-      await db.collection("users").doc(user.uid).update({
+      await setDoc(doc(db, "users", user.uid), {
         username,
         imageURL: newImageUrl.fileURL || imageUrl,
         gender,
         bio,
-      })
+      }, { merge: true });
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
@@ -62,15 +63,15 @@ export default function Home() {
     setImageBase64String(data);
   }
   const getUserData = async () => {
-    try{
-      const dbUser = await db.collection("users").doc(user.uid).get();
+    try {
+      const dbUser = await getDoc(doc(db, "users", user.uid));
       const userData = dbUser.data();
       console.log(userData);
       setUsername(userData?.username);
       setImageUrl(userData?.image);
       setGender(userData?.gender);
       setBio(userData?.bio);
-    } catch(err) {
+    } catch (err) {
       console.log(err, "updateVariables");
     }
   }
@@ -82,7 +83,7 @@ export default function Home() {
     }
   }, [user, getUserData, router]);
   useEffect(() => {
-    if(image){
+    if (image) {
       console.log(image);
       updateImage();
     }
