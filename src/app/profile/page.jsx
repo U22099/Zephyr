@@ -12,7 +12,7 @@ export default function Home() {
   const [user, userLoading, userError] = useAuthState(auth);
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState(user?.photoURL);
-  const [imageBase64String, setImageBase64String] = useState();
+  const [imageBase64String, setImageBase64String] = useState(null);
   const [username, setUsername] = useState(user?.displayName);
   const [gender, setGender] = useState();
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ export default function Home() {
     try {
       await updateProfile(user, {
         displayName: username,
-        photoURL: newImageUrl || imageUrl
+        photoURL: newImageUrl.fileURL || imageUrl
       });
       router.push("/home");
     } catch (err) {
