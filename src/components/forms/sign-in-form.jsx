@@ -14,7 +14,6 @@ import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { AiOutlineLoading } from "react-icons/ai";
-import { storeSession } from "@/lib/utility/index";
 
 export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
   return (
@@ -60,9 +59,6 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
             <Button onClick={async () => {
                 await signIn("credentials");
-                storeSession({
-                  uid: Math.floor(Math.random() * 253637)
-                });
               }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
             <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-violet-800">Forgot password?</Link>
           </div>

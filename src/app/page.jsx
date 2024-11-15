@@ -7,6 +7,7 @@ import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithE
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth, db } from "@/firebase";
 import { useRouter } from "next/navigation";
+import { storeSession } from "@/lib/utility/index";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -43,7 +44,12 @@ export default function Home() {
         gender: "",
         bio: "",
       });
-      if (user) router.push("/profile");
+      if (user) {
+        storeSession({
+          uid: Math.floor(Math.random() * 253637)
+        });
+        router.push("/profile");
+      }
       return true;
     } catch (err) {
       console.log(err);
@@ -64,7 +70,12 @@ export default function Home() {
         gender: "",
         bio: "",
       });
-      if (user) router.push("/profile");
+      if (user) {
+        storeSession({
+          uid: Math.floor(Math.random() * 253637)
+        });
+        router.push("/profile");
+      }
       return true;
     } catch (err) {
       console.log(err);
@@ -85,7 +96,12 @@ export default function Home() {
         gender: "",
         bio: "",
       });
-      if (user) router.push("/profile");
+      if (user) {
+        storeSession({
+          uid: Math.floor(Math.random() * 253637)
+        });
+        router.push("/profile");
+      }
       return true;
     } catch (err) {
       console.log(err);
