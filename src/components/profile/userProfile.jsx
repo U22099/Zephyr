@@ -26,9 +26,9 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
         <CardContent>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col gap-1 items-start justify-center">
-                <Avatar className="mt-8">
-                  <AvatarImage className="w-64 h-64 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
-                  <AvatarFallback className="w-64 h-64 text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
+                <Avatar className="mt-8 w-48 h-48">
+                  <AvatarImage className="w-48 h-48 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
+                  <AvatarFallback className="w-48 h-48 text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
                 </Avatar>
                 <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>
                 <input id="image" accept="image/*" type="file"
