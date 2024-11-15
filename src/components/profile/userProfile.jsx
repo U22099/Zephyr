@@ -25,12 +25,12 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
       <Card className="md:w-[50vw] w-[90vw]">
         <CardContent>
             <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col gap-1 items-start justify-center">
-                <Avatar className="mt-8 w-48 h-48">
-                  <AvatarImage className="w-48 h-48 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
-                  <AvatarFallback className="text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
+              <div className="flex flex-col gap-1 w-fit self-start items-center justify-center">
+                <Avatar className="mt-8 w-36 h-36">
+                  <AvatarImage className="w-36 h-36 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
+                  <AvatarFallback className="text-xl text-violet-800">{username ? username[0] : "Z"}</AvatarFallback>
                 </Avatar>
-                <Label htmlFor="image" className="underlined text-violet-800">Edit</Label>
+                <Label htmlFor="image" className="underlined text-violet-800 text-xl">Edit</Label>
                 <input id="image" accept="image/*" type="file"
                 onChange={(e) => setImage(e.target.files[0])} hidden/>
               </div>
