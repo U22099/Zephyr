@@ -63,6 +63,7 @@ export default function Home() {
   }
   const getUserData = async () => {
     try {
+      console.log("called");
       const dbUser = await getDoc(doc(db, "users", user.uid));
       const userData = dbUser.data();
       console.log(userData);
@@ -83,7 +84,6 @@ export default function Home() {
   }, [user, getUserData, router]);
   useEffect(() => {
     if (image) {
-      console.log(image);
       updateImage();
     }
   }, [image, updateImage]);
