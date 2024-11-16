@@ -54,7 +54,8 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 <Textarea placeholder="Add your bio" id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
               </div>
               {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-              <Button disabled={!gender&&!username} onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
+              <Button disabled={!gender&&!username}
+              type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
               <Button type="button" onClick={() => deleteSession()} className="w-full">Delete Session</Button>
             </div>
         </CardContent>

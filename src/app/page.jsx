@@ -51,7 +51,7 @@ export default function Home() {
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
-        //router.push("/profile");
+        router.push("/profile");
       }
       return true;
     } catch (err) {
