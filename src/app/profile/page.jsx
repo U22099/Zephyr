@@ -66,9 +66,6 @@ export default function Home() {
         gender: gender || null,
         bio: bio || null,
       }, { merge: true });
-      
-      localStorage.setItem("file", JSON.stringify(newImageObj));
-      
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
@@ -87,7 +84,7 @@ export default function Home() {
       const userData = dbUser.data();
       console.log(userData);
       setUsername(userData?.username);
-      setImageUrl(userData?.image);
+      setImageUrl(userData?.imageURL);
       setGender(userData?.gender);
       setBio(userData?.bio);
     } catch (err) {

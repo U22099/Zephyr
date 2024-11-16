@@ -43,7 +43,7 @@ export default function Home() {
         try{
           await setDoc(doc(db, "users", user.uid), {
             username: user.displayName,
-            image: user.photoURL,
+            imageURL: user.photoURL,
           }, { merge: true });
         } catch(err) {
           console.log(err, err.message, "Doc");
@@ -70,7 +70,7 @@ export default function Home() {
       if (user) {
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
-          image: user.photoURL,
+          imageURL: user.photoURL,
         }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
@@ -94,7 +94,7 @@ export default function Home() {
       if (user) {
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
-          image: user.photoURL,
+          imageURL: user.photoURL,
         }, { merge: true });
         storeSession({
           uid: Math.floor(Math.random() * 253637)
