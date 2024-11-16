@@ -81,7 +81,7 @@ export default function Home() {
     } else {
       getUserData();
     }
-  }, [user, getUserData, router]);
+  }, [user]);
   useEffect(() => {
     if (image) {
       updateImage();
