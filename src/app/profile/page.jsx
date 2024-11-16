@@ -11,23 +11,29 @@ import axios from "axios";
 export default function Home() {
   const router = useRouter();
   const [user, userLoading, userError] = useAuthState(auth);
+  
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [imageBase64String, setImageBase64String] = useState();
+  
   const [username, setUsername] = useState();
+  
   const [gender, setGender] = useState();
+  
   const [bio, setBio] = useState();
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
   const updateUserProfile = async () => {
     setLoading(true);
     let newImageUrl;
-    if (!image || !username || !gender) {
-      setError("invalid inputs")
+    console.log(image, username, gender)
+    if (!username || !gender) {
+      setError("invalid inputs");
+      setLoading(false);
       return;
     }
-    console.log(image, username, gender)
     if (image) {
       try {
         const newImageObj = await axios.post("/api/file-upload", { file: imageBase64String, folder: "images" });
@@ -86,7 +92,7 @@ export default function Home() {
     if (image) {
       updateImage();
     }
-  }, [image, updateImage]);
+  }, [image]);
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <UserProfile 
