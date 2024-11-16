@@ -55,7 +55,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
               </div>
               {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
               <Button disabled={!gender&&!username} onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
-              <Button onClick={() => deleteSession()} className="w-full">Delete Session</Button>
+              <Button type="button" onClick={() => deleteSession()} className="w-full">Delete Session</Button>
             </div>
         </CardContent>
       </Card>
