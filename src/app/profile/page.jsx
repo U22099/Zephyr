@@ -42,9 +42,9 @@ export default function Home() {
           file: imageBase64String, 
           folder: "images", 
           type: "image"
-        })).data.fileURL;
-        newImageUrl = newImageObj?.secure_url;
-        console.log(newImageObj)
+        })).data;
+        newImageUrl = newImageObj.fileURL;
+        console.log(newImageObj);
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err, "image url");
@@ -61,9 +61,10 @@ export default function Home() {
       
       await setDoc(doc(db, "users", user.uid), {
         username,
-        imageURL: newImageUrl || imageUrl,
-        gender,
-        bio,
+        imageURL: newImageUrl?.secure_url || imageUrl,
+        imagePublicId: newImageUrl?.public_id,
+        gender: gender || null,
+        bio: bio || null,
       }, { merge: true });
       
       localStorage.setItem("file", JSON.stringify(newImageObj));
