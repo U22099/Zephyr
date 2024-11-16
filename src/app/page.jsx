@@ -41,7 +41,9 @@ export default function Home() {
       }
       if (user) {
         try{
-          await setDoc(doc(db, "users", user.uid), {
+          const docRef = doc(db, "users", user.uid);
+          console.log(docRef);
+          await setDoc(docRef, {
             username: user.displayName,
             image: user.photoURL,
           }, { merge: true });
