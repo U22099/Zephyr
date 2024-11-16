@@ -35,28 +35,39 @@ export default function Home() {
       setLoading(false);
       return;
     }
-    if (image) {
+    if (imageBase64String) {
       try {
-        const newImageObj = (await axios.post("/api/file-upload", { file: imageBase64String, folder: "images", type: "image" })).data.fileURL;
+        const newImageObj = (await axios.post("/api/file-upload", 
+        { 
+          file: imageBase64String, 
+          folder: "images", 
+          type: "image"
+        })).data.fileURL;
         newImageUrl = newImageObj?.secure_url;
         console.log(newImageObj)
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err, "image url");
+        setLoading("false");
+        return;
       }
     }
     try {
+      
       await updateProfile(user, {
         displayName: username,
-        photoURL: newImageUrl?.fileURL || imageUrl
+        photoURL: newImageUrl || imageUrl
       });
+      
       await setDoc(doc(db, "users", user.uid), {
         username,
-        imageURL: newImageUrl?.fileURL || imageUrl,
+        imageURL: newImageUrl || imageUrl,
         gender,
         bio,
       }, { merge: true });
+      
       localStorage.setItem("file", JSON.stringify(newImageObj));
+      
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
@@ -71,7 +82,6 @@ export default function Home() {
   }
   const getUserData = async () => {
     try {
-      console.log("called");
       const dbUser = await getDoc(doc(db, "users", user.uid));
       const userData = dbUser.data();
       console.log(userData);
@@ -120,5 +130,5 @@ export const toBase64 = (file) => {
     reader.onload = () => resolve(reader.result);
     reader.onerror = (err) => reject(err);
   });
-  return data
+  return data;
 }

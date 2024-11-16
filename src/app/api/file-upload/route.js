@@ -7,9 +7,10 @@ cloudinary.config({
   api_secret: process.env.NEXT_PUBLIC_CLOUDINARY_API_SECRET,
 });
 
-async function uploadFile(data, folder, type) {
+async function uploadFile(file, folder, type) {
   try {
-    const urlObj = await cloudinary.uploader.upload(Buffer.from(data, "base64"), { folder, resource_type: type })
+    const buffer = Buffer.from(file, "base64");
+    const urlObj = await cloudinary.uploader.upload(buffer, { folder, resource_type: type })
     console.log(urlObj);
     return urlObj;
   } catch (err) {
@@ -30,8 +31,10 @@ async function deleteFile(publicId) {
 
 export const POST = async (req) => {
   try {
-    const { file, folder, type } = req.json();
+    const { file, folder, type } = await req.json();
+    console.log(file, folder, type);
     const fileURL = await uploadFile(file, folder, type);
+    console.log(fileURL)
     return NextResponse.json({ fileURL }, { status: 200 });
   } catch (err) {
     console.log(err);
@@ -41,7 +44,7 @@ export const POST = async (req) => {
 
 export const DELETE = async (req) => {
   try {
-    const { publicId } = req.json();
+    const { publicId } = await req.json();
     const deleted = await deleteFile(publicId);
     if (deleted) {
       return NextResponse.json({ message: "File deleted successfully" }, { status: 200 });

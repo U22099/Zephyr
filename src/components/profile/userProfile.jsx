@@ -37,7 +37,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 onChange={(e) => setImage(e.target.files[0])} hidden/>
               </div>
               <div className="flex items-center gap-2">
-                <Input id="name" value={username} onChange={(e) => setUsername(e.target.value)}/>
+                <Input id="name" defaultValue={username} onChange={(e) => setUsername(e.target.value)}/>
                 <Select onValueChange={(value) => setGender(value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Gender" />
@@ -51,7 +51,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
               </div>
               <div>
                 <Label htmlFor="image">Bio</Label>
-                <Textarea placeholder="Add your bio" id="bio" value={bio} onChange={(e) => setBio(e.target.value)} />
+                <Textarea placeholder="Add your bio" id="bio" defaultValue={bio} onChange={(e) => setBio(e.target.value)} />
               </div>
               {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
               <Button disabled={!gender&&!username}
