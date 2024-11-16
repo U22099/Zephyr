@@ -56,7 +56,7 @@ export default function Home() {
       
       await updateProfile(user, {
         displayName: username,
-        photoURL: newImageUrl || imageUrl
+        photoURL: newImageUrl?.secure_url || imageUrl
       });
       
       await setDoc(doc(db, "users", user.uid), {
