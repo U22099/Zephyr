@@ -40,6 +40,7 @@ export default function Home() {
         user = await createUserWithEmailAndPassword(auth, email, password);
       }
       if (user) {
+        console.log(user)
         try{
           const docRef = doc(db, "users", user.uid);
           console.log(docRef);
