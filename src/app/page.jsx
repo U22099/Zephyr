@@ -46,7 +46,7 @@ export default function Home() {
             image: user.photoURL,
           }, { merge: true });
         } catch(err) {
-          console.log(err);
+          console.log(err, err.message, "Doc");
         }
         storeSession({
           uid: Math.floor(Math.random() * 253637)
