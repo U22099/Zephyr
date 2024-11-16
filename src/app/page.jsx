@@ -35,16 +35,13 @@ export default function Home() {
       const existUser = await fetchSignInMethodsForEmail(auth, email);
       let user;
       if (existUser?.length) {
-        user = await signInWithEmailAndPassword(auth, email, password);
+        user = (await signInWithEmailAndPassword(auth, email, password))?.user;
       } else {
-        user = await createUserWithEmailAndPassword(auth, email, password);
+        user = (await createUserWithEmailAndPassword(auth, email, password))?.user;
       }
       if (user) {
-        console.log(user)
         try{
-          const docRef = doc(db, "users", user.uid);
-          console.log(docRef);
-          await setDoc(docRef, {
+          await setDoc(doc(db, "users", user.uid), {
             username: user.displayName,
             image: user.photoURL,
           }, { merge: true });
@@ -69,7 +66,7 @@ export default function Home() {
   const googleLogin = async () => {
     try {
       setLoading(true);
-      const user = await signInWithGoogle();
+      const user = (await signInWithGoogle())?.user;
       if (user) {
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
@@ -93,7 +90,7 @@ export default function Home() {
   const githubLogin = async () => {
     try {
       setLoading(true);
-      const user = await signInWithGithub();
+      const user = (await signInWithGithub())?.user;
       if (user) {
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,

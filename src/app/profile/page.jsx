@@ -6,7 +6,6 @@ import { auth, db } from "@/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { deleteSession } from "@/lib/utility/index";
 import axios from "axios";
 
 export default function Home() {
@@ -88,10 +87,6 @@ export default function Home() {
       updateImage();
     }
   }, [image, updateImage]);
-  useEffect(() => {
-    //deleteSession();
-    //console.log("done");
-  })
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
       <UserProfile 
