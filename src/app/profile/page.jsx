@@ -27,16 +27,17 @@ export default function Home() {
 
   const updateUserProfile = async () => {
     setLoading(true);
+    setError("");
     let newImageUrl;
     console.log(image, username, gender)
     if (!username || !gender) {
-      setError("invalid inputs");
+      setError("username and gender must be specified");
       setLoading(false);
       return;
     }
     if (image) {
       try {
-        const newImageObj = await axios.post("/api/file-upload", { file: imageBase64String, folder: "images" });
+        const newImageObj = (await axios.post("/api/file-upload", { file: imageBase64String, folder: "images", type: "image" })).data.fileURL;
         newImageUrl = newImageObj?.secure_url;
         console.log(newImageObj)
       } catch (err) {
@@ -47,14 +48,15 @@ export default function Home() {
     try {
       await updateProfile(user, {
         displayName: username,
-        photoURL: newImageUrl.fileURL || imageUrl
+        photoURL: newImageUrl?.fileURL || imageUrl
       });
       await setDoc(doc(db, "users", user.uid), {
         username,
-        imageURL: newImageUrl.fileURL || imageUrl,
+        imageURL: newImageUrl?.fileURL || imageUrl,
         gender,
         bio,
       }, { merge: true });
+      localStorage.setItem("file", JSON.stringify(newImageObj));
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
