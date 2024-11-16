@@ -9,8 +9,7 @@ cloudinary.config({
 
 async function uploadFile(file, folder, type) {
   try {
-    const buffer = Buffer.from(file, "base64");
-    const urlObj = await cloudinary.uploader.upload(buffer, { folder, resource_type: type })
+    const urlObj = await cloudinary.uploader.upload(file, { folder, resource_type: type })
     console.log(urlObj);
     return urlObj;
   } catch (err) {
@@ -32,7 +31,6 @@ async function deleteFile(publicId) {
 export const POST = async (req) => {
   try {
     const { file, folder, type } = await req.json();
-    console.log(file, folder, type);
     const fileURL = await uploadFile(file, folder, type);
     console.log(fileURL)
     return NextResponse.json({ fileURL }, { status: 200 });
