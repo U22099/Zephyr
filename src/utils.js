@@ -9,7 +9,7 @@ export const getUserData = async (uid) => {
     console.log(err, err.message, "getUserData")
   }
 }
-export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
+export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
     const userData = dbUser.data();
@@ -18,14 +18,6 @@ export const updateVariables = async (uid, setUsername, setImageUrl, setGender, 
     setGender(userData?.gender);
     setBio(userData?.bio);
     setImagePublicId(userData?.imagePublicId);
-    setUserData({
-      username: userData?.username,
-      imageURL: userData?.imageURL,
-      imagePublicId: userData?.imagePublicId,
-      gender: userData?.gender,
-      bio: userData?.bio,
-      theme: userData?.theme,
-    });
   } catch (err) {
     console.log(err, err.message, "updateVariables");
   }

@@ -9,15 +9,12 @@ import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { updateVariables, toBase64, uploadFileAndGetURL } from "@/utils";
 import { useTheme } from "next-themes";
-import { useUserData } from "@/store";
 import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
-  const { setUserData } = useUserData(state => state.setUserData);
-  const [user, userLoading, userError] = useAuthState(auth);
-
   const [ pageLoading, setPageLoading ] = useState(true);
+  const [user, userLoading, userError] = useAuthState(auth);
 
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState();
@@ -73,15 +70,6 @@ export default function Home() {
         theme,
       }, { merge: true });
 
-      setUserData({
-        username,
-        imageURL: newImageUrl?.secure_url || imageUrl,
-        imagePublicId: newImageUrl?.public_id || imagePublicId,
-        gender,
-        bio,
-        theme,
-      });
-
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
@@ -96,7 +84,7 @@ export default function Home() {
       router.push("/");
     } else {
       if(user){
-        updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
+        updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
         setPageLoading(false);
       }
     }
