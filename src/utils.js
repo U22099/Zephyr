@@ -11,7 +11,8 @@ export const getUserData = async (uid) => {
 }
 export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
   try {
-    const userData = await getUserData(uid);
+    const dbUser = await getDoc(doc(db, "users", uid));
+    const userData = dbUser.data();
     setUsername(userData?.username);
     setImageUrl(userData?.imageURL);
     setGender(userData?.gender);
