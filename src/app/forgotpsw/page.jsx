@@ -22,7 +22,6 @@ export default function Home() {
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(auth, email);
-      let user;
       if (existUser?.length) {
         try {
           await sendPasswordResetEmail(auth, email);
