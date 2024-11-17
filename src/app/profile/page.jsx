@@ -6,7 +6,8 @@ import { auth, db } from "@/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getUserData, toBase64, uploadFileAndGetURL } from "@/utils"
+import { getUserData, toBase64, uploadFileAndGetURL } from "@/utils";
+import { useTheme } from "next-themes";
 import axios from "axios";
 
 export default function Home() {
@@ -19,9 +20,11 @@ export default function Home() {
 
   const [username, setUsername] = useState();
 
-  const [gender, setGender] = useState();
+  const [gender, setGender] = useState(null);
 
-  const [bio, setBio] = useState();
+  const [bio, setBio] = useState(null);
+  
+  const { theme } = useTheme();
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
@@ -56,8 +59,9 @@ export default function Home() {
         username,
         imageURL: newImageUrl.secure_url || imageUrl,
         imagePublicId: newImageUrl.public_id,
-        gender: gender || null,
-        bio: bio || null,
+        gender,
+        bio,
+        theme,
       }, { merge: true });
       
       router.push("/home");
