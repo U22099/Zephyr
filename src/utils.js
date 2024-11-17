@@ -1,23 +1,26 @@
 import { db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
-
-export const getUserData = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
+export const getUserData = async (user, setUserData) => {
+  const dbUser = await getDoc(doc(db, "users", user.uid));
+  const userData = dbUser.data();
+  setUserData({
+    username: userData?.username,
+    imageURL: userData?.imageURL,
+    imagePublicId: userData?.imagePublicId,
+    gender: userData?.gender,
+    bio: userData?.bio,
+    theme: userData?.theme,
+  });
+  return userData;
+}
+export const updateVariables = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
   try {
-    const dbUser = await getDoc(doc(db, "users", user.uid));
-    const userData = dbUser.data();
+    const userData = await getUserData(user, setUserData);
     setUsername(userData?.username);
     setImageUrl(userData?.imageURL);
     setGender(userData?.gender);
     setBio(userData?.bio);
     setImagePublicId(userData?.imagePublicId);
-    setUserData({
-      username: userData?.username,
-      imageURL: userData?.imageURL,
-      imagePublicId: userData?.imagePublicId,
-      gender: userData?.gender,
-      bio: userData?.bio,
-      theme: userData?.theme,
-    });
   } catch (err) {
     console.log(err, "updateVariables");
   }
@@ -29,7 +32,6 @@ export const uploadFileAndGetURL = async (file, folder, type) => {
     folder,
     type
   })).data;
-  console.log(newImageObj);
   return newImageObj.fileURL;
 }
 export const toBase64 = (file) => {

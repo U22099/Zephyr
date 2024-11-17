@@ -6,7 +6,7 @@ import { auth, db } from "@/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { getUserData, toBase64, uploadFileAndGetURL } from "@/utils";
+import { updateVariables, toBase64, uploadFileAndGetURL } from "@/utils";
 import { useTheme } from "next-themes";
 import { useUserData } from "@/store";
 import axios from "axios";
@@ -92,15 +92,15 @@ export default function Home() {
     if (userError) {
       router.push("/");
     } else {
-      getUserData(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
+      updateVariables(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
     }
-  }, [user]);
+  }, [user, userError, router, updateVariables]);
 
   useEffect(() => {
     if (image) {
       updateImage(setImageBase64String, image);
     }
-  }, [image]);
+  }, [image, updateImage]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center overflow-hidden">
