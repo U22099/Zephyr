@@ -8,10 +8,12 @@ import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getUserData, toBase64, uploadFileAndGetURL } from "@/utils";
 import { useTheme } from "next-themes";
+import { useUserData } from "@/store";
 import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
+  const { setUserData } = useUserData(state => state.setUserData)
   const [user, userLoading, userError] = useAuthState(auth);
 
   const [image, setImage] = useState();
@@ -24,7 +26,7 @@ export default function Home() {
   const [gender, setGender] = useState(null);
 
   const [bio, setBio] = useState(null);
-  
+
   const { theme } = useTheme();
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +44,7 @@ export default function Home() {
     if (imageBase64String) {
       try {
         const deleted = await axios.delete("/api/file", { publicId: imagePublicId });
-        if(deleted.status === 200){
+        if (deleted.status === 200) {
           newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");
         }
       } catch (err) {
@@ -67,7 +69,16 @@ export default function Home() {
         bio,
         theme,
       }, { merge: true });
-      
+
+      setUserData({
+        username,
+        imageURL: newImageUrl?.secure_url || imageUrl,
+        imagePublicId: newImageUrl?.public_id || imagePublicId,
+        gender,
+        bio,
+        theme,
+      });
+
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
@@ -76,21 +87,21 @@ export default function Home() {
       setLoading(false);
     }
   }
-  
+
   useEffect(() => {
     if (userError) {
       router.push("/");
     } else {
-      getUserData(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
+      getUserData(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
     }
   }, [user]);
-  
+
   useEffect(() => {
     if (image) {
       updateImage(setImageBase64String, image);
     }
   }, [image]);
-  
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center">
       <UserProfile 
