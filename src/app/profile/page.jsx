@@ -17,6 +17,7 @@ export default function Home() {
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [imageBase64String, setImageBase64String] = useState();
+  const [imagePublicId, setImagePublicId] = useState();
 
   const [username, setUsername] = useState();
 
@@ -40,7 +41,10 @@ export default function Home() {
     }
     if (imageBase64String) {
       try {
-        newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");
+        const deleted = await axios.delete("/api/file", { publicId: imagePublicId });
+        if(deleted.status === 200){
+          newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");
+        }
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err, "image url");
@@ -52,13 +56,13 @@ export default function Home() {
 
       await updateProfile(user, {
         displayName: username,
-        photoURL: newImageUrl.secure_url || imageUrl
+        photoURL: newImageUrl?.secure_url || imageUrl
       });
 
       await setDoc(doc(db, "users", user.uid), {
         username,
-        imageURL: newImageUrl.secure_url || imageUrl,
-        imagePublicId: newImageUrl.public_id,
+        imageURL: newImageUrl?.secure_url || imageUrl,
+        imagePublicId: newImageUrl?.public_id || imagePublicId,
         gender,
         bio,
         theme,
@@ -77,7 +81,7 @@ export default function Home() {
     if (userError) {
       router.push("/");
     } else {
-      getUserData(user, setUsername, setImageUrl, setGender, setBio);
+      getUserData(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
     }
   }, [user]);
   

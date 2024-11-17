@@ -39,7 +39,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
               </div>
               <div className="flex items-center gap-2">
                 <Input id="name" defaultValue={username} onChange={(e) => setUsername(e.target.value)}/>
-                <Select defaultValue={gender} onValueChange={(value) => setGender(value)}>
+                <Select defaultValue={gender || "male"} onValueChange={(value) => setGender(value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Gender" />
                   </SelectTrigger>
@@ -54,7 +54,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 <Label htmlFor="image">Bio</Label>
                 <Textarea placeholder="Add your bio" id="bio" defaultValue={bio} onChange={(e) => setBio(e.target.value)} />
               </div>
-              <div>
+              <div className="flex gap-2">
                 <Label htmlFor="theme">Theme</Label>
                 <ModeToggle id="theme"/>
               </div>

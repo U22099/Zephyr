@@ -1,7 +1,7 @@
 import { db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-export const getUserData = async (user, setUsername, setImageUrl, setGender, setBio) => {
+export const getUserData = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
   try {
     const dbUser = await getDoc(doc(db, "users", user.uid));
     const userData = dbUser.data();
@@ -10,12 +10,13 @@ export const getUserData = async (user, setUsername, setImageUrl, setGender, set
     setImageUrl(userData?.imageURL);
     setGender(userData?.gender);
     setBio(userData?.bio);
+    setImagePublicId(userData?.imagePublicId);
   } catch (err) {
     console.log(err, "updateVariables");
   }
 }
 export const uploadFileAndGetURL = async (file, folder, type) => {
-  const newImageObj = (await axios.post("/api/file-upload",
+  const newImageObj = (await axios.post("/api/file",
   {
     file,
     folder,
