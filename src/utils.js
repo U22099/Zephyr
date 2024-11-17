@@ -1,17 +1,22 @@
 import { db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
+
 export const getUserData = async (user, setUserData) => {
-  const dbUser = await getDoc(doc(db, "users", user.uid));
-  const userData = dbUser.data();
-  setUserData({
-    username: userData?.username,
-    imageURL: userData?.imageURL,
-    imagePublicId: userData?.imagePublicId,
-    gender: userData?.gender,
-    bio: userData?.bio,
-    theme: userData?.theme,
-  });
-  return userData;
+  try{
+    const dbUser = await getDoc(doc(db, "users", user.uid));
+    const userData = dbUser.data();
+    setUserData({
+      username: userData?.username,
+      imageURL: userData?.imageURL,
+      imagePublicId: userData?.imagePublicId,
+      gender: userData?.gender,
+      bio: userData?.bio,
+      theme: userData?.theme,
+    });
+    return userData;
+  } catch(err) {
+    console.log(err, err.message, "getUserData")
+  }
 }
 export const updateVariables = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
   try {
@@ -22,7 +27,7 @@ export const updateVariables = async (user, setUsername, setImageUrl, setGender,
     setBio(userData?.bio);
     setImagePublicId(userData?.imagePublicId);
   } catch (err) {
-    console.log(err, "updateVariables");
+    console.log(err, err.message, "updateVariables");
   }
 }
 export const uploadFileAndGetURL = async (file, folder, type) => {

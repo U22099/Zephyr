@@ -107,7 +107,7 @@ export default function Home() {
 
   return (
     <main className="flex h-screen flex-col items-center justify-center">
-      { !pageLoading ? <UserProfile 
+      { pageLoading ? <UserProfile 
         bio={bio}
         setBio={setBio}
         imageBase64String={imageBase64String}  
