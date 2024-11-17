@@ -1,5 +1,6 @@
 "use client";
 import { UserProfile } from "@/components/profile/user-profile";
+import { Loading } from "@/components/loading";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "@/firebase";
@@ -13,6 +14,7 @@ import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
+  const [ pageLoading, setPageLoading ] = useState(true);
   const { setUserData } = useUserData(state => state.setUserData)
   const [user, userLoading, userError] = useAuthState(auth);
 
@@ -93,6 +95,7 @@ export default function Home() {
       router.push("/");
     } else {
       updateVariables(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
+      setPageLoading(false);
     }
   }, [user, userError, router, updateVariables]);
 
@@ -104,7 +107,7 @@ export default function Home() {
 
   return (
     <main className="flex h-screen flex-col items-center justify-center">
-      <UserProfile 
+      { pageLoading ? <UserProfile 
         bio={bio}
         setBio={setBio}
         imageBase64String={imageBase64String}  
@@ -117,7 +120,7 @@ export default function Home() {
         updateUserProfile={updateUserProfile} 
         gender={gender} 
         setGender={setGender}
-      />
+      /> : <Loading /> }
     </main>
   )
 }

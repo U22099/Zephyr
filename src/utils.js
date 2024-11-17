@@ -13,7 +13,7 @@ export const getUserData = async (user, setUserData) => {
   });
   return userData;
 }
-export const updateVariables = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
+export const updateVariables = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
   try {
     const userData = await getUserData(user, setUserData);
     setUsername(userData?.username);
