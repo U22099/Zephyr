@@ -94,8 +94,10 @@ export default function Home() {
     if (userError && !user) {
       router.push("/");
     } else {
-      updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
-      setPageLoading(false);
+      if(user){
+        updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
+        setPageLoading(false);
+      }
     }
   }, [user]);
 
