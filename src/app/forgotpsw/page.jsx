@@ -5,12 +5,14 @@ import { useState } from "react";
 import { fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/hooks/use-toast"
 
 export default function Home() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+  const { toast } = useToast();
 
   const passwordReset = async () => {
     if (!email) {
@@ -22,9 +24,12 @@ export default function Home() {
       const existUser = await fetchSignInMethodsForEmail(auth, email);
       let user;
       if (existUser?.length) {
-        try{
+        try {
           await sendPasswordResetEmail(auth, email);
-        } catch(err) {
+          toast({
+            description: "Email sent successfully, check your email to reset password.",
+          });
+        } catch (err) {
           setError("An error occured, please try again");
           console.log(err, err.message);
           return false;
