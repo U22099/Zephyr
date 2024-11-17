@@ -14,26 +14,26 @@ import {
 
 export function ForgotPSW({ setEmail, passwordReset, loading, error }) {
   return (
-    <Card className = "md:w-[50vw] w-[90vw]" >
-      <CardHeader>
-        <CardTitle className="text-2xl">Zephyr</CardTitle>
-        <CardDescription>Reset your password.</CardDescription>
-      </CardHeader> 
-      <CardContent>
-        <form onSubmit={(e) => e.preventDefault()}>
+    <form onSubmit={(e) => e.preventDefault()}>
+      <Card className = "md:w-[50vw] w-[90vw]" >
+        <CardHeader>
+          <CardTitle className="text-2xl">Zephyr</CardTitle>
+          <CardDescription>Reset your password.</CardDescription>
+        </CardHeader> 
+        <CardContent>
           <div className="grid w-full items-center gap-4">
-                  <div className="flex flex-col space-y-1.+5">
-                    <Label htmlFor="name">Email</Label>
-                    <Input id="name" placeholder="Input your email" type="email" onChange={(e) => setEmail(e.target.value)} required />
-                  </div>
+                <div className="flex flex-col gap-1">
+                  <Label htmlFor="name">Email</Label>
+                  <Input id="name" placeholder="Input your email" type="email" onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
                   {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
                   <Button onClick={async () => await passwordReset()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Submit"}</Button>
                 </div> 
-          </form>
-        </CardContent>
-        <CardFooter>
-          <Link href="/" className="mt-5 mx-auto text-sm text-violet-800">Log In</Link>
-        </CardFooter>
-    </Card>
+          </CardContent>
+          <CardFooter>
+            <Link href="/" className="mt-5 mx-auto text-sm text-violet-800">Sign In</Link>
+          </CardFooter>
+      </Card>
+    </form>
   )
 }
