@@ -13,7 +13,6 @@ import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
-  const [ pageLoading, setPageLoading ] = useState(true);
   const [user, userLoading, userError] = useAuthState(auth);
 
   const [image, setImage] = useState();
@@ -80,12 +79,11 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (userError && !user) {
+    if (userError) {
       router.push("/");
     } else {
       if(user){
         updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
-        setPageLoading(false);
       }
     }
   }, [user]);
@@ -98,7 +96,7 @@ export default function Home() {
 
   return (
     <main className="flex h-screen flex-col items-center justify-center">
-      { !pageLoading ? <UserProfile 
+      { !userLoading ? <UserProfile 
         bio={bio}
         setBio={setBio}
         imageBase64String={imageBase64String}  
