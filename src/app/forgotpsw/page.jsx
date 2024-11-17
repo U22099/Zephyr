@@ -30,12 +30,12 @@ export default function Home() {
           });
         } catch (err) {
           setError("An error occured, please try again");
-          console.log(err, err.message);
+          console.log(err, err?.message);
           return false;
         }
       } else {
         setError("Email does not have an account");
-        console.log(err, err.message);
+        console.log(err, err?.message);
         return false;
       }
       return true;
