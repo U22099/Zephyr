@@ -14,7 +14,7 @@ export const getUserData = async (user, setUsername, setImageUrl, setGender, set
     console.log(err, "updateVariables");
   }
 }
-export const uploadFileAndGetURL = (file, folder, type) => {
+export const uploadFileAndGetURL = async (file, folder, type) => {
   const newImageObj = (await axios.post("/api/file-upload",
   {
     file,
