@@ -2,7 +2,7 @@
 
 import { ForgotPSW } from "@/components/forms/forgotpsw-form";
 import { useState } from "react";
-import { fetchSignInMethodsForEmail } from "firebase/auth";
+import { fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
 
@@ -12,7 +12,7 @@ export default function Home() {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const sendCode = async () => {
+  const passwordReset = async () => {
     if (!email) {
       setError("invalid inputs");
       return false;
@@ -22,9 +22,16 @@ export default function Home() {
       const existUser = await fetchSignInMethodsForEmail(auth, email);
       let user;
       if (existUser?.length) {
-        
+        try{
+          await sendPasswordResetEmail(auth, email);
+        } catch(err) {
+          setError("An error occured, please try again");
+          console.log(err, err.message);
+          return false;
+        }
       } else {
-        setError("email does not have an account");
+        setError("Email does not have an account");
+        console.log(err, err.message);
         return false;
       }
       return true;
@@ -39,7 +46,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <ForgotPSW setEmail={setEmail} sendCode={sendCode} loading={loading} error={error}/>
+      <ForgotPSW setEmail={setEmail} passwordReset={passwordReset} loading={loading} error={error}/>
     </main>
   );
 }

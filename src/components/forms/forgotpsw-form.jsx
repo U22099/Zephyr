@@ -12,7 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export function ForgotPSW({ setEmail, sendCode, loading, error }) {
+export function ForgotPSW({ setEmail, passwordReset, loading, error }) {
   return (
     <Card className = "md:w-[50vw] w-[90vw]" >
       <CardHeader>
@@ -27,7 +27,7 @@ export function ForgotPSW({ setEmail, sendCode, loading, error }) {
                     <Input id="name" placeholder="Input your email" type="email" onChange={(e) => setEmail(e.target.value)} required />
                   </div>
                   {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-                  <Button onClick={async () => await sendCode()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Submit"}</Button>
+                  <Button onClick={async () => await passwordReset()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Submit"}</Button>
                 </div> 
           </form>
         </CardContent>
