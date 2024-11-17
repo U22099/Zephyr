@@ -22,7 +22,7 @@ export default function middleware(request) {
   const currentPath = nextUrl.pathname;
 
   // Define the routes that don't require authentication
-  const publicRoutes = ['/', '/forgetpsw', '/__firebase__/'];
+  const publicRoutes = ['/', '/forgotpsw', '/__firebase__/'];
 
   // Determine if the current route is public
   const isPublicRoute = publicRoutes.some(route => currentPath === route);
