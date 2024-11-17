@@ -91,7 +91,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (userError || !user) {
+    if (userError && !user) {
       router.push("/");
     } else {
       updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
