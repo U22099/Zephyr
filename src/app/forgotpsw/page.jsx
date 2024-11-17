@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast"
 
 export default function Home() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState();
   const router = useRouter();
   const { toast } = useToast();
 

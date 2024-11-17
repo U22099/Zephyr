@@ -87,6 +87,7 @@ export default function Home() {
     } else {
       if(user){
         updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
+        setPageLoading(false);
       }
     }
   }, [user]);
