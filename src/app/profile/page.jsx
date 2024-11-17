@@ -1,27 +1,28 @@
 "use client";
-import { UserProfile } from "@/components/profile/userProfile";
+import { UserProfile } from "@/components/profile/user-profile";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { auth, db } from "@/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { getUserData, toBase64, uploadFileAndGetURL } from "@/utils"
 import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
   const [user, userLoading, userError] = useAuthState(auth);
-  
+
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState();
   const [imageBase64String, setImageBase64String] = useState();
-  
+
   const [username, setUsername] = useState();
-  
+
   const [gender, setGender] = useState();
-  
+
   const [bio, setBio] = useState();
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
@@ -29,7 +30,6 @@ export default function Home() {
     setLoading(true);
     setError("");
     let newImageUrl;
-    console.log(image, username, gender)
     if (!username || !gender) {
       setError("username and gender must be specified");
       setLoading(false);
@@ -37,14 +37,7 @@ export default function Home() {
     }
     if (imageBase64String) {
       try {
-        const newImageObj = (await axios.post("/api/file-upload", 
-        { 
-          file: imageBase64String, 
-          folder: "images", 
-          type: "image"
-        })).data;
-        newImageUrl = newImageObj.fileURL;
-        console.log(newImageObj);
+        newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");
       } catch (err) {
         setError(err?.code || err?.message || "try again, an error occured");
         console.log(err, "image url");
@@ -53,19 +46,20 @@ export default function Home() {
       }
     }
     try {
-      
+
       await updateProfile(user, {
         displayName: username,
-        photoURL: newImageUrl?.secure_url || imageUrl
+        photoURL: newImageUrl.secure_url || imageUrl
       });
-      
+
       await setDoc(doc(db, "users", user.uid), {
         username,
-        imageURL: newImageUrl?.secure_url || imageUrl,
-        imagePublicId: newImageUrl?.public_id,
+        imageURL: newImageUrl.secure_url || imageUrl,
+        imagePublicId: newImageUrl.public_id,
         gender: gender || null,
         bio: bio || null,
       }, { merge: true });
+      
       router.push("/home");
     } catch (err) {
       setError(err?.code || err?.message || "try again, an error occured");
@@ -74,59 +68,41 @@ export default function Home() {
       setLoading(false);
     }
   }
-  const updateImage = async () => {
-    const data = await toBase64(image);
-    setImageBase64String(data);
-  }
-  const getUserData = async () => {
-    try {
-      const dbUser = await getDoc(doc(db, "users", user.uid));
-      const userData = dbUser.data();
-      console.log(userData);
-      setUsername(userData?.username);
-      setImageUrl(userData?.imageURL);
-      setGender(userData?.gender);
-      setBio(userData?.bio);
-    } catch (err) {
-      console.log(err, "updateVariables");
-    }
-  }
+  
   useEffect(() => {
     if (userError) {
       router.push("/");
     } else {
-      getUserData();
+      getUserData(user, setUsername, setImageUrl, setGender, setBio);
     }
   }, [user]);
+  
   useEffect(() => {
     if (image) {
-      updateImage();
+      updateImage(setImageBase64String, image);
     }
   }, [image]);
+  
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-4">
+    <main className="flex min-h-screen flex-col items-center justify-center">
       <UserProfile 
-      bio={bio}
-      setBio={setBio}
-      imageBase64String={imageBase64String}  
-      imageUrl={imageUrl} 
-      setUsername={setUsername} 
-      username={username} 
-      setImage={setImage} 
-      loading={loading} 
-      error={error} 
-      updateUserProfile={updateUserProfile} 
-      gender={gender} 
-      setGender={setGender}/>
+        bio={bio}
+        setBio={setBio}
+        imageBase64String={imageBase64String}  
+        imageUrl={imageUrl} 
+        setUsername={setUsername} 
+        username={username} 
+        setImage={setImage} 
+        loading={loading} 
+        error={error} 
+        updateUserProfile={updateUserProfile} 
+        gender={gender} 
+        setGender={setGender}
+      />
     </main>
   )
 }
-export const toBase64 = (file) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  const data = new Promise((resolve, reject) => {
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (err) => reject(err);
-  });
-  return data;
+const updateImage = async (setImageBase64String, image) => {
+  const data = await toBase64(image);
+  setImageBase64String(data);
 }
