@@ -15,7 +15,7 @@ import axios from "axios";
 export default function Home() {
   const router = useRouter();
   const [ pageLoading, setPageLoading ] = useState(true);
-  const { setUserData } = useUserData(state => state.setUserData)
+  const { setUserData } = useUserData(state => state.setUserData);
   const [user, userLoading, userError] = useAuthState(auth);
 
   const [image, setImage] = useState();
@@ -97,13 +97,13 @@ export default function Home() {
       updateVariables(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
       setPageLoading(false);
     }
-  }, [user, userError, router, updateVariables]);
+  }, [user]);
 
   useEffect(() => {
     if (image) {
       updateImage(setImageBase64String, image);
     }
-  }, [image, updateImage]);
+  }, [image]);
 
   return (
     <main className="flex h-screen flex-col items-center justify-center">
