@@ -17,7 +17,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { ModeToggle } from "@/toggle-mode";
+import { ModeToggle } from "@/components/toggle-mode";
 import { Textarea } from "@/components/ui/textarea";
 import { AiOutlineLoading } from "react-icons/ai";
 import { deleteSession } from "@/lib/utility/index";
