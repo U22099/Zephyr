@@ -14,9 +14,10 @@ import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
-  const [ pageLoading, setPageLoading ] = useState(true);
   const { setUserData } = useUserData(state => state.setUserData);
   const [user, userLoading, userError] = useAuthState(auth);
+
+  const [ pageLoading, setPageLoading ] = useState(true);
 
   const [image, setImage] = useState();
   const [imageUrl, setImageUrl] = useState();
