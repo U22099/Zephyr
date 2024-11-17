@@ -103,7 +103,7 @@ export default function Home() {
   }, [image]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex h-screen flex-col items-center justify-center overflow-hidden">
       <UserProfile 
         bio={bio}
         setBio={setBio}

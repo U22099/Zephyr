@@ -28,7 +28,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
       <Card className="md:w-[50vw] w-[90vw]">
         <CardContent>
             <div className="grid w-full items-center gap-4">
-              <div className="flex justify-between items-start">
+              <div className="flex justify-between items-start mt-8">
                 <div className="flex flex-col gap-1 w-fit self-start items-center justify-center">
                   <Avatar className="mt-8 w-36 h-36">
                     <AvatarImage className="w-36 h-36 object-cover rounded-full" src={imageUrl || imageBase64String} alt="profile-image"/>
@@ -41,17 +41,23 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 <ModeToggle className="text-lg"/> 
               </div>
               <div className="flex items-center gap-2">
-                <Input id="name" defaultValue={username} onChange={(e) => setUsername(e.target.value)}/>
-                <Select defaultValue={gender || "male"} onValueChange={(value) => setGender(value)}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Gender" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="male">Male</SelectItem>
-                    <SelectItem value="female">Female</SelectItem>
-                    <SelectItem value="anonymous">Anonymous</SelectItem>
-                  </SelectContent>
-                </Select>
+                <div className="flex flex-col gap-1">
+                  <Label htmlFor="name" className="underline text-violet-800 text-lg">Name</Label>
+                  <Input id="name" defaultValue={username} onChange={(e) => setUsername(e.target.value)}/>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Label htmlFor="gender" className="underline text-violet-800 text-lg">Gender</Label>
+                  <Select id="gender" defaultValue={gender || "male"} onValueChange={(value) => setGender(value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Gender" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="male">Male</SelectItem>
+                      <SelectItem value="female">Female</SelectItem>
+                      <SelectItem value="anonymous">Anonymous</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
               <div>
                 <Label htmlFor="image">Bio</Label>
