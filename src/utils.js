@@ -1,10 +1,22 @@
 import { db } from "@/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
-export const getUserData = async (user, setUserData) => {
-  try{
-    const dbUser = await getDoc(doc(db, "users", user.uid));
-    const userData = dbUser.data();
+export const getUserData = async (uid) => {
+  try {
+    const dbUser = await getDoc(doc(db, "users", uid));
+    return dbUser.data();
+  } catch (err) {
+    console.log(err, err.message, "getUserData")
+  }
+}
+export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
+  try {
+    const userData = await getUserData(uid);
+    setUsername(userData?.username);
+    setImageUrl(userData?.imageURL);
+    setGender(userData?.gender);
+    setBio(userData?.bio);
+    setImagePublicId(userData?.imagePublicId);
     setUserData({
       username: userData?.username,
       imageURL: userData?.imageURL,
@@ -13,19 +25,6 @@ export const getUserData = async (user, setUserData) => {
       bio: userData?.bio,
       theme: userData?.theme,
     });
-    return userData;
-  } catch(err) {
-    console.log(err, err.message, "getUserData")
-  }
-}
-export const updateVariables = async (user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData) => {
-  try {
-    const userData = await getUserData(user, setUserData);
-    setUsername(userData?.username);
-    setImageUrl(userData?.imageURL);
-    setGender(userData?.gender);
-    setBio(userData?.bio);
-    setImagePublicId(userData?.imagePublicId);
   } catch (err) {
     console.log(err, err.message, "updateVariables");
   }

@@ -91,10 +91,10 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (userError) {
+    if (userError || !user) {
       router.push("/");
     } else {
-      updateVariables(user, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
+      updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setUserData);
       setPageLoading(false);
     }
   }, [user]);
