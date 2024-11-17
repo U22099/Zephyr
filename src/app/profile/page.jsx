@@ -9,6 +9,7 @@ import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { updateVariables, toBase64, uploadFileAndGetURL } from "@/utils";
 import { useTheme } from "next-themes";
+import { deleteSession } from "@/lib/utility/index";
 import axios from "axios";
 
 export default function Home() {
@@ -80,6 +81,7 @@ export default function Home() {
 
   useEffect(() => {
     if (userError) {
+      deleteSession();
       router.push("/");
     } else {
       if(user){
