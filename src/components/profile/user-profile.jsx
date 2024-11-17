@@ -42,11 +42,11 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex flex-col gap-1">
-                  <Label htmlFor="name" className="underline text-violet-800 text-lg">Name</Label>
+                  <Label htmlFor="name" >Name</Label>
                   <Input id="name" defaultValue={username} onChange={(e) => setUsername(e.target.value)}/>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label htmlFor="gender" className="underline text-violet-800 text-lg">Gender</Label>
+                  <Label htmlFor="gender">Gender</Label>
                   <Select id="gender" defaultValue={gender || "male"} onValueChange={(value) => setGender(value)}>
                     <SelectTrigger>
                       <SelectValue placeholder="Gender" />
@@ -60,7 +60,7 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                 </div>
               </div>
               <div>
-                <Label htmlFor="image">Bio</Label>
+                <Label htmlFor="bio">Bio</Label>
                 <Textarea placeholder="Add your bio" id="bio" defaultValue={bio} onChange={(e) => setBio(e.target.value)} />
               </div>
               {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
