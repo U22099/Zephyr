@@ -1,5 +1,5 @@
 import { db } from "@/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const getUserData = async (uid) => {
   try {
@@ -7,6 +7,15 @@ export const getUserData = async (uid) => {
     return dbUser.data();
   } catch (err) {
     console.log(err, err.message, "getUserData")
+  }
+}
+export const updateUserData = async (uid, data, merge = true) => {
+  try{
+    await setDoc(doc(db, "users", uid), data, { merge });
+    return true;
+  } catch(err) {
+    console.log(err, err.message);
+    return;
   }
 }
 export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
