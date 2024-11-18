@@ -37,7 +37,6 @@ export default function Home() {
       if (existUser?.length) {
         user = (await signInWithEmailAndPassword(auth, email, password))?.user;
       } else {
-        console.log("called");
         user = (await createUserWithEmailAndPassword(auth, email, password))?.user;
       }
       if (user) {
