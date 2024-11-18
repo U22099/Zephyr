@@ -34,6 +34,7 @@ export default function Home() {
           return false;
         }
       } else {
+        console.log(email, existUser);
         setError("Email does not have an account");
         return false;
       }
