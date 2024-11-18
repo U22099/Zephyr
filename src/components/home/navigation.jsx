@@ -2,10 +2,11 @@ import { CircleDotDashed } from 'lucide-react';
 import { Users } from 'lucide-react';
 import { MessageCircle } from 'lucide-react';
 import { Cog } from 'lucide-react';
+import { motion } from "framer-motion";
 
 export function Navigation({nav, setNav}){
   return(
-    <main className="fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 w-full py-2 border-t">
+    <motion.main initial={{x: -100}} animate={{x: 0}} className="fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 w-full py-2 border-t">
       <div className="flex flex-col justify-center items-center text-center">
         <CircleDotDashed className={"text-lg " + (nav === 0 ? "fill-violet-800" : "text-muted")} onClick={() => setNav(0)} id="updates"/>
         <label htmlFor="updates" className="text-sm font-semibold">Updates</label>
@@ -22,6 +23,6 @@ export function Navigation({nav, setNav}){
         <Cog className={"text-lg " + (nav === 3 ? "fill-violet-800" : "text-muted")} onClick={() => setNav(3)} id="settings"/>
         <label htmlFor="settings" className="text-sm font-semibold">Settings</label>
       </div>
-    </main>
+    </motion.main>
   )
 }
