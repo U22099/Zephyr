@@ -25,9 +25,6 @@ export default function Home() {
       if (existUser?.length) {
         try {
           await sendPasswordResetEmail(auth, email);
-          toast({
-            description: "Email sent successfully, check your email to reset password.",
-          });
         } catch (err) {
           setError("An error occured, please try again");
           console.log(err, err?.message);
@@ -50,7 +47,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <ForgotPSW setEmail={setEmail} passwordReset={passwordReset} loading={loading} error={error}/>
+      <ForgotPSW toast={toast} setEmail={setEmail} passwordReset={passwordReset} loading={loading} error={error}/>
     </main>
   );
 }
