@@ -35,13 +35,12 @@ export default function Home() {
         }
       } else {
         setError("Email does not have an account");
-        console.log(err, err?.message);
         return false;
       }
       return true;
     } catch (err) {
-      console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
+      console.log(err, err?.message);
       return false;
     } finally {
       setLoading(false);
