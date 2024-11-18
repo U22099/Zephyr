@@ -1,3 +1,4 @@
+"use client";
 import { Navigation } from "@/components/home/navigation";
 import { Updates } from "@/components/home/updates";
 import { People } from "@/components/home/people";
