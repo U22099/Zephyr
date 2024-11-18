@@ -3,7 +3,7 @@ import { Navigation } from "@/components/home/navigation";
 import { Updates } from "@/components/home/updates";
 import { People } from "@/components/home/people";
 import { Chats } from "@/components/home/chats";
-import { Settings } from "@/components/home/setting";
+import { Settings } from "@/components/home/settings";
 import { useEffect, useState } from "react";
 
 export default function Home(){
