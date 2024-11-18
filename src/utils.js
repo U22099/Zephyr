@@ -1,10 +1,11 @@
 import { db } from "@/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 
-export const getUserData = async (uid) => {
+export const getUserData = async (uid, setUserData) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
-    return dbUser.data();
+    const result = dbUser.data();
+    setUserData(result);
   } catch (err) {
     console.log(err, err.message, "getUserData")
   }

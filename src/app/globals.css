@@ -97,7 +97,7 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border backdro-blur-sm;
   }
   body {
     @apply bg-background text-foreground;
