@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 export default function Home(){
   const [nav, setNav] = useState(2);
   return(
-    <main>
+    <main className="flex min-h-screen flex-col items-center justify-center w-full">
       { nav === 0 ? <Updates /> 
       : nav === 1 ? <People />
       : nav === 2 ? <Chats />
