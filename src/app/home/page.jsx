@@ -14,11 +14,10 @@ import { auth } from "@/firebase";
 export default function Home() {
   const [user] = useAuthState(auth);
   const [nav, setNav] = useState(2);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const setUserData = useUserData(state => state.setUserData);
   const setUID = useUID(state => state.setUID);
   const init = async () => {
-    setLoading(true);
     await getUserData(user.uid, setUserData);
     setUID(user.uid);
     setLoading(false);
