@@ -25,7 +25,7 @@ export default function Home(){
   }, [user]);
   return(
     <>
-    { loading ? <Loading /> : <main className="flex min-h-screen flex-col items-center justify-center w-full">
+    { loading ? <Loading /> : <main className="flex min-h-screen flex-col items-start justify-start w-full">
       { nav === 0 ? <Updates /> 
       : nav === 1 ? <People />
       : nav === 2 ? <Chats />
