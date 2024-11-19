@@ -20,10 +20,10 @@ export function AI() {
   const { userData, setUserData } = useUserData();
   const uid = useUID(state => state.uid);
   const [loading, setLoading] = useState();
-  const [info, setInfo] = useState();
-  const [behavior, setBehavior] = useState();
-  const [modelType, setModelType] = useState();
-  const [temperature, setTemperature] = useState();
+  const [info, setInfo] = useState(null);
+  const [behavior, setBehavior] = useState(null);
+  const [modelType, setModelType] = useState("accurate");
+  const [temperature, setTemperature] = useState(20);
 
   const update = async () => {
     setLoading(true);
@@ -66,7 +66,7 @@ export function AI() {
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
           <Separator className="text-muted h-12" orientation="vertical"/>
-          <Info className="w-8 h-8 text-muted"/>
+          <Info className="w-8 text-muted"/>
           <blockquote className="text-xs text-muted">
             <p>For creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
             <footer className="italic">
