@@ -11,7 +11,7 @@ export function AI() {
   const { userData, setUserData } = useUserData();
   return (
     <Card className="backdrop-blur-sm">
-      <CardContent className="flex flex-col gap-2">
+      <CardContent className="flex flex-col gap-2 p-2">
         <section>
           <Label htmlFor="info">Personal Info</Label>
           <Textarea placeholder="Tell zephyr AI about yourself" id="info" />
