@@ -2,8 +2,14 @@ import { create } from "zustand";
 
 export const useUserData = create(set => ({
   userData: {},
-  setUserData: (data) => {
-    set({ userData:data });
+  setUserData: (userData) => {
+    set({ userData });
+  },
+}));
+export const useUID = create(set => ({
+  uid: {},
+  setUID: (uid) => {
+    set({ uid });
   },
 }));
 
