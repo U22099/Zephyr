@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
 import { AiOutlineLoading } from "react-icons/ai";
-import { updateUserData } from "@/utils"; 
+import { updateUserData } from "@/utils";
 import { useState, useEffect } from "react";
 
 export function AI() {
@@ -22,7 +22,7 @@ export function AI() {
   const [behavior, setBehavior] = useState();
   const [modelType, setModelType] = useState();
   const [temperature, setTemperature] = useState();
-  
+
   const update = async () => {
     setLoading(true);
     await updateUserData(uid, {
@@ -47,11 +47,11 @@ export function AI() {
         <section>
           <Label htmlFor="model">Model Type</Label>
           <RadioGroup defaultValue={userData?.modelType || "accurate"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-center items-center">
               <RadioGroupItem value="fast" id="fast"/>
               <Label htmlFor="fast">Fast</Label>
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-2 justify-center items-center">
               <RadioGroupItem value="accurate" id="accurate"/>
               <Label htmlFor="accurate">Accurate</Label>
             </div>
