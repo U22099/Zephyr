@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 export function AI() {
   const { userData, setUserData } = useUserData();
   return (
-    <Card className="backdrop-blur-sm">
+    <Card className="backdrop-blur-sm flex justify-center items-center w-full">
       <CardContent className="flex flex-col gap-2 p-2">
         <section>
           <Label htmlFor="info">Personal Info</Label>

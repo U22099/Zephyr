@@ -2,8 +2,8 @@ import { Profile } from "./settings-components/profile";
 import { AI } from "./settings-components/ai";
 export function Settings() {
   return (
-    <main className="flex flex-col justify-start items-start gap-3 min-h-screen pt-4 pb-8 p-2">
-      <h1 className="font-bold text-2xl">Settings</h1>
+    <main className="flex flex-col justify-start items-start gap-3 min-h-screen py-8 p-4">
+      <h1 className="font-extrabold text-2xl">Settings</h1>
       <section>
         <Profile />
       </section>
