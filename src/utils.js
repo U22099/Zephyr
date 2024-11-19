@@ -6,6 +6,7 @@ export const getUserData = async (uid, setUserData) => {
     const dbUser = await getDoc(doc(db, "users", uid));
     const result = dbUser.data();
     setUserData(result);
+    console.log(result);
   } catch (err) {
     console.log(err, err.message, "getUserData")
   }
