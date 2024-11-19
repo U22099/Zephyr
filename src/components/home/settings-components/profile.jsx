@@ -15,8 +15,8 @@ export function Profile(){
   return(
     <Card className="backdrop-blur-sm flex justify-center items-center w-full">
       <CardContent className="flex gap-2 p-2 w-full">
-        <Avatar className="w-18 h-18">
-          <AvatarImage src={userData?.imageURL} className="w-18 h-18 object-cover rounded-full" />
+        <Avatar className="w-16 w-16">
+          <AvatarImage src={userData?.imageURL} className="object-cover rounded-full" />
           <AvatarFallback className="text-2xl text-violet-800">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
         </Avatar>
         <section>
