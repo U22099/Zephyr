@@ -62,15 +62,15 @@ export function AI() {
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
           <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
-          <p className="text-sm">{temperature}%</p>
+          <p className="text-sm">{temperature || 20}%</p>
         </section>
-        <section className="flex gap-1 ml-2 bg-neutral-800 rounded p-2">
-          <Separator className="text-muted h-8" orientation="vertical"/>
-          <Info className="text-[1.5rem] text-muted"/>
+        <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
+          <Separator className="text-muted h-12" orientation="vertical"/>
+          <Info className="w-4 h-4 text-muted"/>
           <blockquote className="text-xs text-muted">
-            <p>for creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
+            <p>For creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
             <footer className="italic">
-              Gemini AI Docs
+              <a href="https://ai.google.dev/gemini-api/docs/text-generation?lang=node#configure" className="underline text-violet-800" target="_blank">Gemini AI Docs</a>
             </footer>
           </blockquote>
         </section>
