@@ -10,7 +10,9 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
+import { Separator } from "@/components/ui/separator";
 import { AiOutlineLoading } from "react-icons/ai";
+import { Info } from 'lucide-react';
 import { updateUserData } from "@/utils";
 import { useState, useEffect } from "react";
 
@@ -60,6 +62,16 @@ export function AI() {
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
           <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
+        </section>
+        <section className="flex gap-1 pl-2">
+          <Separator orientation="vertical"/>
+          <Info />
+          <blockquote>
+            <p>For AI creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
+            <footer>
+              Gemini AI Docs
+            </footer>
+          </blockquote>
         </section>
       </CardContent>
       <CardFooter className="flex justify-end">
