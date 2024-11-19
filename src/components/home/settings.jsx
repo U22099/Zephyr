@@ -2,7 +2,7 @@ import { Profile } from "./settings-components/profile";
 import { AI } from "./settings-components/ai";
 export function Settings() {
   return (
-    <main className="flex flex-col w-full gap-3 p-4 pt-8 pb-10">
+    <main className="flex flex-col w-full gap-3 p-4 mt-8 mb-14">
       <h1 className="font-extrabold text-2xl">Settings</h1>
       <section>
         <Profile />
