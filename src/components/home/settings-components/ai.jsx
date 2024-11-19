@@ -66,7 +66,7 @@ export function AI() {
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
           <Separator className="text-muted h-12" orientation="vertical"/>
-          <Info className="w-4 h-4 text-muted"/>
+          <Info className="w-8 h-8 text-muted"/>
           <blockquote className="text-xs text-muted">
             <p>For creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
             <footer className="italic">
