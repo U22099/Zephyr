@@ -17,11 +17,11 @@ export function Profile(){
       <CardContent>
         <Avatar className="w-18 h-18">
           <AvatarImage src={userData?.imageURL} className="object-cover" />
-          <AvatarFallback className="text-2xl text-violet-800">{userData.username[0] || "Z"}</AvatarFallback>
+          <AvatarFallback className="text-2xl text-violet-800">{userData?.username[0] || "Z"}</AvatarFallback>
         </Avatar>
         <section>
-          <h3 className="text-lg font-semibold">{userData.username}</h3>
-          <p className="text-muted truncate">{userData.bio}</p>
+          <h3 className="text-lg font-semibold">{userData?.username}</h3>
+          <p className="text-muted truncate">{userData?.bio}</p>
         </section>
       </CardContent>
     </Card>
