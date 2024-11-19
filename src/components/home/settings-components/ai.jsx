@@ -63,12 +63,12 @@ export function AI() {
           <Label htmlFor="creativity">Creativity</Label>
           <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
         </section>
-        <section className="flex gap-1 pl-2">
-          <Separator orientation="vertical"/>
-          <Info />
-          <blockquote>
+        <section className="flex gap-1 ml-2 bg-neutral-300 rounded p-2 h-fit">
+          <Separator className="text-muted h-full" orientation="vertical"/>
+          <Info className="text-2xl text-muted"/>
+          <blockquote className="text-xs text-muted">
             <p>For AI creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
-            <footer>
+            <footer className="italic">
               Gemini AI Docs
             </footer>
           </blockquote>
