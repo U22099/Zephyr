@@ -64,8 +64,8 @@ export function AI() {
           <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
           <p className="text-sm">{temperature}%</p>
         </section>
-        <section className="flex gap-1 ml-2 bg-neutral-800 rounded p-2 h-fit">
-          <Separator className="text-muted h-full" orientation="vertical"/>
+        <section className="flex gap-1 ml-2 bg-neutral-800 rounded p-2">
+          <Separator className="text-muted h-8" orientation="vertical"/>
           <Info className="text-[1.5rem] text-muted"/>
           <blockquote className="text-xs text-muted">
             <p>for creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
