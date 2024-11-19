@@ -2,14 +2,13 @@ import { Profile } from "./settings-components/profile";
 import { AI } from "./settings-components/ai";
 export function Settings() {
   return (
-    <main className="flex flex-col justify-start items-start gap-2">
-      <h1>Settings</h1>
+    <main className="flex flex-col justify-start items-start gap-3 min-h-screen p-2 pt-4 pb-8">
+      <h1 className="font-bold text-2xl">Settings</h1>
       <section>
-        <h2>Profile</h2>
         <Profile />
       </section>
       <section>
-        <h2>AI Customization</h2>
+        <h2 className="font-semibold text-xl">AI Customization</h2>
         <AI />
       </section>
     </main>
