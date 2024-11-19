@@ -47,11 +47,11 @@ export function AI() {
         <section>
           <Label htmlFor="model">Model Type</Label>
           <RadioGroup defaultValue={userData?.modelType || "accurate"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <RadioGroupItem value="fast" id="fast"/>
               <Label htmlFor="fast">Fast</Label>
             </div>
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 items-center">
               <RadioGroupItem value="accurate" id="accurate"/>
               <Label htmlFor="accurate">Accurate</Label>
             </div>
@@ -59,7 +59,7 @@ export function AI() {
         </section>
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
-          <Slider defaultValue={[userData.temperature]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
+          <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
         </section>
       </CardContent>
       <CardFooter className="flex justify-end">
