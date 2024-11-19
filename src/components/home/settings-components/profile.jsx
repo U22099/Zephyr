@@ -14,8 +14,8 @@ export function Profile(){
   const { userData, setUserData } = useUserData();
   return(
     <Card className="backdrop-blur-sm flex justify-center items-center w-full">
-      <CardContent className="flex gap-2 p-2 w-full">
-        <Avatar className="w-16 w-16">
+      <CardContent className="flex items-center gap-2 p-2 w-full">
+        <Avatar className="w-20 h-20">
           <AvatarImage src={userData?.imageURL} className="object-cover rounded-full" />
           <AvatarFallback className="text-2xl text-violet-800">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
         </Avatar>
