@@ -26,7 +26,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useUserData, usePage, useUID } from "@/store";
 import { useState, useEffect } from "react";
-import { updateUserData } from "@/utils";
+import { updateUserData, toBase64, uploadFileAndGetURL } from "@/utils";
+import { useTheme } from "next-themes";
+import axios from 'axios';
 
 export function Profile() {
   const { userData, setUserData } = useUserData();
