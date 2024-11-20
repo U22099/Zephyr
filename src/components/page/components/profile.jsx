@@ -95,15 +95,15 @@ export function Profile() {
     }
   }, [image]);
   return (
-    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex flex-col gap-3">
-      <header className="fixed top-8 flex justify-center text-center items-center">
+    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-center w-full gap-3 p-2">
+      <header className="fixed top-[-20px] flex justify-center text-center items-center">
         <FaAngleLeft className="self-start dark:fill-white fill-black text-lg" onClick={() => setPage({open: false, component: 'default'})}/>
         <h3 className="font-bold text-xl">Edit Profile</h3>
       </header>
       <Card className="backdrop-blur-sm flex justify-center items-center w-full">
         <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">
             <section className="flex justify-between">
-              <div>
+              <div className="flex w-fit justify-center flex-col">
                 <Avatar className="w-20 h-20">
                 <AvatarImage src={imageBase64String || userData?.imageURL} className="object-cover rounded-full" />
                 <AvatarFallback className="text-2xl text-violet-800">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
@@ -116,7 +116,6 @@ export function Profile() {
           <section className="flex items-center gap-2">
             <Input className="font-semibold" defaultValue={userData?.username || ""}/>
             <div className="flex flex-col gap-1">
-              <Label htmlFor="gender">Gender</Label>
               <Select id="gender" defaultValue={userData?.gender || "male"} onValueChange={(value) => setGender(value)}>
                 <SelectTrigger>
                   <SelectValue placeholder="Gender" />
@@ -139,12 +138,8 @@ export function Profile() {
           </div>
         </CardContent>
       </Card>
-      <Card>
-        <CardFooter>
-          { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
-          <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
-        </CardFooter>
-      </Card>
+      { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
+      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
     </motion.main>
   )
 }
