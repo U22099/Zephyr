@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 export function Navigation({nav, setNav}){
   return(
-    <motion.main initial={{x: -200}} animate={{x: 0}} className="fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 w-full py-2 border-t">
+    <motion.main initial={{x: -300}} animate={{x: 0}} className="fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 w-full py-2 border-t">
       <div className="flex flex-col justify-center items-center text-center">
         <CircleDotDashed className={"text-lg " + (nav === 0 ? "fill-violet-800" : "text-muted")} onClick={() => setNav(0)} id="updates"/>
         <label htmlFor="updates" className="text-sm font-semibold">Updates</label>

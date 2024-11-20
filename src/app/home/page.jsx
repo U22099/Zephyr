@@ -5,18 +5,22 @@ import { People } from "@/components/home/people";
 import { Chats } from "@/components/home/chats";
 import { Settings } from "@/components/home/settings";
 import { Loading } from "@/components/loading";
-import { useUserData, useUID } from "@/store";
+import { Page } from "@/components/page/pages";
+import { useUserData, useUID, usePage } from "@/store";
 import { getUserData } from "@/utils";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export default function Home() {
+  const isMobile = useIsMobile();
   const [user] = useAuthState(auth);
   const [nav, setNav] = useState(2);
   const [loading, setLoading] = useState(true);
   const setUserData = useUserData(state => state.setUserData);
   const setUID = useUID(state => state.setUID);
+  const page = usePage(state => state.page);
   const init = async () => {
     await getUserData(user.uid, setUserData);
     setUID(user.uid);
@@ -29,13 +33,14 @@ export default function Home() {
   }, [user]);
   return (
     <>
-    { loading ? <Loading /> : <main className="flex min-h-screen flex-col items-start justify-start w-full">
-      { nav === 0 ? <Updates /> 
+    { loading ? <Loading /> : (page.open&&isMobile) ? <Page /> : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-screen w-screen p-2 grid-cols-4"}>
+      <section className={"flex h-screen flex-col items-start justify-start w-full" + (!isMobile&&"col-span-1")}>{ nav === 0 ? <Updates /> 
       : nav === 1 ? <People />
       : nav === 2 ? <Chats />
       : nav === 3 ? <Settings /> 
       : <Chats />}
-      <Navigation setNav={setNav} nav={nav}/>
+      <Navigation setNav={setNav} nav={nav}/></section>
+      {!isMobile&&<Page className="col-span-3"/>}
     </main>}
     </>
   )
