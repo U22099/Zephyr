@@ -6,7 +6,7 @@ import { Chats } from "@/components/home/chats";
 import { Settings } from "@/components/home/settings";
 import { Loading } from "@/components/loading";
 import { Page } from "@/components/page/pages";
-import { useUserData, useUID, usePage } from "@/store";
+import { useNav, useUserData, useUID, usePage } from "@/store";
 import { getUserData } from "@/utils";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -16,7 +16,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 export default function Home() {
   const isMobile = useIsMobile();
   const [user] = useAuthState(auth);
-  const [nav, setNav] = useState(2);
+  const {nav, setNav} = useNav();
   const [loading, setLoading] = useState(true);
   const setUserData = useUserData(state => state.setUserData);
   const setUID = useUID(state => state.setUID);

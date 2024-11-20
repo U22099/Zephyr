@@ -21,4 +21,10 @@ export const usePage = create(set => ({
     set({ page });
   },
 }));
+export const useNav = create(set => ({
+  nav: 2,
+  setNav: (nav) => {
+    set({ nav });
+  },
+}));
 /*set((state) => ({ userData: { ...state.userData, ...newData } }))*/
