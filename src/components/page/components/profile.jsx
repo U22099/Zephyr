@@ -95,12 +95,12 @@ export function Profile() {
     }
   }, [image]);
   return (
-    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-3 p-2">
-      <header className="sticky top-0 left-0 w-full flex justify-between text-center items-center backdrop-blur-sm">
-        <FaAngleLeft className="self-start dark:fill-white fill-black text-lg" onClick={() => setPage({open: false, component: 'default'})}/>
-        <h3 className="font-bold text-xl">Edit Profile</h3>
+    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2 min-h-screen">
+      <header className="sticky top-0 left-0 w-full flex justify-around text-center items-center backdrop-blur-sm">
+        <FaAngleLeft className="self-start dark:fill-white fill-black text-xl" onClick={() => setPage({open: false, component: 'default'})}/>
+        <h3 className="font-bold text-lg">Edit Profile</h3>
       </header>
-      <Card className="backdrop-blur-sm flex justify-center items-center w-full">
+      <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
         <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">
             <section className="flex justify-between">
               <div className="flex w-fit justify-center flex-col">
@@ -139,7 +139,7 @@ export function Profile() {
         </CardContent>
       </Card>
       { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
-      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
+      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full fixed bottom-1">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
     </motion.main>
   )
 }
