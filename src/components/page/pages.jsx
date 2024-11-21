@@ -4,6 +4,7 @@ import { Profile } from "./components/profile";
 import { Chat } from "./components/chat";
 
 export function Page(){
+  console.log("mounted pages");
   const { page, setPage } = usePage();
   if(!page.open) return;
   switch (page.component) {
