@@ -76,7 +76,7 @@ export function AI() {
           <blockquote className="text-xs text-muted-foreground">
             <p>For creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
             <footer className="italic">
-              <a href="https://ai.google.dev/gemini-api/docs/text-generation?lang=node#configure" className="underline text-violet-800" target="_blank">Gemini AI Docs</a>
+              <a href="https://ai.google.dev/gemini-api/docs/text-generation?lang=node#configure" className="underline text-primary" target="_blank">Gemini AI Docs</a>
             </footer>
           </blockquote>
         </section>

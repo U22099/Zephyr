@@ -31,7 +31,7 @@ export function ForgotPSW({ setEmail, passwordReset, loading, error }) {
                 </div> 
           </CardContent>
           <CardFooter>
-            <Link href="/" className="mt-5 mx-auto text-sm text-violet-800">Sign In</Link>
+            <Link href="/" className="mt-5 mx-auto text-sm text-primary">Sign In</Link>
           </CardFooter>
       </Card>
     </form>

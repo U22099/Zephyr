@@ -54,13 +54,13 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
             <Button type="submit" onClick={async () => {
                 await signIn("credentials");
               }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Sign In"}</Button>
-            <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-violet-800">Forgot password?</Link>
+            <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-primary">Forgot password?</Link>
           </div>
         </form>
       </CardContent>
       <CardFooter className="flex justify-center w-full text-muted-foreground-foregroundflex-col text-wrap text-center">
         New to zephyr?&nbsp;
-        <p className="text-violet-800 text-sm">Don&apos;t worry zephyr automatically creates a new account for you</p>
+        <p className="text-primary text-sm">Don&apos;t worry zephyr automatically creates a new account for you</p>
       </CardFooter>
     </Card>
   )

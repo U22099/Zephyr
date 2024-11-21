@@ -13,11 +13,11 @@ import {
 export function Profile(){
   const { userData, setUserData } = useUserData();
   return(
-    <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-gray-900">
+    <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-muted-foreground">
       <CardContent className="flex items-center gap-2 p-2 w-full">
         <Avatar className="w-20 h-20">
           <AvatarImage src={userData?.imageURL} className="object-cover rounded-full" />
-          <AvatarFallback className="text-2xl text-violet-800">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
+          <AvatarFallback className="text-2xl text-primary">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
         </Avatar>
         <section>
           <h3 className="text-lg font-semibold">{userData?.username}</h3>

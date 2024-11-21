@@ -114,9 +114,9 @@ export function Profile() {
               <div className="flex w-fit justify-center flex-col items-center">
                 <Avatar className="w-20 h-20">
                 <AvatarImage src={imageBase64String || userData?.imageURL} className="object-cover rounded-full" />
-                <AvatarFallback className="text-2xl text-violet-800">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
+                <AvatarFallback className="text-2xl text-primary">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
               </Avatar>
-              <Label htmlFor="image" className="underline text-violet-800 text-lg">Edit</Label>
+              <Label htmlFor="image" className="underline text-primary text-lg">Edit</Label>
               <input id="image" accept="image/*" type="file" onChange={(e) => setImage(e.target.files[0])} hidden/>
             </div>
             <ModeToggle className="text-lg"/>
