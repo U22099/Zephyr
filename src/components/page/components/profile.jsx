@@ -144,10 +144,10 @@ export function Profile() {
             <Label htmlFor="bio">Bio</Label>
             <Textarea placeholder="Add your bio" id="bio" defaultValue={userData?.bio || ""} onChange={(e) => setBio(e.target.value)} />
           </div>
-          { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
-          <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
         </CardContent>
       </Card>
+      { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
+      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
     </motion.main>
   )
 }
