@@ -18,7 +18,7 @@ export function Header() {
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <RiCheckDoubleLine className="text-xl fill-white"/>
       </div>
-      <h3 className="col-span-6 w-full flex justify-center items-center text-center font-bold">Chats</h3>
+      <h3 className="col-span-6 w-full flex justify-center items-center text-center font-bold text-lg">Chats</h3>
       <div className="col-span-1 p-1 rounded-full bg-gray-700 flex justify-center items-center w-8 h-8">
         <p className="text-primary">AI</p>
       </div>
