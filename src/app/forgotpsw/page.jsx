@@ -5,8 +5,7 @@ import { useState } from "react";
 import { fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast"
-
+import { useToast } from "@/hooks/use-toast";
 export default function Home() {
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);

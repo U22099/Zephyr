@@ -10,5 +10,5 @@ export function Toast({ title, description, action }) {
     title,
     description,
     action,
-  })
+  });
 }

@@ -28,9 +28,11 @@ import { useUserData, usePage, useUID } from "@/store";
 import { useState, useEffect } from "react";
 import { updateUserData, toBase64, uploadFileAndGetURL } from "@/utils";
 import { useTheme } from "next-themes";
+import { useToast } from "@/hooks/use-toast";
 import axios from 'axios';
 
 export function Profile() {
+  const { toast } = useToast();
   const { userData, setUserData } = useUserData();
   const setPage = usePage(state => state.setPage);
   const uid = useUID(state => state.uid);
@@ -85,6 +87,10 @@ export function Profile() {
       setError(err?.code || err?.message || "try again, an error occured");
       console.log(err, "updateProfile");
     } finally {
+      toast({
+        title: "Success",
+        description: "updated successfully"
+      })
       setLoading(false);
     }
   }

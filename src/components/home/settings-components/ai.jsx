@@ -15,8 +15,10 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { Info } from 'lucide-react';
 import { updateUserData } from "@/utils";
 import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export function AI() {
+  const { toast } = useToast();
   const { userData, setUserData } = useUserData();
   const uid = useUID(state => state.uid);
   const [loading, setLoading] = useState();
@@ -32,6 +34,10 @@ export function AI() {
       behavior,
       modelType,
       temperature,
+    });
+    toast({
+      title: "Success",
+      description: "updated successfully"
     });
     setLoading(false);
   }
@@ -62,7 +68,7 @@ export function AI() {
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
           <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
-          <p className="text-sm">{temperature || 20}%</p>
+          <p className="text-sm">{userData.temperature || 20}%</p>
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
           <Separator className="text-muted h-12" orientation="vertical"/>
