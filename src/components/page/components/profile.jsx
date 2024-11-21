@@ -97,8 +97,8 @@ export function Profile() {
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2">
       <header className="sticky top-0 left-0 w-full flex justify-center text-center items-center backdrop-blur-sm relative">
-        <div className="rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
-        <FaAngleLeft className="absolute left-0 top-1/2 self-start dark:fill-white fill-black w-6 h-6"/>
+        <div className="absolute left-0 top-1/2 flex justify-center items-center rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
+        <FaAngleLeft className="self-start dark:fill-white fill-black w-6 h-6"/>
         </div>
         <h3 className="font-bold text-lg">Edit Profile</h3>
       </header>
