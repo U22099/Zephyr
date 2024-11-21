@@ -10,7 +10,6 @@ cloudinary.config({
 async function uploadFile(file, folder, type) {
   try {
     const urlObj = await cloudinary.uploader.upload(file, { folder, resource_type: type })
-    console.log(urlObj);
     return urlObj;
   } catch (err) {
     console.log(err);
@@ -23,7 +22,7 @@ async function deleteFile(publicId) {
     await cloudinary.uploader.destroy(publicId);
     return true;
   } catch (err) {
-    console.log(err);
+    console.log(err, "deleteFile");
     return false;
   }
 }
