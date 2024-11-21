@@ -9,6 +9,7 @@ export function Header(){
       </div>
       <h3 className="col-span-6 w-full flex justify-center items-center text-center">Chats</h3>
       <div className="col-span-1 p-2 rounded-full bg-gray-900">
+        <p className="text-primary">Z</p>
       </div>
       <div className="col-span-1 p-2 rounded-full bg-gray-900">
         <FaCamera />
