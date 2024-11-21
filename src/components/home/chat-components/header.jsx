@@ -8,10 +8,10 @@ export function Header(){
         <RiCheckDoubleLine className="text-xl"/>
       </div>
       <h3 className="col-span-6 w-full flex justify-center items-center text-center">Chats</h3>
-      <div className="col-span-1 p-1 rounded-full bg-muted-foreground flex justify-center items-center w-6 h-6">
+      <div className="col-span-1 p-1 rounded-full bg-gray-900 flex justify-center items-center w-6 h-6">
         <p className="text-primary">Z</p>
       </div>
-      <div className="col-span-1 p-1 rounded-full bg-muted-foreground flex justify-center items-center w-6 h-6">
+      <div className="col-span-1 p-1 rounded-full bg-gray-900 flex justify-center items-center w-6 h-6">
         <FaCamera className="text-xl"/>
       </div>
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-6 h-6">
