@@ -68,7 +68,7 @@ export function AI() {
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
           <Slider defaultValue={[temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
-          <p className="text-sm">{userData.temperature || 20}%</p>
+          <p className="text-sm">{temperature || 20}%</p>
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
           <Separator className="text-muted-foreground-foregroundh-12" orientation="vertical"/>
