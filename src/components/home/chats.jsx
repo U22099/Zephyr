@@ -4,11 +4,11 @@ import { Messages } from "./chat-components/messages";
 
 export function Chats() {
   return (
-    <main className="flex flex-col w-screen gap-3 p-2 border">
+    <main className="flex flex-col w-screen gap-3 p-2">
       <Header />
-      <h1 className="font-extrabold text-2xl w-full flex justify-center items-center text-center">Chats</h1>
+      <h1 className="font-extrabold text-2xl">Chats</h1>
       <Input placeholder="Search..."/>
-      ()<Messages />
+      <Messages />
     </main>
   )
 }

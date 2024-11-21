@@ -38,7 +38,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
           </div>
           <div className="flex gap-2 mx-auto items-center w-[90%] my-2 justify-center self-center">
           <Separator className="w-[40%]"/> 
-          <p className="text-muted">or</p> 
+          <p className="text-muted-foreground">or</p> 
           <Separator className="w-[40%]"/> 
           </div>
           <div className="grid w-full items-center gap-4">
@@ -58,7 +58,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center w-full text-muted flex-col text-wrap text-center">
+      <CardFooter className="flex justify-center w-full text-muted-foreground-foregroundflex-col text-wrap text-center">
         New to zephyr?&nbsp;
         <p className="text-violet-800 text-sm">Don&apos;t worry zephyr automatically creates a new account for you</p>
       </CardFooter>

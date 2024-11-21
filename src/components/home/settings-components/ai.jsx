@@ -25,7 +25,7 @@ export function AI() {
   const [info, setInfo] = useState(null);
   const [behavior, setBehavior] = useState(null);
   const [modelType, setModelType] = useState("accurate");
-  const [temperature, setTemperature] = useState(20);
+  const [temperature, setTemperature] = useState(userData.temperature);
 
   const update = async () => {
     setLoading(true);
@@ -67,13 +67,13 @@ export function AI() {
         </section>
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
-          <Slider defaultValue={[userData.temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
+          <Slider defaultValue={[temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
           <p className="text-sm">{userData.temperature || 20}%</p>
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
-          <Separator className="text-muted h-12" orientation="vertical"/>
-          <Info className="w-8 text-muted"/>
-          <blockquote className="text-xs text-muted">
+          <Separator className="text-muted-foreground-foregroundh-12" orientation="vertical"/>
+          <Info className="w-8 text-muted-foreground"/>
+          <blockquote className="text-xs text-muted-foreground">
             <p>For creativity slider, use higher values for more creative responses, and lower values for more deterministic responses</p>
             <footer className="italic">
               <a href="https://ai.google.dev/gemini-api/docs/text-generation?lang=node#configure" className="underline text-violet-800" target="_blank">Gemini AI Docs</a>
