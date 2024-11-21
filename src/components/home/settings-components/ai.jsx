@@ -39,6 +39,13 @@ export function AI() {
       title: "Success",
       description: "updated successfully"
     });
+    setUserData({
+      ...userData,
+      info,
+      behavior,
+      modelType,
+      temperature,
+    })
     setLoading(false);
   }
   return (
