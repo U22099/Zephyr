@@ -95,15 +95,17 @@ export function Profile() {
     }
   }, [image]);
   return (
-    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2 min-h-screen">
-      <header className="sticky top-0 left-0 w-full flex justify-around text-center items-center backdrop-blur-sm">
-        <FaAngleLeft className="self-start dark:fill-white fill-black text-xl rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}/>
+    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2">
+      <header className="sticky top-0 left-0 w-full flex justify-center text-center items-center backdrop-blur-sm relative">
+        <div className="rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
+        <FaAngleLeft className="absolute left-0 self-start dark:fill-white fill-black text-xl"/>
+        </div>
         <h3 className="font-bold text-lg">Edit Profile</h3>
       </header>
       <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
         <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">
             <section className="flex justify-between">
-              <div className="flex w-fit justify-center flex-col">
+              <div className="flex w-fit justify-center flex-col items-center">
                 <Avatar className="w-20 h-20">
                 <AvatarImage src={imageBase64String || userData?.imageURL} className="object-cover rounded-full" />
                 <AvatarFallback className="text-2xl text-violet-800">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
@@ -139,7 +141,7 @@ export function Profile() {
         </CardContent>
       </Card>
       { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
-      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full fixed bottom-1">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
+      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="fixed bottom-1">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
     </motion.main>
   )
 }
