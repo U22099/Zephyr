@@ -1,5 +1,6 @@
 import { db } from "@/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import axios from "axios";
 
 export const getUserData = async (uid, setUserData) => {
   try {
