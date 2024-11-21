@@ -1,6 +1,6 @@
 import { Header } from "./chat-components/header";
 import { Input } from "@/components/ui/input";
-import { Chats } from "./chat-components/chats";
+import { Messages } from "./chat-components/messages";
 
 export function Chats() {
   return (
@@ -8,7 +8,7 @@ export function Chats() {
       <Header />
       <h1 className="font-extrabold text-2xl">Chats</h1>
       <Input placeholder="Search..." />
-      <Chats />
+      <Messages />
     </main>
   )
 }

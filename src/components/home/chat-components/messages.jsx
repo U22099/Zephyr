@@ -1,4 +1,4 @@
-export function Chats(){
+export function Messages(){
   return(
     <main>
     </main>
