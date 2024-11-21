@@ -97,7 +97,7 @@ export function Profile() {
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2">
       <header className="sticky top-0 left-0 w-full flex justify-center text-center items-center backdrop-blur-sm relative">
-        <div className="absolute left-0 top-[-50%] flex justify-center items-center rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
+        <div className="absolute left-0 top-[-40%] flex justify-center items-center rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
         <FaAngleLeft className="self-start dark:fill-white fill-black w-6 h-6"/>
         </div>
         <h3 className="font-bold text-lg">Edit Profile</h3>
@@ -141,7 +141,7 @@ export function Profile() {
         </CardContent>
       </Card>
       { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
-      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="fixed bottom-1 w-[90%]">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
+      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="fixed bottom-1 w-[90%] mx-auto">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
     </motion.main>
   )
 }
