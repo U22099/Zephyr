@@ -14,7 +14,7 @@ export function Chats() {
       <Header />
       <h1 className="font-extrabold text-2xl">Chats</h1>
       <Input placeholder="Search..."/>
-      {sample.map((x, i) => <Messages key={i} username={x.username} lastMessage={lastMessage} time={time}/>)}
+      {sample.map((x, i) => <Messages key={i} username={x.username} lastMessage={x.lastMessage} time={x.time} image={x.image}/>)}
     </main>
   )
 }
