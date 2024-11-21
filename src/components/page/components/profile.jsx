@@ -97,7 +97,7 @@ export function Profile() {
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2 min-h-screen">
       <header className="sticky top-0 left-0 w-full flex justify-around text-center items-center backdrop-blur-sm">
-        <FaAngleLeft className="self-start dark:fill-white fill-black text-xl" onClick={() => setPage({open: false, component: 'default'})}/>
+        <FaAngleLeft className="self-start dark:fill-white fill-black text-xl rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}/>
         <h3 className="font-bold text-lg">Edit Profile</h3>
       </header>
       <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
