@@ -34,12 +34,14 @@ export default function Home() {
   return (
     <>
     { loading ? <Loading /> : (page.open&&isMobile) ? <Page /> : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-screen w-screen p-2 grid-cols-4"}>
-      <section className={"flex h-screen flex-col items-start justify-start w-full" + (!isMobile&&"col-span-1")}>{ nav === 0 ? <Updates /> 
+      <section className={"flex h-screen flex-col items-start justify-start w-full" + (!isMobile&&"col-span-1")}>
+      { nav === 0 ? <Updates /> 
       : nav === 1 ? <People />
       : nav === 2 ? <Chats />
       : nav === 3 ? <Settings /> 
       : <Chats />}
-      <Navigation setNav={setNav} nav={nav}/></section>
+      <Navigation setNav={setNav} nav={nav}/>
+      </section>
       {!isMobile&&<Page className="col-span-3"/>}
     </main>}
     </>
