@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaAngleLeft } from "react-icons/fa";
+import { FaChevronLeft } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -61,7 +61,7 @@ export function Profile() {
     }
     if (imageBase64String) {
       try {
-        const deleted = await axios.delete("/api/file", { data: {publicId: imagePublicId }});
+        const deleted = await axios.delete("/api/file", { data: { publicId: imagePublicId } });
         if (deleted.status === 200) {
           newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");
         }
@@ -95,10 +95,10 @@ export function Profile() {
     }
   }, [image]);
   return (
-    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2">
+    <motion.main initial={{x: 300}} animate={{x: 0}} className="flex h-screen flex-col items-start justify-start w-full gap-4 p-2 border-b">
       <header className="sticky top-0 left-0 w-full flex justify-center text-center items-center backdrop-blur-sm relative">
-        <div className="absolute left-0 top-[-40%] flex justify-center items-center rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
-        <FaAngleLeft className="self-start dark:fill-white fill-black w-6 h-6"/>
+        <div className="absolute left-0 top-[-30%] flex justify-center items-center rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
+        <FaChevronLeft className="self-start dark:fill-white fill-black w-6 h-6"/>
         </div>
         <h3 className="font-bold text-lg">Edit Profile</h3>
       </header>
@@ -138,10 +138,10 @@ export function Profile() {
             <Label htmlFor="bio">Bio</Label>
             <Textarea placeholder="Add your bio" id="bio" defaultValue={userData?.bio || ""} onChange={(e) => setBio(e.target.value)} />
           </div>
+          { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
+          <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
         </CardContent>
       </Card>
-      { error && <p className="font-bold text-red-700 text-sm text-mono">{error}</p> }
-      <Button disabled={!gender&&!username} type="submit" onClick={async () => await updateUserProfile()} className="fixed bottom-1 w-[90%] mx-auto">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Save"}</Button>
     </motion.main>
   )
 }
