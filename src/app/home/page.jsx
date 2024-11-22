@@ -12,24 +12,27 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { socket } from "@/socket-connection";
+import { useSocket } from "@/hooks/use-socket";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Home() {
   const isMobile = useIsMobile();
   const [user] = useAuthState(auth);
   const {nav, setNav} = useNav();
+  const socket = useSocket();
   const [loading, setLoading] = useState(true);
   const setUserData = useUserData(state => state.setUserData);
   const setUID = useUID(state => state.setUID);
   const page = usePage(state => state.page);
   const { toast } = useToast();
-  socket.on("connected", message => {
-    toast({
-      title: "Connected",
-      description: message,
+  useEffect(() => {
+    socket.on("connected", message => {
+      toast({
+        title: "Connected",
+        description: message,
+      });
     });
-  });
+  }, [socket]);
   const init = async () => {
     await getUserData(user.uid, setUserData);
     setUID(user.uid);

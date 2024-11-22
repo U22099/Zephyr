@@ -16,23 +16,26 @@ import { IoVideocamOutline } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { socket } from "@/socket-connection";
-import { useState } from "react";
+import { useSocket } from "@/hooks/use-socket";
+import { useState, useEffect } from "react";
 
 export function Chat() {
   const { setPage, page } = usePage();
   const { setMsg, msg } = useMsg();
   const [ input, setInput ] = useState("");
-  socket.on("chat-message", message => {
-    setMsg([
-      ...msg,
-      {
-        data: message.data,
-        time: message.time,
-        me: false
-      }
-    ]);
-  });
+  const socket = useSocket();
+  useEffect(() => {
+    socket.on("chat-message", message => {
+      setMsg([
+        ...msg,
+        {
+          data: message.data,
+          time: message.time,
+          me: false
+        }
+      ]);
+    });
+  }, [socket]);
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
