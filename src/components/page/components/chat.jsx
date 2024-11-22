@@ -17,20 +17,12 @@ import { IoSend } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { socket } from "@/socket-connection";
-import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 
 export function Chat() {
   const { setPage, page } = usePage();
   const { setMsg, msg } = useMsg();
-  const { toast } = useToast();
-  const [ input, setInput ] = useState("")
-  socket.on("connected", message => {
-    toast({
-      title: "Connected",
-      description: message,
-    });
-  });
+  const [ input, setInput ] = useState("");
   socket.on("chat-message", message => {
     setMsg([
       ...msg,
@@ -58,16 +50,16 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
-      <main className="flex gap-2 w-full p-3">
+      <main className="flex flex-col gap-2 w-full p-3">
         {msg.map(m => {
-          <Card className={"flex flex-col gap-1" + (m.me ? "self-end" : "self-start")}>
+          return (<Card className={"flex flex-col gap-1" + (m.me ? "self-end" : "self-start")}>
             <CardContent className="flex justify-center items-center p-2">
               <p>{m.data}</p>
             </CardContent>
             <CardFooter className="flex justify-end">
               <p className="text-xs text-muted-foreground">{m.time}</p>
             </CardFooter>
-          </Card>
+          </Card>)
         })}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
