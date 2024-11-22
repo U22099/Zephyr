@@ -20,11 +20,11 @@ export function Chat() {
         <FaChevronLeft className="self-start dark:fill-white fill-black w-6 h-6 col-span-2" onClick={() => setPage({open: false, component: 'default'})}/>
         <section className="flex gap-2 col-span-6">
           <Avatar className="w-16 h-16">
-            <AvatarImage className="w-16 h-16 object-cover rounded-full" src={image} alt="profile-image"/>
-            <AvatarFallback className="text-3xl text-primary">{username ? username[0] : "Z"}</AvatarFallback>
+            <AvatarImage className="w-16 h-16 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
+            <AvatarFallback className="text-3xl text-primary">{page.data.username ? page.data.username[0] : "Z"}</AvatarFallback>
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-center gap-1 w-full">
-              <h1 className="text-xl font-bold">{username}</h1>
+              <h1 className="text-xl font-bold">{page.data.username}</h1>
               <p className="text-sm text-muted-foreground">last seen at 8pm</p>
           </section>
         </section>
