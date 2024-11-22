@@ -14,7 +14,11 @@ export function Messages({ key, image, username, lastMessage, time }){
   return(
     <main key={key} className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
-      component: "chat"
+      component: "chat",
+      data: {
+        image,
+        username
+      }
     })}>
       <Avatar className="w-16 h-16">
         <AvatarImage className="w-16 h-16 object-cover rounded-full" src={image} alt="profile-image"/>

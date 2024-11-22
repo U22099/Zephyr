@@ -21,7 +21,7 @@ export function Profile(){
         </Avatar>
         <section>
           <h3 className="text-lg font-semibold">{userData?.username}</h3>
-          <p className="text-muted-foreground-foregroundtruncate">{userData?.bio}</p>
+          <p className="text-muted-foreground-foreground truncate">{userData?.bio}</p>
         </section>
       </CardContent>
     </Card>
