@@ -51,8 +51,8 @@ export function Chat() {
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-3">
-        {msg.map(m => {
-          return (<Card className={"flex flex-col gap-1" + (m.me ? "self-end" : "self-start")}>
+        {msg.map((m,i) => {
+          return (<Card key={i} className={"flex flex-col gap-1" + (m.me ? "self-end" : "self-start")}>
             <CardContent className="flex justify-center items-center p-2">
               <p>{m.data}</p>
             </CardContent>
