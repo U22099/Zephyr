@@ -25,16 +25,18 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket();
   useEffect(() => {
-    socket.on("chat-message", message => {
-      setMsg([
-        ...msg,
-        {
-          data: message.data,
-          time: message.time,
-          me: false
-        }
-      ]);
-    });
+    if(socket){
+      socket.on("chat-message", message => {
+        setMsg([
+          ...msg,
+          {
+            data: message.data,
+            time: message.time,
+            me: false
+          }
+        ]);
+      });
+    }
   }, [socket]);
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>

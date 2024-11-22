@@ -26,12 +26,14 @@ export default function Home() {
   const page = usePage(state => state.page);
   const { toast } = useToast();
   useEffect(() => {
-    socket.on("connected", message => {
-      toast({
-        title: "Connected",
-        description: message,
+    if(socket){
+      socket.on("connected", message => {
+        toast({
+          title: "Connected",
+          description: message,
+        });
       });
-    });
+    }
   }, [socket]);
   const init = async () => {
     await getUserData(user.uid, setUserData);
