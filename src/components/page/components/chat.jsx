@@ -68,7 +68,7 @@ export function Chat() {
           </Card>
         })}
       </main>
-      <footer className="flex gap-2 sticky bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
+      <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <Input placeholder="Type in message" onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={() => {
         const currentTime = new Date();
