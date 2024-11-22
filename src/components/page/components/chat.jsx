@@ -18,11 +18,13 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { socket } from "@/socket-connection";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 export function Chat() {
   const { setPage, page } = usePage();
   const { setMsg, msg } = useMsg();
   const { toast } = useToast();
+  const [ input, setInput ] = useState("")
   socket.on("connected", message => {
     toast({
       title: "Connected",
@@ -69,7 +71,7 @@ export function Chat() {
         })}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
-        <Input placeholder="Type in message" onChange={(e) => setInput(e.target.value)}/>
+        <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={() => {
         const currentTime = new Date();
         const time = currentTime.toLocaleTimeString('en-UK', {
@@ -85,6 +87,7 @@ export function Chat() {
             me: true,
           }
         ]);
+        setInput("");
         socket.emit("chat-message", {
           data: input,
           time,
