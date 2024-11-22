@@ -2,6 +2,11 @@ import { motion } from "framer-motion";
 import { usePage, useMsg } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
+  Card,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
+import {
   Avatar,
   AvatarFallback,
   AvatarImage,
@@ -12,10 +17,18 @@ import { IoSend } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { socket } from "@/socket-connection";
+import { useToast } from "@/hooks/use-toast";
 
 export function Chat() {
   const { setPage, page } = usePage();
   const { setMsg, msg } = useMsg();
+  const { toast } = useToast();
+  socket.on("connected", message => {
+    toast({
+      title: "Connected",
+      description: message,
+    });
+  });
   socket.on("chat-message", message => {
     setMsg([
       ...msg,
