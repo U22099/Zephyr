@@ -33,7 +33,7 @@ export function Chat() {
       </header>
       <main>
       </main>
-      <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto">
+      <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <Input placeholder="Type in message"/>
         <Button><IoSend /></Button>
       </footer>
