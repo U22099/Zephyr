@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { usePage } from "@/store";
+import { usePage, useMsg } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
   Avatar,
@@ -11,9 +11,21 @@ import { IoVideocamOutline } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { socket } from "@/socket-connection";
 
 export function Chat() {
   const { setPage, page } = usePage();
+  const { setMsg, msg } = useMsg();
+  socket.on("chat-message", message => {
+    setMsg([
+      ...msg,
+      {
+        data: message.data,
+        time: message.time,
+        me: false
+      }
+    ]);
+  });
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
@@ -31,11 +43,39 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
-      <main>
+      <main className="flex gap-2 w-full p-3">
+        {msg.map(m => {
+          <Card className={"flex flex-col gap-1" + (m.me ? "self-end" : "self-start")}>
+            <CardContent className="flex justify-center items-center p-2">
+              <p>{m.data}</p>
+            </CardContent>
+            <CardFooter className="flex justify-end">
+              <p className="text-xs text-muted-foreground">{m.time}</p>
+            </CardFooter>
+          </Card>
+        })}
       </main>
-      <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
-        <Input placeholder="Type in message"/>
-        <Button><IoSend /></Button>
+      <footer className="flex gap-2 sticky bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
+        <Input placeholder="Type in message" onChange={(e) => setInput(e.target.value)}/>
+        <Button onClick={() => {
+        const currentTime = new Date();
+        const time = currentTime.toLocaleTimeString('en-UK', {
+          hour12: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+        });
+        setMsg([
+          ...msg,
+          {
+            data: input,
+            time,
+            me: true,
+          }
+        ]);
+        socket.emit("chat-message", {
+          data: input,
+          time,
+        })}}><IoSend /></Button>
       </footer>
     </motion.main>
   )

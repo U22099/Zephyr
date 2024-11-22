@@ -27,4 +27,10 @@ export const useNav = create(set => ({
     set({ nav });
   },
 }));
+export const useMsg = create(set => ({
+  msg: [],
+  setMsg: (msg) => {
+    set({ msg });
+  },
+}));
 /*set((state) => ({ userData: { ...state.userData, ...newData } }))*/
