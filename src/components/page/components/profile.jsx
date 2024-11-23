@@ -37,15 +37,15 @@ export function Profile() {
   const setPage = usePage(state => state.setPage);
   const uid = useUID(state => state.uid);
   const [image, setImage] = useState();
-  const [imageUrl, setImageUrl] = useState(userData.imageURL);
+  const [imageUrl, setImageUrl] = useState(userData.imageURL || null);
   const [imageBase64String, setImageBase64String] = useState();
-  const [imagePublicId, setImagePublicId] = useState(userData.imagePublicId);
+  const [imagePublicId, setImagePublicId] = useState(userData.imagePublicId || null);
 
-  const [username, setUsername] = useState(userData.username);
+  const [username, setUsername] = useState(userData.username || null);
 
-  const [gender, setGender] = useState(userData.gender);
+  const [gender, setGender] = useState(userData.gender || "male");
 
-  const [bio, setBio] = useState(userData.bio);
+  const [bio, setBio] = useState(userData.bio || null);
 
   const { theme } = useTheme();
 
@@ -77,20 +77,20 @@ export function Profile() {
     try {
       await updateUserData(uid, {
         username,
-        imageURL: newImageUrl?.secure_url || imageUrl,
-        imagePublicId: newImageUrl?.public_id || imagePublicId,
+        imageURL: newImageUrl?.secure_url || imageUrl || null,
+        imagePublicId: newImageUrl?.public_id || imagePublicId || null,
         gender,
         bio,
         theme,
       });
-    } catch (err) {
-      setError(err?.code || err?.message || "try again, an error occured");
-      console.log(err, "updateProfile");
-    } finally {
       toast({
         title: "Success",
         description: "updated successfully"
       })
+    } catch (err) {
+      setError(err?.code || err?.message || "try again, an error occured");
+      console.log(err, "updateProfile");
+    } finally {
       setLoading(false);
     }
   }
