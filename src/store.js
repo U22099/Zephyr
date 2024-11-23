@@ -33,4 +33,10 @@ export const useMsg = create(set => ({
     set({ msg });
   },
 }));
+export const usePeople = create(set => ({
+  people: [],
+  setPeople: (data) => {
+    set({ data });
+  },
+}));
 /*set((state) => ({ userData: { ...state.userData, ...newData } }))*/

@@ -3,14 +3,12 @@ import { FaCamera } from "react-icons/fa";
 import { FaPlus } from "react-icons/fa";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { Users } from "@/components/home/people-components/users";
 
 export function Header() {
   return (
@@ -33,6 +31,7 @@ export function Header() {
               <DrawerTitle>New Chats
               </DrawerTitle>
             </DrawerHeader>
+            <Users />
           </DrawerContent>
         </Drawer>
       </div>

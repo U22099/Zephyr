@@ -25,18 +25,6 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket();
   useEffect(() => {
-    if(socket){
-      socket.on("chat-message", message => {
-        setMsg([
-          ...msg,
-          {
-            data: message.data,
-            time: message.time,
-            me: false
-          }
-        ]);
-      });
-    }
   }, [socket]);
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
@@ -57,7 +45,7 @@ export function Chat() {
       </header>
       <main className="flex flex-col gap-2 w-full p-3">
         {msg.map((m,i) => {
-          return (<Card key={i} className={"flex flex-col gap-1" + (m.me ? "self-end" : "self-start")}>
+          return (<Card key={i} className={"flex flex-col gap-1 w-fit justify-center items-start" + (m.me ? "self-end" : "self-start")}>
             <CardContent className="flex justify-center items-center p-2">
               <p>{m.data}</p>
             </CardContent>
@@ -69,26 +57,7 @@ export function Chat() {
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
-        <Button onClick={() => {
-        const currentTime = new Date();
-        const time = currentTime.toLocaleTimeString('en-UK', {
-          hour12: 'numeric',
-          hour: 'numeric',
-          minute: 'numeric',
-        });
-        setMsg([
-          ...msg,
-          {
-            data: input,
-            time,
-            me: true,
-          }
-        ]);
-        setInput("");
-        socket.emit("chat-message", {
-          data: input,
-          time,
-        })}}><IoSend /></Button>
+        <Button><IoSend /></Button>
       </footer>
     </motion.main>
   )

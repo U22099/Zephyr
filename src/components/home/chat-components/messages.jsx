@@ -8,9 +8,11 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { usePage } from "@/store";
+import { convertToTimeString } from "@/utils"
 
-export function Messages({ key, image, username, lastMessage, time }){
+export function Messages({ key, image, username, lastMessage, timeStamp }){
   const setPage = usePage(state => state.setPage);
+  const time = convertToTimeString(timeStamp);
   return(
     <main key={key} className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
