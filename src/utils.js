@@ -11,6 +11,7 @@ import {
   getDoc,
   setDoc
 } from 'firebase/firestore';
+import { saveData } from "@/storage";
 import axios from "axios";
 
 export const getData = async (uid, collection, setData = null) => {
@@ -24,21 +25,16 @@ export const getData = async (uid, collection, setData = null) => {
   }
 }
 
-export const getAllUsers = async (setData, prevdata = null) => {
-  if (!prevdata) {
-    const data = await getInitialUsers();
-    if (data) return setData(data);
-  } else {
-    const data = await getNextUsers(prevdata.slice(-1)[0]);
-    if (data) return setData(
-      [...prevdata, data]
-    );
-  }
-}
-
-async function getInitialUsers() {
+export const getAllUsers = async (setData) => {
   try {
-    const data = await getDocs(query(collection(db, "users"), limit(20)));
+    //offline support but what of staled data😭
+    /*if(localStorage.getItem("all_user_data")){
+      const data = getData("all_user_data");
+      setData(data);
+      console.log(data);
+      return;
+    }*/
+    const data = await getDocs(collection(db, "users"));
     const result = data.map(doc => {
       const docData = doc.data();
       return {
@@ -48,51 +44,14 @@ async function getInitialUsers() {
         bio: docData.bio
       }
     });
+    saveData(result, "all_user_data");
     console.log(result);
-    return result;
+    setData(result || []);
   } catch (err) {
-    console.log(err, err.message, "getInitialUsers");
+    console.log(err, err.message, "getAllUsers");
     return;
   }
 }
-async function getNextUsers(lastuser) {
-  try {
-    const data = await getDocs(query(collection(db, "users"), startAfter(lastuser), orderBy("uid"), limit(20)));
-    const result = data.map(doc => {
-      const docData = doc.data();
-      return {
-        uid: docData.id,
-        image: docData.imageURL,
-        username: docData.username,
-        bio: docData.bio
-      }
-    });
-    console.log(result);
-    return result;
-  } catch (err) {
-    console.log(err, err.message, "getNextUsers");
-    return;
-  }
-}
-/*export const getDocWithPropertyEqual = async (collection, property, type, value, setData = null) => {
-  try {
-    const q = query(collectionRef(db, collection), where(property, type , value));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      console.log('No matching documents.');
-      return null;
-    }
-    const doc = querySnapshot.docs[0];
-    const result = doc.data();
-    if (setData) return setData(result);
-    return result;
-  } catch (err) {
-    console.log(err, err.message, "getData");
-    return null;
-  }
-};
-*/
-
 export const getUserData = async (uid, setUserData) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
@@ -159,3 +118,63 @@ export function getCurrentDate() {
     minute: 'numeric',
   });
 }
+
+
+//Wanted to add pagination but jeez the db structure is getting too complicated already🤦‍️
+
+/*async function getInitialUsers() {
+  try {
+    const data = await getDocs(query(collection(db, "users"), limit(20)));
+    const result = data.map(doc => {
+      const docData = doc.data();
+      return {
+        uid: docData.id,
+        image: docData.imageURL,
+        username: docData.username,
+        bio: docData.bio
+      }
+    });
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.log(err, err.message, "getInitialUsers");
+    return;
+  }
+}
+async function getNextUsers(lastuser) {
+  try {
+    const data = await getDocs(query(collection(db, "users"), startAfter(lastuser), orderBy("uid"), limit(20)));
+    const result = data.map(doc => {
+      const docData = doc.data();
+      return {
+        uid: docData.id,
+        image: docData.imageURL,
+        username: docData.username,
+        bio: docData.bio
+      }
+    });
+    console.log(result);
+    return result;
+  } catch (err) {
+    console.log(err, err.message, "getNextUsers");
+    return;
+  }
+}
+export const getDocWithPropertyEqual = async (collection, property, type, value, setData = null) => {
+  try {
+    const q = query(collectionRef(db, collection), where(property, type , value));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      console.log('No matching documents.');
+      return null;
+    }
+    const doc = querySnapshot.docs[0];
+    const result = doc.data();
+    if (setData) return setData(result);
+    return result;
+  } catch (err) {
+    console.log(err, err.message, "getData");
+    return null;
+  }
+};
+*/
