@@ -35,17 +35,16 @@ export const getAllUsers = async (setData) => {
       return;
     }*/
     const data = await getDocs(query(collection(db, "users"), limit(60)));
-    console.log(data);
-    const result = data?.map(doc => {
+    let result = [];
+    data.forEach(doc => {
       const docData = doc.data();
-      return {
+      result.push({
         uid: docData.id,
         image: docData.imageURL,
         username: docData.username,
         bio: docData.bio
-      }
+      });
     });
-    saveData(result, "all_user_data");
     console.log(result);
     setData(result || []);
   } catch (err) {

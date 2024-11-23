@@ -18,7 +18,6 @@ export default function Home() {
   const isMobile = useIsMobile();
   const [user] = useAuthState(auth);
   const {nav, setNav} = useNav();
-  const socket = useSocket();
   const [loading, setLoading] = useState(true);
   const setUserData = useUserData(state => state.setUserData);
   const setUID = useUID(state => state.setUID);

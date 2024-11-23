@@ -15,6 +15,7 @@ export const useSocket = () => {
     }
     const newSocket = io(serverUrl);
     newSocket.on('connect', async () => {
+      console.log(uid);
       await updateUserData(uid, {
         active: "online",
       });
