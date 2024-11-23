@@ -34,9 +34,9 @@ export function Users(){
   }
   return(
     <main className="flex flex-col gap-2 w-full">
-      {data&&data.map(doc => {
+      {data&&data.map((doc,i) => {
         return(
-          <Card className="flex w-full">
+          <Card key={i} className="flex w-full">
             <CardContent className="flex gap-2 w-full">
               <Avatar className="w-16 h-16">
                 <AvatarImage className="w-16 h-16 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
