@@ -29,10 +29,10 @@ export function Users() {
   });
   useEffect(() => {
     if(data){
-      setFriends(data.filter(x => userData.friends.includes(x.uid)));
-      setFriendRequest(data.filter(x => userData.friendRequest.includes(x.uid)));
-      setSentRequest(data.filter(x => userData.sentRequest.includes(x.uid)));
-      setPeople(data.filter(x => !(x.uid === uid)&&!userData.friends.includes(x.uid)&&!userData.friendRequest.includes(x.uid)&&!userData.sentRequest.includes(x.uid)));
+      setFriends(data.filter(x => userData.friends?.includes(x.uid)) || []);
+      setFriendRequest(data.filter(x => userData.friendRequest?.includes(x.uid)) || []);
+      setSentRequest(data.filter(x => userData.sentRequest?.includes(x.uid)) || []);
+      setPeople(data.filter(x => !(x.uid === uid)&&!userData.friends?.includes(x.uid)&&!userData.friendRequest?.includes(x.uid)&&!userData.sentRequest?.includes(x.uid)) || []);
     }
   }, [data]);
   if (loading) {

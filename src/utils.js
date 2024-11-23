@@ -39,7 +39,7 @@ export const getAllUsers = async (setData) => {
     data.forEach(doc => {
       const docData = doc.data();
       result.push({
-        uid: docData.id,
+        uid: doc.id,
         image: docData.imageURL,
         username: docData.username,
         bio: docData.bio
