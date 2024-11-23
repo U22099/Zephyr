@@ -48,6 +48,7 @@ async function getInitialUsers() {
         bio: docData.bio
       }
     });
+    console.log(result);
     return result;
   } catch (err) {
     console.log(err, err.message, "getInitialUsers");
@@ -66,6 +67,7 @@ async function getNextUsers(lastuser) {
         bio: docData.bio
       }
     });
+    console.log(result);
     return result;
   } catch (err) {
     console.log(err, err.message, "getNextUsers");
