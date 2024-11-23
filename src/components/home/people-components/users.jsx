@@ -14,19 +14,19 @@ import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/loading";
 
 export function Users(){
-  const { people, setPeople } = usePeople();
   const [ loading, setLoading ] = useState(false);
   const [ query, setQuery ] = useState(0);
   const [ data, setData ] = useState([]);
   const limit = 100;
   useEffect(() => {
     setLoading(true);
-    if(!people){
-      getAllUsers(setPeople);
-    } else if(people && !people.slice(query, query+20)) {
-      getAllUsers(setPeople, people);
+    if(!data){
+      console.log("called")
+      getAllUsers(setData);
+    } else if(data && !data.slice(query, query+20)) {
+      console.log("called2")
+      getAllUsers(setData, data);
     }
-    setData([...people?.slice(query, query+20)?.sort((a, b) => a.username.localeCompare(b.username))]);
     setLoading(false);
   }, [query]);
   if(loading){
@@ -34,7 +34,7 @@ export function Users(){
   }
   return(
     <main className="flex flex-col gap-2 w-full">
-      {data&&data.map((doc,i) => {
+      {data&&data.slice(query, query+20)?.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => {
         return(
           <Card key={i} className="flex w-full">
             <CardContent className="flex gap-2 w-full">
@@ -52,8 +52,8 @@ export function Users(){
         )
       })}
       <section className="flex justify-between w-full px-2">
-        <Button onClick={() => setQuery(query => query <= 0 ? 0 : (query-20))}>Previous</Button>
-        <Button onClick={() => setQuery(query => query >= limit ? 0 : query+20)}>Next</Button>
+        <Button onClick={() => setQuery(query <= 0 ? 0 : (query-20))}>Previous</Button>
+        <Button onClick={() => setQuery(data.length&&data.length < 20 ? 0 : query+20)}>Next</Button>
       </section>
     </main>
   )
