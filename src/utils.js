@@ -36,7 +36,7 @@ export const getAllUsers = async (setData, prevdata = null) => {
   }
 }
 
-function getInitialUsers() {
+async function getInitialUsers() {
   try {
     const data = await getDocs(query(collection(db, "users"), limit(20)));
     const result = data.map(doc => {
@@ -54,7 +54,7 @@ function getInitialUsers() {
     return;
   }
 }
-function getNextUsers(lastuser) {
+async function getNextUsers(lastuser) {
   try {
     const data = await getDocs(query(collection(db, "users"), startAfter(lastuser), orderBy("uid"), limit(20)));
     const result = data.map(doc => {
