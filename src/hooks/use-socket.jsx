@@ -1,8 +1,11 @@
 import { io } from 'socket.io-client';
 import { useEffect, useState } from 'react';
+import { updateUserData, getCurrentDate } from "@/utils";
+import { useUID } from "@/store";
 
 export const useSocket = () => {
   const [socket, setSocket] = useState(null);
+  const uid = useUID(state => state.uid);
 
   useEffect(() => {
     const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -11,12 +14,17 @@ export const useSocket = () => {
       return;
     }
     const newSocket = io(serverUrl);
-    newSocket.on('connect', () => {
-      console.log('Connected to Socket.IO server');
+    newSocket.on('connect', async () => {
+      await updateUserData(uid, {
+        active: "online",
+      });
     });
 
-    newSocket.on('disconnect', () => {
-      console.log('Disconnected from Socket.IO server');
+    newSocket.on('disconnect', async () => {
+      const time = getCurrentDate();
+      await updateUserData(uid, {
+        active: `last seen ${time}`,
+      });
     });
 
     setSocket(newSocket);

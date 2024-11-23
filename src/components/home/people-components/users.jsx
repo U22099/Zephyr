@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { usePeople } from "@/store";
 import { getAllUsers } from "@/utils";
 import {
   Card,
@@ -26,11 +25,11 @@ export function Users(){
     } else if(data && !data.slice(query, query+20)) {
       console.log("called2")
       getAllUsers(setData, data);
-    }
+    } else { console.log("called3") }
     setLoading(false);
   }, [query]);
   if(loading){
-    return <Loading />
+    return <Loading  className="w-full h-full"/>
   }
   return(
     <main className="flex flex-col gap-2 w-full">
@@ -53,7 +52,7 @@ export function Users(){
       })}
       <section className="flex justify-between w-full px-2">
         <Button onClick={() => setQuery(query <= 0 ? 0 : (query-20))}>Previous</Button>
-        <Button onClick={() => setQuery(data.length&&data.length < 20 ? 0 : query+20)}>Next</Button>
+        <Button onClick={() => setQuery(!data.length || data.length < 20 ? 0 : query+20)}>Next</Button>
       </section>
     </main>
   )
