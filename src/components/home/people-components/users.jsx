@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Loading } from "@/components/loading";
 
 export function Users() {
+  const uid = useUID(state => state.uid);
   const userData = useUserData(state => state.userData);
   const [loading, setLoading] = useState(false);
   const [friends, setFriends] = useState([]);
@@ -31,7 +32,7 @@ export function Users() {
       setFriends(data.filter(x => userData.friends.includes(x.uid)));
       setFriendRequest(data.filter(x => userData.friendRequest.includes(x.uid)));
       setSentRequest(data.filter(x => userData.sentRequest.includes(x.uid)));
-      setPeople(data.filter(x => !userData.friends.includes(x.uid)&&!userData.friendRequest.includes(x.uid)&&!userData.sentRequest.includes(x.uid)));
+      setPeople(data.filter(x => !(x.uid === uid)&&!userData.friends.includes(x.uid)&&!userData.friendRequest.includes(x.uid)&&!userData.sentRequest.includes(x.uid)));
     }
   }, [data]);
   if (loading) {

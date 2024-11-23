@@ -34,8 +34,9 @@ export const getAllUsers = async (setData) => {
       console.log(data);
       return;
     }*/
-    const data = await getDocs(collection(db, "users"));
-    const result = data.map(doc => {
+    const data = await getDocs(query(collection(db, "users"), limit(60)));
+    console.log(data);
+    const result = data?.map(doc => {
       const docData = doc.data();
       return {
         uid: docData.id,
