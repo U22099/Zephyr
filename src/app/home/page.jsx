@@ -6,18 +6,21 @@ import { Chats } from "@/components/home/chats";
 import { Settings } from "@/components/home/settings";
 import { Loading } from "@/components/loading";
 import { Page } from "@/components/page/pages";
-import { useNav, useUserData, useUID, usePage } from "@/store";
-import { getUserData } from "@/utils";
+import { useNav, useUserData, useUID, usePage, useSocket } from "@/store";
+import { getUserData, updateUserData, getCurrentTime } from "@/utils";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useSocket } from "@/hooks/use-socket";
+import { io } from 'socket.io-client';
 
 export default function Home() {
+  const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
+  const setSocket = useSocket(state => state.setSocket);
   const isMobile = useIsMobile();
   const [user] = useAuthState(auth);
-  const {nav, setNav} = useNav();
+  const { nav, setNav } = useNav();
   const [loading, setLoading] = useState(true);
   const setUserData = useUserData(state => state.setUserData);
   const setUID = useUID(state => state.setUID);
@@ -25,6 +28,18 @@ export default function Home() {
   const init = async () => {
     await getUserData(user.uid, setUserData);
     setUID(user.uid);
+    socket.on("connect", () => {
+      await updateUserData(user.uid, {
+        active: "online"
+      })
+    });
+    socket.emit("add-user", user.uid);
+    socket.on("disconnect", () => {
+      await updateUserData(user.uid, {
+        active: `last seen at ${getCurrentTime()}`
+      })
+    });
+    setSocket(socket);
     setLoading(false);
   }
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllUsers } from "@/utils";
-import { useUID, useUserData } from "@/store";
+import { useUID, useUserData, usePage } from "@/store";
 import {
   Card,
   CardContent,
@@ -15,24 +15,21 @@ import { Loading } from "@/components/loading";
 
 export function Users() {
   const uid = useUID(state => state.uid);
-  const userData = useUserData(state => state.userData);
+  const setPage = usePage(state => state.setPage)
+  const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
-  const [friends, setFriends] = useState([]);
-  const [friendRequest, setFriendRequest] = useState([]);
-  const [sentRequest, setSentRequest] = useState([]);
+  const [groups, setGroups] = useState([]);
   const [people, setPeople] = useState([]);
   const [data, setData] = useState([]);
   useEffect(() => {
     setLoading(true);
     getAllUsers(setData);
-    setLoading(false);
   });
   useEffect(() => {
-    if(data){
-      setFriends(data.filter(x => userData.friends?.includes(x.uid)) || []);
-      setFriendRequest(data.filter(x => userData.friendRequest?.includes(x.uid)) || []);
-      setSentRequest(data.filter(x => userData.sentRequest?.includes(x.uid)) || []);
-      setPeople(data.filter(x => !(x.uid === uid)&&!userData.friends?.includes(x.uid)&&!userData.friendRequest?.includes(x.uid)&&!userData.sentRequest?.includes(x.uid)) || []);
+    if (data) {
+      setLoading(false);
+      setPeople(data.filter(x => x.type === "personal") || []);
+      setGroups(data.filter(x => x.type === "group"));
     }
   }, [data]);
   if (loading) {
@@ -41,38 +38,43 @@ export function Users() {
   return (
     <main className="flex flex-col gap-2 w-full">
       <section className="flex flex-col gap-2 w-full">
-        <h2 className="text-xl font-bold">Friends</h2>
-        {friends&&friends.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc} disabled={true} variant={"outline"} text={"Added"}/>)}
+        <h2 className="text-xl font-bold">People</h2>
+        {people&&people.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
+          open: true,
+          component: "chat",
+          data: {
+            ...doc
+          }
+        })}/>)}
       </section>
       <section className="flex flex-col gap-2 w-full">
-        <h2 className="text-xl font-bold">Recieved Requests</h2>
-        {friendRequest&&friendRequest.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc} disabled={false} variant={"default"} text={"Accept"}/>)}
-      </section>
-      <section className="flex flex-col gap-2 w-full">
-        <h2 className="text-xl font-bold">Sent Request</h2>
-        {sentRequest&&sentRequest.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc} disabled={false} variant={"outline"} text={"Revoke"}/>)}
-      </section>
-      <section className="flex flex-col gap-2 w-full">
-        <h2 className="text-xl font-bold">New People</h2>
-        {people&&people.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc} disabled={false} variant={"default"} text={"Add"}/>)}
+        <h2 className="text-xl font-bold">Groups</h2>
+        {groups&&groups.sort((a, b) => a.name.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc} action={() => setPage({
+              open: true,
+              component: "chat",
+              data: {
+                ...doc
+              }
+          })}/>)}
       </section>
     </main>
   )
 }
 
-function CardList({ doc, i, variant, text, disabled }) {
+function CardList({ doc, i, action }) {
   return (
-    <Card key={i} className="flex w-full">
+    <Card key={i} className="flex w-full justify-center items-center p-1" onClick={action}>
       <CardContent className="flex gap-2 w-full">
-        <Avatar className="w-16 h-16">
-          <AvatarImage className="w-16 h-16 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
-          <AvatarFallback className="text-3xl text-primary">{doc?.username ? doc.username[0] : "Z"}</AvatarFallback>
+        <Avatar className="w-12 h-12">
+          <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
+          <AvatarFallback className="text-3xl text-primary">{
+          doc?.name ? doc.name[0] : "Z"
+          }</AvatarFallback>
         </Avatar>
         <section className="py-1 h-full flex flex-col justify-center gap-1 w-full">
-          <h1 className="text-xl font-bold">{doc?.username}</h1>
-          <p className="truncate text-sm">{doc?.bio}</p>
+          <h2 className="text-lg font-bold">{doc?.name}</h2>
+          <p className="truncate text-sm text-muted-foreground">{doc?.bio}</p>
         </section>
-        <Button variant={variant} disabled={disabled}>{text}</Button>
       </CardContent> 
     </Card>
   )

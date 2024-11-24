@@ -9,7 +9,8 @@ import {
   getDocs,
   doc,
   getDoc,
-  setDoc
+  setDoc,
+  addDoc
 } from 'firebase/firestore';
 import { saveData } from "@/storage";
 import axios from "axios";
@@ -27,22 +28,17 @@ export const getData = async (uid, collection, setData = null) => {
 
 export const getAllUsers = async (setData) => {
   try {
-    //offline support but what of staled data😭
-    /*if(localStorage.getItem("all_user_data")){
-      const data = getData("all_user_data");
-      setData(data);
-      console.log(data);
-      return;
-    }*/
-    const data = await getDocs(query(collection(db, "users"), limit(60)));
+    const data = await getDocs(query(collection(db, "users"), limit(1000)));
     let result = [];
     data.forEach(doc => {
       const docData = doc.data();
       result.push({
         uid: doc.id,
         image: docData.imageURL,
-        username: docData.username,
-        bio: docData.bio
+        name: docData.username || docData.name,
+        bio: docData.bio || docData.description,
+        type: docData.type,
+        active: docData.active || docData.members.join(","),
       });
     });
     console.log(result);
@@ -52,12 +48,92 @@ export const getAllUsers = async (setData) => {
     return;
   }
 }
-export const getUserData = async (uid, setUserData) => {
+export const getChats = async (userId, setData) => {
+  try {
+    const docs = await getDocs(query(collection(db, "chats"),
+    where("participants", "array-contains", userId)
+    ));
+    let result = [];
+    if(docs.exists()){
+      await Promise.all(docs.forEach(async doc => {
+        let id;
+        if(doc.type === "one-to-one"){
+          id = doc.participants.filter(x => x != userId)[0];
+        } else if(doc.type === "group"){
+          id = doc.groupId;
+        }
+        const doc = await getDoc(doc(db, "users", id));
+        const userData = doc.data();
+        const data = {
+          uid: doc.id,
+          name: userData.username || userData.name,
+          image: userData.imageURL,
+          bio: userData.bio || userData.description,
+          type: userData.type,
+          active: userData.active,
+          members: userData.members.join(","),
+          lastMessage: {
+            ...doc.lastMessage
+          }
+        }
+        result.push(data);
+      }));
+    }
+    setData(result);
+  } catch (err) {
+    console.error(err, err.message, "getMessages");
+  }
+}
+export const getMessages = async (userId, friendId) => {
+  try {
+    const doc = await getDoc(query(collection(db, "chats"),
+    where("participants", "array-contains-any", [userId, friendId]),
+    where("participants", "array-contains", userId),
+    where("participants", "array-contains", friendId)
+    ));
+    let result = [];
+    if(doc.exists()){
+      const msg = getDocs(collection(doc.ref, "messages"));
+      msg.forEach(doc => 
+      {if(doc.exists()){
+        return result.push(doc.data())
+      }});
+    } else {
+      await addDoc(collection(doc.ref, "messages"), {
+        type: "one-to-one",
+        participants: [userId, friendId]
+      });
+    }
+    return result;
+  } catch (err) {
+    console.error(err, err.message, "getMessages");
+  }
+}
+export const sendMessage = async (userId, friendId, msgData) => {
+  try {
+    const doc = await getDoc(query(collection(db, "chats"),
+    where("participants", "array-contains-any", [userId, friendId]),
+    where("participants", "array-contains", userId),
+    where("participants", "array-contains", friendId)
+    ));
+    if(doc.exists()){
+      await addDoc(collection(doc.ref, "messages"), {
+        ...msgData
+      });
+    }
+    return true;
+  } catch (err) {
+    console.error(err, err.message, "getMessages");
+    return false;
+  }
+}
+export const getUserData = async (uid, setUserData = null) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
     const result = dbUser.data();
-    setUserData(result);
+    setUserData&&setUserData(result);
     console.log(result);
+    return result;
   } catch (err) {
     console.log(err, err.message, "getUserData")
   }
@@ -110,12 +186,13 @@ export function convertToTimeString(timestamp) {
     minute: 'numeric',
   });
 }
-export function getCurrentDate() {
+export function getCurrentTime() {
   const date = new Date();
   return date.toLocaleTimeString('en-UK', {
     hour12: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
+    weekday: 'short',
   });
 }
 

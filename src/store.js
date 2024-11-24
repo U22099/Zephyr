@@ -27,10 +27,10 @@ export const useNav = create(set => ({
     set({ nav });
   },
 }));
-export const useMsg = create(set => ({
-  msg: [],
-  setMsg: (msg) => {
-    set({ msg });
+export const useSocket = create(set => ({
+  socket: [],
+  setSocket: (socket) => {
+    set({ socket });
   },
 }));
 export const usePeople = create(set => ({
