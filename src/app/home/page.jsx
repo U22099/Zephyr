@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useSocket } from "@/hooks/use-socket";
 import { io } from 'socket.io-client';
 
 export default function Home() {
@@ -28,13 +27,13 @@ export default function Home() {
   const init = async () => {
     await getUserData(user.uid, setUserData);
     setUID(user.uid);
-    socket.on("connect", () => {
+    socket.on("connect", async () => {
       await updateUserData(user.uid, {
         active: "online"
       })
     });
     socket.emit("add-user", user.uid);
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
       await updateUserData(user.uid, {
         active: `last seen at ${getCurrentTime()}`
       })

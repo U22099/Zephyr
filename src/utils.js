@@ -62,10 +62,10 @@ export const getChats = async (userId, setData) => {
         } else if(doc.type === "group"){
           id = doc.groupId;
         }
-        const doc = await getDoc(doc(db, "users", id));
-        const userData = doc.data();
+        const docData = await getDoc(doc(db, "users", id));
+        const userData = docData.data();
         const data = {
-          uid: doc.id,
+          uid: docData.id,
           name: userData.username || userData.name,
           image: userData.imageURL,
           bio: userData.bio || userData.description,
@@ -73,7 +73,7 @@ export const getChats = async (userId, setData) => {
           active: userData.active,
           members: userData.members.join(","),
           lastMessage: {
-            ...doc.lastMessage
+            ...docData.lastMessage
           }
         }
         result.push(data);
