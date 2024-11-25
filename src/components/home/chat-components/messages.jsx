@@ -8,7 +8,9 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { usePage } from "@/store";
-import { convertToTimeString } from "@/utils"
+import { convertToTimeString } from "@/utils";
+import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
+import { AiFillAudio } from "react-icons/ai";
 
 export function Messages({ key, doc }){
   const setPage = usePage(state => state.setPage);
@@ -30,7 +32,16 @@ export function Messages({ key, doc }){
           <h1 className="text-xl font-bold">{doc.name}</h1>
           <p className="text-sm">{time}</p>
         </header>
-        <p className="truncate text-sm">{doc.lastMessage.content}</p>
+        {doc.lastMessage.type === "text" ? <p className="truncate text-sm text-muted-foreground">{doc.lastMessage.content}</p>
+        : ["image", "audio", "video", "file"].includes(doc.lastMessage.type) ? 
+          <div className="text-sm text-muted-foreground flex gap-1">
+            {doc.lastMessage.type === "image" ? <FaImage/> : doc.lastMessage.type === "audio" ? <AiFillAudio /> : doc.lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
+            <p className="truncate">
+              {doc.lastMessage.type === "image" ? "Image" : doc.lastMessage.type === "audio" ? "Audio" : doc.lastMessage.type === "video" ? "Video" : "Document"}
+            </p>
+          </div> 
+          : null
+        }
       </section>
     </main>
   )
