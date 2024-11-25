@@ -33,10 +33,4 @@ export const useSocket = create(set => ({
     set({ socket });
   },
 }));
-export const usePeople = create(set => ({
-  people: [],
-  setPeople: (data) => {
-    set({ data });
-  },
-}));
 /*set((state) => ({ userData: { ...state.userData, ...newData } }))*/

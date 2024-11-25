@@ -11,6 +11,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Loading } from "@/components/loading";
 
 export function Users() {
@@ -18,6 +19,8 @@ export function Users() {
   const setPage = usePage(state => state.setPage)
   const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
+  const [ groupsFilter, setGroupsFilter ] = useState([]);
+  const [ peopleFilter, setPeopleFilter ] = useState([]);
   const [groups, setGroups] = useState([]);
   const [people, setPeople] = useState([]);
   const [data, setData] = useState([]);
@@ -32,14 +35,27 @@ export function Users() {
       setGroups(data.filter(x => x.type === "group"));
     }
   }, [data]);
+  useEffect(() => {
+    setGroupsFilter([...groups]);
+    setPeopleFilter([...people]);
+  }, [people, groups]);
   if (loading) {
     return <Loading  className="w-full h-full"/>
   }
   return (
     <main className="flex flex-col gap-2 w-full">
+      <Input placeholder="Search..." onChange={(e) => {
+        if(!e.target.value){
+          setPeopleFilter([...people]);
+          setGroupsFilter([...groups]);
+        }
+        setPeopleFilter(people.filter(x => x.username.toLowerCase().includes(e.target.value.toLowerCase())));
+        setGroupsFilter(groups.filter(x => x.name.toLowerCase().includes(e.target.value.toLowerCase())));
+        
+      }}/>
       <section className="flex flex-col gap-2 w-full">
         <h2 className="text-xl font-bold">People</h2>
-        {people&&people.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
+        {peopleFilter&&peopleFilter.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
           open: true,
           component: "chat",
           data: {
@@ -49,7 +65,7 @@ export function Users() {
       </section>
       <section className="flex flex-col gap-2 w-full">
         <h2 className="text-xl font-bold">Groups</h2>
-        {groups&&groups.sort((a, b) => a.name.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc} action={() => setPage({
+        {groupsFilter&&groupsFilter.sort((a, b) => a.name.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc} action={() => setPage({
               open: true,
               component: "chat",
               data: {
