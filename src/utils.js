@@ -10,7 +10,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  addDoc
+  addDoc,
+  updateDoc,
 } from 'firebase/firestore';
 import { saveData } from "@/storage";
 import axios from "axios";
@@ -99,6 +100,11 @@ export const getMessages = async (userId, friendId) => {
         return result.push(doc.data())
       }});
     } else {
+      await updateDoc(doc(db, "chats", doc.id), {
+        lastMessage: {
+          ...msgData
+        }
+      });
       await addDoc(collection(doc.ref, "messages"), {
         type: "one-to-one",
         participants: [userId, friendId]
