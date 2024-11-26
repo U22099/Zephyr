@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { usePage, useSocket, useUID } from "@/store";
+import { usePage, useSocket, useUID, useUserData } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
   Card,
@@ -21,7 +21,7 @@ import { sendMessage, getMessages, convertToTimeString } from "@/utils";
 
 export function Chat() {
   const uid = useUID(state => state.uid);
-  const userData = useUID(state => state.userData);
+  const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
   const [ msg, setMsg ] = useState([]);
   const [ input, setInput ] = useState("");
