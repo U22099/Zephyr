@@ -21,6 +21,7 @@ import { sendMessage, getMessages, convertToTimeString } from "@/utils";
 
 export function Chat() {
   const uid = useUID(state => state.uid);
+  const userData = useUID(state => state.userData);
   const { setPage, page } = usePage();
   const [ msg, setMsg ] = useState([]);
   const [ input, setInput ] = useState("");
@@ -32,6 +33,9 @@ export function Chat() {
         type: "text",
         senderId: uid,
         timestamp: Date.now(),
+      }
+      if(page.data.type === "group"){
+        msgData.senderName = userData.username;
       }
       setMsg([...msg, msgData]);
       await sendMessage(uid, page.data.uid, msgData);
@@ -74,7 +78,7 @@ export function Chat() {
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-3">
-        {msg.map((doc, i) => <Message key={i} m={doc} />)}
+        {msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} />)}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
@@ -84,9 +88,12 @@ export function Chat() {
   )
 }
 
-const Message = ({ key, m }) => {
+const Message = ({ key, m, type }) => {
   return(
     <Card key={key} className={"flex flex-col gap-1 w-fit justify-center items-start" + (m.senderId === uid ? "self-end" : "self-start")}>
+      {type === "group" && <CardHeader>
+        <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
+      </CardHeader>}
       <CardContent className="flex justify-center items-center p-2 w-fit h-fit">
         {m.type === "text" ? 
         <p>{m.content}</p> : 
