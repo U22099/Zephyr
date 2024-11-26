@@ -7,12 +7,13 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { usePage } from "@/store";
+import { usePage, useUID } from "@/store";
 import { convertToTimeString } from "@/utils";
 import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 
 export function Messages({ key, doc }){
+  const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timeStamp);
   return(
@@ -32,7 +33,7 @@ export function Messages({ key, doc }){
           <h1 className="text-xl font-bold">{doc.name}</h1>
           <p className="text-sm">{time}</p>
         </header>
-        {doc.lastMessage.type === "text" ? <p className="truncate text-sm text-muted-foreground">{doc.lastMessage.content}</p>
+        {doc.lastMessage.type === "text" ? <p className="truncate text-sm text-muted-foreground">{doc.type === "group" ? doc.lastMessage.senderName+": " : doc.senderId === uid ? "You: " : ""}{doc.lastMessage.content}</p>
         : ["image", "audio", "video", "file"].includes(doc.lastMessage.type) ? 
           <div className="text-sm text-muted-foreground flex gap-1">
             {doc.lastMessage.type === "image" ? <FaImage/> : doc.lastMessage.type === "audio" ? <AiFillAudio /> : doc.lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
