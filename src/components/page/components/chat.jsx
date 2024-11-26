@@ -3,6 +3,7 @@ import { usePage, useSocket, useUID, useUserData } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
   Card,
+  CardHeader,
   CardContent,
   CardFooter,
 } from "@/components/ui/card";
