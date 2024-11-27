@@ -39,7 +39,7 @@ export const getAllUsers = async (setData) => {
         name: docData.username || docData.name,
         bio: docData.bio || docData.description,
         type: docData.type,
-        active: docData.active || docData.members.join(","),
+        active: docData.active || docData.members?.join(","),
       });
     });
     console.log(result);
@@ -55,7 +55,7 @@ export const getChats = async (userId, setData) => {
       where("participants", "array-contains", userId)
     ));
     let result = [];
-    if (docs.exists()) {
+    if (!docs.empty) {
       await Promise.all(docs.forEach(async doc => {
         let id;
         if (doc.type === "one-to-one") {
