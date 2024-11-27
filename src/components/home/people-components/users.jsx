@@ -27,7 +27,7 @@ export function Users() {
   useEffect(() => {
     setLoading(true);
     getAllUsers(setData);
-  });
+  }, []);
   useEffect(() => {
     if (data) {
       setLoading(false);
