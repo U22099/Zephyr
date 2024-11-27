@@ -122,7 +122,7 @@ export function Profile() {
             <ModeToggle className="text-lg"/>
           </section>
           <section className="flex items-center gap-2">
-            <Input className="font-semibold" defaultValue={userData?.username || ""}/>
+            <Input className="font-semibold" defaultValue={userData?.username || ""} onChange={(e) => setUsername(e.target.value)}/>
             <div className="flex flex-col gap-1">
               <Select id="gender" defaultValue={userData?.gender || "male"} onValueChange={(value) => setGender(value)}>
                 <SelectTrigger>
