@@ -58,7 +58,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-center w-full text-muted-foreground-foregroundflex-col text-wrap text-center">
+      <CardFooter className="flex flex-col justify-center w-full text-muted-foreground-foregroundflex-col text-wrap text-center">
         New to zephyr?&nbsp;
         <p className="text-primary text-sm">Don&apos;t worry zephyr automatically creates a new account for you</p>
       </CardFooter>
