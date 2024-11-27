@@ -63,8 +63,9 @@ export function Profile() {
     }
     if (imageBase64String) {
       try {
+        let deleted = { status: null };
         if(imagePublicId){
-          const deleted = await axios.delete("/api/file", { data: { publicId: imagePublicId } });
+          deleted = await axios.delete("/api/file", { data: { publicId: imagePublicId } });
         }
         if ((deleted.status === 200) || !imagePublicId) {
           newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");

@@ -30,12 +30,14 @@ export function Users() {
   }, []);
   useEffect(() => {
     if (data) {
+      console.log("called");
       setLoading(false);
       setPeople(data.filter(x => x.type === "personal") || []);
       setGroups(data.filter(x => x.type === "group"));
     }
   }, [data]);
   useEffect(() => {
+    console.log("called 2")
     setGroupsFilter([...groups]);
     setPeopleFilter([...people]);
   }, [people, groups]);
@@ -55,7 +57,7 @@ export function Users() {
       }}/>
       <section className="flex flex-col gap-2 w-full">
         <h2 className="text-xl font-bold">People</h2>
-        {peopleFilter&&peopleFilter.sort((a, b) => a.username.localeCompare(b.username)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
+        {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
           open: true,
           component: "chat",
           data: {
@@ -88,8 +90,8 @@ function CardList({ doc, i, action }) {
           }</AvatarFallback>
         </Avatar>
         <section className="py-1 h-full flex flex-col justify-center gap-1 w-full">
-          <h2 className="text-lg font-bold">{doc?.name}</h2>
-          <p className="truncate text-sm text-muted-foreground">{doc?.bio}</p>
+          <h2 className="text-lg font-bold">{doc?.name || "No Name"}</h2>
+          <p className="truncate text-sm text-muted-foreground">{doc?.bio || ""}</p>
         </section>
       </CardContent> 
     </Card>
