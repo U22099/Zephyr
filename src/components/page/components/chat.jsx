@@ -56,7 +56,7 @@ export function Chat() {
   }, [socket]);
   useEffect(() => {
     const fetchMsgs = async () => {
-      const result = await getMessages(uid, page.data.uid);
+      const result = await getMessages(uid, page.data.uid, page.data.type);
       setMsg([...result.sort((a, b) => a.timestamp - b.timestamp)]);
     }
     fetchMsgs();

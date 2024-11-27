@@ -52,15 +52,15 @@ export const getAllUsers = async (setData) => {
 export const getChats = async (userId, setData) => {
   try {
     const docs = await getDocs(query(collection(db, "chats"),
-    where("participants", "array-contains", userId)
+      where("participants", "array-contains", userId)
     ));
     let result = [];
-    if(docs.exists()){
+    if (docs.exists()) {
       await Promise.all(docs.forEach(async doc => {
         let id;
-        if(doc.type === "one-to-one"){
+        if (doc.type === "one-to-one") {
           id = doc.participants.filter(x => x != userId)[0];
-        } else if(doc.type === "group"){
+        } else if (doc.type === "group") {
           id = doc.groupId;
         }
         const docData = await getDoc(doc(db, "users", id));
@@ -85,28 +85,28 @@ export const getChats = async (userId, setData) => {
     console.error(err, err.message, "getMessages");
   }
 }
-export const getMessages = async (userId, friendId) => {
+export const getMessages = async (userId, friendId, type) => {
   try {
     const doc = await getDoc(query(collection(db, "chats"),
-    where("participants", "array-contains-any", [userId, friendId]),
-    where("participants", "array-contains", userId),
-    where("participants", "array-contains", friendId)
+      where("participants", "array-contains-any", [userId, friendId]),
+      where("participants", "array-contains", userId),
+      where("participants", "array-contains", friendId)
     ));
     let result = [];
-    if(doc.exists()){
-      const msg = getDocs(collection(doc.ref, "messages"));
-      msg.forEach(doc => 
-      {if(doc.exists()){
-        return result.push(doc.data())
-      }});
-    } else {
+    if (doc.exists()) {
       await updateDoc(doc(db, "chats", doc.id), {
-        lastMessage: {
-          ...msgData
+        "lastMessage.read": true,
+      });
+      const msg = getDocs(collection(doc.ref, "messages"));
+      msg.forEach(doc =>
+      {
+        if (doc.exists()) {
+          return result.push(doc.data())
         }
       });
+    } else {
       await addDoc(collection(doc.ref, "messages"), {
-        type: "one-to-one",
+        type,
         participants: [userId, friendId]
       });
     }
@@ -118,11 +118,16 @@ export const getMessages = async (userId, friendId) => {
 export const sendMessage = async (userId, friendId, msgData) => {
   try {
     const doc = await getDoc(query(collection(db, "chats"),
-    where("participants", "array-contains-any", [userId, friendId]),
-    where("participants", "array-contains", userId),
-    where("participants", "array-contains", friendId)
+      where("participants", "array-contains-any", [userId, friendId]),
+      where("participants", "array-contains", userId),
+      where("participants", "array-contains", friendId)
     ));
-    if(doc.exists()){
+    if (doc.exists()) {
+      await updateDoc(doc(db, "chats", doc.id), {
+        lastMessage: {
+          ...msgData
+        }
+      });
       await addDoc(collection(doc.ref, "messages"), {
         ...msgData
       });
@@ -137,7 +142,7 @@ export const getUserData = async (uid, setUserData = null) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
     const result = dbUser.data();
-    setUserData&&setUserData(result);
+    setUserData && setUserData(result);
     console.log(result);
     return result;
   } catch (err) {
