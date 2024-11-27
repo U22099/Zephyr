@@ -6,10 +6,10 @@ import { getChats } from "@/utils";
 import { useState, useEffect } from "react";
 
 export function Chats() {
+  const uid = useUID(state => state.uid);
   const page = usePage(state => state.page);
   const [ filteredFriends, setFilteredFriends ] = useState([]);
   const [ friends, setFriends ] = useState([]);
-  const uid = useUID(state => state.uid);
   useEffect(() => {
     if(uid){
       getChats(uid, setFriends);

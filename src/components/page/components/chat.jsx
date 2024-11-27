@@ -35,6 +35,7 @@ export function Chat() {
         senderId: uid,
         timestamp: Date.now(),
       }
+      console.log(msgData);
       if(page.data.type === "group"){
         msgData.senderName = userData.username;
       }
