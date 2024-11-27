@@ -81,7 +81,7 @@ export function Users() {
 function CardList({ doc, key, action }) {
   return (
     <Card key={key} className="flex w-full justify-center items-center p-1" onClick={action}>
-      <CardContent className="flex gap-2 w-full">
+      <CardContent className="flex w-full items-center gap-2 w-full">
         <Avatar className="w-12 h-12">
           <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
           <AvatarFallback className="text-3xl text-primary">{
