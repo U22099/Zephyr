@@ -87,11 +87,11 @@ export const getChats = async (userId, setData) => {
 }
 export const getMessages = async (userId, friendId, type) => {
   try {
-    const doc = await getDoc(query(collection(db, "chats"),
+    const doc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
       where("participants", "array-contains", userId),
       where("participants", "array-contains", friendId)
-    ));
+    ))).docs[0];
     let result = [];
     if (doc.exists()) {
       await updateDoc(doc(db, "chats", doc.id), {
