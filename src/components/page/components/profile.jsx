@@ -86,6 +86,15 @@ export function Profile() {
         bio,
         theme,
       });
+      setUserData({
+        uid: userData.uid,
+        username,
+        imageURL: newImageUrl?.secure_url || imageUrl || null,
+        imagePublicId: newImageUrl?.public_id || imagePublicId || null,
+        gender,
+        bio,
+        theme,
+      });
       toast({
         title: "Success",
         description: "updated successfully"

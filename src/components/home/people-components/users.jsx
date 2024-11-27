@@ -30,14 +30,13 @@ export function Users() {
   }, []);
   useEffect(() => {
     if (data) {
-      console.log("called");
       setLoading(false);
       setPeople(data.filter(x => x.type === "personal") || []);
       setGroups(data.filter(x => x.type === "group"));
     }
   }, [data]);
   useEffect(() => {
-    console.log("called 2")
+    console.log(people,groups);
     setGroupsFilter([...groups]);
     setPeopleFilter([...people]);
   }, [people, groups]);
@@ -79,9 +78,9 @@ export function Users() {
   )
 }
 
-function CardList({ doc, i, action }) {
+function CardList({ doc, key, action }) {
   return (
-    <Card key={i} className="flex w-full justify-center items-center p-1" onClick={action}>
+    <Card key={key} className="flex w-full justify-center items-center p-1" onClick={action}>
       <CardContent className="flex gap-2 w-full">
         <Avatar className="w-12 h-12">
           <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
