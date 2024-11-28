@@ -29,6 +29,7 @@ export function Chat() {
   const socket = useSocket(state => state.socket);
   const sendMsg = async () => {
     try {
+      console.log("called")
       const msgData = {
         content: input,
         read: false,
@@ -41,18 +42,19 @@ export function Chat() {
       }
       setMsg([...msg, msgData]);
       await sendMessage(uid, page.data.uid, msgData);
-      socket.emit("send-message", {
+      /*socket.emit("send-message", {
         to: page.data.uid,
         from: uid,
-        data: msgData
+        data: msgData*/
       });
     } catch (err) {
+      console.log("called")
       console.log(err, err.message, "send message");
     }
   } 
   useEffect(() => {
-    socket.on("recieve-message", data => {
-      if(data.senderId === page.data.uid) setMsg([...msg, data]);
+    /*socket.on("recieve-message", data => {
+      if(data.senderId === page.data.uid) setMsg([...msg, data]);*/
     });
   }, [socket]);
   useEffect(() => {
@@ -67,7 +69,7 @@ export function Chat() {
     fetchMsgs();
   });
   return (
-    <motion.main className="w-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
         <FaChevronLeft className="self-center dark:fill-white fill-black w-8 h-8 col-span-2 ml-2" onClick={() => setPage({open: false, component: 'default'})}/>
         <section className="flex items-center gap-2 col-span-6">
