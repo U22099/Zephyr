@@ -50,8 +50,8 @@ export function Users() {
           setPeopleFilter([...people]);
           setGroupsFilter([...groups]);
         }
-        setPeopleFilter(people.filter(x => x.username.toLowerCase().includes(e.target.value.toLowerCase())));
-        setGroupsFilter(groups.filter(x => x.name.toLowerCase().includes(e.target.value.toLowerCase())));
+        setPeopleFilter(people.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
+        setGroupsFilter(groups.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
         
       }}/>
       <section className="flex flex-col gap-2 w-full">
