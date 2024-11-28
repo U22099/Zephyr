@@ -85,13 +85,17 @@ export const getChats = async (userId, setData) => {
     console.error(err, err.message, "getMessages");
   }
 }
+
+function areArraysEqual(arr1, arr2) {
+  return new Set(arr1).size === new Set(arr2).size &&
+         arr1.every(value => new Set(arr2).has(value));
+}
+
 export const getMessages = async (userId, friendId, type) => {
   try {
     const doc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
-      where("participants", "array-contains", userId),
-      where("participants", "array-contains", friendId)
-    ))).docs[0];
+    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     let result = [];
     if (doc.exists()) {
       await updateDoc(doc(db, "chats", doc.id), {
@@ -117,11 +121,9 @@ export const getMessages = async (userId, friendId, type) => {
 }
 export const sendMessage = async (userId, friendId, msgData) => {
   try {
-    const doc = await getDoc(query(collection(db, "chats"),
+    const doc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
-      where("participants", "array-contains", userId),
-      where("participants", "array-contains", friendId)
-    ));
+    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     if (doc.exists()) {
       await updateDoc(doc(db, "chats", doc.id), {
         lastMessage: {
