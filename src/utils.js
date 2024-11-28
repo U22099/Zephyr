@@ -99,7 +99,7 @@ export const getMessages = async (userId, friendId, type) => {
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     let result = [];
     if (chatDoc?.exists()) {
-      if(chatDoc.data().lastMessage.senderId === friendId){
+      if(chatDoc.data().lastMessage&&chatDoc.data().lastMessage.senderId === friendId){
         await updateDoc(doc(db, "chats", chatDoc.id), {
           "lastMessage.read": true,
         });
@@ -131,7 +131,7 @@ export const sendMessage = async (userId, friendId, msgData) => {
       where("participants", "array-contains-any", [userId, friendId]),
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     if (chatDoc?.exists()) {
-      console.log(chatDoc.data());
+      console.log(chatDoc.id, chatDoc.ref, chatDoc.data());
       await updateDoc(doc(db, "chats", chatDoc.id), {
         lastMessage: {
           ...msgData
