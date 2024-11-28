@@ -51,17 +51,17 @@ export const getAllUsers = async (setData) => {
 }
 export const getChats = async (userId, setData) => {
   try {
-    const docs = await getDocs(query(collection(db, "chats"),
+    const documents = await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains", userId)
     ));
     let result = [];
-    if (!docs.empty) {
-      await Promise.all(docs.forEach(async doc => {
+    if (!documents.empty) {
+      await Promise.all(documents.forEach(async document => {
         let id;
-        if (doc.type === "one-to-one") {
-          id = doc.participants.filter(x => x != userId)[0];
-        } else if (doc.type === "group") {
-          id = doc.groupId;
+        if (document.type === "one-to-one") {
+          id = document.participants.filter(x => x != userId)[0];
+        } else if (document.type === "group") {
+          id = document.groupId;
         }
         const docData = await getDoc(doc(db, "users", id));
         const userData = docData.data();
@@ -85,7 +85,6 @@ export const getChats = async (userId, setData) => {
     console.error(err, err.message, "getMessages");
   }
 }
-
 function areArraysEqual(arr1, arr2) {
   return new Set(arr1).size === new Set(arr2).size &&
          arr1.every(value => new Set(arr2).has(value));
