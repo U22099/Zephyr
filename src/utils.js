@@ -27,7 +27,7 @@ export const getData = async (uid, collection, setData = null) => {
   }
 }
 
-export const getAllUsers = async (setData) => {
+export const getAllUsers = async (uid, setData) => {
   try {
     const data = await getDocs(query(collection(db, "users"), limit(1000)));
     let result = [];
@@ -43,7 +43,7 @@ export const getAllUsers = async (setData) => {
       });
     });
     console.log(result);
-    setData(result || []);
+    setData(result?.filter(x => x.uid != uid) || []);
   } catch (err) {
     console.log(err, err.message, "getAllUsers");
     return;

@@ -26,7 +26,7 @@ export function Users() {
   const [data, setData] = useState([]);
   useEffect(() => {
     setLoading(true);
-    getAllUsers(setData);
+    getAllUsers(uid, setData);
   }, []);
   useEffect(() => {
     if (data) {
@@ -80,15 +80,15 @@ export function Users() {
 
 function CardList({ doc, action }) {
   return (
-    <Card className="flex w-full justify-center items-center p-1" onClick={action}>
-      <CardContent className="flex w-full items-center gap-2 w-full">
+    <Card className="flex w-full justify-center items-center h-fit" onClick={action}>
+      <CardContent className="flex items-center gap-2">
         <Avatar className="w-12 h-12">
           <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
           <AvatarFallback className="text-3xl text-primary">{
           doc?.name ? doc.name[0] : "Z"
           }</AvatarFallback>
         </Avatar>
-        <section className="py-1 h-full flex flex-col justify-center gap-1 w-full">
+        <section className="flex flex-col justify-center gap-1">
           <h2 className="text-lg font-bold">{doc?.name || "No Name"}</h2>
           <p className="truncate text-sm text-muted-foreground">{doc?.bio || ""}</p>
         </section>

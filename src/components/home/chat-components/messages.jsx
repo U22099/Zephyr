@@ -15,7 +15,7 @@ import { AiFillAudio } from "react-icons/ai";
 export function Messages({ doc }){
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage);
-  const time = convertToTimeString(doc.lastMessage.timeStamp);
+  const time = convertToTimeString(doc.lastMessage.timestamp);
   return(
     <main className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
