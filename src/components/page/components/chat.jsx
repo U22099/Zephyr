@@ -46,8 +46,8 @@ export function Chat() {
         from: uid,
         data: msgData
       });
-    } catch (e) {
-      throw e
+    } catch (err) {
+      console.log(err, err.message, "send message");
     }
   } 
   useEffect(() => {
@@ -57,8 +57,12 @@ export function Chat() {
   }, [socket]);
   useEffect(() => {
     const fetchMsgs = async () => {
-      const result = (await getMessages(uid, page.data.uid, page.data.type)) || [];
-      setMsg([...result.sort((a, b) => a.timestamp - b.timestamp)]);
+      try{
+        const result = (await getMessages(uid, page.data.uid, page.data.type)) || [];
+        setMsg([...result.sort((a, b) => a.timestamp - b.timestamp)]);
+      } catch(err){
+        console.log(err, err.message, "fetchMsgs")
+      }
     }
     fetchMsgs();
   });
