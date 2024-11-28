@@ -55,8 +55,8 @@ export const getChats = async (userId, setData) => {
       where("participants", "array-contains", userId)
     ));
     let result = [];
-    if (!documents?.empty && !documents) {
-      await Promise.all(documents.forEach(async document => {
+    if (!documents?.empty && documents) {
+      await Promise.all(documents.docs.forEach(async document => {
         let id = "";
         if (document.type === "one-to-one") {
           id = document.participants.filter(x => x != userId)[0];
@@ -104,7 +104,7 @@ export const getMessages = async (userId, friendId, type) => {
       });
       const msg = getDocs(collection(chatDoc.ref, "messages"));
       if(!msg?.empty){
-        msg?.forEach(doc =>
+        msg.docs.forEach(doc =>
         {
           if (doc.exists()) {
             return result.push(doc.data())
