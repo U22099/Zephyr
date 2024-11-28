@@ -56,7 +56,7 @@ export const getChats = async (userId, setData) => {
     ));
     let result = [];
     if (!documents?.empty && documents) {
-      await Promise.all(documents.docs.forEach(async document => {
+      await Promise.all(documents.docs.map(async document => {
         let id = "";
         if (document.type === "one-to-one") {
           id = document.participants.filter(x => x != userId)[0];
