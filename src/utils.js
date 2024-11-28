@@ -103,8 +103,8 @@ export const getMessages = async (userId, friendId, type) => {
         "lastMessage.read": true,
       });
       const msg = getDocs(collection(chatDoc.ref, "messages"));
-      if(msg){
-        msg.forEach(doc =>
+      if(!msg?.empty){
+        msg?.forEach(doc =>
         {
           if (doc.exists()) {
             return result.push(doc.data())
