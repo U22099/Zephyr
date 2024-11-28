@@ -93,14 +93,17 @@ function areArraysEqual(arr1, arr2) {
 
 export const getMessages = async (userId, friendId, type) => {
   try {
+    console.log("called")
     const chatDoc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     let result = [];
     if (chatDoc?.exists()) {
-      await updateDoc(doc(db, "chats", chatDoc.id), {
-        "lastMessage.read": true,
-      });
+      if(chatDoc.data().lastMessage.senderId === friendId){
+        await updateDoc(doc(db, "chats", chatDoc.id), {
+          "lastMessage.read": true,
+        });
+      }
       const msg = await getDocs(collection(chatDoc.ref, "messages"));
       if(!msg?.empty){
         msg.docs.forEach(doc =>
@@ -111,6 +114,7 @@ export const getMessages = async (userId, friendId, type) => {
         });
       }
     } else {
+      console.log("created");
       await addDoc(collection(db, "chats"), {
         type,
         participants: [userId, friendId]
@@ -127,6 +131,7 @@ export const sendMessage = async (userId, friendId, msgData) => {
       where("participants", "array-contains-any", [userId, friendId]),
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     if (chatDoc?.exists()) {
+      console.log(chatDoc.data());
       await updateDoc(doc(db, "chats", chatDoc.id), {
         lastMessage: {
           ...msgData
