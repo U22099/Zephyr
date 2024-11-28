@@ -55,7 +55,7 @@ export const getChats = async (userId, setData) => {
       where("participants", "array-contains", userId)
     ));
     let result = [];
-    if (!documents.empty) {
+    if (!documents?.empty) {
       await Promise.all(documents.forEach(async document => {
         let id;
         if (document.type === "one-to-one") {
