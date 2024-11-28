@@ -95,23 +95,25 @@ export function Chat() {
 
 const Message = ({ m, type, uid }) => {
   return(
-    <Card className={"flex flex-col gap-1 w-fit justify-center items-start" + (m.senderId === uid ? "self-end" : "self-start")}>
-      {type === "group" && <CardHeader>
-        <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
-      </CardHeader>}
-      <CardContent className="flex justify-start items-center p-1 w-fit h-fit">
-        {m.type === "text" ? 
-        <p>{m.content}</p> : 
-        m.type === "image" ? 
-        <img className="rounded h-40 w-40 object-cover" src={m.content} /> : 
-        m.type === "video" ? 
-        <video className="rounded h-40 w-40 object-cover" controls src={m.content} /> : 
-        m.type === "file" ? 
-        <embed className="rounded h-40 w-40 object-cover" src={m.content} /> : null}
-      </CardContent>
-      <CardFooter className="flex justify-end">
-        <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)}</p>
-      </CardFooter>
-    </Card>
+    <main className={"flex w-full items-center" + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
+      <Card className="flex flex-col gap-1 w-fit justify-center items-start">
+        {type === "group" && <CardHeader>
+          <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
+        </CardHeader>}
+        <CardContent className="flex justify-start items-center p-1 w-fit h-fit">
+          {m.type === "text" ? 
+          <p>{m.content}</p> : 
+          m.type === "image" ? 
+          <img className="rounded h-40 w-40 object-cover" src={m.content} /> : 
+          m.type === "video" ? 
+          <video className="rounded h-40 w-40 object-cover" controls src={m.content} /> : 
+          m.type === "file" ? 
+          <embed className="rounded h-40 w-40 object-cover" src={m.content} /> : null}
+        </CardContent>
+        <CardFooter className="flex p-1 justify-end">
+          <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)}</p>
+        </CardFooter>
+      </Card>
+    </main>
   )
 }
