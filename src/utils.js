@@ -59,7 +59,8 @@ export const getChats = async (userId, setData) => {
       await Promise.all(documents.docs.map(async document => {
         let id = "";
         if (document.data().type === "one-to-one") {
-          id = document.data().participants.filter(x => x != userId)[0];
+          console.log("called", document.data().participants)
+          id = document.data().participants.find(x => x != userId);
         } else if (document.data().type === "group") {
           id = document.data().groupId;
         }
