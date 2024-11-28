@@ -55,29 +55,31 @@ export const getChats = async (userId, setData) => {
       where("participants", "array-contains", userId)
     ));
     let result = [];
-    if (!documents?.empty) {
+    if (!documents?.empty && !documents) {
       await Promise.all(documents.forEach(async document => {
-        let id;
+        let id = "";
         if (document.type === "one-to-one") {
           id = document.participants.filter(x => x != userId)[0];
         } else if (document.type === "group") {
           id = document.groupId;
         }
         const docData = await getDoc(doc(db, "users", id));
-        const userData = docData.data();
-        const data = {
-          uid: docData.id,
-          name: userData.username || userData.name,
-          image: userData.imageURL,
-          bio: userData.bio || userData.description,
-          type: userData.type,
-          active: userData.active,
-          members: userData.members.join(","),
-          lastMessage: {
-            ...docData.lastMessage
+        if(docData.exists()){
+          const userData = docData.data();
+          const data = {
+            uid: docData.id,
+            name: userData.username || userData.name,
+            image: userData.imageURL,
+            bio: userData.bio || userData.description,
+            type: userData.type,
+            active: userData.active,
+            members: userData.members.join(","),
+            lastMessage: {
+              ...docData.lastMessage
+            }
           }
+          result.push(data);
         }
-        result.push(data);
       }));
     }
     setData(result);
@@ -101,12 +103,14 @@ export const getMessages = async (userId, friendId, type) => {
         "lastMessage.read": true,
       });
       const msg = getDocs(collection(chatDoc.ref, "messages"));
-      msg?.forEach(doc =>
-      {
-        if (doc.exists()) {
-          return result.push(doc.data())
-        }
-      });
+      if(msg){
+        msg.forEach(doc =>
+        {
+          if (doc.exists()) {
+            return result.push(doc.data())
+          }
+        });
+      }
     } else {
       await addDoc(collection(db, "chats"), {
         type,
