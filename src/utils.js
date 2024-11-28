@@ -97,7 +97,7 @@ export const getMessages = async (userId, friendId, type) => {
       where("participants", "array-contains-any", [userId, friendId]),
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
     let result = [];
-    if (doc.exists()) {
+    if (doc?.exists()) {
       await updateDoc(doc(db, "chats", doc.id), {
         "lastMessage.read": true,
       });
@@ -124,7 +124,7 @@ export const sendMessage = async (userId, friendId, msgData) => {
     const doc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
-    if (doc.exists()) {
+    if (doc?.exists()) {
       await updateDoc(doc(db, "chats", doc.id), {
         lastMessage: {
           ...msgData
@@ -133,8 +133,8 @@ export const sendMessage = async (userId, friendId, msgData) => {
       await addDoc(collection(doc.ref, "messages"), {
         ...msgData
       });
+      return true;
     }
-    return true;
   } catch (err) {
     console.error(err, err.message, "getMessages");
     return false;
