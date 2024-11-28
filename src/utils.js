@@ -63,6 +63,7 @@ export const getChats = async (userId, setData) => {
         } else if (document.data().type === "group") {
           id = document.data().groupId;
         }
+        console.log(id);
         const docData = await getDoc(doc(db, "users", id));
         if(docData.exists()){
           const userData = docData.data();
