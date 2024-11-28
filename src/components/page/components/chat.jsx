@@ -82,7 +82,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2">
+      <main className="flex flex-col gap-2 w-full p-2 pb-10">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
@@ -99,7 +99,7 @@ const Message = ({ m, type, uid }) => {
       {type === "group" && <CardHeader>
         <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
       </CardHeader>}
-      <CardContent className="flex justify-start items-center py-1 px-1/2 w-fit h-fit">
+      <CardContent className="flex justify-start items-center p-1 w-fit h-fit">
         {m.type === "text" ? 
         <p>{m.content}</p> : 
         m.type === "image" ? 
