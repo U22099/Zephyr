@@ -45,8 +45,8 @@ export function Chat() {
       /*socket.emit("send-message", {
         to: page.data.uid,
         from: uid,
-        data: msgData*/
-      });
+        data: msgData
+      });*/
     } catch (err) {
       console.log("called")
       console.log(err, err.message, "send message");
@@ -54,8 +54,8 @@ export function Chat() {
   } 
   useEffect(() => {
     /*socket.on("recieve-message", data => {
-      if(data.senderId === page.data.uid) setMsg([...msg, data]);*/
-    });
+      if(data.senderId === page.data.uid) setMsg([...msg, data]);
+    });*/
   }, [socket]);
   useEffect(() => {
     const fetchMsgs = async () => {
