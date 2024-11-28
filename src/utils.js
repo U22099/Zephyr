@@ -58,10 +58,10 @@ export const getChats = async (userId, setData) => {
     if (!documents?.empty && documents) {
       await Promise.all(documents.docs.map(async document => {
         let id = "";
-        if (document.type === "one-to-one") {
-          id = document.participants.filter(x => x != userId)[0];
-        } else if (document.type === "group") {
-          id = document.groupId;
+        if (document.data().type === "one-to-one") {
+          id = document.data().participants.filter(x => x != userId)[0];
+        } else if (document.data().type === "group") {
+          id = document.data().groupId;
         }
         const docData = await getDoc(doc(db, "users", id));
         if(docData.exists()){
@@ -73,10 +73,8 @@ export const getChats = async (userId, setData) => {
             bio: userData.bio || userData.description,
             type: userData.type,
             active: userData.active,
-            members: userData.members.join(","),
-            lastMessage: {
-              ...docData.lastMessage
-            }
+            members: userData.members?.join(","),
+            lastMessage: document.data().lastMessage || {}
           }
           result.push(data);
         }
@@ -102,7 +100,7 @@ export const getMessages = async (userId, friendId, type) => {
       await updateDoc(doc(db, "chats", chatDoc.id), {
         "lastMessage.read": true,
       });
-      const msg = getDocs(collection(chatDoc.ref, "messages"));
+      const msg = await getDocs(collection(chatDoc.ref, "messages"));
       if(!msg?.empty){
         msg.docs.forEach(doc =>
         {
