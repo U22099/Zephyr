@@ -109,7 +109,7 @@ export const getMessages = async (userId, friendId, type) => {
         }
       });
     } else {
-      await addDoc(collection(doc.ref, "messages"), {
+      await addDoc(collection(db, "chats"), {
         type,
         participants: [userId, friendId]
       });

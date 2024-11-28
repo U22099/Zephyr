@@ -12,12 +12,12 @@ import { convertToTimeString } from "@/utils";
 import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 
-export function Messages({ key, doc }){
+export function Messages({ doc }){
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timeStamp);
   return(
-    <main key={key} className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
+    <main className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
       component: "chat",
       data: {
