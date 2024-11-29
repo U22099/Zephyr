@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllUsers } from "@/utils";
+import { getAllUsers, createNewGroup } from "@/utils";
 import { useUID, useUserData, usePage } from "@/store";
 import {
   Card,
@@ -26,6 +26,7 @@ import { Loading } from "@/components/loading";
 export function Users() {
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage)
+  const [ group, setGroup ] = useState();
   const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
   const [ groupsFilter, setGroupsFilter ] = useState([]);
@@ -33,6 +34,20 @@ export function Users() {
   const [groups, setGroups] = useState([]);
   const [people, setPeople] = useState([]);
   const [data, setData] = useState([]);
+  const createGroup = async () => {
+    try{
+      const groupData = await createNewGroup(group);
+      if(groupData) setPage({
+        open: true,
+        component: "chat",
+        data: {
+          ...groupData
+        }
+      })
+    } catch(err) {
+      console.log(err.message);
+    }
+  }
   useEffect(() => {
     setLoading(true);
     getAllUsers(uid, setData);
@@ -74,15 +89,15 @@ export function Users() {
               Add two or more participants
             </DialogDescription>
           </DialogHeader>
-          {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
-            open: true,
-            component: "chat",
-            data: {
-              ...doc
-            }
-          })}/>)}
+          <section className="flex flex-col gap-2 max-w-3/4 overflow-y-scroll">
+            <GroupProfile setGroup={setGroup}/>
+            {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
+              ...group,
+              participants: [...group.participants, doc.uid]
+            })}/>)}
+          </section>
           <DialogFooter>
-            <Button>Create</Button>
+            <Button onClick={createGroup}>Create</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -125,6 +140,39 @@ function CardList({ doc, action }) {
           <p className="truncate text-sm text-muted-foreground">{doc?.bio || ""}</p>
         </section>
       </CardContent> 
+    </Card>
+  )
+}
+
+function GroupProfile({ setGroup }){
+  const [ name, setName ] = useState();
+  const [ image, setImage ] = useState();
+  useEffect(() => {
+    setGroup({
+      name,
+      image
+    });
+  }, [ name, image ]);
+  return (
+    <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
+      <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">
+          <section className="flex justify-between">
+            <div className="flex w-fit justify-center flex-col items-center">
+              <Avatar className="w-20 h-20">
+              <AvatarImage src={image} className="object-cover rounded-full" />
+              <AvatarFallback className="text-2xl text-primary">{name ? name[0] : "Z"}</AvatarFallback>
+            </Avatar>
+            <Label htmlFor="image" className="underline text-primary text-lg">Edit</Label>
+            <input id="image" accept="image/*" type="file" onChange={async (e) => {
+              const data = await toBase64(e.target.files[0]);
+              setImage(data);
+            }} hidden/>
+          </div>
+        </section>
+        <section className="flex items-center gap-2">
+          <Input className="font-semibold" defaultValue={name || ""} onChange={(e) => setName(e.target.value)}/>
+        </section>
+      </CardContent>
     </Card>
   )
 }
