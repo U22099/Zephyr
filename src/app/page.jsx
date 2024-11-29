@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
 import { auth, db } from "@/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { storeSession } from "@/lib/utility/index";
 
@@ -41,6 +41,13 @@ export default function Home() {
       }
       if (user) {
         try{
+          if(existUser?.length){
+            storeSession({
+              uid: Math.floor(Math.random() * 253637)
+            });
+            router.push("/home");
+            return true;
+          }
           await setDoc(doc(db, "users", user.uid), {
             username: user.displayName,
             imageURL: user.photoURL,
@@ -52,7 +59,7 @@ export default function Home() {
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
-        router.push("/profile");
+        if(existUser?.length) router.push("/profile");
       }
       return true;
     } catch (err) {
@@ -69,14 +76,19 @@ export default function Home() {
       setLoading(true);
       const user = (await signInWithGoogle())?.user;
       if (user) {
+        const exists = await getDoc(doc(db, "users", user.uid));
+        if(exists.exists()){
+          storeSession({
+            uid: Math.floor(Math.random() * 253637)
+          });
+          router.push("/home");
+          return true;
+        }
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           imageURL: user.photoURL,
           type: "personal"
         }, { merge: true });
-        storeSession({
-          uid: Math.floor(Math.random() * 253637)
-        });
         router.push("/profile");
       }
       return true;
@@ -94,6 +106,14 @@ export default function Home() {
       setLoading(true);
       const user = (await signInWithGithub())?.user;
       if (user) {
+        const exists = await getDoc(doc(db, "users", user.uid));
+        if(exists.exists()){
+          storeSession({
+            uid: Math.floor(Math.random() * 253637)
+          });
+          router.push("/home");
+          return true;
+        }
         await setDoc(doc(db, "users", user.uid), {
           username: user.displayName,
           imageURL: user.photoURL,
