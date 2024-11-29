@@ -33,6 +33,10 @@ export function Chat() {
   const scrollDown = () => {
     if((page.data.type === "group") && msg[msg.length-1].senderId != uid) return;
     if(main.current){
+      console.log({
+        a: main.current.scrollTop,
+        b: main.current.scrollHeight,
+      })
       main.current.scrollTop = main.current.scrollHeight;
     }
   }
@@ -105,7 +109,7 @@ export function Chat() {
     }
   }, []);
   useEffect(() => {
-    if(component.current)scrollDown();
+    if(component.current) scrollDown();
   }, [msg]);
   return (
     <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
