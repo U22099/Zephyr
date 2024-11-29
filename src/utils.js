@@ -81,7 +81,7 @@ export const getChats = async (userId, setData) => {
         }
       }));
     }
-    setData(result);
+    setData(result.sort((a,b) => a.lastMessage.timestamp - b.lastMessage.timestamp));
   } catch (err) {
     console.error(err, err.message, "getMessages");
   }
