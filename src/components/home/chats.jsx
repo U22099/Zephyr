@@ -16,7 +16,7 @@ export function Chats() {
     }
   }, [uid, page]);
   useEffect(() => {
-    setFilteredFriends([...friends]);
+    setFilteredFriends([...friends.sort((a,b) => b.lastMessage.timestamp - a.lastMessage.timestamp)]);
   }, [friends]);
   return (
     <main className="flex flex-col w-screen gap-3 p-2">
