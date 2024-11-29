@@ -106,7 +106,7 @@ export function Chat() {
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
-        <Button onClick={async () => await sendMsg()}><IoSend /></Button>
+        <Button onClick={async () => if(input){await sendMsg()}}><IoSend /></Button>
       </footer>
     </motion.main>
   )
