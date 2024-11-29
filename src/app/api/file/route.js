@@ -29,9 +29,11 @@ async function deleteFile(publicId) {
 
 export const POST = async (req) => {
   try {
+    console.log("gotten")
     const { file, folder, type } = await req.json();
+    console.log(folder, type)
     const fileURL = await uploadFile(file, folder, type);
-    console.log(fileURL)
+    console.log(fileURL, folder, type)
     return NextResponse.json({ fileURL }, { status: 200 });
   } catch (err) {
     console.log(err);
