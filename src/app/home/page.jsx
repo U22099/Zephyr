@@ -21,7 +21,7 @@ export default function Home() {
   const [user] = useAuthState(auth);
   const { nav, setNav } = useNav();
   const [loading, setLoading] = useState(true);
-  const setUserData = useUserData(state => state.setUserData);
+  const setUserData = useUserData(state => state.setUserData); 
   const setUID = useUID(state => state.setUID);
   const page = usePage(state => state.page);
   const init = async () => {

@@ -20,7 +20,7 @@ async function uploadFile(file, folder, type) {
 async function deleteFile(publicId) {
   try {
     await cloudinary.uploader.destroy(publicId);
-    return true;
+    return true; 
   } catch (err) {
     console.log(err, "deleteFile");
     return false;
@@ -29,9 +29,7 @@ async function deleteFile(publicId) {
 
 export const POST = async (req) => {
   try {
-    console.log("gotten")
     const { file, folder, type } = await req.json();
-    console.log(folder, type)
     const fileURL = await uploadFile(file, folder, type);
     console.log(fileURL, folder, type)
     return NextResponse.json({ fileURL }, { status: 200 });

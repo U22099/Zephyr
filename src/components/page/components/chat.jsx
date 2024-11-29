@@ -61,7 +61,7 @@ export function Chat() {
           msgData = {
             content: fileUrl,
             read: false,
-            type: !["image", "video", "audio"].includes(arg.type.split("/")[0]) ? "file" : arg.type.split("/")[0],
+            type: arg.type,
             senderId: uid,
             timestamp: Date.now(),
           }
@@ -138,7 +138,7 @@ export function Chat() {
           const data = await toBase64(e.target.files[0]);
           await sendMsg({
             data,
-            type: data.split(",")[0].split(";")[0].split(":")[1]
+            type: !["image", "video", "audio"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? "pdf" : data.split(",")[0].split(";")[0].split(":")[1].split("/")[0],
           });
         }}}/>
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
