@@ -37,13 +37,15 @@ export function Users() {
   const createGroup = async () => {
     try{
       const groupData = await createNewGroup(group);
-      if(groupData) setPage({
-        open: true,
-        component: "chat",
-        data: {
-          ...groupData
-        }
-      })
+      if(groupData){ 
+        setPage({
+          open: true,
+          component: "chat",
+          data: {
+            ...groupData
+          }
+        });
+      }
     } catch(err) {
       console.log(err.message);
     }
