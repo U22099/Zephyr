@@ -36,7 +36,7 @@ export function Chat() {
       console.log({
         a: main.current.scrollTop,
         b: main.current.scrollHeight,
-      })
+      });
       main.current.scrollTop = main.current.scrollHeight;
     }
   }
