@@ -93,10 +93,17 @@ export function Users() {
           </DialogHeader>
           <section className="flex flex-col gap-2 max-w-3/4 overflow-y-scroll">
             <GroupProfile setGroup={setGroup}/>
-            {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
-              ...group,
-              participants: [...group.participants, doc.uid]
-            })}/>)}
+            <section className="flex flex-col gap-2">
+              <h3 className="text-lg">Members</h3>
+              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group.participants.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}/>)}
+            </section>
+            <section className="flex flex-col gap-2">
+              <h3 className="text-lg">Add Members</h3>
+              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group.participants.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
+                ...group,
+                participants: [...group.participants, doc.uid]
+              })}/>)}
+            </section>
           </section>
           <DialogFooter>
             <Button onClick={createGroup}>Create</Button>
