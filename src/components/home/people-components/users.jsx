@@ -34,6 +34,7 @@ export function Users() {
     participants: [uid]
   });
   const [ groupLoading, setGroupLoading ] = useState(false);
+  const [ groupError, setGroupError ] = useState("");
   const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
   const [ groupsFilter, setGroupsFilter ] = useState([]);
@@ -56,7 +57,8 @@ export function Users() {
       }
     } catch(err) {
       setGroupLoading(false);
-      console.log(err.message);
+      setGroupError(err.message);
+      console.log(err, err.message);
     }
   }
   useEffect(() => {
@@ -115,6 +117,7 @@ export function Users() {
             </section>
           </section>
           <DrawerFooter>
+            { groupError && <p className="font-bold text-red-700 text-sm text-mono">{groupError}</p> }
             <Button disabled={!(group.name&&group.participants.length > 2)} onClick={createGroup}>{groupLoading ? <AiOutlineLoading className="animate-spin text-md"/> : "Create"}</Button>
           </DrawerFooter>
         </DrawerContent>
