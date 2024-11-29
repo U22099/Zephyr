@@ -9,7 +9,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Users } from "@/components/home/people-components/users";
-import { usePage } from "@/store"
+import { usePage } from "@/store";
+import { FaUser } from "react-icons/fa";
 
 export function Header() {
   const setPage = usePage(state => state.setPage);
@@ -19,7 +20,7 @@ export function Header() {
         open: true,
         component: "profile"
       })}>
-        <RiCheckDoubleLine className="text-xl fill-white"/>
+        <FaUser className="text-xl fill-white"/>
       </div>
       <h3 className="col-span-6 w-full flex justify-center items-center text-center font-bold text-lg">Chats</h3>
       <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
