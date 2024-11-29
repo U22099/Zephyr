@@ -96,7 +96,7 @@ export function Users() {
               Add two or more participants
             </DrawerDescription>
           </DrawerHeader>
-          <section className="flex flex-col gap-2 max-h-3/4 overflow-y-scroll">
+          <section className="flex flex-col gap-2 max-h-1/2 overflow-y-scroll">
             <GroupProfile setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
