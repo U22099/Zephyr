@@ -71,7 +71,7 @@ export function Chat() {
     }
   }, []);
   return (
-    <motion.main className="border w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
         <FaChevronLeft className="self-center dark:fill-white fill-black w-8 h-8 col-span-2 ml-2" onClick={() => setPage({open: false, component: 'default'})}/>
         <section className="flex items-center gap-2 col-span-6">
@@ -100,7 +100,7 @@ export function Chat() {
 
 const Message = ({ m, type, uid }) => {
   return(
-    <main className={"border flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
+    <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start">
         {type === "group" && <CardHeader>
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
@@ -115,7 +115,7 @@ const Message = ({ m, type, uid }) => {
           m.type === "file" ? 
           <embed className="rounded h-40 w-40 object-cover" src={m.content} /> : null}
         </CardContent>
-        <CardFooter className="flex p-1 justify-end">
+        <CardFooter className="flex p-0 justify-end">
           <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)}</p>
         </CardFooter>
       </Card>
