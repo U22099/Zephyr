@@ -131,7 +131,7 @@ export const getMessages = async (userId, friendId, type) => {
   try {
     const chatDoc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => (areArraysEqual([userId, friendId], d.data().participants) || (d.data().type === "group")&&d.data().participants.includes(userId)));
+    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId);
     let result = [];
     if (chatDoc?.exists()) {
       if(chatDoc.data().lastMessage&&chatDoc.data().lastMessage.senderId !== userId){
@@ -163,7 +163,7 @@ export const sendMessage = async (userId, friendId, msgData) => {
   try {
     const chatDoc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => (areArraysEqual([userId, friendId], d.data().participants) || (d.data().type === "group")&&d.data().participants.includes(userId)));
+    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId);
     if (chatDoc?.exists()) {
       await updateDoc(doc(db, "chats", chatDoc.id), {
         lastMessage: {

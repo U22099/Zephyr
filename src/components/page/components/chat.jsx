@@ -31,7 +31,7 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
-    if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
+  if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
     if(main.current){
       console.log({
         a: main.current.scrollTop,
