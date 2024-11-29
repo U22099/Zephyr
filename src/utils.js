@@ -29,24 +29,26 @@ export const getData = async (uid, collection, setData = null) => {
 
 export const createNewGroup = async (uid, groupData) => {
   try{
-    const imageURL = await uploadFileAndGetURL(groupData.image, "images", "image");
-    if(imageURL?.secure_url){
+    const data = await uploadFileAndGetURL(groupData.image, "images", "image");
+    if(data?.secure_url){
       await addDoc(collection(db, "users"), {
         name: groupData.name,
-        imageURL: imageURL.secure_url,
+        imageURL: data?.secure_url,
+        imagePublicId: data?.public_id,
         type: "group",
         admin: uid,
         description: groupData.description,
         participants: [...groupData.participants]
       });
-    }
-    return {
-      name: groupData.name,
-      imageURL: imageURL.secure_url,
-      type: "group",
-      admin: uid,
-      description: groupData.description,
-      participants: [...groupData.participants]
+      return {
+        name: groupData.name,
+        imageURL: data?.secure_url,
+        imagePublicId: data?.public_id,
+        type: "group",
+        admin: uid,
+        description: groupData.description,
+        participants: [...groupData.participants]
+      }
     }
   } catch(err) {
     console.log(err, err.message, "createNewGroup");
