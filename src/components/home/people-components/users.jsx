@@ -96,7 +96,7 @@ export function Users() {
               Add two or more participants
             </DrawerDescription>
           </DrawerHeader>
-          <section className="flex flex-col gap-2 max-w-3/4 overflow-y-scroll">
+          <section className="flex flex-col gap-2 max-h-3/4 overflow-y-scroll">
             <GroupProfile setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
@@ -162,10 +162,11 @@ function GroupProfile({ setGroup }){
   const [ name, setName ] = useState();
   const [ image, setImage ] = useState();
   useEffect(() => {
-    setGroup({
+    setGroup(group => ({
+      ...group,
       name,
       image
-    });
+    }));
   }, [ name, image ]);
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
