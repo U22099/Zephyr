@@ -153,7 +153,7 @@ const Message = ({ m, type, uid }) => {
   return(
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-1.5 min-w-[20%]">
-        {type === "group" && <CardHeader>
+        {type === "group" && <CardHeader className="w-full flex justify-start p-0">
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
