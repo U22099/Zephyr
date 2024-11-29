@@ -17,7 +17,7 @@ import { IoVideocamOutline } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { sendMessage, getMessages, convertToTimeString } from "@/utils";
 
 export function Chat() {
@@ -29,7 +29,11 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
+    if(page.data.type === "group"&&msg[msg.length-1].senderId != uid) return;
     const body = document.getElementById("main");
+    if(body){
+      body.scrollTop = body.scrollHeight;
+    }
   }
   const sendMsg = async () => {
     try {
@@ -76,6 +80,9 @@ export function Chat() {
       component.current = true;
     }
   }, []);
+  useLayoutEffect(() => {
+    scrollDown();
+  }, [msg]);
   return (
     <motion.main id="main" className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
