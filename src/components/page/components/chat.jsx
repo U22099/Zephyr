@@ -30,6 +30,7 @@ export function Chat() {
   const socket = useSocket(state => state.socket);
   const sendMsg = async () => {
     try {
+      setInput("");
       const msgData = {
         content: input,
         read: false,
