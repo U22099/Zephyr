@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllUsers, createNewGroup } from "@/utils";
+import { getAllUsers, createNewGroup, toBase64 } from "@/utils";
 import { useUID, useUserData, usePage } from "@/store";
 import {
   Card,
@@ -11,14 +11,14 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerTrigger,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loading } from "@/components/loading";
@@ -80,22 +80,22 @@ export function Users() {
         setGroupsFilter(groups.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
         
       }}/>
-      <Dialog>
-        <DialogTrigger>
+      <Drawer>
+        <DrawerTrigger>
           <Button variant="outline">Create new group</Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Group</DialogTitle>
-            <DialogDescription>
+        </DrawerTrigger>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Group</DrawerTitle>
+            <DrawerDescription>
               Add two or more participants
-            </DialogDescription>
-          </DialogHeader>
+            </DrawerDescription>
+          </DrawerHeader>
           <section className="flex flex-col gap-2 max-w-3/4 overflow-y-scroll">
             <GroupProfile setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
-              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group.participants.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}/>)}
+              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group.participants.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => {}}/>)}
             </section>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Add Members</h3>
@@ -105,11 +105,11 @@ export function Users() {
               })}/>)}
             </section>
           </section>
-          <DialogFooter>
+          <DrawerFooter>
             <Button onClick={createGroup}>Create</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
       <section className="flex flex-col gap-2 w-full">
         <h2 className="text-xl font-bold">People</h2>
         {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
@@ -166,12 +166,12 @@ function GroupProfile({ setGroup }){
     <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
       <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">
           <section className="flex justify-between">
-            <div className="flex w-fit justify-center flex-col items-center">
-              <Avatar className="w-20 h-20">
+          <div className="flex w-fit justify-center flex-col items-center">
+            <Avatar className="w-16 h-16">
               <AvatarImage src={image} className="object-cover rounded-full" />
-              <AvatarFallback className="text-2xl text-primary">{name ? name[0] : "Z"}</AvatarFallback>
+              <AvatarFallback className="text-xl text-primary">{name ? name[0] : "Z"}</AvatarFallback>
             </Avatar>
-            <Label htmlFor="image" className="underline text-primary text-lg">Edit</Label>
+            <Label htmlFor="image" className="underline text-primary text-md">Edit</Label>
             <input id="image" accept="image/*" type="file" onChange={async (e) => {
               const data = await toBase64(e.target.files[0]);
               setImage(data);
@@ -179,7 +179,7 @@ function GroupProfile({ setGroup }){
           </div>
         </section>
         <section className="flex items-center gap-2">
-          <Input className="font-semibold" defaultValue={name || ""} onChange={(e) => setName(e.target.value)}/>
+          <Input className="font-semibold" onChange={(e) => setName(e.target.value)}/>
         </section>
       </CardContent>
     </Card>
