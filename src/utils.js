@@ -14,6 +14,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { saveData } from "@/storage";
+import { v4 } from "uuid";
 import axios from "axios";
 
 export const getData = async (uid, collection, setData = null) => {
@@ -31,7 +32,8 @@ export const createNewGroup = async (uid, groupData) => {
   try{
     const data = await uploadFileAndGetURL(groupData.image, "images", "image");
     if(data?.secure_url || !groupData.image){
-      await addDoc(collection(db, "users"), {
+      const id = v4();
+      await addDoc(db(db, "users", id), {
         name: groupData.name,
         imageURL: data?.secure_url || null,
         imagePublicId: data?.public_id || null,
@@ -40,7 +42,14 @@ export const createNewGroup = async (uid, groupData) => {
         description: groupData.description,
         participants: [...groupData.participants]
       });
+      await addDoc(collection(db, "chats"), {
+        groupId: id,
+        type: "group",
+        members: groupData.members,
+        participants: [...groupData.participants]
+      });
       return {
+        uid: id,
         name: groupData.name,
         imageURL: data?.secure_url || null,
         imagePublicId: data?.public_id || null,
@@ -122,10 +131,10 @@ export const getMessages = async (userId, friendId, type) => {
   try {
     const chatDoc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
+    ))).docs.find(d => (areArraysEqual([userId, friendId], d.data().participants) || (d.data().type === "group")&&d.data().participants.includes(userId)));
     let result = [];
     if (chatDoc?.exists()) {
-      if(chatDoc.data().lastMessage&&chatDoc.data().lastMessage.senderId === friendId){
+      if(chatDoc.data().lastMessage&&chatDoc.data().lastMessage.senderId !== userId){
         await updateDoc(doc(db, "chats", chatDoc.id), {
           "lastMessage.read": true,
         });
@@ -154,9 +163,8 @@ export const sendMessage = async (userId, friendId, msgData) => {
   try {
     const chatDoc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
+    ))).docs.find(d => (areArraysEqual([userId, friendId], d.data().participants) || (d.data().type === "group")&&d.data().participants.includes(userId)));
     if (chatDoc?.exists()) {
-      console.log(chatDoc.id, chatDoc.ref, chatDoc.data());
       await updateDoc(doc(db, "chats", chatDoc.id), {
         lastMessage: {
           ...msgData
