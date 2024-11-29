@@ -163,7 +163,7 @@ const Message = ({ m, type, uid }) => {
           m.type === "video" ? 
           <video className="rounded h-60 w-60 object-cover" controls src={m.content?.secure_url} /> : 
           m.type === "audio" ? 
-          <audio className="rounded h-60 w-60 object-cover" controls src={m.content?.playbac_url} /> : 
+          <audio controls src={m.content?.playback_url} /> : 
           m.type === "pdf" ? 
           <embed className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : null}
         </CardContent>
