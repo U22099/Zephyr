@@ -54,7 +54,10 @@ export function Chat() {
   } 
   useEffect(() => {
     socket.on("recieve-message", data => {
-      if(data.senderId === page.data.uid) setMsg([...msg, data]);
+      if(data.senderId === page.data.uid){
+
+        setMsg([...msg, data]);
+      }
     });
   }, [socket]);
   useEffect(() => {
@@ -88,7 +91,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2 pb-10">
+      <main className="flex flex-col gap-2 w-full p-2 pb-20">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
