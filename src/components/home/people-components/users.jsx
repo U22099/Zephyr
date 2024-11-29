@@ -95,11 +95,11 @@ export function Users() {
         setGroupsFilter(groups.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
         
       }}/>
-      <Drawer className="max-h-[80%] overflow-y-scroll">
+      <Drawer>
         <DrawerTrigger>
           <Button variant="outline">Create new group</Button>
         </DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent className="max-h-[80%] overflow-y-scroll">
           <DrawerHeader>
             <DrawerTitle>Group</DrawerTitle>
             <DrawerDescription>
