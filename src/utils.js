@@ -183,13 +183,13 @@ export const uploadFileAndGetURL = async (file, folder, type) => {
     folder,
     type
   })
-  const fileObj = (await axios.post("/api/file",
+  /*const fileObj = (await axios.post("/api/file",
   {
     file,
     folder,
     type
   })).data;
-  return fileObj.fileURL;
+  return fileObj.fileURL;*/
 }
 export const toBase64 = (file) => {
   const reader = new FileReader();
