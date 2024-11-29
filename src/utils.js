@@ -33,7 +33,7 @@ export const createNewGroup = async (uid, groupData) => {
     const data = await uploadFileAndGetURL(groupData.image, "images", "image");
     if(data?.secure_url || !groupData.image){
       const id = v4();
-      await addDoc(db(db, "users", id), {
+      await addDoc(doc(db, "users", id), {
         name: groupData.name,
         imageURL: data?.secure_url || null,
         imagePublicId: data?.public_id || null,
