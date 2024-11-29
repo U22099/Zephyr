@@ -29,7 +29,6 @@ export function Chat() {
   const socket = useSocket(state => state.socket);
   const sendMsg = async () => {
     try {
-      console.log("called")
       const msgData = {
         content: input,
         read: false,
@@ -48,7 +47,6 @@ export function Chat() {
         data: msgData
       });
     } catch (err) {
-      console.log("called")
       console.log(err, err.message, "send message");
     }
   } 
