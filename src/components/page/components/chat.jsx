@@ -56,7 +56,6 @@ export function Chat() {
             content: "uploading...",
             type: "text",
             senderId: uid,
-            timestamp: "file upload"
           }]);
           const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
           msgData = {
@@ -167,7 +166,7 @@ const Message = ({ m, type, uid }) => {
           <embed className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : null}
         </CardContent>
         <CardFooter className="flex p-0 justify-end">
-          <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp || "")}</p>
+          <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)||""}</p>
         </CardFooter>
       </Card>
     </main>
