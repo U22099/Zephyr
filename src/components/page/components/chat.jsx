@@ -156,7 +156,7 @@ const Message = ({ m, type, uid }) => {
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
           {m.type === "text" ? 
-          <p>{m.content?.secure_url}</p> : 
+          <p>{m.content}</p> : 
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : 
           m.type === "video" ? 
