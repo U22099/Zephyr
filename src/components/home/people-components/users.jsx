@@ -20,6 +20,7 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Loading } from "@/components/loading";
 
@@ -29,7 +30,7 @@ export function Users() {
   const [ group, setGroup ] = useState({
     name: "my-group",
     image: "",
-    participants: []
+    participants: [uid]
   });
   const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
@@ -110,7 +111,7 @@ export function Users() {
             </section>
           </section>
           <DrawerFooter>
-            <Button onClick={createGroup}>Create</Button>
+            <Button disabled={!(group.name&&group.participants.length > 2)} onClick={createGroup}>Create</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
