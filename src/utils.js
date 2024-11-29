@@ -178,13 +178,18 @@ export const updateVariables = async (uid, setUsername, setImageUrl, setGender, 
   }
 }
 export const uploadFileAndGetURL = async (file, folder, type) => {
-  const newImageObj = (await axios.post("/api/file",
+  console.log({
+    file: file.split(",")[0],
+    folder,
+    type
+  })
+  const fileObj = (await axios.post("/api/file",
   {
     file,
     folder,
     type
   })).data;
-  return newImageObj.fileURL;
+  return fileObj.fileURL;
 }
 export const toBase64 = (file) => {
   const reader = new FileReader();

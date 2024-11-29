@@ -54,11 +54,8 @@ export function Chat() {
       } else {
         try{
           setMsg([...msg, {
-            content: arg.data,
-            read: false,
-            type: !["image", "video", "audio"].includes(arg.type.split("/")[0]) ? "file" : arg.type.split("/")[0],
-            senderId: uid,
-            timestamp: Date.now(),
+            content: "uploading...",
+            type: "text"
           }]);
           const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
           msgData = {
@@ -68,8 +65,10 @@ export function Chat() {
             senderId: uid,
             timestamp: Date.now(),
           }
+          setMsg(msg.filter(x => x.content != "uploading..."))
         } catch(err){
           console.log(err.message);
+          return;
         }
       }
       if(page.data.type === "group"){
@@ -157,16 +156,16 @@ const Message = ({ m, type, uid }) => {
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
           {m.type === "text" ? 
-          <p>{m.content}</p> : 
+          <p>{m.content?.secure_url}</p> : 
           m.type === "image" ? 
-          <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
+          <img className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : 
           m.type === "video" ? 
-          <video className="rounded h-60 w-60 object-cover" controls src={m.content} /> : 
+          <video className="rounded h-60 w-60 object-cover" controls src={m.content?.secure_url} /> : 
           m.type === "file" ? 
-          <embed className="rounded h-60 w-60 object-cover" src={m.content} /> : null}
+          <embed className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : null}
         </CardContent>
         <CardFooter className="flex p-0 justify-end">
-          <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)}</p>
+          <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp || "")}</p>
         </CardFooter>
       </Card>
     </main>
