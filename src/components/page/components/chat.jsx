@@ -115,7 +115,7 @@ export function Chat() {
     <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
         <FaChevronLeft className="self-center dark:fill-white fill-black w-8 h-8 col-span-2 ml-2" onClick={() => setPage({open: false, component: 'default'})}/>
-        <section className="flex items-center gap-2 col-span-6">
+        <section className="flex items-center gap-2 col-span-8">
           <Avatar className="w-12 h-12">
             <AvatarImage className="w-12 h-12 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
@@ -153,7 +153,7 @@ const Message = ({ m, type, uid }) => {
   return(
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
-        {type === "group" && <CardHeader className="w-full flex justify-start p-p">
+        {type === "group" && <CardHeader className="w-full flex justify-start p-0">
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
