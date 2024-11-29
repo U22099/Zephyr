@@ -64,7 +64,7 @@ export function Chat() {
             senderId: uid,
             timestamp: Date.now(),
           }
-          setMsg(msg.filter(x => x.content != "uploading..."))
+          setMsg(msg.filter(x => x.content != "uploading..."));
         } catch(err){
           console.log(err.message);
           return;
