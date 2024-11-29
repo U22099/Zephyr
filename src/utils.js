@@ -40,12 +40,11 @@ export const createNewGroup = async (uid, groupData) => {
         type: "group",
         admin: uid,
         description: groupData.description,
-        participants: [...groupData.participants]
+        members: groupData.members,
       });
       await addDoc(collection(db, "chats"), {
         groupId: id,
         type: "group",
-        members: groupData.members,
         participants: [...groupData.participants]
       });
       return {
@@ -55,6 +54,7 @@ export const createNewGroup = async (uid, groupData) => {
         imagePublicId: data?.public_id || null,
         type: "group",
         admin: uid,
+        members: groupData.members.join(","),
         description: groupData.description,
         participants: [...groupData.participants]
       }
