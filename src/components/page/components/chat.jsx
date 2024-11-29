@@ -122,7 +122,7 @@ export function Chat() {
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
-        <lable htmlFor="file">
+        <label htmlFor="file">
           <FaPlus className="fill-primary text-lg" />
         </label>
         <input type="file" accepts=".jpg, .png, .jpeg, .mp3, .mp4" hidden id="file" onChange={async (e) => if(e.target.files[0]){
