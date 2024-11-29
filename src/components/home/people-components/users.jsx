@@ -10,6 +10,15 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loading } from "@/components/loading";
@@ -54,6 +63,29 @@ export function Users() {
         setGroupsFilter(groups.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
         
       }}/>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline">Create new group</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Group</DialogTitle>
+            <DialogDescription>
+              Add two or more participants
+            </DialogDescription>
+          </DialogHeader>
+          {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
+            open: true,
+            component: "chat",
+            data: {
+              ...doc
+            }
+          })}/>)}
+          <DialogFooter>
+            <Button>Create</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <section className="flex flex-col gap-2 w-full">
         <h2 className="text-xl font-bold">People</h2>
         {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setPage({
