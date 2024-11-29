@@ -32,10 +32,12 @@ export function Chat() {
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
     if(page.data.type === "group" && msg[msg.length-1].senderId != uid) return;
-    if(main.current) main.current.scrollTo({
-      top: main.current.scrollHeight,
-      behavior: "smooth"
-    })
+    if(main.current){
+      main.current.scrollTo({
+        top: main.current.scrollHeight,
+        behavior: "smooth"
+      })
+    }
   }
   const sendMsg = async (arg = null) => {
     try {
@@ -51,6 +53,13 @@ export function Chat() {
         }
       } else {
         try{
+          setMsg([...msg, {
+            content: arg.data,
+            read: false,
+            type: !["image", "video", "audio"].includes(arg.type.split("/")[0]) ? "file" : arg.type.split("/")[0],
+            senderId: uid,
+            timestamp: Date.now(),
+          }]);
           const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
           msgData = {
             content: fileUrl,
@@ -121,19 +130,19 @@ export function Chat() {
       <main className="flex flex-col gap-2 w-full p-2 pb-20" ref={main}>
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
-      <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
+      <footer className="flex items-center gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <label htmlFor="file">
-          <FaPlus className="fill-primary text-lg" />
+          <FaPlus className="fill-primary text-xl" />
         </label>
-        <input type="file" accepts=".jpg, .png, .jpeg, .mp3, .mp4" hidden id="file" onChange={async (e) => if(e.target.files[0]){
+        <input type="file" accepts=".jpg, .png, .jpeg, .mp3, .mp4" hidden id="file" onChange={async (e) => {if(e.target.files[0]){
           const data = await toBase64(e.target.files[0]);
           await sendMsg({
             data,
             type: data.split(",")[0].split(";")[0].split(":")[1]
           });
-        }} />
+        }}}/>
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
-        <Button onClick={async () => if(input){await sendMsg()}}><IoSend /></Button>
+        <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
     </motion.main>
   )
@@ -150,11 +159,11 @@ const Message = ({ m, type, uid }) => {
           {m.type === "text" ? 
           <p>{m.content}</p> : 
           m.type === "image" ? 
-          <img className="rounded h-40 w-40 object-cover" src={m.content} /> : 
+          <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
           m.type === "video" ? 
-          <video className="rounded h-40 w-40 object-cover" controls src={m.content} /> : 
+          <video className="rounded h-60 w-60 object-cover" controls src={m.content} /> : 
           m.type === "file" ? 
-          <embed className="rounded h-40 w-40 object-cover" src={m.content} /> : null}
+          <embed className="rounded h-60 w-60 object-cover" src={m.content} /> : null}
         </CardContent>
         <CardFooter className="flex p-0 justify-end">
           <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)}</p>
