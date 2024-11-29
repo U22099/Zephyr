@@ -26,7 +26,11 @@ import { Loading } from "@/components/loading";
 export function Users() {
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage)
-  const [ group, setGroup ] = useState();
+  const [ group, setGroup ] = useState({
+    name: "my-group",
+    image: "",
+    participants: []
+  });
   const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
   const [ groupsFilter, setGroupsFilter ] = useState([]);
@@ -95,13 +99,13 @@ export function Users() {
             <GroupProfile setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
-              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group.participants.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => {}}/>)}
+              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => {}}/>)}
             </section>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Add Members</h3>
-              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group.participants.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
+              {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
                 ...group,
-                participants: [...group.participants, doc.uid]
+                participants: [...group?.participants, doc.uid]
               })}/>)}
             </section>
           </section>
