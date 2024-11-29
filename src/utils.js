@@ -93,7 +93,6 @@ function areArraysEqual(arr1, arr2) {
 
 export const getMessages = async (userId, friendId, type) => {
   try {
-    console.log("called")
     const chatDoc = (await getDocs(query(collection(db, "chats"),
       where("participants", "array-contains-any", [userId, friendId]),
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants));
@@ -114,7 +113,6 @@ export const getMessages = async (userId, friendId, type) => {
         });
       }
     } else {
-      console.log("created");
       await addDoc(collection(db, "chats"), {
         type,
         participants: [userId, friendId]

@@ -17,10 +17,11 @@ import { IoVideocamOutline } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { sendMessage, getMessages, convertToTimeString } from "@/utils";
 
 export function Chat() {
+  const component = useRef(false);
   const uid = useUID(state => state.uid);
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
@@ -64,7 +65,10 @@ export function Chat() {
         console.log(err, err.message, "fetchMsgs")
       }
     }
-    fetchMsgs();
+    if(!component.current){
+      fetchMsgs();
+      component.current = true;
+    }
   }, []);
   return (
     <motion.main className="border w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
@@ -96,7 +100,7 @@ export function Chat() {
 
 const Message = ({ m, type, uid }) => {
   return(
-    <main className={"border flex w-full items-center" + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
+    <main className={"border flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start">
         {type === "group" && <CardHeader>
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
