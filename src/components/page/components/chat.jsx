@@ -113,9 +113,9 @@ export function Chat() {
   }, [msg]);
   return (
     <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
-      <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 px-2 border-b z-10 items-center">
-        <FaChevronLeft className="self-center dark:fill-white fill-black w-6 h-6 col-span-2" onClick={() => setPage({open: false, component: 'default'})}/>
-        <section className="flex items-center gap-2 col-span-6">
+      <header className="sticky top-0 left-0 w-full grid grid-cols-12 border backdrop-blur-sm pb-2 px-1 border-b z-10 items-center">
+        <FaChevronLeft className="self-center dark:fill-white fill-black border w-6 h-6 col-span-2" onClick={() => setPage({open: false, component: 'default'})}/>
+        <section className="flex items-center gap-2 border col-span-6">
           <Avatar className="w-12 h-12">
             <AvatarImage className="w-12 h-12 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
@@ -125,8 +125,8 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate">{page.data.active || page.data.members}</p>
           </section>
         </section>
-        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-6 h-6 col-span-2"/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-6 h-6 col-span-2 text-lg"/>
+        <HiOutlinePhone className="self-center dark:stroke-white stroke-black border w-6 h-6 col-span-2"/>
+        <IoVideocamOutline className="self-center dark:stroke-white stroke-black border w-6 h-6 col-span-2 text-lg"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 pb-20" ref={main}>
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
