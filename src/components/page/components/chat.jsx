@@ -31,12 +31,10 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
-    if(page.data.type === "group" && msg[msg.length-1].senderId != uid) return;
+    if((page.data.type === "group") && msg[msg.length-1].senderId != uid) return;
     if(main.current){
-      main.current.scrollTo({
-        top: main.current.scrollHeight,
-        behavior: "smooth"
-      })
+      console.log("scrolled");
+      main.current.scrollTop = main.current.scrollHeight;
     }
   }
   const sendMsg = async (arg = null) => {
@@ -54,18 +52,18 @@ export function Chat() {
         try{
           setMsg([...msg, {
             content: "uploading...",
-            type: "text",
+            type: "upload",
             senderId: uid,
           }]);
           const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
           msgData = {
             content: fileUrl,
             read: false,
-            type: arg.type,
+            type: arg.data.split(",")[0].split(";")[0].split(":")[1].split("/")[0],
             senderId: uid,
             timestamp: Date.now(),
           }
-          setMsg(msg.filter(x => x.content != "uploading..."));
+          setMsg(msg.filter(x => x.type != "upload"));
         } catch(err){
           console.log(err.message);
           return;
@@ -138,7 +136,7 @@ export function Chat() {
           const data = await toBase64(e.target.files[0]);
           await sendMsg({
             data,
-            type: !["image", "video", "audio"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? "pdf" : data.split(",")[0].split(";")[0].split(":")[1].split("/")[0],
+            type: !["image", "video", "audio"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? "raw" : ["image", "video"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? data.split(",")[0].split(";")[0].split(":")[1].split("/")[0] : "video",
           });
         }}}/>
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
@@ -156,17 +154,19 @@ const Message = ({ m, type, uid }) => {
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
-          {m.type === "text" ? 
+          {m.type === "upload" ? 
+          <p className="text-primary font-bold animate-pulse">{m.content}</p> : 
+          m.type === "text" ? 
           <p>{m.content}</p> : 
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : 
           m.type === "video" ? 
           <video className="rounded h-60 w-60 object-cover" controls src={m.content?.secure_url} /> : 
-          m.type === "file" ? 
+          m.type === "pdf" ? 
           <embed className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : null}
         </CardContent>
         <CardFooter className="flex p-0 justify-end">
-          <p className="text-xs text-muted-foreground">{convertToTimeString(m.timestamp)||""}</p>
+          <p className="text-xs text-muted-foreground">{(m.type === "upload") ? "please wait" : convertToTimeString(m.timestamp)}</p>
         </CardFooter>
       </Card>
     </main>
