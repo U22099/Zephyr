@@ -36,7 +36,7 @@ export function Users() {
   const [data, setData] = useState([]);
   const createGroup = async () => {
     try{
-      const groupData = await createNewGroup(group);
+      const groupData = await createNewGroup(uid, group);
       if(groupData){ 
         setPage({
           open: true,
@@ -81,7 +81,7 @@ export function Users() {
         
       }}/>
       <Dialog>
-        <DialogTrigger asChild>
+        <DialogTrigger>
           <Button variant="outline">Create new group</Button>
         </DialogTrigger>
         <DialogContent>
