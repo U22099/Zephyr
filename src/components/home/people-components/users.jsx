@@ -28,17 +28,18 @@ import { Input } from "@/components/ui/input";
 import { Loading } from "@/components/loading";
 
 export function Users() {
+  const { userData, setUserData } = useUserData();
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage)
   const [ group, setGroup ] = useState({
     name: "my-group",
     image: "",
     description: "",
+    members: [userData.username],
     participants: [uid]
   });
   const [ groupLoading, setGroupLoading ] = useState(false);
   const [ groupError, setGroupError ] = useState("");
-  const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
   const [ groupsFilter, setGroupsFilter ] = useState([]);
   const [ peopleFilter, setPeopleFilter ] = useState([]);
@@ -116,6 +117,7 @@ export function Users() {
               <h3 className="text-lg">Add Members</h3>
               {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
                 ...group,
+                members: [...group?.members, doc.name],
                 participants: [...group?.participants, doc.uid]
               })}/>)}
             </section>
