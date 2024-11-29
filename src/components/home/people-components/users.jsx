@@ -20,6 +20,7 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { AiOutlineLoading } from "react-icons/ai";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Loading } from "@/components/loading";
@@ -32,6 +33,7 @@ export function Users() {
     image: "",
     participants: [uid]
   });
+  const [ groupLoading, setGroupLoading ] = useState(false);
   const { userData, setUserData } = useUserData();
   const [loading, setLoading] = useState(false);
   const [ groupsFilter, setGroupsFilter ] = useState([]);
@@ -41,6 +43,7 @@ export function Users() {
   const [data, setData] = useState([]);
   const createGroup = async () => {
     try{
+      setGroupLoading(true);
       const groupData = await createNewGroup(uid, group);
       if(groupData){ 
         setPage({
@@ -52,6 +55,7 @@ export function Users() {
         });
       }
     } catch(err) {
+      setGroupLoading(false);
       console.log(err.message);
     }
   }
@@ -97,7 +101,7 @@ export function Users() {
             </DrawerDescription>
           </DrawerHeader>
           <section className="flex flex-col gap-2 max-h-1/2 overflow-y-scroll">
-            <GroupProfile setGroup={setGroup}/>
+            <GroupProfile group={group} setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
               {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => {}}/>)}
@@ -111,7 +115,7 @@ export function Users() {
             </section>
           </section>
           <DrawerFooter>
-            <Button disabled={!(group.name&&group.participants.length > 2)} onClick={createGroup}>Create</Button>
+            <Button disabled={!(group.name&&group.participants.length > 2)} onClick={createGroup}>{groupLoading ? <AiOutlineLoading className="animate-spin text-md"/> : "Create"}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
@@ -158,15 +162,15 @@ function CardList({ doc, action }) {
   )
 }
 
-function GroupProfile({ setGroup }){
-  const [ name, setName ] = useState();
-  const [ image, setImage ] = useState();
+function GroupProfile({ group, setGroup }){
+  const [ name, setName ] = useState(group.name);
+  const [ image, setImage ] = useState(group.image);
   useEffect(() => {
-    setGroup(group => ({
+    setGroup({
       ...group,
       name,
       image
-    }));
+    });
   }, [ name, image ]);
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
