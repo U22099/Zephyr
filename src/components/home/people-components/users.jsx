@@ -105,13 +105,13 @@ export function Users() {
               Add two or more participants
             </DrawerDescription>
           </DrawerHeader>
-          <section className="flex flex-col gap-2 max-h-1/2 overflow-y-scroll">
+          <section className="flex flex-col gap-2 h-1/2 overflow-y-scroll">
             <GroupProfile group={group} setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
               {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => {}}/>)}
             </section>
-            <Seperator />
+            <Separator />
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Add Members</h3>
               {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
