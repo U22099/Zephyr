@@ -27,7 +27,7 @@ export const getData = async (uid, collection, setData = null) => {
   }
 }
 
-export const createNewGroup = async (uid, groupData){
+export const createNewGroup = async (uid, groupData) => {
   try{
     const imageURL = await uploadFileAndGetURL(groupData.image, "images", "image");
     if(imageURL?.secure_url){
