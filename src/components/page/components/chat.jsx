@@ -121,12 +121,12 @@ export function Chat() {
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-center gap-1 w-full">
-              <h1 className="text-xl font-bold">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground">{page.data.active || page.data.members}</p>
+              <h1 className="text-xl font-bold truncate">{page.data.name}</h1>
+              <p className="text-sm text-muted-foreground truncate">{page.data.active || page.data.members}</p>
           </section>
         </section>
-        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
+        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-1"/>
+        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-1 text-lg"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 pb-20" ref={main}>
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
@@ -152,8 +152,8 @@ export function Chat() {
 const Message = ({ m, type, uid }) => {
   return(
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
-      <Card className="flex flex-col gap-1 w-fit justify-center items-start p-1.5 min-w-[20%]">
-        {type === "group" && <CardHeader className="w-full flex justify-start p-0">
+      <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
+        {type === "group" && <CardHeader className="w-full flex justify-start p-p">
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
