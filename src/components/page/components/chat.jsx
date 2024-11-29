@@ -41,7 +41,6 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
-      setInput("");
       let msgData
       if(!arg){
         msgData = {
@@ -71,6 +70,7 @@ export function Chat() {
           return;
         }
       }
+      setInput("");
       if(page.data.type === "group"){
         msgData.senderName = userData.username;
       }
