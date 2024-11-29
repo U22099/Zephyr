@@ -122,7 +122,7 @@ export function Chat() {
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-center gap-1 w-full">
               <h1 className="text-xl font-bold">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground">{page.data.active || page.data.members.join(",")}</p>
+              <p className="text-sm text-muted-foreground">{page.data.active || page.data.members}</p>
           </section>
         </section>
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
