@@ -54,7 +54,9 @@ export function Chat() {
         try{
           setMsg([...msg, {
             content: "uploading...",
-            type: "text"
+            type: "text",
+            senderId: uid,
+            timestamp: "file upload"
           }]);
           const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
           msgData = {
