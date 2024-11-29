@@ -63,7 +63,6 @@ export const getChats = async (userId, setData) => {
         } else if (document.data().type === "group") {
           id = document.data().groupId;
         }
-        console.log(id);
         const docData = await getDoc(doc(db, "users", id));
         if(docData.exists()){
           const userData = docData.data();
@@ -81,7 +80,7 @@ export const getChats = async (userId, setData) => {
         }
       }));
     }
-    setData(result.sort((a,b) => a.lastMessage.timestamp - b.lastMessage.timestamp));
+    setData(result);
   } catch (err) {
     console.error(err, err.message, "getMessages");
   }

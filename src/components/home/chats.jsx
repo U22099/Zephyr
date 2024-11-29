@@ -16,7 +16,7 @@ export function Chats() {
     }
   }, [uid, page]);
   useEffect(() => {
-    setFilteredFriends([...friends.sort((a,b) => b.lastMessage.timestamp - a.lastMessage.timestamp)]);
+    setFilteredFriends([...friends]);
   }, [friends]);
   return (
     <main className="flex flex-col w-screen gap-3 p-2">
@@ -26,7 +26,7 @@ export function Chats() {
         if(!e.target.value) setFilteredFriends([...friends])
       setFilteredFriends(friends.filter(x => x.name.toLowerCase().includes(e.target.value.toLowerCase())))}
       }/>
-      {filteredFriends&&filteredFriends.sort((a,b) => a.lastMessage.timestamp - b.lastMessage.timestamp).map((doc, i) => <Messages key={i} doc={doc}/>)}
+      {filteredFriends&&filteredFriends.sort((a,b) => b.lastMessage.timestamp - a.lastMessage.timestamp).map((doc, i) => <Messages key={i} doc={doc}/>)}
     </main>
   )
 }
