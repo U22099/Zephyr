@@ -20,6 +20,8 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -31,6 +33,7 @@ export function Users() {
   const [ group, setGroup ] = useState({
     name: "my-group",
     image: "",
+    description: "",
     participants: [uid]
   });
   const [ groupLoading, setGroupLoading ] = useState(false);
@@ -108,6 +111,7 @@ export function Users() {
               <h3 className="text-lg">Members</h3>
               {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => {}}/>)}
             </section>
+            <Seperator />
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Add Members</h3>
               {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
@@ -167,18 +171,20 @@ function CardList({ doc, action }) {
 
 function GroupProfile({ group, setGroup }){
   const [ name, setName ] = useState(group.name);
+  const [ description, setDescription ] = useState(group.description);
   const [ image, setImage ] = useState(group.image);
   useEffect(() => {
     setGroup({
       ...group,
       name,
-      image
+      image,
+      description,
     });
   }, [ name, image ]);
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
       <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">
-          <section className="flex justify-between">
+        <section className="flex justify-between">
           <div className="flex w-fit justify-center flex-col items-center">
             <Avatar className="w-16 h-16">
               <AvatarImage src={image} className="object-cover rounded-full" />
@@ -191,8 +197,12 @@ function GroupProfile({ group, setGroup }){
             }} hidden/>
           </div>
         </section>
-        <section className="flex items-center gap-2">
+        <section className="flex flex-col items-center gap-2">
           <Input className="font-semibold" onChange={(e) => setName(e.target.value)}/>
+          <div>
+            <Label htmlFor="description">Description</Label>
+            <Textarea placeholder="Add group description" id="description" onChange={(e) => setDescription(e.target.value)} />
+          </div>
         </section>
       </CardContent>
     </Card>
