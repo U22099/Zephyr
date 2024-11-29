@@ -15,10 +15,11 @@ import {
 import { HiOutlinePhone } from "react-icons/hi";
 import { IoVideocamOutline } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
-import { sendMessage, getMessages, convertToTimeString } from "@/utils";
+import { sendMessage, getMessages, convertToTimeString, uploadFileAndGetURL, toBase64 } from "@/utils";
 
 export function Chat() {
   const component = useRef(false);
@@ -36,15 +37,31 @@ export function Chat() {
       behavior: "smooth"
     })
   }
-  const sendMsg = async () => {
+  const sendMsg = async (arg = null) => {
     try {
       setInput("");
-      const msgData = {
-        content: input,
-        read: false,
-        type: "text",
-        senderId: uid,
-        timestamp: Date.now(),
+      let msgData
+      if(!arg){
+        msgData = {
+          content: input,
+          read: false,
+          type: "text",
+          senderId: uid,
+          timestamp: Date.now(),
+        }
+      } else {
+        try{
+          const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
+          msgData = {
+            content: fileUrl,
+            read: false,
+            type: arg.type,
+            senderId: uid,
+            timestamp: Date.now(),
+          }
+        } catch(err){
+          console.log(err.message);
+        }
       }
       if(page.data.type === "group"){
         msgData.senderName = userData.username;
@@ -105,6 +122,16 @@ export function Chat() {
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
+        <lable htmlFor="file">
+          <FaPlus className="fill-primary text-lg" />
+        </label>
+        <input type="file" accepts=".jpg, .png, .jpeg, .mp3, .mp4" hidden id="file" onChange={async (e) => if(e.target.files[0]){
+          const data = await toBase64(e.target.files[0]);
+          await sendMsg({
+            data,
+            type: data.split(",")
+          });
+        }} />
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={async () => if(input){await sendMsg()}}><IoSend /></Button>
       </footer>
