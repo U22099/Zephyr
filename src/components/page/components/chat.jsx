@@ -31,7 +31,10 @@ export function Chat() {
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
     if(page.data.type === "group" && msg[msg.length-1].senderId != uid) return;
-    main.current.scrollTop = main.current.scrollHeight;
+    if(main.current) main.current.scrollTo({
+      top: main.current.scrollHeight,
+      behavior: "smooth"
+    })
   }
   const sendMsg = async () => {
     try {
@@ -79,7 +82,7 @@ export function Chat() {
     }
   }, []);
   useEffect(() => {
-    if(component.current) scrollDown();
+    scrollDown();
   }, [msg]);
   return (
     <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
