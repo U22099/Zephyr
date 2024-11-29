@@ -22,6 +22,7 @@ import { sendMessage, getMessages, convertToTimeString } from "@/utils";
 
 export function Chat() {
   const component = useRef(false);
+  const main = useRef();
   const uid = useUID(state => state.uid);
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
@@ -30,8 +31,7 @@ export function Chat() {
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
     if(page.data.type === "group" && msg[msg.length-1].senderId != uid) return;
-    const body = document.getElementById("main");
-    body.scrollTop = body.scrollHeight;
+    main.current.scrollTop = main.current.scrollHeight;
   }
   const sendMsg = async () => {
     try {
@@ -82,7 +82,7 @@ export function Chat() {
     if(component.current) scrollDown();
   }, [msg]);
   return (
-    <motion.main id="main" className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full grid grid-cols-12 backdrop-blur-sm pb-2 border-b z-10 text-center items-center justify-center">
         <FaChevronLeft className="self-center dark:fill-white fill-black w-8 h-8 col-span-2 ml-2" onClick={() => setPage({open: false, component: 'default'})}/>
         <section className="flex items-center gap-2 col-span-6">
@@ -98,7 +98,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 col-span-2 text-lg"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2 pb-20">
+      <main className="flex flex-col gap-2 w-full p-2 pb-20" ref={main}>
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
