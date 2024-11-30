@@ -54,7 +54,7 @@ export function ChatProfile() {
   }, []);
   useEffect(() => {
     if(people.length){
-      setPeopleFilter([...(people || [])]);
+      setPeopleFilter([...people]);
     }
   }, [people]);
   return (
@@ -88,7 +88,7 @@ export function ChatProfile() {
             <section className="flex flex-col gap-2 h-full overflow-y-scroll scrollbar">
               <Input placeholder="Search..." onChange={(e) => {
                 if(!e.target.value){
-                  setPeopleFilter([...(people || [])]);
+                  setPeopleFilter([...people]);
                 }
                 setPeopleFilter(people.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
               }}/>
