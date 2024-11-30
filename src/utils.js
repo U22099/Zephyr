@@ -67,9 +67,12 @@ export const createNewGroup = async (uid, groupData) => {
 
 export const updateGroupMembers = async (groupId, group) => {
   try {
-    await setDoc(doc(db, "chats", groupId), {
+    const chatDoc = await getDocs(query(collection(db, "chats"),
+      where("groupId", "==", groupId),
+    ))
+    await setDoc(chatDoc.ref, {
       members: [...group.members],
-      participants: arrayUnion(...group.participants)
+      participants: [...chatDoc.participants, ...group.participants]
     }, { merge: true });
     return true;
   } catch (err) {

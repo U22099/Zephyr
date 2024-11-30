@@ -113,7 +113,7 @@ export function Chat() {
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full flex gap-3 px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-start">
         <FaChevronLeft className="self-center dark:fill-white fill-black w-6 h-6" onClick={() => setPage({open: false, component: 'default'})}/>
-        <section className="flex items-center gap-2 w-full">
+        <section className="flex items-center gap-2 w-full max-w-[70%]">
           <Avatar className="w-12 h-12">
             <AvatarImage className="w-12 h-12 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
