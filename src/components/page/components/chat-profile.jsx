@@ -21,12 +21,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { AiOutlineLoading } from "react-icons/ai";
-import { usePage, useUID } from "@/store";
+import { usePage, useUID, useUserData } from "@/store";
 import { useState } from "react";
-/*import {  } from "@/utils";*/
+import { deleteConversation, leaveGroup } from "@/utils";
 
 export function ChatProfile() {
   const { page, setPage } = usePage();
+    const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
   const [ loading, setLoading ] = useState(false);
   return (
@@ -65,7 +66,11 @@ export function ChatProfile() {
               onClick={
               async () => {
                 setLoading(true);
-                
+                if((page.data.type === "group"&&page.data.admin === uid) || page.data.type === "personal"){
+                  await deleteConversation(uid, page.data.uid);
+                } else {
+                  await leaveGroup(uid, page.data.uid, userData.username);
+                }
                 setLoading(false);
                 setPage({
                   open: false,
