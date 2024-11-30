@@ -29,9 +29,9 @@ export const getData = async (uid, collection, setData = null) => {
 }
 
 export const createNewGroup = async (uid, groupData) => {
-  try{
+  try {
     const data = await uploadFileAndGetURL(groupData.image, "images", "image");
-    if(data?.secure_url || !groupData.image){
+    if (data?.secure_url || !groupData.image) {
       const id = v4();
       await setDoc(doc(db, "users", id), {
         name: groupData.name,
@@ -59,7 +59,7 @@ export const createNewGroup = async (uid, groupData) => {
         participants: [...groupData.participants]
       }
     }
-  } catch(err) {
+  } catch (err) {
     console.log(err, err.message, "createNewGroup");
   }
 }
@@ -101,7 +101,7 @@ export const getChats = async (userId, setData) => {
           id = document.data().groupId;
         }
         const docData = await getDoc(doc(db, "users", id));
-        if(docData.exists()){
+        if (docData.exists()) {
           const userData = docData.data();
           const data = {
             uid: docData.id,
@@ -122,9 +122,10 @@ export const getChats = async (userId, setData) => {
     console.error(err, err.message, "getMessages");
   }
 }
+
 function areArraysEqual(arr1, arr2) {
   return new Set(arr1).size === new Set(arr2).size &&
-         arr1.every(value => new Set(arr2).has(value));
+    arr1.every(value => new Set(arr2).has(value));
 }
 
 export const getMessages = async (userId, friendId, type) => {
@@ -134,13 +135,13 @@ export const getMessages = async (userId, friendId, type) => {
     ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId);
     let result = [];
     if (chatDoc?.exists()) {
-      if(chatDoc.data().lastMessage&&chatDoc.data().lastMessage.senderId !== userId){
+      if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
         await updateDoc(doc(db, "chats", chatDoc.id), {
           "lastMessage.read": true,
         });
       }
       const msg = await getDocs(collection(chatDoc.ref, "messages"));
-      if(!msg?.empty){
+      if (!msg?.empty) {
         msg.docs.forEach(doc =>
         {
           if (doc.exists()) {
@@ -232,12 +233,20 @@ export const toBase64 = (file) => {
   return data;
 }
 export function convertToTimeString(timestamp) {
-  const date = new Date(timestamp);
-  return date.toLocaleTimeString('en-UK', {
-    hour12: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-  });
+  const aDay = 24 * 60 * 60 * 1000;
+  const diff = Date.now() - timestamp;
+
+  if (diff > aDay) {
+    if (diff < 2 * aDay) {
+      return "Yesterday";
+    } else if (diff < 7 * aDay) {
+      return new Date(timestamp).toLocaleString("en-UK", { weekday: "long" });
+    } else {
+      return new Date(timestamp).toLocaleDateString("en-UK", { day: "numeric", month: "numeric", year: "2-digit" });
+    }
+  } else {
+    return new Date(timestamp).toLocaleTimeString("en-UK", { hour12: true, hour: "numeric", minute: "numeric" });
+  }
 }
 export function getCurrentTime() {
   const date = new Date();

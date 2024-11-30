@@ -7,7 +7,7 @@ import { Settings } from "@/components/home/settings";
 import { Loading } from "@/components/loading";
 import { Page } from "@/components/page/pages";
 import { useNav, useUserData, useUID, usePage, useSocket } from "@/store";
-import { getUserData, updateUserData, getCurrentTime } from "@/utils";
+import { getUserData, updateUserData } from "@/utils";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
@@ -35,7 +35,7 @@ export default function Home() {
     socket.emit("add-user", user.uid);
     socket.on("disconnect", async () => {
       await updateUserData(user.uid, {
-        active: `last seen at ${getCurrentTime()}`
+        active: `{Date.now()}`
       })
     });
     setSocket(socket);
