@@ -24,7 +24,7 @@ export function Messages({ docData }){
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timestamp);
   useEffect(() => {
-    if (page.data.type === "group") {
+    if (doc.type === "group") {
       socket.emit("join-group", doc.uid);
       socket.on("group-recieve-message", data => {
         doc.lastMessage = {
