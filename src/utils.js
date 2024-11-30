@@ -67,13 +67,16 @@ export const createNewGroup = async (uid, groupData) => {
 
 export const updateGroupMembers = async (groupId, group) => {
   try {
-    const chatDoc = await getDocs(query(collection(db, "chats"),where("groupId", "==", groupId)));
+    const chatDoc = (await getDocs(query(collection(db, "chats"),where("groupId", "==", groupId)))).docs.find(x => x.groupId === groupId);
+    
     await setDoc(chatDoc.ref, {
       participants: [...chatDoc.data().participants, ...group.participants]
     }, { merge: true });
+    
     await setDoc(doc(db, "users", groupId), {
       members: [...group.members],
     }, { merge: true });
+    
     return true;
   } catch (err) {
     console.log(err, err.message);
@@ -95,7 +98,6 @@ export const getPeople = async (uid, setData) => {
         type: docData.type,
       });
     });
-    console.log(result);
     setData(result?.filter(x => x.uid != uid) || []);
   } catch (err) {
     console.log(err, err.message, "getPeople");
