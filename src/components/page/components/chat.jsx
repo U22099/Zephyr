@@ -33,10 +33,6 @@ export function Chat() {
   const scrollDown = () => {
   if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
     if(main.current){
-      console.log({
-        a: main.current.scrollTop,
-        b: main.current.scrollHeight,
-      });
       main.current.scrollTop = main.current.scrollHeight;
     }
   }
@@ -88,6 +84,9 @@ export function Chat() {
     }
   } 
   useEffect(() => {
+    if(component.current) scrollDown();
+  }, [msg]);
+  useEffect(() => {
     socket.on("recieve-message", data => {
       if(data.senderId === page.data.uid){
         setMsg([...msg, data]);
@@ -108,9 +107,6 @@ export function Chat() {
       component.current = true;
     }
   }, []);
-  useEffect(() => {
-    if(component.current) scrollDown();
-  }, [msg]);
   return (
     <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full flex gap-3 px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-start">

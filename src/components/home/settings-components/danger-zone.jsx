@@ -34,7 +34,7 @@ export function DangerZone() {
           router.push("/");
         }}>{logoutloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Log Out"}</Button>
         <Dialog>
-          <DialogTrigger>
+          <DialogTrigger asChild>
             <Button className="w-full" variant="destructive">Delete Account</Button>
           </DialogTrigger>
           <DialogContent>
