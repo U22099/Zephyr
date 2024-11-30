@@ -41,7 +41,7 @@ export function Header() {
         <Drawer>
           <DrawerTrigger><FaPlus className="text-xl fill-white"/></DrawerTrigger>
           <DrawerContent className="max-h-[90%] flex flex-col p-2">
-            <DrawerHeadert>
+            <DrawerHeader>
               <DrawerTitle>New Chats
               </DrawerTitle>
             </DrawerHeader>
