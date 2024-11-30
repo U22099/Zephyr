@@ -203,18 +203,18 @@ export const updateUserData = async (uid, data, merge = true) => {
     return;
   }
 }
-export const deleteConversation(userId, friendId){
+export const deleteConversation = async (userId, friendId) => {
   const chatDoc = await findFriend(userId, friendId);
   await deleteDoc(chatDoc.ref);
 }
-export const leaveGroup(userId, groupId, name){
+export const leaveGroup = async (userId, groupId, name) => {
   const chatDoc = await findFriend(userId, groupId);
   await updateDoc(chatDoc.ref, {
     participants: [...chatDoc.data().participants.filter(x => x != userId)]
     members: [...chatDoc.data().members.filter(x => x != name)]
   });
 }
-export async function logOut() {
+export const logOut = async () => {
   try {
     await signOut(auth);
     console.log("User signed out successfully.");
@@ -222,7 +222,7 @@ export async function logOut() {
     console.error("Error signing out:", error);
   }
 }
-export async function deleteAccount(uid, name) {
+export const deleteAccount = async (uid, name) => {
   try {
     const user = auth.currentUser;
     if (user) {
