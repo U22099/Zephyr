@@ -27,7 +27,7 @@ export function DangerZone() {
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-muted-foreground">
       <CardContent className="flex flex-col items-center gap-2 p-2 w-full">
-        <Button disabled={logoutloading} variant="destructive" onClick={async () => {
+        <Button className="w-full" disabled={logoutloading} variant="destructive" onClick={async () => {
           setLogoutloading(true);
           await logOut();
           setLogoutloading(false);
@@ -35,7 +35,7 @@ export function DangerZone() {
         }}>{logoutloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Log Out"}</Button>
         <Dialog>
           <DialogTrigger>
-            <Button variant="destructive">Delete Account</Button>
+            <Button className="w-full" variant="destructive">Delete Account</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
