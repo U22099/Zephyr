@@ -30,21 +30,21 @@ export function ChatProfile() {
   const uid = useUID(state => state.uid);
   const [ loading, setLoading ] = useState(false);
   return (
-    <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-screen flex-col items-center justify-start w-full gap-4 p-2">
-      <header className="sticky top-0 left-0 w-full flex justify-center text-center items-center backdrop-blur-sm relative pb-2 border-b z-10">
-        <div className="absolute left-0 top-[-30%] flex justify-center items-center rounded-full p-3 active:bg-gray-900" onClick={() => setPage({open: false, component: 'default'})}>
-        <FaChevronLeft className="self-start dark:fill-white fill-black w-6 h-6"/>
-        </div>
+    <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-screen flex-col items-center justify-start w-full gap-1 p-2">
+      <header className="sticky top-0 left-0 w-full flex justify-start text-center items-center backdrop-blur-sm pb-2 border-b z-10">
+        <FaChevronLeft 
+        onClick={() => setPage({open: false, component: 'default'})}
+        className="self-start dark:fill-white fill-black w-6 h-6"/>
       </header>
-      <section className="flex w-full justify-center flex-col items-center">
-        <Avatar className="w-20 h-20">
+      <section className="flex w-full justify-center flex-col items-center mt-10">
+        <Avatar className="w-28 h-28">
           <AvatarImage src={page.data.image} className="object-cover rounded-full" />
           <AvatarFallback className="text-2xl text-primary">{page.data.name ? page.data.name[0] : "Z"}
           </AvatarFallback>
         </Avatar>
         <h2 className="text-2xl font-bold">{page.data.name}</h2>
       </section>
-      <section className="flex flex-col items-center justify-center gap-2 break-words">
+      <section className="flex flex-col items-center justify-center gap-1 break-words mb-10">
         <h4 className="text-lg text-muted-foreground font-semibold">{page.data.bio || page.data.description}</h4>
         <p className="text-md text-muted-foreground font-semibold">{page.data.active || page.data.members}</p>
       </section>
