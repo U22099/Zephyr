@@ -199,7 +199,7 @@ function GroupProfile({ group, setGroup }){
             }} hidden/>
           </div>
         </section>
-        <section className="flex flex-col items-center gap-2">
+        <section className="flex flex-col items-center gap-2 w-full">
           <Input defaultValue={group.name} className="font-semibold" onChange={(e) => setName(e.target.value)}/>
           <div>
             <Label htmlFor="description">Description</Label>
