@@ -127,7 +127,7 @@ export function Chat() {
       <main className="flex flex-col gap-2 w-full p-2 pb-20" ref={main}>
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
-      <footer className="flex items-center gap-2 fixed bottom-2 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
+      <footer className="flex items-center gap-2 fixed bottom-0 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         <label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
