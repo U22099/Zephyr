@@ -67,7 +67,7 @@ export const createNewGroup = async (uid, groupData) => {
 
 export const updateGroupMembers = async (groupId, group) => {
   try {
-    const chatDoc = (await getDocs(query(collection(db, "chats"),where("groupId", "==", groupId)))).docs.find(x => x.groupId === groupId);
+    const chatDoc = (await getDocs(query(collection(db, "chats"), where("groupId", "==", groupId)))).docs.find(x => x.data().groupId === groupId);
     
     await setDoc(chatDoc.ref, {
       participants: [...chatDoc.data().participants, ...group.participants]
