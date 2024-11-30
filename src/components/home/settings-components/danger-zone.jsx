@@ -27,7 +27,7 @@ export function DangerZone() {
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-muted-foreground">
       <CardContent className="flex items-center gap-2 p-2 w-full">
-        <Button disabled={loading} variant="destructive" onClick={async () => {
+        <Button disabled={logoutloading} variant="destructive" onClick={async () => {
           setLogoutloading(true);
           await logOut();
           setLogoutloading(false);
