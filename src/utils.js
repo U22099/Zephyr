@@ -128,11 +128,15 @@ function areArraysEqual(arr1, arr2) {
     arr1.every(value => new Set(arr2).has(value));
 }
 
+async function findFriend(userId, friendId){
+  return (await getDocs(query(collection(db, "chats"),
+      where("participants", "array-contains-any", [userId, friendId]),
+    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId)
+}
+
 export const getMessages = async (userId, friendId, type) => {
   try {
-    const chatDoc = (await getDocs(query(collection(db, "chats"),
-      where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId);
+    const chatDoc = await findFriend(userId, friendId);
     let result = [];
     if (chatDoc?.exists()) {
       if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
@@ -162,9 +166,7 @@ export const getMessages = async (userId, friendId, type) => {
 }
 export const sendMessage = async (userId, friendId, msgData) => {
   try {
-    const chatDoc = (await getDocs(query(collection(db, "chats"),
-      where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId);
+    const chatDoc = await findFriend(userId, friendId);
     if (chatDoc?.exists()) {
       await updateDoc(doc(db, "chats", chatDoc.id), {
         lastMessage: {
@@ -201,6 +203,17 @@ export const updateUserData = async (uid, data, merge = true) => {
     return;
   }
 }
+export const deleteConversation(userId, friendId){
+  const chatDoc = await findFriend(userId, friendId);
+  await deleteDoc(chatDoc.ref);
+}
+export const leaveGroup(userId, groupId, name){
+  const chatDoc = await findFriend(userId, groupId);
+  await updateDoc(chatDoc.ref, {
+    participants: [...chatDoc.data().participants.filter(x => x != userId)]
+    members: [...chatDoc.data().members.filter(x => x != name)]
+  });
+}
 export async function logOut() {
   try {
     await signOut(auth);
@@ -209,7 +222,7 @@ export async function logOut() {
     console.error("Error signing out:", error);
   }
 }
-export async function deleteAccount(uid) {
+export async function deleteAccount(uid, name) {
   try {
     const user = auth.currentUser;
     if (user) {
@@ -223,6 +236,9 @@ export async function deleteAccount(uid) {
           await updateDoc(doc.ref, {
             participants: [
               ...doc.data().participants.filter(x => x != uid)
+            ],
+            members: [
+              ...doc.data().members.filter(x => x != name)
             ]
           })
         }
