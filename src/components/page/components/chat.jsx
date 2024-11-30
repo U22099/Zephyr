@@ -74,11 +74,18 @@ export function Chat() {
       }
       setMsg([...msg, msgData]);
       await sendMessage(uid, page.data.uid, msgData);
-      socket.emit("send-message", {
-        to: page.data.uid,
-        from: uid,
-        data: msgData
-      });
+      if(page.data.type === "group"){
+        socket.emit("group-send-message", {
+          groupId: page.data.uid,
+          data: msgData,
+        })
+      } else {
+        socket.emit("send-message", {
+          to: page.data.uid,
+          from: uid,
+          data: msgData
+        });
+      }
     } catch (err) {
       console.log(err, err.message, "send message");
     }
@@ -89,11 +96,18 @@ export function Chat() {
     }
   }, [msg]);
   useEffect(() => {
-    socket.on("recieve-message", data => {
-      if(data.senderId === page.data.uid){
+    if(page.data.type === "group"){
+      socket.emit("join-group", page.data.uid);
+      socket.on("group-recieve-message", data => {
         setMsg([...msg, data]);
-      }
-    });
+      })
+    } else {
+      socket.on("recieve-message", data => {
+        if(data.senderId === page.data.uid){
+          setMsg([...msg, data]);
+        }
+      });
+    }
   }, [socket]);
   useEffect(() => {
     const fetchMsgs = async () => {
