@@ -43,7 +43,7 @@ export function DangerZone() {
             <DialogHeader>
               <DialogTitle>Delete Account</DialogTitle>
               <DialogDescription>
-                Please note that this would delete your user data permanently from our database, efficiently removing you from all group chat and deleting all personal chat.
+                Please note that this would delete your user data permanently from our database, effectively removing you from all group chat and deleting all personal chat.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -57,6 +57,7 @@ export function DangerZone() {
                 setDeleteloading(false);
                 router.push("/");
               }}
+              type="submit"
               variant="destructive">{deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>
             </DialogFooter>
           </DialogContent>
