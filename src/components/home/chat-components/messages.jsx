@@ -12,11 +12,13 @@ import { convertToTimeString } from "@/utils";
 import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export function Messages({ docData }){
   //Trying to create a deep copy of docData
   const doc = JSON.parse(JSON.stringify(docData));
   
+  const { toast } = useToast();
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
@@ -28,6 +30,10 @@ export function Messages({ docData }){
         doc.lastMessage = {
           ...data
         }
+        toast({
+          title: doc.name,
+          description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`
+        });
       })
     } else {
       socket.on("recieve-message", data => {
@@ -35,6 +41,10 @@ export function Messages({ docData }){
           doc.lastMessage = {
             ...data
           }
+          toast({
+            title: doc.name,
+            description: `${data.type === "text" ? data.content : data.type}`
+          });
         }
       });
     }
