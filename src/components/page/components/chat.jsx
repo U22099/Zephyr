@@ -110,7 +110,7 @@ export function Chat() {
     }
   }, []);
   return (
-    <motion.main className="w-screen flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full flex gap-3 px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-start">
         <FaChevronLeft className="self-center dark:fill-white fill-black w-6 h-6" onClick={() => setPage({open: false, component: 'default'})}/>
         <section className="flex items-center gap-2 w-full">
@@ -126,7 +126,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-12 h-12"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-14 h-14"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2 mb-24 h-full overflow-hidden overflow-y-scroll" id="body">
+      <main className="flex flex-col gap-2 w-full p-2 mb-24 h-full overflow-hidden overflow-y-scroll scrollbar" id="body">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex items-center gap-2 fixed bottom-0 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
