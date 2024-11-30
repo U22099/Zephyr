@@ -25,23 +25,29 @@ export default function Home() {
   const setUID = useUID(state => state.setUID);
   const page = usePage(state => state.page);
   const init = async () => {
-    await getUserData(user.uid, setUserData);
-    setUID(user.uid);
-    socket.on("connect", async () => {
-      await updateUserData(user.uid, {
-        active: "online"
-      })
-    });
-    socket.emit("add-user", user.uid);
-    socket.on("disconnect", async () => {
-      await updateUserData(user.uid, {
-        active: `${Date.now()}`
-      })
-    });
-    setSocket(socket);
-    setLoading(false);
+    try{
+      await getUserData(user.uid, setUserData);
+      setUID(user.uid);
+      socket.on("connect", async () => {
+        await updateUserData(user.uid, {
+          active: "online"
+        })
+      });
+      socket.emit("add-user", user.uid);
+      socket.on("disconnect", async () => {
+        await updateUserData(user.uid, {
+          active: `${Date.now()}`
+        })
+      });
+      setSocket(socket);
+    } catch(err) {
+      console.log(err, err.message, "init");
+    } finally{
+      setLoading(false);
+    }
   }
   useEffect(() => {
+    console.log("launched")
     if (user) {
       init();
     }
