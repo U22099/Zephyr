@@ -14,9 +14,9 @@ import { AiFillAudio } from "react-icons/ai";
 import { useEffect } from "react";
 
 export function Messages({ docData }){
-  const doc = {
-    ...docData
-  };
+  //Trying to create a deep copy of docData
+  const doc = JSON.parse(JSON.stringify(docData));
+  
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
