@@ -110,6 +110,7 @@ export const getChats = async (userId, setData) => {
             bio: userData.bio || userData.description,
             type: userData.type,
             active: userData.active,
+            admin: userData.admin,
             members: userData.members?.join(","),
             lastMessage: document.data().lastMessage || {}
           }
