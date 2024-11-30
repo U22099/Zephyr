@@ -112,19 +112,19 @@ export function Chat() {
   return (
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 w-full flex gap-3 px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-start">
-        <FaChevronLeft className="self-center dark:fill-white fill-black w-6 h-6" onClick={() => setPage({open: false, component: 'default'})}/>
-        <section className="flex items-center gap-2 w-[70%]">
+        <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7" onClick={() => setPage({open: false, component: 'default'})}/>
+        <section className="flex items-center gap-2 max-w-[70%]">
           <Avatar className="w-12 h-12">
             <AvatarImage className="w-12 h-12 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-center gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data}})}>
               <h1 className="text-xl font-bold truncate">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground truncate">{page.data.active ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
+              <p className="text-sm text-muted-foreground truncate w-[160px]">{page.data.active ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
           </section>
         </section>
-        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-12 h-12"/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-14 h-14"/>
+        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
+        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 mb-24 h-full overflow-hidden overflow-y-scroll scrollbar" id="body">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
