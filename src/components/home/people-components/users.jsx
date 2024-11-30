@@ -32,7 +32,7 @@ export function Users() {
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage)
   const [ group, setGroup ] = useState({
-    name: "my-group",
+    name: "My-group",
     image: "",
     description: "",
     members: [userData.username],
@@ -200,7 +200,7 @@ function GroupProfile({ group, setGroup }){
           </div>
         </section>
         <section className="flex flex-col items-center gap-2">
-          <Input className="font-semibold" onChange={(e) => setName(e.target.value)}/>
+          <Input defaultValue={group.name} className="font-semibold" onChange={(e) => setName(e.target.value)}/>
           <div>
             <Label htmlFor="description">Description</Label>
             <Textarea placeholder="Add group description" id="description" onChange={(e) => setDescription(e.target.value)} />
