@@ -201,7 +201,7 @@ export const updateUserData = async (uid, data, merge = true) => {
     return;
   }
 }
-async function logOut() {
+export async function logOut() {
   try {
     await signOut(auth);
     console.log("User signed out successfully.");
@@ -209,14 +209,14 @@ async function logOut() {
     console.error("Error signing out:", error);
   }
 }
-async function deleteAccount(uid) {
+export async function deleteAccount(uid) {
   try {
     const user = auth.currentUser;
     if (user) {
       await deleteUser(user);
       await deleteDoc(doc(db, "users", uid));
       const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
-      await Promise.all(docs.docs.map(doc => {
+      await Promise.all(docs.docs.map(async doc => {
         if(doc.data().type === "personal"){
           await deleteDoc(doc.ref);
         } else {

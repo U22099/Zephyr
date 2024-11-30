@@ -17,7 +17,6 @@ import { Button } from "@/components/ui/button";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { logOut, deleteAccount } from "@/utils";
 import { useUID } from "@/store";
 
 export function DangerZone() {
