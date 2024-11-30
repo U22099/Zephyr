@@ -35,7 +35,7 @@ export default function Home() {
     socket.emit("add-user", user.uid);
     socket.on("disconnect", async () => {
       await updateUserData(user.uid, {
-        active: `{Date.now()}`
+        active: `${Date.now()}`
       })
     });
     setSocket(socket);
