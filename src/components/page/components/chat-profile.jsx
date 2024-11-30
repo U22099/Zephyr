@@ -33,7 +33,7 @@ export function ChatProfile() {
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-screen flex-col items-center justify-start w-full gap-1 p-2">
       <header className="sticky top-0 left-0 w-full flex justify-start text-center items-center backdrop-blur-sm pb-2 border-b z-10">
         <FaChevronLeft 
-        onClick={() => setPage({open: false, component: 'default'})}
+        onClick={() => setPage({open: true, component: 'chat', data: {...page.data}})}
         className="self-start dark:fill-white fill-black w-6 h-6"/>
       </header>
       <section className="flex w-full justify-center flex-col items-center mt-10">
