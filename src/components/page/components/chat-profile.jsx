@@ -16,7 +16,7 @@ import { usePage, useUID } from "@/store";
 import { useState } from "react";
 /*import {  } from "@/utils";*/
 
-export function Profile() {
+export function ChatProfile() {
   const { page, setPage } = usePage();
   const uid = useUID(state => state.uid);
   const [ loading, setLoading ] = useState(false);

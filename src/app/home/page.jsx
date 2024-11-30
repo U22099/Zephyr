@@ -47,7 +47,6 @@ export default function Home() {
     }
   }
   useEffect(() => {
-    console.log("launched")
     if (user) {
       init();
     }
