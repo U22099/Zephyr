@@ -58,12 +58,12 @@ export default function Home() {
     try {
 
       await updateProfile(user, {
-        displayName: username,
+        displayName: username.trim(),
         photoURL: newImageUrl?.secure_url || imageUrl
       });
 
       await setDoc(doc(db, "users", user.uid), {
-        username,
+        username: username.trim(),
         imageURL: newImageUrl?.secure_url || imageUrl,
         imagePublicId: newImageUrl?.public_id || imagePublicId,
         gender,

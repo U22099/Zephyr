@@ -79,7 +79,7 @@ export function Profile() {
     }
     try {
       await updateUserData(uid, {
-        username,
+        username: username.trim(),
         imageURL: newImageUrl?.secure_url || imageUrl || null,
         imagePublicId: newImageUrl?.public_id || imagePublicId || null,
         gender,

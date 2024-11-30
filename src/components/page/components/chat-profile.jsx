@@ -79,9 +79,9 @@ export function ChatProfile() {
       {(page.data.type === "group"&&page.data.admin === uid)&&
         <Drawer>
           <DrawerTrigger asChild>
-            <Button className="w-full">{addmemberloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Add/Remove Members"}</Button>
+            <Button className="w-full mb-1">{addmemberloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Add/Remove Members"}</Button>
           </DrawerTrigger>
-          <DrawerContent>
+          <DrawerContent className="max-h-[90vh]">
             <DrawerHeader>
               <DrawerTitle>Add/Remove Members</DrawerTitle>
             </DrawerHeader>
@@ -128,7 +128,7 @@ export function ChatProfile() {
                     }
                   });
               }}
-            >{loading ? <AiOutlineLoading className="animate-spin text-md"/> :  "Add New Member"}</Button>
+            >{addmemberloading ? <AiOutlineLoading className="animate-spin text-md"/> :  "Update Group"}</Button>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>}
