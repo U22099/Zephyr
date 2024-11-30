@@ -11,6 +11,15 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { AiOutlineLoading } from "react-icons/ai";
 import { usePage, useUID } from "@/store";
 import { useState } from "react";
