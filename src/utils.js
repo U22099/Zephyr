@@ -145,7 +145,7 @@ export const getChats = async (userId, setData) => {
             type: userData.type,
             active: userData.active,
             admin: userData.admin,
-            members: userData.members?.join(","),
+            members: userData.members,
             lastMessage: document.data().lastMessage || {}
           }
           result.push(data);
