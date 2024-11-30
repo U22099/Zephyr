@@ -44,7 +44,7 @@ export function ChatProfile() {
   const [peopleFilter, setPeopleFilter] = useState([]);
   const [group, setGroup] = useState({
     members: page.data.type === "group" ? [...page.data.members] : [],
-    participants: page.data.type === "group" ? [...page.data.participants]: [],
+    participants: [],
   });
   const [addmemberloading, setAddmemberloading] = useState(false);
   useEffect(() => {
@@ -94,7 +94,7 @@ export function ChatProfile() {
               }}/>
               <section className="flex flex-col gap-2">
                 <h3 className="text-lg">Members</h3>
-                {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => setGroup({
+                {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.members?.includes(x.name)).map((doc,i) => <CardList key={i} doc={doc} action={() => setGroup({
                   ...group,
                   members: group?.members.filter(x => x != doc.name),
                   participants: group?.participants.filter(x => x != doc.uid)
@@ -103,7 +103,7 @@ export function ChatProfile() {
               <Separator />
               <section className="flex flex-col gap-2">
                 <h3 className="text-lg">Add Members</h3>
-                {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
+                {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.members?.includes(x.name)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
                   ...group,
                   members: [...group?.members, doc.name],
                   participants: [...group?.participants, doc.uid]
@@ -125,7 +125,6 @@ export function ChatProfile() {
                     data: {
                       ...page.data,
                       members: [...group.members],
-                      participants: [...group.participants]
                     }
                   });
               }}

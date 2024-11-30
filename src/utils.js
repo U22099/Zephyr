@@ -11,6 +11,7 @@ import {
   addDoc,
   updateDoc,
   deleteDoc,
+  arrayUnion,
 } from 'firebase/firestore';
 import { signOut, deleteUser } from "firebase/auth";
 import { saveData } from "@/storage";
@@ -67,7 +68,8 @@ export const createNewGroup = async (uid, groupData) => {
 export const updateGroupMembers = async (groupId, group) => {
   try {
     await setDoc(doc(db, "chats", groupId), {
-      ...group
+      members: [...group.members],
+      participants: arrayUnion(...group.participants)
     }, { merge: true });
     return true;
   } catch (err) {
