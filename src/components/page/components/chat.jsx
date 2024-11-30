@@ -31,10 +31,10 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
-  if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
-    if(main.current){
-      main.current.scrollTop = main.current.scrollHeight;
-    }
+    if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
+    const body = document.getElementById("body");
+    body.scrollTop = body.scrollHeight;
+
   }
   const sendMsg = async (arg = null) => {
     try {
@@ -84,7 +84,9 @@ export function Chat() {
     }
   } 
   useEffect(() => {
-    if(component.current) scrollDown();
+    if(msg.length){
+      scrollDown();
+    }
   }, [msg]);
   useEffect(() => {
     socket.on("recieve-message", data => {
@@ -124,7 +126,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-10 h-10"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2 mb-24" ref={main}>
+      <main className="flex flex-col gap-2 w-full p-2 mb-24" id="main">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex items-center gap-2 fixed bottom-0 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
