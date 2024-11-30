@@ -43,8 +43,8 @@ export function ChatProfile() {
   const [people, setPeople] = useState([]);
   const [peopleFilter, setPeopleFilter] = useState([]);
   const [group, setGroup] = useState({
-    members: [...page.data.members],
-    participants: [...page.data.participants]
+    members: page.data.type === "group" ? [...page.data.members] : [],
+    participants: page.data.type === "group" ? [...page.data.participants]: [],
   });
   const [addmemberloading, setAddmemberloading] = useState(false);
   useEffect(() => {
@@ -53,8 +53,8 @@ export function ChatProfile() {
     }
   }, []);
   useEffect(() => {
-    if(people){
-      setPeopleFilter([...people]);
+    if(people.length){
+      setPeopleFilter([...(people || [])]);
     }
   }, [people]);
   return (
@@ -88,7 +88,7 @@ export function ChatProfile() {
             <section className="flex flex-col gap-2 h-full overflow-y-scroll scrollbar">
               <Input placeholder="Search..." onChange={(e) => {
                 if(!e.target.value){
-                  setPeopleFilter([...people]);
+                  setPeopleFilter([...(people || [])]);
                 }
                 setPeopleFilter(people.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
               }}/>
@@ -96,8 +96,8 @@ export function ChatProfile() {
                 <h3 className="text-lg">Members</h3>
                 {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => setGroup({
                   ...group,
-                  members: [...group?.members.filter(x => x != doc.name)],
-                  participants: [...group?.participants.filter(x => x != doc.uid)]
+                  members: group?.members.filter(x => x != doc.name),
+                  participants: group?.participants.filter(x => x != doc.uid)
                 })}/>)}
               </section>
               <Separator />
