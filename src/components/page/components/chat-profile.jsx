@@ -30,9 +30,10 @@ import {
   DrawerFooter,
 } from "@/components/ui/drawer";
 import { AiOutlineLoading } from "react-icons/ai";
+import { Separator } from "@/components/ui/separator";
 import { usePage, useUID, useUserData } from "@/store";
 import { useState, useEffect } from "react";
-import { deleteConversation, leaveGroup, getOtherNonMembers, updateGroupMembers } from "@/utils";
+import { deleteConversation, leaveGroup, getPeople, updateGroupMembers } from "@/utils";
 
 export function ChatProfile() {
   const { page, setPage } = usePage();
