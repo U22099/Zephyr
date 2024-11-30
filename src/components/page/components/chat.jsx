@@ -84,8 +84,10 @@ export function Chat() {
     }
   } 
   useEffect(() => {
-    if(msg.length){
-      scrollDown();
+    if(msg.length > 1){
+      if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
+      const body = document.getElementById("body");
+      body.scrollTop = body.scrollHeight;
     }
   }, [msg]);
   useEffect(() => {
