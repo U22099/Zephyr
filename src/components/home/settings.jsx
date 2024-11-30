@@ -13,7 +13,7 @@ export function Settings() {
       })}>
         <Profile />
       </section>
-      <section className="flex flex-col gap-3 mb-14">
+      <section className="flex flex-col gap-3">
         <h2 className="font-semibold text-xl">AI Customization</h2>
         <AI />
       </section>
