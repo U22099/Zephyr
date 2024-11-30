@@ -124,7 +124,7 @@ export function Chat() {
           </section>
         </section>
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8"/>
+        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 mb-24 h-full overflow-hidden overflow-y-scroll scrollbar" id="body">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
