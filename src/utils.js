@@ -110,7 +110,7 @@ export const getAllUsers = async (uid, setData) => {
         name: docData.username || docData.name,
         bio: docData.bio || docData.description,
         type: docData.type,
-        active: docData.active || docData.members?.join(","),
+        active: docData.active || docData.members,
       });
     });
     console.log(result);

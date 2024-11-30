@@ -53,7 +53,9 @@ export function ChatProfile() {
     }
   }, []);
   useEffect(() => {
-    setPeopleFilter([...people]);
+    if(people){
+      setPeopleFilter([...people]);
+    }
   }, [people]);
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-screen flex-col items-center justify-start w-full gap-1 p-2">
@@ -72,7 +74,7 @@ export function ChatProfile() {
       </section>
       <section className="flex flex-col items-center justify-center gap-1 break-words mb-10">
         <h4 className="text-lg text-muted-foreground font-semibold">{page.data.bio || page.data.description}</h4>
-        <p className="text-md text-muted-foreground font-semibold">{page.data.active || page.data.members}</p>
+        <p className="text-md text-muted-foreground font-semibold">{page.data.active || page.data.members.join(",")}</p>
       </section>
       {(page.data.type === "group"&&page.data.admin === uid)&&
         <Drawer>

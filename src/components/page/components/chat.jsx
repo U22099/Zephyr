@@ -120,7 +120,7 @@ export function Chat() {
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-center gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data}})}>
               <h1 className="text-xl font-bold truncate">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground truncate">{page.data.active ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members}</p>
+              <p className="text-sm text-muted-foreground truncate">{page.data.active ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
           </section>
         </section>
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-12 h-12"/>
