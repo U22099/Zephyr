@@ -1,9 +1,7 @@
-import { db } from "@/firebase";
+import { db, auth } from "@/firebase";
 import {
   collection,
   query,
-  startAfter,
-  orderBy,
   limit,
   where,
   getDocs,
@@ -12,7 +10,9 @@ import {
   setDoc,
   addDoc,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
+import { signOut, deleteUser } from "firebase/auth";
 import { saveData } from "@/storage";
 import { v4 } from "uuid";
 import axios from "axios";
@@ -199,6 +199,40 @@ export const updateUserData = async (uid, data, merge = true) => {
   } catch (err) {
     console.log(err, err.message);
     return;
+  }
+}
+async function logOut() {
+  try {
+    await signOut(auth);
+    console.log("User signed out successfully.");
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
+}
+async function deleteAccount(uid) {
+  try {
+    const user = auth.currentUser;
+    if (user) {
+      await deleteUser(user);
+      await deleteDoc(doc(db, "users", uid));
+      const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
+      await Promise.all(docs.docs.map(doc => {
+        if(doc.data().type === "personal"){
+          await deleteDoc(doc.ref);
+        } else {
+          await updateDoc(doc.ref, {
+            participants: [
+              ...doc.data().participants.filter(x => x != uid)
+            ]
+          })
+        }
+      }));
+      console.log("User deleted successfully.");
+    } else {
+      console.error("No user is currently signed in.");
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
   }
 }
 export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
