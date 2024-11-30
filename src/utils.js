@@ -71,8 +71,10 @@ export const updateGroupMembers = async (groupId, group) => {
       where("groupId", "==", groupId),
     ))
     await setDoc(chatDoc.ref, {
+      participants: [...chatDoc.data().participants, ...group.participants]
+    }, { merge: true });
+    await setDoc(doc(db, "users", groupId), {
       members: [...group.members],
-      participants: [...chatDoc.participants, ...group.participants]
     }, { merge: true });
     return true;
   } catch (err) {
