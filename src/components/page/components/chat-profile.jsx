@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { FaChevronLeft } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
@@ -20,16 +21,39 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 import { AiOutlineLoading } from "react-icons/ai";
 import { usePage, useUID, useUserData } from "@/store";
-import { useState } from "react";
-import { deleteConversation, leaveGroup } from "@/utils";
+import { useState, useEffect } from "react";
+import { deleteConversation, leaveGroup, getOtherNonMembers, updateGroupMembers } from "@/utils";
 
 export function ChatProfile() {
   const { page, setPage } = usePage();
-    const userData = useUserData(state => state.userData);
+  const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [people, setPeople] = useState([]);
+  const [peopleFilter, setPeopleFilter] = useState([]);
+  const [group, setGroup] = useState({
+    members: [...page.data.members],
+    participants: [...page.data.participants]
+  });
+  const [addmemberloading, setAddmemberloading] = useState(false);
+  useEffect(() => {
+    if ((page.data.type === "group") && (page.data.admin === uid)) {
+      getPeople(uid, setPeople);
+    }
+  }, []);
+  useEffect(() => {
+    setPeopleFilter([...people]);
+  }, [people]);
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-screen flex-col items-center justify-start w-full gap-1 p-2">
       <header className="sticky top-0 left-0 w-full flex justify-start text-center items-center backdrop-blur-sm pb-2 border-b z-10">
@@ -49,6 +73,63 @@ export function ChatProfile() {
         <h4 className="text-lg text-muted-foreground font-semibold">{page.data.bio || page.data.description}</h4>
         <p className="text-md text-muted-foreground font-semibold">{page.data.active || page.data.members}</p>
       </section>
+      {(page.data.type === "group"&&page.data.admin === uid)&&
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button className="w-full">{addmemberloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Add/Remove Members"}</Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Add/Remove Members</DrawerTitle>
+            </DrawerHeader>
+            <section className="flex flex-col gap-2 h-full overflow-y-scroll scrollbar">
+              <Input placeholder="Search..." onChange={(e) => {
+                if(!e.target.value){
+                  setPeopleFilter([...people]);
+                }
+                setPeopleFilter(people.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
+              }}/>
+              <section className="flex flex-col gap-2">
+                <h3 className="text-lg">Members</h3>
+                {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc} action={() => setGroup({
+                  ...group,
+                  members: [...group?.members.filter(x => x != doc.name)],
+                  participants: [...group?.participants.filter(x => x != doc.uid)]
+                })}/>)}
+              </section>
+              <Separator />
+              <section className="flex flex-col gap-2">
+                <h3 className="text-lg">Add Members</h3>
+                {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => !group?.participants?.includes(x.uid)).map((doc,i) => <CardList key={i} doc={doc}  action={() => setGroup({
+                  ...group,
+                  members: [...group?.members, doc.name],
+                  participants: [...group?.participants, doc.uid]
+                })}/>)}
+              </section>
+            </section>
+            <DrawerFooter>
+              <Button className="w-full"
+              disabled={addmemberloading}
+              type="submit"
+              onClick={
+                async () => {
+                  setAddmemberloading(true);
+                  await updateGroupMembers(page.data.uid, group);
+                  setAddmemberloading(false);
+                  setPage({
+                    open: true,
+                    component: "chat",
+                    data: {
+                      ...page.data,
+                      members: [...group.members],
+                      participants: [...group.participants]
+                    }
+                  });
+              }}
+            >{loading ? <AiOutlineLoading className="animate-spin text-md"/> :  "Add New Member"}</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>}
       <Dialog>
           <DialogTrigger asChild>
             <Button variant="destructive" className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : page.data.type === "group" ? (page.data.admin === uid ? "Delete Group" : "Leave Group") : "Delete Conversation"}</Button>
@@ -83,5 +164,24 @@ export function ChatProfile() {
           </DialogContent>
         </Dialog>
     </motion.main>
+  )
+}
+
+function CardList({ doc, action }) {
+  return (
+    <Card className="flex w-full justify-start items-center h-fit" onClick={action}>
+      <CardContent className="flex p-1 items-center gap-2">
+        <Avatar className="w-12 h-12">
+          <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
+          <AvatarFallback className="text-3xl text-primary">{
+          doc?.name ? doc.name[0] : "Z"
+          }</AvatarFallback>
+        </Avatar>
+        <section className="flex flex-col justify-center gap-1">
+          <h2 className="text-lg font-bold">{doc?.name || "No Name"}</h2>
+          <p className="truncate text-sm text-muted-foreground">{doc?.bio || ""}</p>
+        </section>
+      </CardContent> 
+    </Card>
   )
 }

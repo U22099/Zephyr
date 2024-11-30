@@ -64,6 +64,40 @@ export const createNewGroup = async (uid, groupData) => {
   }
 }
 
+export const updateGroupMembers = async (groupId, group) => {
+  try {
+    await setDoc(doc(db, "chats", groupId), {
+      ...group
+    }, { merge: true });
+    return true;
+  } catch (err) {
+    console.log(err, err.message);
+    return;
+  }
+}
+
+export const getPeople = async (uid, setData) => {
+  try {
+    const data = await getDocs(query(collection(db, "users"), where("type", "==", "personal"), limit(1000)));
+    let result = [];
+    data.forEach(doc => {
+      const docData = doc.data();
+      result.push({
+        uid: doc.id,
+        image: docData.imageURL,
+        name: docData.username,
+        bio: docData.bio,
+        type: docData.type,
+      });
+    });
+    console.log(result);
+    setData(result?.filter(x => x.uid != uid) || []);
+  } catch (err) {
+    console.log(err, err.message, "getPeople");
+    return;
+  }
+}
+
 export const getAllUsers = async (uid, setData) => {
   try {
     const data = await getDocs(query(collection(db, "users"), limit(1000)));
@@ -129,10 +163,10 @@ function areArraysEqual(arr1, arr2) {
     arr1.every(value => new Set(arr2).has(value));
 }
 
-async function findFriend(userId, friendId){
+async function findFriend(userId, friendId) {
   return (await getDocs(query(collection(db, "chats"),
-      where("participants", "array-contains-any", [userId, friendId]),
-    ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId)
+    where("participants", "array-contains-any", [userId, friendId]),
+  ))).docs.find(d => areArraysEqual([userId, friendId], d.data().participants) || d.data().groupId === friendId)
 }
 
 export const getMessages = async (userId, friendId, type) => {
@@ -231,7 +265,7 @@ export const deleteAccount = async (uid, name) => {
       await deleteDoc(doc(db, "users", uid));
       const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
       await Promise.all(docs.docs.map(async doc => {
-        if(doc.data().type === "personal"){
+        if (doc.data().type === "personal") {
           await deleteDoc(doc.ref);
         } else {
           await updateDoc(doc.ref, {
