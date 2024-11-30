@@ -38,9 +38,9 @@ export function Header() {
         <FaCamera className="text-xl fill-white"/>
       </div>
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
-        <Drawer className="max-h-[90%] scrollbar">
+        <Drawer>
           <DrawerTrigger><FaPlus className="text-xl fill-white"/></DrawerTrigger>
-          <DrawerContent className="flex flex-col p-2">
+          <DrawerContent className="max-h-[90%] overflow-y-scroll scrollbar flex flex-col p-2">
             <DrawerHeader>
               <DrawerTitle>New Chats
               </DrawerTitle>

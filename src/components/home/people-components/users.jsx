@@ -99,7 +99,7 @@ export function Users() {
         <DrawerTrigger>
           <Button variant="outline">Create new group</Button>
         </DrawerTrigger>
-        <DrawerContent className="max-h-[80%] overflow-y-scroll">
+        <DrawerContent className="max-h-[90%] overflow-y-scroll">
           <DrawerHeader>
             <DrawerTitle>Group</DrawerTitle>
             <DrawerDescription>
