@@ -26,7 +26,7 @@ export function DangerZone() {
   const [ logoutloading, setLogoutloading ] = useState(false);
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-muted-foreground">
-      <CardContent className="flex items-center gap-2 p-2 w-full">
+      <CardContent className="flex flex-col items-center gap-2 p-2 w-full">
         <Button disabled={logoutloading} variant="destructive" onClick={async () => {
           setLogoutloading(true);
           await logOut();
