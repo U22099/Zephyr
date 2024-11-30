@@ -126,7 +126,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-10 h-10"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2 mb-24 h-[80vh]" id="body">
+      <main className="flex flex-col gap-2 w-full p-2 mb-24" id="body">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
       </main>
       <footer className="flex items-center gap-2 fixed bottom-0 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
@@ -149,7 +149,7 @@ export function Chat() {
 
 const Message = ({ m, type, uid }) => {
   return(
-    <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
+    <main className={"flex w-full h-fit items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
         {type === "group" && <CardHeader className="w-full flex justify-start p-0">
           <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
