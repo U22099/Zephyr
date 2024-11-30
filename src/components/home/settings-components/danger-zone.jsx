@@ -18,6 +18,7 @@ import { AiOutlineLoading } from "react-icons/ai";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUID } from "@/store";
+import { deleteSession } from "@/lib/utility/index";
 
 export function DangerZone() {
   const router = useRouter();
@@ -30,6 +31,7 @@ export function DangerZone() {
         <Button className="w-full" disabled={logoutloading} variant="destructive" onClick={async () => {
           setLogoutloading(true);
           await logOut();
+          deleteSession();
           setLogoutloading(false);
           router.push("/");
         }}>{logoutloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Log Out"}</Button>
@@ -51,6 +53,7 @@ export function DangerZone() {
               async () => {
                 setDeleteloading(true);
                 await deleteAccount(uid);
+                deleteSession();
                 setDeleteloading(false);
                 router.push("/");
               }}
