@@ -40,12 +40,14 @@ export function Header() {
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <Drawer>
           <DrawerTrigger><FaPlus className="text-xl fill-white"/></DrawerTrigger>
-          <DrawerContent className="max-h-[90%] overflow-y-scroll scrollbar flex flex-col p-2">
-            <DrawerHeader>
+          <DrawerContent className="max-h-[90%] flex flex-col p-2">
+            <DrawerHeadert>
               <DrawerTitle>New Chats
               </DrawerTitle>
             </DrawerHeader>
-            <Users />
+            <section className="overflow-y-scroll h-full scrollbar">
+              <Users />
+            </section>
           </DrawerContent>
         </Drawer>
       </div>

@@ -99,14 +99,14 @@ export function Users() {
         <DrawerTrigger>
           <Button variant="outline">Create new group</Button>
         </DrawerTrigger>
-        <DrawerContent className="max-h-[90%] overflow-y-scroll">
+        <DrawerContent className="max-h-[90%]">
           <DrawerHeader>
             <DrawerTitle>Group</DrawerTitle>
             <DrawerDescription>
               Add two or more participants
             </DrawerDescription>
           </DrawerHeader>
-          <section className="flex flex-col gap-2 h-1/2 overflow-y-scroll">
+          <section className="flex flex-col gap-2 h-full overflow-y-scroll scrollbar">
             <GroupProfile group={group} setGroup={setGroup}/>
             <section className="flex flex-col gap-2">
               <h3 className="text-lg">Members</h3>
