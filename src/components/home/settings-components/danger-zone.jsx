@@ -17,11 +17,12 @@ import { Button } from "@/components/ui/button";
 import { AiOutlineLoading } from "react-icons/ai";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUID } from "@/store";
+import { useUID, useUserData } from "@/store";
 import { deleteSession } from "@/lib/utility/index";
 
 export function DangerZone() {
   const router = useRouter();
+  const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
   const [ deleteloading, setDeleteloading ] = useState(false);
   const [ logoutloading, setLogoutloading ] = useState(false);
@@ -52,7 +53,7 @@ export function DangerZone() {
               onClick={
               async () => {
                 setDeleteloading(true);
-                await deleteAccount(uid);
+                await deleteAccount(uid, userData.username);
                 deleteSession();
                 setDeleteloading(false);
                 router.push("/");
