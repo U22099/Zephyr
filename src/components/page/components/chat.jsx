@@ -125,8 +125,8 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate">{page.data.active ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members}</p>
           </section>
         </section>
-        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8"/>
+        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 text-lg"/>
+        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-8 h-8 text-lg"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 pb-20" ref={main}>
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
