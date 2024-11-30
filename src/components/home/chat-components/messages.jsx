@@ -7,15 +7,38 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { usePage, useUID } from "@/store";
+import { usePage, useUID, useSocket } from "@/store";
 import { convertToTimeString } from "@/utils";
 import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
+import { useEffect } from "react";
 
-export function Messages({ doc }){
+export function Messages({ docData }){
+  const doc = {
+    ...docData
+  };
   const uid = useUID(state => state.uid);
+  const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timestamp);
+  useEffect(() => {
+    if (page.data.type === "group") {
+      socket.emit("join-group", doc.uid);
+      socket.on("group-recieve-message", data => {
+        doc.lastMessage = {
+          ...data
+        }
+      })
+    } else {
+      socket.on("recieve-message", data => {
+        if (data.senderId === doc.uid) {
+          doc.lastMessage = {
+            ...data
+          }
+        }
+      });
+    }
+  }, [socket])
   return(
     <main className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
