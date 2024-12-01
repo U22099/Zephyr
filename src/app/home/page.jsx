@@ -13,6 +13,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { io } from 'socket.io-client';
+import { deleteSession } from "@/lib/utility/index";
 
 export default function Home() {
   const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
@@ -47,6 +48,7 @@ export default function Home() {
     }
   }
   useEffect(() => {
+    deleteSession();
     if (user) {
       init();
     }
