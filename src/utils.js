@@ -30,29 +30,34 @@ export const getData = async (uid, collection, setData = null) => {
 }
 
 const getPostUserData = async (id) => {
-  const docData = await getDoc(doc(db, "posts", id));
-  if (docData.exists()) {
-    const userData = docData.data();
-    const data = {
-      uid: id,
-      name: userData.username,
-      image: userData.imageURL,
-      lastPost: userData.lastPost || {}
+  try{
+    const docData = await getDoc(doc(db, "posts", id));
+    if (docData.exists()) {
+      const userData = docData.data();
+      const data = {
+        uid: id,
+        name: userData.username,
+        image: userData.imageURL,
+        lastPost: userData.lastPost || {}
+      }
+      return data;
+    } else {
+      const userData = await getUserData(id);
+      await setDoc(doc(db, "posts", id), {
+        username: userData.username,
+        imageURL: userData.imageURL,
+        lastPost: {}
+      });
+      return {
+        uid: id,
+        name: userData.username,
+        image: userData.imageURL,
+        lastPost: {}
+      }
     }
-    return data;
-  } else {
-    const userData = await getUserData(id);
-    await addDoc(doc(db, "posts", id), {
-      username: userData.username,
-      imageURL: userData.imageURL,
-      lastPost: {}
-    });
-    return {
-      uid: id,
-      name: userData.username,
-      image: userData.imageURL,
-      lastPost: {}
-    }
+  } catch(err) {
+    console.log(err, "getPostUserData");
+    return {};
   }
 }
 export const getPosts = async (userId, setData) => {
@@ -76,6 +81,7 @@ export const getPosts = async (userId, setData) => {
     }
     const data = await getPostUserData(userId);
     result.push(data);
+    console.log(result);
     setData(result || []);
   } catch (err) {
     console.error(err, err.message, "getPosts");

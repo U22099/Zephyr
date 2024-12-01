@@ -26,8 +26,10 @@ export function Posts() {
     }
   }, []);
   useEffect(() => {
-    setUserPost(posts.filter(x => x.uid === uid)[0]);
-    setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.timestamp - b.timestamp)]);
+    if(posts){
+      setUserPost(posts.find(x => x.uid === uid));
+      setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.timestamp - b.timestamp)]);
+    }
   }, [posts]);
   return (
     <main className="flex flex-col gap-2 w-full overflow-y-scroll scrollbar">
