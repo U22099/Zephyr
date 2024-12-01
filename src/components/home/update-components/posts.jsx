@@ -68,15 +68,15 @@ export function Posts() {
 
 function PostCard({ data, action }) {
   return (
-    <Card className="backdrop-blur-sm flex justify-center items-center w-24 h-40" onClick={action}>
+    <Card className="backdrop-blur-sm flex justify-center items-center w-24 h-40 overflow-hidden" onClick={action}>
       <CardContent className="flex flex-col items-start justify-between p-2 w-24 h-40 relative">
         <Avatar className="w-10 h-10">
-          <AvatarImage className={"w-10 h-10 object-cover rounded-full" + data.name === "Add Status" ? " border-primary-foreground border-2" : ""} src={data?.image} alt="profile-image"/>
+          <AvatarImage className={"w-10 h-10 object-cover rounded-full" + (data.name === "Add Status") ? " border-primary border-2" : ""} src={data?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
           data?.name ? data.name[0] : "Z"
           }</AvatarFallback>
         </Avatar>
-        <section className="absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center p-1 break-words text-center">
+        <section className="absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center p-1 break-words text-center truncate">
           {data.lastPost.type === "text" ? 
           <p className="text-sm">{data.lastPost.content}</p> : 
           data.lastPost.type === "image" ? 
