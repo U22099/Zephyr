@@ -54,14 +54,14 @@ function PostViewCard({ userData, post }) {
   }
   return (
     <Card className="flex gap-2 flex-col w-full">
-      <CardHeader className="flex w-full justify-start gap-1">
+      <CardHeader className="flex gap-1 p-1">
         <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
           userData?.name ? userData.name[0] : "Z"
           }</AvatarFallback>
         </Avatar>
-        <section className="flex flex-col">
+        <section className="flex flex-col gap-1">
           <h2 className="text-xl font-semibold w-28 truncate">{userData?.name}</h2>
           <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
         </section>
