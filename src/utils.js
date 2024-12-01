@@ -42,7 +42,7 @@ const getPostUserData = async (id) => {
     return data;
   } else {
     const userData = await getUserData(id);
-    await setDoc(doc(db, "posts", id), {
+    await addDoc(doc(db, "posts", id), {
       username: userData.username,
       imageURL: userData.imageURL,
       lastPost: {}
@@ -85,9 +85,9 @@ export const getPosts = async (userId, setData) => {
 export const getStatus = async (docId, setData) => {
   try {
     let result = [];
-    const msg = await getDocs(collection(doc(db, "posts", docId), "status"));
-    if (!msg?.empty) {
-      msg.docs.forEach(doc =>
+    const status = await getDocs(collection(doc(db, "posts", docId), "status"));
+    if (!status?.empty) {
+      status.docs.forEach(doc =>
       {
         if (doc.exists()) {
           return result.push(doc.data())
