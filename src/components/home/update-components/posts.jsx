@@ -38,18 +38,18 @@ export function Posts() {
         setPostsFilter(posts.filter(x => x.uid != uid).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
       }}/>
       <section className="flex flex-wrap gap-2 w-full">
-        {userData&&<PostCard data={{
-          ...userData,
+        {userPost&&<PostCard data={{
+          ...userPost,
           name: "Add Status"
         }} action={setPage({
           open: true,
           component: "add-status"
         })} />}
-        {userData&&<PostCard data={userData} action={setPage({
+        {userPost&&<PostCard data={userPost} action={setPage({
           open: true,
           component: "view-status",
           data: {
-            ...userData,
+            ...userPost,
           }
         })} />}
         {postsFilter.map((post,i) => <PostCard key={i} data={post} action={setPage({
