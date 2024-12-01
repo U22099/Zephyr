@@ -122,7 +122,7 @@ export const postStatus = async (docId, statusData) => {
   }
 }
 
-export const likePost = async (postId, statusId, uid) => {
+export const likeStatus = async (postId, statusId, uid) => {
   try {
     const postDoc = (await getDocs(query(collection((doc(db, "posts", postId), "status")), where("statusId", "==", statusId)))).docs.find(x => x.data().statusId === statusId);
     

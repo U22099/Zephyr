@@ -133,8 +133,8 @@ export function Chat() {
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-center gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data}})}>
-              <h1 className="text-xl font-bold truncate">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground truncate w-[160px]">{page.data.type === "personal" ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
+              <h1 className="text-xl font-bold truncate w-32">{page.data.name}</h1>
+              <p className="text-sm text-muted-foreground truncate w-40">{page.data.type === "personal" ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
           </section>
         </section>
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
@@ -166,7 +166,7 @@ const Message = ({ m, type, uid }) => {
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
         {type === "group" && <CardHeader className="w-full flex justify-start p-0">
-          <p className="truncate text-muted-foreground text-sm">~{m.senderName}</p>
+          <p className="w-24 truncate text-muted-foreground text-sm">~{m.senderName}</p>
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
           {m.type === "upload" ? 

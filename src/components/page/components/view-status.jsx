@@ -11,19 +11,26 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { IoClose } from "react-icons/io5";
 import { useUID, usePage } from "@/store";
-import { likeStatus, getStatus } from "@/utils";
+import { likeStatus, getStatus, convertToTimeString } from "@/utils";
 import { useState, useEffect } from "react";
 
-export default function ViewStatus() {
+export function ViewStatus() {
   const [ posts, setPosts ] = useState([]);
   const { page, setPage } = usePage();
   useEffect(() => {
     getStatus(page.data.uid, setPosts);
   }, []);
   return (
-    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}}>
-      <header>
+    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full">
+      <header className="flex justify-start w-full p-2">
+        <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
+            open: false,
+            component: "default"
+            })}>
+          <IoClose className="text-xl fill-black dark:fill-white"/>
+        </div>
       </header>
       {posts&&posts.sort((a,b) => a.timestamp - b.timestamp).map(post => <PostViewCard post={post} userData={page.data} />)}
     </motion.main>
@@ -46,7 +53,7 @@ function PostViewCard({ userData, post }) {
     }
   }
   return (
-    <Card className="flex gap-2 flex-col">
+    <Card className="flex gap-2 flex-col w-full">
       <CardHeader className="flex w-full justify-start gap-1">
         <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
@@ -55,19 +62,19 @@ function PostViewCard({ userData, post }) {
           }</AvatarFallback>
         </Avatar>
         <section>
-          <h2 className="text-xl font-semibold w-[160px] truncate">{userData?.name}</h2>
-          <p className="text-sm text-muted-foreground w-[140px] truncate">{convertToTimeString(post.timestamp)}</p>
+          <h2 className="text-xl font-semibold w-40 truncate">{userData?.name}</h2>
+          <p className="text-sm text-muted-foreground w-36 truncate">{convertToTimeString(post.timestamp)}</p>
         </section>
       </CardHeader>
       <CardContent className="flex w-full flex-col gap-1">
         {post.type === "image" ? 
         (post.textContent ?
-        <div>
+        <div className="flex flex-col gap-1 w-full">
          <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
          <p className="text-md font-semibold">{post.textContent}</p>
         </div> : 
         <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
-        : <h3 className="text-xl font-bold">{post.textContent}</h3>}
+        : <h3 className="text-xl font-bold">{post.content}</h3>}
       </CardContent>
       <CardFooter>
         <Button disabled={loading || post.likes.include(uid)} onClick={addLikes}>Likes {likes || 0}</Button>

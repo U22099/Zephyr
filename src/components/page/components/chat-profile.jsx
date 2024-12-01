@@ -179,7 +179,7 @@ function CardList({ doc, action }) {
         </Avatar>
         <section className="flex flex-col justify-center gap-1">
           <h2 className="text-lg font-bold">{doc?.name || "No Name"}</h2>
-          <p className="truncate text-sm text-muted-foreground">{doc?.bio || ""}</p>
+          <p className="w-32 truncate text-sm text-muted-foreground">{doc?.bio || ""}</p>
         </section>
       </CardContent> 
     </Card>

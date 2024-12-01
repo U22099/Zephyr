@@ -43,10 +43,7 @@ export function Posts() {
           name: "Add Status"
         }} action={setPage({
           open: true,
-          component: "add-status",
-          data: {
-            ...userData,
-          }
+          component: "add-status"
         })} />}
         {userData&&<PostCard data={userData} action={setPage({
           open: true,

@@ -14,7 +14,7 @@ import { toBase64, uploadFileAndGetURL, postStatus } from "@/utils";
 import { useUID } from "@/store";
 import { useToast } from "@/hooks/use-toast";
 
-export default function AddStatus() {
+export function AddStatus() {
   const uid = useUID(state => state.uid);
   const { toast } = useToast();
   const { page, setPage } = usePage();
@@ -76,7 +76,7 @@ export default function AddStatus() {
       </header>
       <Card className="w-full flex flex-col gap-3 items-center">
         <CardContent className="flex flex-col gap-2 items-center w-full">
-          {image&&<img src={image} className="h-60 w-full rounded border p-1" />}
+          {image&&<img src={image} className="h-60 w-full rounded p-1 object-cover" />}
           <Textarea className="w-full" placeholder="Type a status" onChange={(e) => setStatusText(e.target.value)} />
         </CardContent>
         <CardFooter>
