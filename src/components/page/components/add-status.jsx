@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { AiOutlineLoading } from "react-icons/ai";
 import { useState } from "react";
 import { toBase64, uploadFileAndGetURL, postStatus } from "@/utils";
 import { useUID } from "@/store";
