@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { usePage, useUID } from "@/store";
 import { convertToTimeString, getPosts } from "@/utils";
+import { FaPlus } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
@@ -70,12 +71,12 @@ function PostCard({ data, action }) {
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-24 h-40 overflow-hidden" onClick={action}>
       <CardContent className="flex flex-col items-start justify-between p-2 w-24 h-40 relative">
-        <Avatar className={"w-10 h-10" + (data.name === "Add Status") ? " border-primary border-3" : " "}>
+        {data.name === "Add Status" ? <FaPlus /> : <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={data?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
           data?.name ? data.name[0] : "Z"
           }</AvatarFallback>
-        </Avatar>
+        </Avatar>}
         <section className="absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center p-1 break-words text-center">
           {data.lastPost.type === "text" ? 
           <p className="text-sm h-24 truncate">{data.lastPost.content}</p> : 
