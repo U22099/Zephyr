@@ -103,14 +103,32 @@ export const getStatus = async (docId, setData) => {
 export const postStatus = async (docId, statusData) => {
   try {
     const postDoc = await getDoc(doc(db, "posts", docId));
-    if (chatDoc?.exists()) {
+    if (postDoc?.exists()) {
       await updateDoc(postDoc.ref, {
         lastPost: {
-          ...statusData
+          ...statusData,
+          statusId: v4()
         }
       });
       await addDoc(collection(postDoc.ref, "status"), {
-        ...statusData
+        ...statusData,
+        statusId: v4()
+      });
+      return true;
+    }
+  } catch (err) {
+    console.error(err, err.message, "postStatus");
+    return false;
+  }
+}
+
+export const likePost = async (postId, statusId, uid) => {
+  try {
+    const postDoc = (await getDocs(query(collection((doc(db, "posts", postId), "status")), where("statusId", "==", statusId)))).docs.find(x => x.data().statusId === statusId);
+    
+    if (postDoc?.exists()) {
+      await addDoc(postDoc.ref, {
+        likes: [...postDoc.data().likes, uid]
       });
       return true;
     }
