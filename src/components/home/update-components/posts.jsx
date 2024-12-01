@@ -28,7 +28,7 @@ export function Posts() {
   useEffect(() => {
     if(posts){
       setUserPost(posts.find(x => x.uid === uid));
-      setPostsFilter([...posts.filter(x => (x.uid != uid) || !x.lastPost.content).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
+      setPostsFilter([...posts.filter(x => (x.uid != uid) || x.lastPost.content).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
     }
   }, [posts]);
   return (
@@ -68,8 +68,8 @@ export function Posts() {
 
 function PostCard({ data, action }) {
   return (
-    <Card className="backdrop-blur-sm flex justify-center items-center w-40 h-60" onClick={action}>
-      <CardContent className="flex flex-col items-between justify-start p-2 w-40 h-60 relative">
+    <Card className="backdrop-blur-sm flex justify-center items-center w-24 h-40" onClick={action}>
+      <CardContent className="flex flex-col items-start justify-between p-2 w-24 h-40 relative">
         <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={data?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
@@ -86,7 +86,7 @@ function PostCard({ data, action }) {
           data.lastPost.type === "audio" ? 
           <div> <AiFillAudio/> Audio</div> : null}
         </section>
-        <h2 className="text-center self-center text-lg font-semibold w-32 truncate">{data.name}</h2>
+        <h2 className="text-center self-end text-md font-semibold w-20 truncate">{data.name}</h2>
       </CardContent>
     </Card>
   )
