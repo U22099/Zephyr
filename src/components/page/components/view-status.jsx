@@ -58,7 +58,7 @@ function PostViewCard({ userData, post, setPosts }) {
     }
   }
   
-  const delete = async () => {
+  const deletePost = async () => {
     try {
       setDeleteLoading(true);
       await deleteStatus(userData.uid, post.statusId, uid);
@@ -86,7 +86,7 @@ function PostViewCard({ userData, post, setPosts }) {
             </section>
           </section>
           {userData.uid === uid&&
-            {deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : <ImBin onClick={async () => await delete()} disabled={deleteloading} className="text-xl fill-black dark:fill-white"/>}}
+            {deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : <ImBin onClick={async () => await deletePost()} disabled={deleteloading} className="text-xl fill-black dark:fill-white"/>}}
         </header>
         <section className="flex w-full flex-col gap-1">
           {post.type === "image" ? 
