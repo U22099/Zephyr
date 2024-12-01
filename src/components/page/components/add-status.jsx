@@ -33,7 +33,7 @@ export default function AddStatus() {
             content: url,
             textContent: statusText || null,
             timestamp: Date.now(),
-            likes: 0
+            likes: []
           }
         }
       } else {
@@ -41,7 +41,7 @@ export default function AddStatus() {
           type: "text",
           content: statusText,
           timestamp: Date.now(),
-          likes: 0
+          likes: []
         }
       }
       await postStatus(uid, postData);
