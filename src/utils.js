@@ -129,15 +129,13 @@ export const postStatus = async (docId, statusData) => {
 
 export const likeStatus = async (postId, statusId, uid) => {
   try {
-    console.log(postId, statusId, uid);
     const postDoc = (await getDocs(
       query(
          collection(doc(db, "posts", postId), "status"), 
          where("statusId", "==", statusId))
       )).docs[0];
-    console.log(postDoc.data());
     if (postDoc?.exists()) {
-      await addDoc(postDoc.ref, {
+      await updateDoc(postDoc.ref, {
         likes: [...postDoc.data().likes, uid]
       });
       return true;
