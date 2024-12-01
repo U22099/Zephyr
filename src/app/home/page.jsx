@@ -48,7 +48,7 @@ export default function Home() {
     }
   }
   useEffect(() => {
-    deleteSession();
+    //deleteSession();
     if (user) {
       init();
     }

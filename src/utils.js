@@ -29,6 +29,97 @@ export const getData = async (uid, collection, setData = null) => {
   }
 }
 
+const getPostUserData = async (id) => {
+  const docData = await getDoc(doc(db, "posts", id));
+  if (docData.exists()) {
+    const userData = docData.data();
+    const data = {
+      uid: id,
+      name: userData.username,
+      image: userData.imageURL,
+      lastPost: userData.lastPost || {}
+    }
+    return data;
+  } else {
+    const userData = await getUserData(id);
+    await setDoc(doc(db, "posts", id), {
+      username: userData.username,
+      imageURL: userData.imageURL,
+      lastPost: {}
+    });
+    return {
+      uid: id,
+      username: userData.username,
+      imageURL: userData.imageURL,
+      lastPost: {}
+    }
+  }
+}
+export const getPosts = async (userId, setData) => {
+  try {
+    const documents = await getDocs(query(collection(db, "chats"),
+      where("participants", "array-contains", userId),
+      where("type", "==", "personal")
+    ));
+    let result = [];
+    if (!documents?.empty && documents) {
+      await Promise.all(documents.docs.map(async document => {
+        let id = "";
+        if (document.data().type === "personal") {
+          id = document.data().participants.find(x => x != userId);
+        } else if (document.data().type === "group") {
+          return;
+        }
+        const data = await getPostUserData(id);
+        result.push(data);
+      }));
+    }
+    const data = await getPostUserData(userId);
+    result.push(data);
+    setData(result || {});
+  } catch (err) {
+    console.error(err, err.message, "getPosts");
+  }
+}
+
+export const getStatus = async (docId) => {
+  try {
+    let result = [];
+    const msg = await getDocs(collection(doc(db, "posts", docId), "status"));
+    if (!msg?.empty) {
+      msg.docs.forEach(doc =>
+      {
+        if (doc.exists()) {
+          return result.push(doc.data())
+        }
+      });
+    }
+    return result;
+  } catch (err) {
+    console.error(err, err.message, "getStatus");
+  }
+}
+
+export const postStatus = async (docId, statusData) => {
+  try {
+    const postDoc = await getDoc(doc(db, "posts", docId));
+    if (chatDoc?.exists()) {
+      await updateDoc(postDoc.ref, {
+        lastPost: {
+          ...statusData
+        }
+      });
+      await addDoc(collection(postDoc.ref, "status"), {
+        ...statusData
+      });
+      return true;
+    }
+  } catch (err) {
+    console.error(err, err.message, "postStatus");
+    return false;
+  }
+}
+
 export const createNewGroup = async (uid, groupData) => {
   try {
     const data = await uploadFileAndGetURL(groupData.image, "images", "image");
@@ -68,15 +159,15 @@ export const createNewGroup = async (uid, groupData) => {
 export const updateGroupMembers = async (groupId, group) => {
   try {
     const chatDoc = (await getDocs(query(collection(db, "chats"), where("groupId", "==", groupId)))).docs.find(x => x.data().groupId === groupId);
-    
+
     await setDoc(chatDoc.ref, {
       participants: [...chatDoc.data().participants, ...group.participants]
     }, { merge: true });
-    
+
     await setDoc(doc(db, "users", groupId), {
       members: [...group.members],
     }, { merge: true });
-    
+
     return true;
   } catch (err) {
     console.log(err, err.message);
@@ -206,6 +297,7 @@ export const getMessages = async (userId, friendId, type) => {
     console.error(err, err.message, "getMessages");
   }
 }
+
 export const sendMessage = async (userId, friendId, msgData) => {
   try {
     const chatDoc = await findFriend(userId, friendId);
@@ -225,6 +317,7 @@ export const sendMessage = async (userId, friendId, msgData) => {
     return false;
   }
 }
+
 export const getUserData = async (uid, setUserData = null) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
