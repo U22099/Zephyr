@@ -81,7 +81,6 @@ export const getPosts = async (userId, setData) => {
     }
     const data = await getPostUserData(userId);
     result.push(data);
-    console.log(result);
     setData(result || []);
   } catch (err) {
     console.error(err, err.message, "getPosts");
@@ -130,7 +129,11 @@ export const postStatus = async (docId, statusData) => {
 
 export const likeStatus = async (postId, statusId, uid) => {
   try {
-    const postDoc = (await getDocs(query(collection((doc(db, "posts", postId), "status")), where("statusId", "==", statusId)))).docs.find(x => x.data().statusId === statusId);
+    const postDoc = (await getDocs(
+      query(
+        collection(doc(db, "posts", postId), "status"), 
+      where("statusId", "==", statusId))
+      )).docs.find(x => x.data().statusId === statusId);
     
     if (postDoc?.exists()) {
       await addDoc(postDoc.ref, {
