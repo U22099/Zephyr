@@ -13,7 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
 import { useUID, usePage } from "@/store";
-import { likeStatus, getStatus, convertToTimeString } from "@/utils";
+import { likeStatus, deleteStatus, getStatus, convertToTimeString } from "@/utils";
 import { useState, useEffect } from "react";
 import { ImBin } from "react-icons/im";
 
