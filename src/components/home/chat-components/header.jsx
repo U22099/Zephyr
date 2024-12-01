@@ -9,11 +9,38 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Users } from "@/components/home/people-components/users";
-import { usePage } from "@/store";
+import { AiOutlineLoading } from "react-icons/ai";
 import { FaUser } from "react-icons/fa";
+import { usePage, useUID, useNav } from "@/store";
+import { postStatus, uploadFileAndGetURL, toBase64 } from "@/utils";
+import { useState } from "react";
 
 export function Header() {
   const setPage = usePage(state => state.setPage);
+  const setNav = useNav(state => state.setNav);
+  const uid = useUID(state => stata.uid);
+  const [ loading, setLoading ] = useState(false);
+  const post = async (e) => {
+    try {
+      setLoading(true);
+      const data = await toBase64(e.target.files[0]);
+      const url = await uploadFileAndGetURL(data, "posts", "image");
+      if(url&&url.secure_url){
+        const postData = {
+          type: "image",
+          content: url,
+          timestamp: Date.now(),
+          likes: 0
+        }
+        await postStatus(uid, postData);
+        setNav(0);
+      }
+    } catch (err) {
+      console.error(err, err.message, "post");
+    } finally { 
+      setLoading(false);
+    }
+  }
   return (
     <main className="sticky top-0 left-0 w-full grid grid-cols-10 grid-gap-2 backdrop-blur-sm relative pt-2 pb-4 border-b z-10">
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8" onClick={() => setPage({
@@ -34,9 +61,10 @@ export function Header() {
           </DrawerContent>
         </Drawer>
       </div>
-      <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
-        <FaCamera className="text-xl fill-white"/>
-      </div>
+      <label htmlFor="image" className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
+        {loading ? <AiOutlineLoading className="animate-spin text-md"/> : <FaCamera className="text-xl fill-black dark:fill-white"/>}
+      </label>
+      <input disabled={loading} type="file" accepts="image/*" id="image" onChange={post} hidden/>
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <Drawer>
           <DrawerTrigger><FaPlus className="text-xl fill-white"/></DrawerTrigger>
