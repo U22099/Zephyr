@@ -28,16 +28,16 @@ export function Posts() {
   useEffect(() => {
     if(posts){
       setUserPost(posts.find(x => x.uid === uid));
-      setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.lastPost != {})).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
+      setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
     }
   }, [posts]);
   return (
     <main className="flex flex-col gap-2 w-full overflow-y-scroll scrollbar">
       <Input placeholder="Search..." onChange={(e) => {
         if(!e.target.value){
-          setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
+          setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
         }
-        setPostsFilter(posts.filter(x => x.uid != uid).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
+        setPostsFilter(posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
       }}/>
       <section className="flex flex-wrap gap-2 w-full">
         {userPost&&<PostCard data={{
