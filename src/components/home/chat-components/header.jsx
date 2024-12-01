@@ -30,7 +30,7 @@ export function Header() {
           type: "image",
           content: url,
           timestamp: Date.now(),
-          likes: 0
+          likes: []
         }
         await postStatus(uid, postData);
         setNav(0);
