@@ -57,17 +57,20 @@ function PostViewCard({ userData, post }) {
   return (
     <Card className="flex gap-2 flex-col w-full">
       <CardContent className="flex flex-col gap-2 w-full">
-        <header className="mt-2 flex gap-1 w-full">
-          <Avatar className="w-10 h-10">
-            <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
-            <AvatarFallback className="text-md text-primary">{
-            userData?.name ? userData.name[0] : "Z"
-            }</AvatarFallback>
-          </Avatar>
-          <section className="flex flex-col gap-1">
-            <h2 className="text-xl font-semibold w-28 truncate">{userData?.name}</h2>
-            <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
+        <header className="mt-2 flex justify-between w-full">
+          <section className="flex gap-1">
+            <Avatar className="w-10 h-10">
+              <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
+              <AvatarFallback className="text-md text-primary">{
+              userData?.name ? userData.name[0] : "Z"
+              }</AvatarFallback>
+            </Avatar>
+            <section className="flex flex-col gap-1">
+              <h2 className="text-xl font-semibold w-28 truncate">{userData?.name}</h2>
+              <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
+            </section>
           </section>
+          {userData.uid === uid&&}
         </header>
         <section className="flex w-full flex-col gap-1">
           {post.type === "image" ? 
