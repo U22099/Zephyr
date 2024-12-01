@@ -24,18 +24,18 @@ export function Posts() {
     if (uid) {
       getPosts(uid, setPosts)
     }
-  }, []);
+  }, [uid]);
   useEffect(() => {
     if(posts){
       setUserPost(posts.find(x => x.uid === uid));
-      setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.timestamp - b.timestamp)]);
+      setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
     }
   }, [posts]);
   return (
     <main className="flex flex-col gap-2 w-full overflow-y-scroll scrollbar">
       <Input placeholder="Search..." onChange={(e) => {
         if(!e.target.value){
-          setPostsFilter([...posts.filter(x => x.uid != uid)]);
+          setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
         }
         setPostsFilter(posts.filter(x => x.uid != uid).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
       }}/>
@@ -47,7 +47,7 @@ export function Posts() {
           open: true,
           component: "add-status"
         })} />}
-        {userPost&&<PostCard data={userPost} action={setPage({
+        {userPost?.lastPost?.content&&<PostCard data={userPost} action={setPage({
           open: true,
           component: "view-status",
           data: {
