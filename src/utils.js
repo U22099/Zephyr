@@ -134,7 +134,7 @@ export const likeStatus = async (postId, statusId, uid) => {
         collection(doc(db, "posts", postId), "status"), 
       where("statusId", "==", statusId))
       )).docs.find(x => x.data().statusId === statusId);
-    
+    console.log(postDoc.)
     if (postDoc?.exists()) {
       await addDoc(postDoc.ref, {
         likes: [...postDoc.data().likes, uid]

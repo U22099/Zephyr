@@ -54,8 +54,8 @@ function PostViewCard({ userData, post }) {
   }
   return (
     <Card className="flex gap-2 flex-col w-full">
-      <CardHeader className="flex gap-1 p-1">
-        <Avatar className="w-10 h-10">
+      <CardHeader className="flex gap-1">
+        <Avatar className="w-10 h-10 flex justify-center">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
           userData?.name ? userData.name[0] : "Z"
