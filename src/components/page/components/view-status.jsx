@@ -39,7 +39,7 @@ export function ViewStatus() {
 
 function PostViewCard({ userData, post }) {
   const uid = useUID(state => state.uid);
-  const [ likes, setLikes ] = useState(post.likes.length);
+  const [ likes, setLikes ] = useState(post?.likes?.length);
   const [loading, setLoading] = useState(false);
   const addLikes = async () => {
     try {

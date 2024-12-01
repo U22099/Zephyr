@@ -38,7 +38,7 @@ export function AddStatus() {
           }
         }
       } else {
-        const postData = {
+        postData = {
           type: "text",
           content: statusText,
           timestamp: Date.now(),
@@ -60,7 +60,7 @@ export function AddStatus() {
     }
   }
   return (
-    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex w-full">
+    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full">
       <header className="flex justify-between w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
             open: false,
@@ -81,7 +81,7 @@ export function AddStatus() {
           <Textarea className="w-full" placeholder="Type a status" onChange={(e) => setStatusText(e.target.value)} />
         </CardContent>
         <CardFooter>
-          <Button disabled={loading || !(statusText || image)} onClick={post}>{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Post"}</Button>
+          <Button className="w-full" disabled={loading || !(statusText || image)} onClick={post}>{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Post"}</Button>
         </CardFooter>
       </Card>
     </motion.main>
