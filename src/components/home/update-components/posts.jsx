@@ -28,7 +28,7 @@ export function Posts() {
   useEffect(() => {
     if(posts){
       setUserPost(posts.find(x => x.uid === uid));
-      setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
+      setPostsFilter([...posts.filter(x => (x.uid != uid) || !x.lastPost.content).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
     }
   }, [posts]);
   return (
@@ -43,18 +43,18 @@ export function Posts() {
         {userPost&&<PostCard data={{
           ...userPost,
           name: "Add Status"
-        }} action={setPage({
+        }} action={() => setPage({
           open: true,
           component: "add-status"
         })} />}
-        {userPost?.lastPost?.content&&<PostCard data={userPost} action={setPage({
+        {userPost?.lastPost?.content&&<PostCard data={userPost} action={() => setPage({
           open: true,
           component: "view-status",
           data: {
             ...userPost,
           }
         })} />}
-        {postsFilter.map((post,i) => <PostCard key={i} data={post} action={setPage({
+        {postsFilter.map((post,i) => <PostCard key={i} data={post} action={() => setPage({
           open: true,
           component: "view-status",
           data: {
