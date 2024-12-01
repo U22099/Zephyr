@@ -23,7 +23,7 @@ export function ViewStatus() {
     getStatus(page.data.uid, setPosts);
   }, []);
   return (
-    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2">
+    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-center">
       <header className="flex justify-start w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
             open: false,
@@ -32,7 +32,9 @@ export function ViewStatus() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      {posts&&posts.sort((a,b) => a.timestamp - b.timestamp).map((post,i) => <PostViewCard key={i} post={post} userData={page.data} />)}
+      {posts ? posts.sort((a,b) => a.timestamp - b.timestamp).map((post,i) => <PostViewCard key={i} post={post} userData={page.data} />) :
+        <h3 className="text-2xl font-bold text-center">No Posts</h3>
+      }
     </motion.main>
   )
 }
