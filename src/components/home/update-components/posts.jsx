@@ -7,8 +7,8 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { usePage, useUID, getPosts } from "@/store";
-import { convertToTimeString } from "@/utils";
+import { usePage, useUID } from "@/store";
+import { convertToTimeString, getPosts } from "@/utils";
 import { FaVideo } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
