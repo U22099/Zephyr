@@ -7,6 +7,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import { usePage, useUID } from "@/store";
 import { convertToTimeString, getPosts } from "@/utils";
 import { FaVideo } from "react-icons/fa6";
@@ -52,7 +53,7 @@ export function Posts() {
             ...userData,
           }
         })} />}
-        {postsFilter.map(post => <PostCard data={post} action={setPage({
+        {postsFilter.map((post,i) => <PostCard key={i} data={post} action={setPage({
           open: true,
           component: "view-status",
           data: {

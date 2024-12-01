@@ -32,7 +32,7 @@ export function ViewStatus() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      {posts&&posts.sort((a,b) => a.timestamp - b.timestamp).map(post => <PostViewCard post={post} userData={page.data} />)}
+      {posts&&posts.sort((a,b) => a.timestamp - b.timestamp).map((post,i) => <PostViewCard key={i} post={post} userData={page.data} />)}
     </motion.main>
   )
 }
