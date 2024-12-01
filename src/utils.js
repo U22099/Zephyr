@@ -75,10 +75,7 @@ export const getPosts = async (userId, setData) => {
       }));
     }
     const data = await getPostUserData(userId);
-    result.push({
-      ...data,
-      name: "Add Status"
-    });
+    result.push(data);
     setData(result || []);
   } catch (err) {
     console.error(err, err.message, "getPosts");

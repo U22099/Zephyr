@@ -13,15 +13,15 @@ import { FaVideo } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
-export function Posts(){
-  const [ posts, setPosts ] = useState([]);
-  const [ userPost, setUserPost ] = useState();
-  const [ postsFilter, setPostsFilter ] = useState([]);
+export function Posts() {
+  const [posts, setPosts] = useState([]);
+  const [userPost, setUserPost] = useState();
+  const [postsFilter, setPostsFilter] = useState([]);
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timestamp);
   useEffect(() => {
-    if(uid){
+    if (uid) {
       getPosts(uid, setPosts)
     }
   }, []);
@@ -29,7 +29,7 @@ export function Posts(){
     setUserPost(posts.filter(x => x.uid === uid)[0]);
     setPostsFilter([...posts.filter(x => x.uid != uid).sort((a, b) => a.timestamp - b.timestamp)]);
   }, [posts]);
-  return(
+  return (
     <main className="flex flex-col gap-2 w-full overflow-y-scroll scrollbar">
       <Input placeholder="Search..." onChange={(e) => {
         if(!e.target.value){
@@ -38,15 +38,37 @@ export function Posts(){
         setPostsFilter(posts.filter(x => x.uid != uid).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
       }}/>
       <section className="flex flex-wrap gap-2 w-full">
-        {userData&&<PostCard data={userData} action={} />}
-        {postsFilter.map(post => <PostCard data={post} action={}/>)}
+        {userData&&<PostCard data={{
+          ...userData,
+          name: "Add Status"
+        }} action={setPage({
+          open: true,
+          component: "add-status",
+          data: {
+            ...userData,
+          }
+        })} />}
+        {userData&&<PostCard data={userData} action={setPage({
+          open: true,
+          component: "view-status",
+          data: {
+            ...userData,
+          }
+        })} />}
+        {postsFilter.map(post => <PostCard data={post} action={setPage({
+          open: true,
+          component: "view-status",
+          data: {
+            ...post,
+          }
+        })}/>)}
       </section>
     </main>
   )
 }
 
-function PostCard({ data, action }){
-  return(
+function PostCard({ data, action }) {
+  return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-40 h-60" onClick={action}>
       <CardContent className="flex flex-col items-between justify-start p-2 w-40 h-60 relative">
         <Avatar className="w-10 h-10">
