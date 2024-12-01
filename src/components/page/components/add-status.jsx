@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { usePage } from "@/store";
 import { IoClose } from "react-icons/io5";
 import { FaImage } from "react-icons/fa";
@@ -58,7 +59,7 @@ export default function AddStatus() {
     }
   }
   return (
-    <main className="flex w-full">
+    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex w-full">
       <header className="flex justify-between w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
             open: false,
@@ -82,6 +83,6 @@ export default function AddStatus() {
           <Button disabled={loading || !(statusText || image)} onClick={post}>{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Post"}</Button>
         </CardFooter>
       </Card>
-    </main>
+    </motion.main>
   )
 }
