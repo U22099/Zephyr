@@ -56,27 +56,29 @@ function PostViewCard({ userData, post }) {
   }
   return (
     <Card className="flex gap-2 flex-col w-full">
-      <CardHeader className="flex gap-1 w-full ">
-        <Avatar className="w-10 h-10">
-          <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
-          <AvatarFallback className="text-md text-primary">{
-          userData?.name ? userData.name[0] : "Z"
-          }</AvatarFallback>
-        </Avatar>
-        <section className="flex flex-col gap-1">
-          <h2 className="text-xl font-semibold w-28 truncate">{userData?.name}</h2>
-          <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
+      <CardContent className="flex flex-col gap-2 w-full">
+        <header className="flex gap-1 w-full">
+          <Avatar className="w-10 h-10">
+            <AvatarImage className="w-10 h-10 object-cover rounded-full" src={userData?.image} alt="profile-image"/>
+            <AvatarFallback className="text-md text-primary">{
+            userData?.name ? userData.name[0] : "Z"
+            }</AvatarFallback>
+          </Avatar>
+          <section className="flex flex-col gap-1">
+            <h2 className="text-xl font-semibold w-28 truncate">{userData?.name}</h2>
+            <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
+          </section>
+        </header>
+        <section className="flex w-full flex-col gap-1">
+          {post.type === "image" ? 
+          (post.textContent ?
+          <div className="flex flex-col gap-1 w-full">
+           <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
+           <p className="text-md font-semibold">{post.textContent}</p>
+          </div> : 
+          <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
+          : <h3 className="text-xl font-bold">{post.content}</h3>}
         </section>
-      </CardHeader>
-      <CardContent className="flex w-full flex-col gap-1">
-        {post.type === "image" ? 
-        (post.textContent ?
-        <div className="flex flex-col gap-1 w-full">
-         <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
-         <p className="text-md font-semibold">{post.textContent}</p>
-        </div> : 
-        <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
-        : <h3 className="text-xl font-bold">{post.content}</h3>}
       </CardContent>
       <CardFooter className="w-full">
         <Button className="w-full" disabled={loading || post.likes.includes(uid)} onClick={async () => await addLikes()}>Likes {likes || 0}</Button>
