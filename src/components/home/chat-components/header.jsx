@@ -18,7 +18,7 @@ import { useState } from "react";
 export function Header() {
   const setPage = usePage(state => state.setPage);
   const setNav = useNav(state => state.setNav);
-  const uid = useUID(state => stata.uid);
+  const uid = useUID(state => state.uid);
   const [ loading, setLoading ] = useState(false);
   const post = async (e) => {
     try {
