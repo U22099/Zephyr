@@ -15,6 +15,7 @@ import { IoClose } from "react-icons/io5";
 import { useUID, usePage } from "@/store";
 import { likeStatus, getStatus, convertToTimeString } from "@/utils";
 import { useState, useEffect } from "react";
+import { ImBin } from "react-icons/im";
 
 export function ViewStatus() {
   const [ posts, setPosts ] = useState([]);
@@ -32,26 +33,39 @@ export function ViewStatus() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      {posts ? posts.sort((a,b) => a.timestamp - b.timestamp).map((post,i) => <PostViewCard key={i} post={post} userData={page.data} />) :
+      {posts ? posts.sort((a,b) => a.timestamp - b.timestamp).map((post,i) => <PostViewCard key={i} post={post} setPosts={setPosts} userData={page.data} />) :
         <h3 className="text-2xl font-bold text-center">No Posts</h3>
       }
     </motion.main>
   )
 }
 
-function PostViewCard({ userData, post }) {
+function PostViewCard({ userData, post, setPosts }) {
   const uid = useUID(state => state.uid);
   const [ likes, setLikes ] = useState(post.likes.length);
   const [loading, setLoading] = useState(false);
+  const [deleteloading, setDeleteLoading] = useState(false);
   const addLikes = async () => {
     try {
       setLoading(true);
       await likeStatus(userData.uid, post.statusId, uid);
-      setLikes(likes + 1);
+      setPosts(posts => posts.filter(x => x.statusId != post.statusId));
     } catch (err) {
       console.error(err, err.message, "addLikes");
     } finally {
       setLoading(false);
+    }
+  }
+  
+  const delete = async () => {
+    try {
+      setDeleteLoading(true);
+      await deleteStatus(userData.uid, post.statusId, uid);
+      setLikes(likes + 1);
+    } catch (err) {
+      console.error(err, err.message, "addLikes");
+    } finally {
+      setDeleteLoading(false);
     }
   }
   return (
@@ -70,7 +84,8 @@ function PostViewCard({ userData, post }) {
               <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
             </section>
           </section>
-          {userData.uid === uid&&}
+          {userData.uid === uid&&
+            {deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : <ImBin onClick={async () => await delete()} disabled={deleteloading} className="text-xl fill-black dark:fill-white"/>}}
         </header>
         <section className="flex w-full flex-col gap-1">
           {post.type === "image" ? 
