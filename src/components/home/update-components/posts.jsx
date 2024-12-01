@@ -20,7 +20,6 @@ export function Posts() {
   const [postsFilter, setPostsFilter] = useState([]);
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage);
-  const time = convertToTimeString(doc.lastMessage.timestamp);
   useEffect(() => {
     if (uid) {
       getPosts(uid, setPosts)
