@@ -28,7 +28,7 @@ export function Posts() {
   useEffect(() => {
     if(posts){
       setUserPost(posts.find(x => x.uid === uid));
-      setPostsFilter([...posts.filter(x => (x.uid != uid) || x.lastPost.content).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
+      setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.lastPost != {})).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
     }
   }, [posts]);
   return (
