@@ -463,7 +463,7 @@ export const uploadFileAndGetURL = async (file, folder, type) => {
 export const deleteFile = async (id) => {
   const res = (await axios.delete("/api/file",
   {
-    publicId: id
+    data: {publicId: id}
   })).data;
   return res.status === 200 ? true : false;
 }
