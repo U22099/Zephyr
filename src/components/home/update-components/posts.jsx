@@ -71,7 +71,10 @@ function PostCard({ data, action }) {
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-24 h-40 overflow-hidden" onClick={action}>
       <CardContent className="flex flex-col items-start justify-between p-2 w-24 h-40 relative">
-        {data.name === "Add Status" ? <FaPlus /> : <Avatar className="w-10 h-10">
+        {data.name === "Add Status" ? 
+         <div className="p-2 rounded-full bg-primary flex justify-center items-center w-12 h-12">
+          <FaPlus className="text-xl fill-black dark:fill-white"/>
+        </div> : <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={data?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
           data?.name ? data.name[0] : "Z"
