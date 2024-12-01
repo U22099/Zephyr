@@ -78,7 +78,7 @@ function PostCard({ data, action }) {
         </Avatar>
         <section className="absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center p-1 break-words text-center">
           {data.lastPost.type === "text" ? 
-          <p className="text-sm h-full w-full flex justify-center items-center break-words text-center truncate">{data.lastPost.content}</p> : 
+          <p className="text-sm truncate">{data.lastPost.content}</p> : 
           data.lastPost.type === "image" ? 
           <img className="rounded h-full w-full object-cover" src={data.lastPost.content?.secure_url} /> : 
           data.lastPost.type === "video" ? 
