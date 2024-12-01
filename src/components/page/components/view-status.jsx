@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { IoClose } from "react-icons/io5";
+import { AiOutlineLoading } from "react-icons/ai";
 import { useUID, usePage } from "@/store";
 import { likeStatus, deleteStatus, getStatus, convertToTimeString } from "@/utils";
 import { useState, useEffect } from "react";
