@@ -60,7 +60,7 @@ export function AddStatus() {
     }
   }
   return (
-    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full">
+    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full gap-1">
       <header className="flex justify-between w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
             open: false,
@@ -75,12 +75,12 @@ export function AddStatus() {
           setImage(data);} } hidden/>
         </label>
       </header>
-      <Card className="w-full flex flex-col gap-3 items-center">
-        <CardContent className="flex flex-col gap-2 items-center w-full">
+      <Card className="w-full flex flex-col gap-2 items-center">
+        <CardContent className="flex flex-col gap-2 items-center w-full p-2">
           {image&&<img src={image} className="h-60 w-full rounded p-1 object-cover" />}
-          <Textarea className="w-full" placeholder="Type a status" onChange={(e) => setStatusText(e.target.value)} />
+          <Textarea className="w-full mt-1" placeholder="Type a status" onChange={(e) => setStatusText(e.target.value)} />
         </CardContent>
-        <CardFooter>
+        <CardFooter className="w-full">
           <Button className="w-full" disabled={loading || !(statusText || image)} onClick={post}>{loading ? <AiOutlineLoading className="animate-spin text-md"/> : "Post"}</Button>
         </CardFooter>
       </Card>
