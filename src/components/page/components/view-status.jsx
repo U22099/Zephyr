@@ -23,7 +23,7 @@ export function ViewStatus() {
     getStatus(page.data.uid, setPosts);
   }, []);
   return (
-    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full">
+    <motion.main initial={{y: -300}} animate={{y: 0}} exit={{y: -300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2">
       <header className="flex justify-start w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
             open: false,
@@ -61,9 +61,9 @@ function PostViewCard({ userData, post }) {
           userData?.name ? userData.name[0] : "Z"
           }</AvatarFallback>
         </Avatar>
-        <section>
-          <h2 className="text-xl font-semibold w-40 truncate">{userData?.name}</h2>
-          <p className="text-sm text-muted-foreground w-36 truncate">{convertToTimeString(post.timestamp)}</p>
+        <section className="flex flex-col">
+          <h2 className="text-xl font-semibold w-28 truncate">{userData?.name}</h2>
+          <p className="text-sm text-muted-foreground w-32 truncate">{convertToTimeString(post.timestamp)}</p>
         </section>
       </CardHeader>
       <CardContent className="flex w-full flex-col gap-1">
@@ -76,8 +76,8 @@ function PostViewCard({ userData, post }) {
         <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
         : <h3 className="text-xl font-bold">{post.content}</h3>}
       </CardContent>
-      <CardFooter>
-        <Button disabled={loading || post.likes.includes(uid)} onClick={addLikes}>Likes {likes || 0}</Button>
+      <CardFooter className="w-full">
+        <Button className="w-full" disabled={loading || post.likes.includes(uid)} onClick={async () => await addLikes()}>Likes {likes || 0}</Button>
       </CardFooter>
     </Card>
   )
