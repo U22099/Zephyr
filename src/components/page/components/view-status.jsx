@@ -45,11 +45,12 @@ function PostViewCard({ userData, post, setPosts }) {
   const [ likes, setLikes ] = useState(post.likes.length);
   const [loading, setLoading] = useState(false);
   const [deleteloading, setDeleteLoading] = useState(false);
+  
   const addLikes = async () => {
     try {
       setLoading(true);
       await likeStatus(userData.uid, post.statusId, uid);
-      setPosts(posts => posts.filter(x => x.statusId != post.statusId));
+      setLikes(likes + 1);
     } catch (err) {
       console.error(err, err.message, "addLikes");
     } finally {
@@ -61,7 +62,7 @@ function PostViewCard({ userData, post, setPosts }) {
     try {
       setDeleteLoading(true);
       await deleteStatus(userData.uid, post.statusId, uid);
-      setLikes(likes + 1);
+      setPosts(posts => posts.filter(x => x.statusId != post.statusId));
     } catch (err) {
       console.error(err, err.message, "addLikes");
     } finally {
