@@ -84,7 +84,7 @@ function PostCard({ data, action }) {
           {data.lastPost.type === "text" ? 
           <p className="text-sm truncate">{data.lastPost.content}</p> : 
           data.lastPost.type === "image" ? 
-          <img className="rounded h-full w-full object-cover" src={data.lastPost.content?.secure_url} /> : 
+          <img className="rounded h-full w-full object-cover" src={data.lastPost.content?.secure_url || data.image} /> : 
           data.lastPost.type === "video" ? 
           <div> <FaVideo/> Video</div> : 
           data.lastPost.type === "audio" ? 

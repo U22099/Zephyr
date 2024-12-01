@@ -146,6 +146,32 @@ export const likeStatus = async (postId, statusId, uid) => {
   }
 }
 
+export const deleteStatus = async (postId, statusId, uid) => {
+  try {
+    const postDoc = (await getDocs(
+      query(
+        collection(doc(db, "posts", postId), "status"),
+        where("statusId", "==", statusId))
+    )).docs[0];
+    if (postDoc?.exists()) {
+      if(postDoc.data().type != "text"){
+        const deleted = await deleteFile(postDoc.data().content.public_id);
+        if(deleted){
+          await deleteDoc(postDoc.ref);
+        } else {
+          return false;
+        }
+      } else {
+        await deleteDoc(postDoc.ref);
+      }
+      return true;
+    }
+  } catch (err) {
+    console.error(err, err.message, "postStatus");
+    return false;
+  }
+}
+
 export const createNewGroup = async (uid, groupData) => {
   try {
     const data = await uploadFileAndGetURL(groupData.image, "images", "image");
@@ -433,6 +459,13 @@ export const uploadFileAndGetURL = async (file, folder, type) => {
     type
   })).data;
   return fileObj.fileURL;
+}
+export const deleteFile = async (id) => {
+  const res = (await axios.delete("/api/file",
+  {
+    publicId: id
+  })).data;
+  return res.status === 200 ? true : false;
 }
 export const toBase64 = (file) => {
   const reader = new FileReader();
