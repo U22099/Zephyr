@@ -49,8 +49,8 @@ const getPostUserData = async (id) => {
     });
     return {
       uid: id,
-      username: userData.username,
-      imageURL: userData.imageURL,
+      name: userData.username,
+      image: userData.imageURL,
       lastPost: {}
     }
   }
@@ -75,14 +75,17 @@ export const getPosts = async (userId, setData) => {
       }));
     }
     const data = await getPostUserData(userId);
-    result.push(data);
-    setData(result || {});
+    result.push({
+      ...data,
+      name: "Add Status"
+    });
+    setData(result || []);
   } catch (err) {
     console.error(err, err.message, "getPosts");
   }
 }
 
-export const getStatus = async (docId) => {
+export const getStatus = async (docId, setData) => {
   try {
     let result = [];
     const msg = await getDocs(collection(doc(db, "posts", docId), "status"));
@@ -94,7 +97,7 @@ export const getStatus = async (docId) => {
         }
       });
     }
-    return result;
+    setData(result || []);
   } catch (err) {
     console.error(err, err.message, "getStatus");
   }
