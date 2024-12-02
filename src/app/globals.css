@@ -102,6 +102,16 @@
   body {
     @apply bg-background text-foreground;
   }
+  .ai-display code {
+	@apply break-words  whitespace-pre-wrap
+  }
+  .ai-display code *{
+  	@apply break-words whitespace-pre-wrap
+  }
+  .ai-display ol,
+  .ai-display ul{
+    @apply ml-4 list-disc
+  }
   .ai-display * {
     @apply break-words
   }
