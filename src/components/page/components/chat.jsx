@@ -209,7 +209,12 @@ const Message = ({ m, type, uid }) => {
           m.type === "audio" ? 
           <audio controls src={m.content?.url} /> : 
           m.type === "raw-file" ? 
-          <embed className="rounded h-60 w-60 object-cover" src={m.content} /> : null}
+          <embed onClick={() => {
+            const linkTag = document.createElement("a");
+            linkTag.href = m.content;
+            linkTag.target = "_blank";
+            linkTag.click();
+          }} className="rounded h-60 w-60 object-cover" src={m.content} /> : null}
         </CardContent>
         <CardFooter className="flex p-0 justify-end">
           <p className="text-xs text-muted-foreground">{(m.type === "upload") ? "please wait" : convertToTimeString(m.timestamp)}</p>
