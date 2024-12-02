@@ -9,6 +9,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Users } from "@/components/home/people-components/users";
+import { AIChat } from "@/components/ai/ai-chat";
 import { AiOutlineLoading } from "react-icons/ai";
 import { FaUser } from "react-icons/fa";
 import { usePage, useUID, useNav } from "@/store";
@@ -59,13 +60,14 @@ export function Header() {
       </div>
       <h3 className="col-span-6 w-full flex justify-center items-center text-center font-bold text-lg">Chats</h3>
       <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
-        <Drawer>
+        <Drawer className="max-h-[92vh]">
           <DrawerTrigger><p className="text-primary">AI</p></DrawerTrigger>
           <DrawerContent className="flex flex-col p-2">
             <DrawerHeader>
               <DrawerTitle className="text-primary">Zephyr AI
               </DrawerTitle>
             </DrawerHeader>
+            <AIChat />
           </DrawerContent>
         </Drawer>
       </div>

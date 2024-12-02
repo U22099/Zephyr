@@ -25,7 +25,7 @@ import { Remarkable } from 'remarkable';
 import hljs from "highlight.js";
 import 'highlight.js/styles/github.css';
 
-export function Chat() {
+export function AIChat() {
   const component = useRef(false);
   const main = useRef();
   const { toast } = useToast();
