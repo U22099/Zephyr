@@ -31,7 +31,7 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
-    if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
+    //if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
     const body = document.getElementById("scroll");
     body.scrollIntoView({
       behavior: "smooth"
@@ -141,7 +141,7 @@ export function Chat() {
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10"/>
       </header>
-      <main className="flex flex-col gap-2 w-full p-2 mb-18 h-full overflow-y-scroll scrollbar">
+      <main className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
