@@ -48,6 +48,14 @@ export function Chat() {
           senderId: uid,
           timestamp: Date.now(),
         }
+      } else if(arg.type === "raw-file"){
+        msgData = {
+          content: arg.data,
+          read: false,
+          type: arg.type,
+          senderId: uid,
+          timestamp: Date.now(),
+        }
       } else {
         try{
           setMsg([...msg, {
@@ -155,7 +163,7 @@ export function Chat() {
           const data = await toBase64(e.target.files[0]);
           await sendMsg({
             data,
-            type: !["image", "video", "audio"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? "raw" : ["image", "video"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? data.split(",")[0].split(";")[0].split(":")[1].split("/")[0] : "video",
+            type: !["image", "video", "audio"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? "raw-file" : ["image", "video"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? data.split(",")[0].split(";")[0].split(":")[1].split("/")[0] : "video",
           });
         }}}/>
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
@@ -183,8 +191,8 @@ const Message = ({ m, type, uid }) => {
           <video className="rounded h-60 w-60 object-cover" controls src={m.content?.secure_url} /> : 
           m.type === "audio" ? 
           <audio controls src={m.content?.url} /> : 
-          m.type === "pdf" ? 
-          <embed className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : null}
+          m.type === "raw-file" ? 
+          <embed className="rounded h-60 w-60 object-cover" src={m.content} /> : null}
         </CardContent>
         <CardFooter className="flex p-0 justify-end">
           <p className="text-xs text-muted-foreground">{(m.type === "upload") ? "please wait" : convertToTimeString(m.timestamp)}</p>
