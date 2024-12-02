@@ -44,20 +44,28 @@ export function AI() {
   useEffect(() => {
     getAIData(uid, setAIData);
   }, []);
+  useEffect(() => {
+    if(aiData){
+      setModelType(aiData?.modelType);
+      setTemperature(aiData?.temperature);
+      setBehavior(aiData?.behavior);
+      setInfo(aiData?.info);
+    }
+  }, [aiData]);
   return (
     <Card className="backdrop-blur-sm flex flex-col w-full">
       <CardContent className="flex flex-col gap-2 p-2 w-full">
         <section>
           <Label htmlFor="info">Personal Info</Label>
-          <Textarea placeholder="Tell Zephyr AI about yourself" id="info" defaultValue={aiData?.info} onChange={(e) => setInfo(e.target.value)}/>
+          <Textarea placeholder="Tell Zephyr AI about yourself" id="info" value={info} onChange={(e) => setInfo(e.target.value)}/>
         </section>
         <section>
           <Label htmlFor="behavior">Behavior</Label>
-          <Textarea placeholder="Tell Zephyr AI how to behave" id="behavior" defaultValue={aiData?.behavior} onChange={(e) => setBehavior(e.target.value)}/>
+          <Textarea placeholder="Tell Zephyr AI how to behave" id="behavior" value={behavior} onChange={(e) => setBehavior(e.target.value)}/>
         </section>
         <section>
           <Label htmlFor="model">Model Type</Label>
-          <RadioGroup defaultValue={aiData?.modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
+          <RadioGroup value={modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
             <div className="flex gap-2 items-center">
               <RadioGroupItem value="fast" id="fast"/>
               <Label htmlFor="fast">Fast</Label>
@@ -70,7 +78,7 @@ export function AI() {
         </section>
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
-          <Slider defaultValue={[temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
+          <Slider value={[temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
           <p className="text-sm">{temperature || 20}%</p>
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
