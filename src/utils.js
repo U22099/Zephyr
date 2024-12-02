@@ -58,7 +58,7 @@ export const updateAIData = async (uid, data, merge = true) => {
 export const getAIData = async (uid) => {
   try {
     const doc = await getDoc(doc(db, "ai-chats", uid));
-    if(doc.empty){
+    if(!doc.exists()){
       await setDoc(doc(db, "ai-chats", uid), {
         messages: [],
         temperature: 20,
@@ -76,6 +76,7 @@ export const getAIData = async (uid) => {
 }
 export const sendAIMessage = async (uid, name, msgData) => {
   try {
+    let result;
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
     if (!aiDoc?.empty && aiDoc.data()) {
       const msgs = [...aiDoc.data().messages, msgData];
@@ -117,8 +118,7 @@ export const getAIMessages = async (uid) => {
   try {
     let result = [];
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
-    console.log(aiDoc.data());
-    if (!aiDoc?.empty) {
+    if (aiDoc.exists()) {
       result = [...aiDoc.data().messages]
     } else {
       await setDoc(doc(db, "ai-chats", uid), {
