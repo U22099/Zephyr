@@ -58,7 +58,17 @@ export const updateAIData = async (uid, data, merge = true) => {
 export const getAIData = async (uid) => {
   try {
     const doc = await getDoc(doc(db, "ai-chats", uid));
-    return doc.data();
+    if(doc.empty){
+      await setDoc(doc(db, "ai-chats", uid), {
+        messages: [],
+        temperature: 20,
+        modelType: "intelligent",
+        info: "",
+        behavior: ""
+      }); 
+    } else {
+      return doc.data();
+    }
   } catch (err) {
     console.error(err, err.message);
     return;
@@ -83,10 +93,14 @@ export const sendAIMessage = async (uid, name, msgData) => {
           }]
         });
         result = {
-          ...response
+            parts: [{ text: response}],
+            role: "model"
         };
       } else {
-        result = "No response, try again";
+        result = {
+          parts: [{ text: "No response, try again"}],
+          role: "model"
+        }
       }
     }
     return result;
