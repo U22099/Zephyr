@@ -77,6 +77,9 @@ export function AIChat() {
       component.current = true;
     }
   }, []);
+  if(!component.current){
+    return <p className="">Initialising...</p>
+  }
   return (
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <main className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
