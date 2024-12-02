@@ -461,11 +461,11 @@ export const uploadFileAndGetURL = async (file, folder, type) => {
   return fileObj.fileURL;
 }
 export const deleteFile = async (id) => {
-  const res = (await axios.delete("/api/file",
+  const res = await axios.delete("/api/file",
   {
     data: {publicId: id}
-  })).data;
-  return res.status === 200 ? true : false;
+  });
+  return (res.status === 200) ? true : false;
 }
 export const toBase64 = (file) => {
   const reader = new FileReader();
