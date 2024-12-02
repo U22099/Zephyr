@@ -325,9 +325,15 @@ export const getMessages = async (userId, friendId, type) => {
     let result = [];
     if (chatDoc?.exists()) {
       if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
-        await updateDoc(doc(db, "chats", chatDoc.id), {
+        if(type === "group"){
+          await updateDoc(doc(db, "chats", chatDoc.id), {
+          "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
+          });
+        } else {
+          await updateDoc(doc(db, "chats", chatDoc.id), {
           "lastMessage.read": true,
-        });
+          });
+        }
       }
       const msg = await getDocs(collection(chatDoc.ref, "messages"));
       if (!msg?.empty) {

@@ -72,6 +72,7 @@ export function Chat() {
       setInput("");
       if(page.data.type === "group"){
         msgData.senderName = userData.username;
+        msgData.read = [uid];
       }
       setMsg([...msg, msgData]);
       await sendMessage(uid, page.data.uid, msgData);
