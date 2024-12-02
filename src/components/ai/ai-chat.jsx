@@ -82,7 +82,7 @@ export function AIChat() {
   }
   return (
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
-      <main className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
+      <main className="flex flex-col gap-2 w-full p-2 mb-16 mt-5 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
