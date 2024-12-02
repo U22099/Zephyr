@@ -19,13 +19,13 @@ import { useToast } from "@/hooks/use-toast";
 
 export function AI() {
   const { toast } = useToast();
-  const [ userData, setUserData ] = useState();
+  const [ aiData, setAIData ] = useState();
   const uid = useUID(state => state.uid);
   const [loading, setLoading] = useState();
   const [info, setInfo] = useState("");
   const [behavior, setBehavior] = useState("");
   const [modelType, setModelType] = useState("intelligent");
-  const [temperature, setTemperature] = useState(userData?.temperature || 20);
+  const [temperature, setTemperature] = useState(aiData?.temperature || 20);
 
   const update = async () => {
     setLoading(true);
@@ -49,15 +49,15 @@ export function AI() {
       <CardContent className="flex flex-col gap-2 p-2 w-full">
         <section>
           <Label htmlFor="info">Personal Info</Label>
-          <Textarea placeholder="Tell Zephyr AI about yourself" id="info" defaultValue={userData?.info} onChange={(e) => setInfo(e.target.value)}/>
+          <Textarea placeholder="Tell Zephyr AI about yourself" id="info" defaultValue={aiData?.info} onChange={(e) => setInfo(e.target.value)}/>
         </section>
         <section>
           <Label htmlFor="behavior">Behavior</Label>
-          <Textarea placeholder="Tell Zephyr AI how to behave" id="behavior" defaultValue={userData?.behavior} onChange={(e) => setBehavior(e.target.value)}/>
+          <Textarea placeholder="Tell Zephyr AI how to behave" id="behavior" defaultValue={aiData?.behavior} onChange={(e) => setBehavior(e.target.value)}/>
         </section>
         <section>
           <Label htmlFor="model">Model Type</Label>
-          <RadioGroup defaultValue={userData?.modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
+          <RadioGroup defaultValue={aiData?.modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
             <div className="flex gap-2 items-center">
               <RadioGroupItem value="fast" id="fast"/>
               <Label htmlFor="fast">Fast</Label>
