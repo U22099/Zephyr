@@ -20,10 +20,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
 import { sendMessage, getMessages, convertToTimeString, uploadFileAndGetURL, toBase64 } from "@/utils";
+import { useToast } from "@/hooks/use-toast";
 
 export function Chat() {
   const component = useRef(false);
   const main = useRef();
+  const { toast } = useToast();
   const uid = useUID(state => state.uid);
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
@@ -48,7 +50,7 @@ export function Chat() {
           senderId: uid,
           timestamp: Date.now(),
         }
-      } else if(arg.type === "raw-file"){
+      } else if (arg.type === "raw-file"){
         msgData = {
           content: arg.data,
           read: false,
@@ -159,11 +161,26 @@ export function Chat() {
         <label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
-        <input type="file" accepts=".jpg, .png, .jpeg, .mp3, .mp4" hidden id="file" onChange={async (e) => {if(e.target.files[0]){
+        <input type="file" accept=".png, .jpg, .jpeg, .gif, .mp4, .mov, .wav, .mp3, .pdf" hidden id="file" onChange={async (e) => {if(e.target.files[0]){
+          if(e.target.files[0].size > (20 * 1024 * 1024)){
+            toast({
+              description: "File size is too large, pick a file less than 20mb"
+            });
+            return;
+          }
           const data = await toBase64(e.target.files[0]);
+          const dataType = data.split(",")[0].split(";")[0].split(":")[1].split("/")[0];
+          const isRawFile = !["image", "video", "audio"].includes(dataType);
+          const isNotAudio = ["image", "video"].includes(dataType);
+          if(isRawFile && e.target.files[0].size > (5 * 1024 * 1024)){
+            toast({
+              description: "Raw files' sizes must be less than 5mb"
+            });
+            return;
+          }
           await sendMsg({
             data,
-            type: !["image", "video", "audio"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? "raw-file" : ["image", "video"].includes(data.split(",")[0].split(";")[0].split(":")[1].split("/")[0]) ? data.split(",")[0].split(";")[0].split(":")[1].split("/")[0] : "video",
+            type: isRawFile ? "raw-file" : isNotAudio ? dataType : "video",
           });
         }}}/>
         <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
