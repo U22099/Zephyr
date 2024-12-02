@@ -25,12 +25,92 @@ export const getData = async (uid, collection, setData = null) => {
     if (setData) return setData(result);
     return result;
   } catch (err) {
-    console.log(err, err.message, "getData")
+    console.error(err, err.message, "getData")
+  }
+}
+
+async function sendRequest(name, history, data, settings) {
+  try {
+    const res = await axios.post("/api/ai", {
+      name,
+      history,
+      data, 
+      settings
+    });
+    if(res.status === 200){
+      return res.data.data;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.error(err, err.message, "sendRequest");
+  }
+}
+export const updateAIData = async (uid, data, merge = true) => {
+  try {
+    await setDoc(doc(db, "ai-chats", uid), data, { merge });
+    return true;
+  } catch (err) {
+    console.error(err, err.message);
+    return;
+  }
+}
+export const getAIData = async (uid) => {
+  try {
+    const doc = await getDoc(doc(db, "ai-chats", uid));
+    return doc.data();
+  } catch (err) {
+    console.error(err, err.message);
+    return;
+  }
+}
+const sendAIMessages = async (uid, name, msgData) => {
+  try {
+    const aiDoc = await getDoc(doc(db, "ai-chats", uid));
+    if (!aiDoc?.empty && aiDoc.data()) {
+      const msgs = [...aiDoc.data().messages, msgData];
+      const response = await sendRequest(name, aiDoc.data().messages, msgData, {
+        temperature: aiDoc.data().temperature,
+        modelType: aiDoc.data().modelType,
+        info: aiDoc.data().info,
+        behavior: aiDoc.data().behavior
+      });
+      if (response) {
+        await setDoc(aiDoc.ref, {
+          messages: [...msgs, response]
+        });
+        result = {
+          ...response
+        };
+      } else {
+        result = "No response, try again";
+      }
+    }
+    return result;
+  } catch (err) {
+    console.error(err, err.message, "sendAIMessages");
+  }
+}
+
+const getAIMessages = async (uid) => {
+  try {
+    let result = [];
+    const aiDoc = await getDoc(doc(db, "ai-chats", uid));
+    if (!aiDoc?.empty) {
+      result = [...aiDoc.data().messages];
+    } else {
+      await setDoc(doc(db, "ai-chats", uid), {
+        messages: [],
+      });
+    }
+    return result;
+  } catch (err) {
+    console.error(err, err.message, "getAIMessages");
   }
 }
 
 const getPostUserData = async (id) => {
-  try{
+  try {
     const docData = await getDoc(doc(db, "posts", id));
     if (docData.exists()) {
       const userData = docData.data();
@@ -55,8 +135,8 @@ const getPostUserData = async (id) => {
         lastPost: {}
       }
     }
-  } catch(err) {
-    console.log(err, "getPostUserData");
+  } catch (err) {
+    console.error(err, "getPostUserData");
     return {};
   }
 }
@@ -131,9 +211,9 @@ export const likeStatus = async (postId, statusId, uid) => {
   try {
     const postDoc = (await getDocs(
       query(
-         collection(doc(db, "posts", postId), "status"), 
-         where("statusId", "==", statusId))
-      )).docs[0];
+        collection(doc(db, "posts", postId), "status"),
+        where("statusId", "==", statusId))
+    )).docs[0];
     if (postDoc?.exists()) {
       await updateDoc(postDoc.ref, {
         likes: [...postDoc.data().likes, uid]
@@ -154,9 +234,9 @@ export const deleteStatus = async (postId, statusId, uid) => {
         where("statusId", "==", statusId))
     )).docs[0];
     if (postDoc?.exists()) {
-      if(postDoc.data().type != "text"){
+      if (postDoc.data().type != "text") {
         const deleted = await deleteFile(postDoc.data().content.public_id);
-        if(deleted){
+        if (deleted) {
           await deleteDoc(postDoc.ref);
         } else {
           return false;
@@ -204,7 +284,7 @@ export const createNewGroup = async (uid, groupData) => {
       }
     }
   } catch (err) {
-    console.log(err, err.message, "createNewGroup");
+    console.error(err, err.message, "createNewGroup");
   }
 }
 
@@ -222,7 +302,7 @@ export const updateGroupMembers = async (groupId, group) => {
 
     return true;
   } catch (err) {
-    console.log(err, err.message);
+    console.error(err, err.message);
     return;
   }
 }
@@ -243,7 +323,7 @@ export const getPeople = async (uid, setData) => {
     });
     setData(result?.filter(x => x.uid != uid) || []);
   } catch (err) {
-    console.log(err, err.message, "getPeople");
+    console.error(err, err.message, "getPeople");
     return;
   }
 }
@@ -263,10 +343,9 @@ export const getAllUsers = async (uid, setData) => {
         active: docData.active || docData.members,
       });
     });
-    console.log(result);
     setData(result?.filter(x => x.uid != uid) || []);
   } catch (err) {
-    console.log(err, err.message, "getAllUsers");
+    console.error(err, err.message, "getAllUsers");
     return;
   }
 }
@@ -325,13 +404,13 @@ export const getMessages = async (userId, friendId, type) => {
     let result = [];
     if (chatDoc?.exists()) {
       if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
-        if(type === "group"){
+        if (type === "group") {
           await updateDoc(doc(db, "chats", chatDoc.id), {
-          "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
+            "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
           });
         } else {
           await updateDoc(doc(db, "chats", chatDoc.id), {
-          "lastMessage.read": true,
+            "lastMessage.read": true,
           });
         }
       }
@@ -381,10 +460,9 @@ export const getUserData = async (uid, setUserData = null) => {
     const dbUser = await getDoc(doc(db, "users", uid));
     const result = dbUser.data();
     setUserData && setUserData(result);
-    console.log(result);
     return result;
   } catch (err) {
-    console.log(err, err.message, "getUserData")
+    console.error(err, err.message, "getUserData")
   }
 }
 export const updateUserData = async (uid, data, merge = true) => {
@@ -392,7 +470,7 @@ export const updateUserData = async (uid, data, merge = true) => {
     await setDoc(doc(db, "users", uid), data, { merge });
     return true;
   } catch (err) {
-    console.log(err, err.message);
+    console.error(err, err.message);
     return;
   }
 }
@@ -454,7 +532,7 @@ export const updateVariables = async (uid, setUsername, setImageUrl, setGender, 
     setBio(userData?.bio);
     setImagePublicId(userData?.imagePublicId);
   } catch (err) {
-    console.log(err, err.message, "updateVariables");
+    console.error(err, err.message, "updateVariables");
   }
 }
 export const uploadFileAndGetURL = async (file, folder, type) => {
@@ -469,7 +547,7 @@ export const uploadFileAndGetURL = async (file, folder, type) => {
 export const deleteFile = async (id) => {
   const res = await axios.delete("/api/file",
   {
-    data: {publicId: id}
+    data: { publicId: id }
   });
   return (res.status === 200) ? true : false;
 }
@@ -523,10 +601,10 @@ export function getCurrentTime() {
         bio: docData.bio
       }
     });
-    console.log(result);
+    console.error(result);
     return result;
   } catch (err) {
-    console.log(err, err.message, "getInitialUsers");
+    console.error(err, err.message, "getInitialUsers");
     return;
   }
 }
@@ -545,7 +623,7 @@ async function getNextUsers(lastuser) {
     console.log(result);
     return result;
   } catch (err) {
-    console.log(err, err.message, "getNextUsers");
+    console.error(err, err.message, "getNextUsers");
     return;
   }
 }
@@ -562,7 +640,7 @@ export const getDocWithPropertyEqual = async (collection, property, type, value,
     if (setData) return setData(result);
     return result;
   } catch (err) {
-    console.log(err, err.message, "getData");
+    console.error(err, err.message, "getData");
     return null;
   }
 };

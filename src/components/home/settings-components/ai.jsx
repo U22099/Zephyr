@@ -1,5 +1,5 @@
 "use client";
-import { useUserData, useUID } from "@/store";
+import { useUID } from "@/store";
 import {
   Card,
   CardContent,
@@ -13,23 +13,23 @@ import { Slider } from "@/components/ui/slider";
 import { Separator } from "@/components/ui/separator";
 import { AiOutlineLoading } from "react-icons/ai";
 import { Info } from 'lucide-react';
-import { updateUserData } from "@/utils";
+import { updateAIData, getAIData } from "@/utils";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 export function AI() {
   const { toast } = useToast();
-  const { userData, setUserData } = useUserData();
+  const [ userData, setUserData ] = useState();
   const uid = useUID(state => state.uid);
   const [loading, setLoading] = useState();
-  const [info, setInfo] = useState(null);
-  const [behavior, setBehavior] = useState(null);
-  const [modelType, setModelType] = useState("accurate");
-  const [temperature, setTemperature] = useState(userData.temperature);
+  const [info, setInfo] = useState("");
+  const [behavior, setBehavior] = useState("");
+  const [modelType, setModelType] = useState("intelligent");
+  const [temperature, setTemperature] = useState(userData?.temperature || 20);
 
   const update = async () => {
     setLoading(true);
-    await updateUserData(uid, {
+    await updateAIData(uid, {
       info,
       behavior,
       modelType,
@@ -39,15 +39,11 @@ export function AI() {
       title: "Success",
       description: "updated successfully"
     });
-    setUserData({
-      ...userData,
-      info,
-      behavior,
-      modelType,
-      temperature,
-    })
     setLoading(false);
   }
+  useEffect(() => {
+    getAIData(uid, setAIData);
+  }, []);
   return (
     <Card className="backdrop-blur-sm flex flex-col w-full">
       <CardContent className="flex flex-col gap-2 p-2 w-full">
@@ -61,14 +57,14 @@ export function AI() {
         </section>
         <section>
           <Label htmlFor="model">Model Type</Label>
-          <RadioGroup defaultValue={userData?.modelType || "accurate"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
+          <RadioGroup defaultValue={userData?.modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
             <div className="flex gap-2 items-center">
               <RadioGroupItem value="fast" id="fast"/>
               <Label htmlFor="fast">Fast</Label>
             </div>
             <div className="flex gap-2 items-center">
-              <RadioGroupItem value="accurate" id="accurate"/>
-              <Label htmlFor="accurate">Accurate</Label>
+              <RadioGroupItem value="intelligent" id="intelligent"/>
+              <Label htmlFor="intelligent">Intelligent</Label>
             </div>
           </RadioGroup>
         </section>
