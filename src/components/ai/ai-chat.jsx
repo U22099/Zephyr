@@ -42,12 +42,12 @@ export function AIChat() {
     try {
       let msgData = {
         parts: [{text: input}],
-        model: "user",
+        role: "user",
       }
       setInput("");
       setMsg([...msg, msgData, {
         content: "Processing...",
-        model: "loading",
+        role: "loading",
       }]);
       const response = await sendAIMessage(uid, userData.username, msgData);
       setMsg([...msg.filter(x => x.model === "loading"), response]);
@@ -108,16 +108,27 @@ export function AIChat() {
 
 const Message = ({ m }) => {
   const md = new Remarkable({
-      html: true,
-      xhtmlOut: true,
-      breaks: true,
-      typographer: true,
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    typographer: true,
+    highlight: function(str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(str, { language: lang }).value;
+        } catch (e) { console.log(e) }
+      }
+      try {
+        return hljs.highlightAuto(str).value;
+      } catch (e) { console.log(e) }
+      return '';
+    }
   });
   return (
-    <main className={"flex w-full items-center " + (m.model === "user" ? "justify-end text-end" : "justify-start text-start")}>
+    <main className={"flex w-full items-center " + (m.role === "user" ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
-          {m.model === "loading" ?
+          {m.role === "loading" ?
           <p className="text-primary animate-pulse font-bold">{m.content}</p> :
           /*m.type === "text" ? */
           <div className="ai-display" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
