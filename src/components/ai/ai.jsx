@@ -21,6 +21,9 @@ import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
 import { sendAIMessage, getAIMessages, convertToTimeString, toBase64 } from "@/utils";
 import { useToast } from "@/hooks/use-toast";
+import { Remarkable } from 'remarkable';
+import hljs from "highlight.js";
+import 'highlight.js/styles/github.css';
 
 export function Chat() {
   const component = useRef(false);
@@ -105,6 +108,24 @@ export function Chat() {
   )
 }
 
+const md = new Remarkable({
+  html: true,
+  xhtmlOut: true,
+  breaks: true,
+  typographer: true,
+  highlight: function(str, lang) {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return hljs.highlight(str, { language: lang }).value;
+      } catch (e) { console.log(e) }
+    }
+    try {
+      return hljs.highlightAuto(str).value;
+    } catch (e) { console.log(e) }
+    return '';
+  }
+});
+
 const Message = ({ m }) => {
   return (
     <main className={"flex w-full items-center " + (m.model === "user" ? "justify-end text-end" : "justify-start text-start")}>
@@ -113,7 +134,7 @@ const Message = ({ m }) => {
           {m.model === "loading" ?
           <p className="text-primary animate-pulse font-bold">{m.content}</p> :
           /*m.type === "text" ? */
-          <p>{m.parts.text}</p> /*: null
+          <div className="ai-display" dangerouslyInsertHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
           m.type === "video" ? 

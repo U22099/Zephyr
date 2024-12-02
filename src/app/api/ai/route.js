@@ -20,8 +20,7 @@ async function Chat(name, history, msg, settings) {
   My name is: ${name};
   And here's a little bit of info about me: ${settings.info};
   I want you to act as stated below: ${settings.behavior};
-  Generate a clear and concise response to this text prompt: ${text};
-  Make sure to format your output in plain text`;
+  Generate a clear and concise response to this text prompt: ${text};`;
 
   try {
     // Send the message to the chat model and await the response.

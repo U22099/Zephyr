@@ -120,3 +120,6 @@
   background: transparent;
   cursor: pointer;
 }
+.ai-display a{
+  color: var(--primary-foreground);
+}
