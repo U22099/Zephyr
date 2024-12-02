@@ -52,7 +52,8 @@ export function AIChat() {
       }]);
       setInput("");
       const response = await sendAIMessage(uid, userData.username, msgData);
-      setMsg([...(msg.filter(x => x.role != "loading")), response]);
+      const filtered = msg.filter(x => x.role != "loading") || [];
+      setMsg([...filtered, response]);
     } catch (err) {
       console.log(err, err.message, "send message");
     }
