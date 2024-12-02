@@ -56,7 +56,7 @@ export const updateAIData = async (uid, data, merge = true) => {
     return;
   }
 }
-export const getAIData = async (uid) => {
+export const getAIData = async (uid, setData) => {
   try {
     const doc = await getDoc(doc(db, "ai-chats", uid));
     if(!doc.exists()){
@@ -68,7 +68,7 @@ export const getAIData = async (uid) => {
         behavior: ""
       }); 
     } else {
-      return doc.data();
+      setData(doc.data());
     }
   } catch (err) {
     console.log(err, err.message);

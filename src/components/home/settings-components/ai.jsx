@@ -57,28 +57,28 @@ export function AI() {
       <CardContent className="flex flex-col gap-2 p-2 w-full">
         <section>
           <Label htmlFor="info">Personal Info</Label>
-          <Textarea placeholder="Tell Zephyr AI about yourself" id="info" value={info} onChange={(e) => setInfo(e.target.value)}/>
+          <Textarea placeholder="Tell Zephyr AI about yourself" id="info" defaultValue={info} onChange={(e) => setInfo(e.target.value)}/>
         </section>
         <section>
           <Label htmlFor="behavior">Behavior</Label>
-          <Textarea placeholder="Tell Zephyr AI how to behave" id="behavior" value={behavior} onChange={(e) => setBehavior(e.target.value)}/>
+          <Textarea placeholder="Tell Zephyr AI how to behave" id="behavior" defaultValue={behavior} onChange={(e) => setBehavior(e.target.value)}/>
         </section>
         <section>
           <Label htmlFor="model">Model Type</Label>
-          <RadioGroup value={modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
+          <RadioGroup defaultValue={modelType || "intelligent"} onValueChange={(value) => setModelType(value)} className="flex flex-col pl-2" id="model">
             <div className="flex gap-2 items-center">
-              <RadioGroupItem value="fast" id="fast"/>
+              <RadioGroupItem defaultValue="fast" id="fast"/>
               <Label htmlFor="fast">Fast</Label>
             </div>
             <div className="flex gap-2 items-center">
-              <RadioGroupItem value="intelligent" id="intelligent"/>
+              <RadioGroupItem defaultValue="intelligent" id="intelligent"/>
               <Label htmlFor="intelligent">Intelligent</Label>
             </div>
           </RadioGroup>
         </section>
         <section className="flex gap-2">
           <Label htmlFor="creativity">Creativity</Label>
-          <Slider value={[temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
+          <Slider defaultValue={[temperature || 20]} max={100} step={1} onValueChange={(value) => setTemperature(value[0])}/>
           <p className="text-sm">{temperature || 20}%</p>
         </section>
         <section className="flex gap-1 ml-2 backdrop-blur-md rounded p-2">
