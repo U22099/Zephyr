@@ -50,10 +50,11 @@ export function AIChat() {
         content: "Processing...",
         role: "loading"
       }
-      setMsg([...msg, msgData, loading]);
+      const updatedMsg = [...msg, msgData, loading];
+      setMsg([...updatedMsg]);
       setInput("");
       const response = await sendAIMessage(uid, userData.username, msgData);
-      const filtered = msg.filter(x => x.role != "loading") || [];
+      const filtered = updatedMsg.filter(x => x.role != "loading") || [];
       setMsg([...filtered, response]);
     } catch (err) {
       console.log(err, err.message, "send message");
@@ -139,7 +140,7 @@ const Message = ({ m }) => {
           {m.role === "loading" ?
           <p className="text-primary animate-pulse font-bold">{m.content}</p> :
           /*m.type === "text" ? */
-          <div className="ai-display" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
+          <div className="ai-display break-words w-full" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
           m.type === "video" ? 
