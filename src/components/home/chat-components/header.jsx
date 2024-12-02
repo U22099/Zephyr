@@ -62,7 +62,7 @@ export function Header() {
       <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
         <Drawer>
           <DrawerTrigger><p className="text-primary">AI</p></DrawerTrigger>
-          <DrawerContent className="flex flex-col p-2 h-[92vh]">
+          <DrawerContent className="flex flex-col p-2 h-[90vh]">
             <DrawerHeader>
               <DrawerTitle className="text-primary">Zephyr AI
               </DrawerTitle>
