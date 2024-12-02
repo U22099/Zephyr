@@ -102,6 +102,12 @@
   body {
     @apply bg-background text-foreground;
   }
+  .ai-display * {
+    @apply break-words
+  }
+  .ai-display a{
+    @apply text-primary
+  }
 }
 
 .scrollbar{
@@ -119,7 +125,4 @@
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
   cursor: pointer;
-}
-.ai-display a{
-  color: var(--primary-foreground);
 }
