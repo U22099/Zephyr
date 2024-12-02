@@ -22,6 +22,8 @@ import { useState, useEffect, useRef } from "react";
 import { sendAIMessage, getAIMessages, convertToTimeString, toBase64 } from "@/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Remarkable } from 'remarkable';
+import hljs from "highlight.js";
+import 'highlight.js/styles/github.css';
 
 export function AIChat() {
   const component = useRef(false);
@@ -44,19 +46,20 @@ export function AIChat() {
         parts: [{text: input}],
         role: "user",
       }
-      setInput("");
       setMsg([...msg, msgData, {
         content: "Processing...",
-        role: "loading",
+        role: "loading"
       }]);
+      setInput("");
       const response = await sendAIMessage(uid, userData.username, msgData);
-      setMsg([...msg.filter(x => x.model === "loading"), response]);
+      setMsg([...msg.filter(x => x.role != "loading"), response]);
     } catch (err) {
       console.log(err, err.message, "send message");
     }
   }
   useEffect(() => {
     if (msg.length > 1) {
+      console.log(msg);
       scrollDown();
     }
   }, [msg]);
@@ -77,7 +80,7 @@ export function AIChat() {
   return (
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <main className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
-        {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
+        {msg.length&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
       </main>
