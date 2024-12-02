@@ -70,10 +70,10 @@ export const sendAIMessage = async (uid, name, msgData) => {
     if (!aiDoc?.empty && aiDoc.data()) {
       const msgs = [...aiDoc.data().messages, msgData];
       const response = await sendRequest(name, aiDoc.data().messages, msgData, {
-        temperature: aiDoc.data().temperature,
-        modelType: aiDoc.data().modelType,
-        info: aiDoc.data().info,
-        behavior: aiDoc.data().behavior
+        temperature: aiDoc.data()?.temperature,
+        modelType: aiDoc.data()?.modelType,
+        info: aiDoc.data()?.info,
+        behavior: aiDoc.data()?.behavior
       });
       if (response) {
         await setDoc(aiDoc.ref, {
@@ -99,11 +99,16 @@ export const getAIMessages = async (uid) => {
   try {
     let result = [];
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
+    console.log(aiDoc.data());
     if (!aiDoc?.empty) {
-      result = [...aiDoc.data().messages];
+      result = [...aiDoc.data().messages]
     } else {
       await setDoc(doc(db, "ai-chats", uid), {
         messages: [],
+        temperature: 20,
+        modelType: "intelligent",
+        info: "",
+        behavior: ""
       });
     }
     return result;
