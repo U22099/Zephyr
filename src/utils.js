@@ -88,7 +88,7 @@ export const sendAIMessage = async (uid, name, msgData) => {
         behavior: aiDoc.data()?.behavior
       });
       if (response) {
-        await setDoc(aiDoc.ref, {
+        await updateDoc(aiDoc.ref, {
           messages: [...msgs, {
             parts: [{ text: response}],
             role: "model"
