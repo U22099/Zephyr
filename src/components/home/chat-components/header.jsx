@@ -14,18 +14,26 @@ import { FaUser } from "react-icons/fa";
 import { usePage, useUID, useNav } from "@/store";
 import { postStatus, uploadFileAndGetURL, toBase64 } from "@/utils";
 import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export function Header() {
+  const { toast } = useToast();
   const setPage = usePage(state => state.setPage);
   const setNav = useNav(state => state.setNav);
   const uid = useUID(state => state.uid);
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
   const post = async (e) => {
     try {
       setLoading(true);
+      if (e.target.files[0].size > (20 * 1024 * 1024)) {
+        toast({
+          description: "File size is too large, pick a file less than 20mb"
+        });
+        return;
+      }
       const data = await toBase64(e.target.files[0]);
       const url = await uploadFileAndGetURL(data, "posts", "image");
-      if(url&&url.secure_url){
+      if (url && url.secure_url) {
         const postData = {
           type: "image",
           content: url,
@@ -37,7 +45,7 @@ export function Header() {
       }
     } catch (err) {
       console.error(err, err.message, "post");
-    } finally { 
+    } finally {
       setLoading(false);
     }
   }
@@ -64,7 +72,7 @@ export function Header() {
       <label htmlFor="image" className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
         {loading ? <AiOutlineLoading className="animate-spin text-md"/> : <FaCamera className="text-xl fill-black dark:fill-white"/>}
       </label>
-      <input disabled={loading} type="file" accepts="image/*" id="image" onChange={post} hidden/>
+      <input disabled={loading} type="file" accepts=".jpg, .png, .jpeg" id="image" onChange={post} hidden/>
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <Drawer>
           <DrawerTrigger><FaPlus className="text-xl fill-white"/></DrawerTrigger>

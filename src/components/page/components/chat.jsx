@@ -161,7 +161,7 @@ export function Chat() {
         <label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
-        <input type="file" accept=".png, .jpg, .jpeg, .gif, .mp4, .mov, .wav, .mp3, .pdf" hidden id="file" onChange={async (e) => {if(e.target.files[0]){
+        <input type="file" accept=".png, .jpg, .jpeg, .mp4, .mov, .wav, .mp3, .pdf" hidden id="file" onChange={async (e) => {if(e.target.files[0]){
           if(e.target.files[0].size > (20 * 1024 * 1024)){
             toast({
               description: "File size is too large, pick a file less than 20mb"
