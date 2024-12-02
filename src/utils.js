@@ -64,7 +64,7 @@ export const getAIData = async (uid) => {
     return;
   }
 }
-const sendAIMessages = async (uid, name, msgData) => {
+export const sendAIMessage = async (uid, name, msgData) => {
   try {
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
     if (!aiDoc?.empty && aiDoc.data()) {
@@ -92,7 +92,7 @@ const sendAIMessages = async (uid, name, msgData) => {
   }
 }
 
-const getAIMessages = async (uid) => {
+export const getAIMessages = async (uid) => {
   try {
     let result = [];
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
