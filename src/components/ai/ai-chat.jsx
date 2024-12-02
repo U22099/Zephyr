@@ -108,25 +108,24 @@ export function AIChat() {
   )
 }
 
-const md = new Remarkable({
-  html: true,
-  xhtmlOut: true,
-  breaks: true,
-  typographer: true,
-  highlight: function(str, lang) {
-    if (lang && hljs.getLanguage(lang)) {
-      try {
-        return hljs.highlight(str, { language: lang }).value;
-      } catch (e) { console.log(e) }
-    }
-    try {
-      return hljs.highlightAuto(str).value;
-    } catch (e) { console.log(e) }
-    return '';
-  }
-});
-
 const Message = ({ m }) => {
+  const md = new Remarkable({
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    typographer: true,
+    highlight: function(str, lang) {
+      if (lang && hljs.getLanguage(lang)) {
+        try {
+          return hljs.highlight(str, { language: lang }).value;
+        } catch (e) { console.log(e) }
+      }
+      try {
+        return hljs.highlightAuto(str).value;
+      } catch (e) { console.log(e) }
+      return '';
+    }
+  });
   return (
     <main className={"flex w-full items-center " + (m.model === "user" ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
