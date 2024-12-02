@@ -78,7 +78,7 @@ export function AIChat() {
     }
   }, []);
   if(!component.current){
-    return <p className="">Initialising...</p>
+    return <p className="text-primary animate-pulse justify-center items-center h-full w-full text-cent">Initialising...</p>
   }
   return (
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
