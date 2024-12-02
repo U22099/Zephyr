@@ -42,14 +42,15 @@ export function AIChat() {
   }
   const sendMsg = async () => {
     try {
-      let msgData = {
+      const msgData = {
         parts: [{text: input}],
         role: "user",
       }
-      setMsg([...msg, msgData, {
+      const loading = {
         content: "Processing...",
         role: "loading"
-      }]);
+      }
+      setMsg([...msg, msgData, loading]);
       setInput("");
       const response = await sendAIMessage(uid, userData.username, msgData);
       const filtered = msg.filter(x => x.role != "loading") || [];
