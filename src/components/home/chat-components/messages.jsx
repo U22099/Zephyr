@@ -64,7 +64,7 @@ export function Messages({ docData }){
       <section className="py-1 h-full flex flex-col justify-center border-b gap-1 w-full">
         <header className="flex gap-1 items-center justify-between">
           <h1 className="text-xl font-bold">{doc.name}</h1>
-          {doc.lastMessage&&<p className={!doc.lastMessage.read&&doc.lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
+          {doc.lastMessage&&<p className={(doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
         {doc.lastMessage.type === "text" ? <p className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-full truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.content || ""}</p>
         : ["image", "audio", "video", "file"].includes(doc.lastMessage.type) ? 
