@@ -42,8 +42,9 @@ async function sendRequest(name, history, data, settings) {
     } else {
       return false;
     }
-  } catch (e) {
+  } catch (err) {
     console.log(err, err.message, "sendRequest");
+    return false;
   }
 }
 export const updateAIData = async (uid, data, merge = true) => {

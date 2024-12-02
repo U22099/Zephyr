@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-async function Chat(name, history, msg, settings) {
+async function chat(name, history, msg, settings) {
   // Create a new Google Generative AI instance using the API key from environment variables.
   const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_AI_API_KEY);
   // Get the Gemini model.  System instruction sets the model's behavior.
@@ -20,7 +20,7 @@ async function Chat(name, history, msg, settings) {
   My name is: ${name};
   And here's a little bit of info about me: ${settings.info};
   I want you to act as stated below: ${settings.behavior};
-  Generate a clear and concise response to this text prompt: ${text};`;
+  Generate a clear and concise response to this text prompt: ${msg.parts[0].text};`;
 
   try {
     // Send the message to the chat model and await the response.
