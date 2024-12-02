@@ -31,12 +31,10 @@ export function Chat() {
   const [ input, setInput ] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
-    console.log(msg.length);
     if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
-      console.log(msg.length);
     const body = document.getElementById("body");
+    console.log(body);
     body.scrollTop = body.scrollHeight;
-
   }
   const sendMsg = async (arg = null) => {
     try {
