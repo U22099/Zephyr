@@ -67,6 +67,13 @@ export const getAIData = async (uid, setData) => {
         info: "",
         behavior: ""
       }); 
+      setData({
+        messages: [],
+        temperature: 20,
+        modelType: "intelligent",
+        info: "",
+        behavior: ""
+      })
     } else {
       setData(doc.data());
     }

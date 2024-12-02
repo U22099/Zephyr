@@ -6,6 +6,7 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
+  DrawerDescription,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Users } from "@/components/home/people-components/users";
@@ -66,6 +67,9 @@ export function Header() {
             <DrawerHeader>
               <DrawerTitle className="text-primary">Zephyr AI
               </DrawerTitle>
+              <DrawerDescription>
+               This AI is powered by google gemini model, chat count is limited to 3000 chats. clearing chats would reset the limit
+              </DrawerDescription>
             </DrawerHeader>
             <AIChat />
           </DrawerContent>
