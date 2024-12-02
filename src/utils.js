@@ -25,7 +25,7 @@ export const getData = async (uid, collection, setData = null) => {
     if (setData) return setData(result);
     return result;
   } catch (err) {
-    console.error(err, err.message, "getData")
+    console.log(err, err.message, "getData")
   }
 }
 
@@ -43,7 +43,7 @@ async function sendRequest(name, history, data, settings) {
       return false;
     }
   } catch (e) {
-    console.error(err, err.message, "sendRequest");
+    console.log(err, err.message, "sendRequest");
   }
 }
 export const updateAIData = async (uid, data, merge = true) => {
@@ -51,7 +51,7 @@ export const updateAIData = async (uid, data, merge = true) => {
     await setDoc(doc(db, "ai-chats", uid), data, { merge });
     return true;
   } catch (err) {
-    console.error(err, err.message);
+    console.log(err, err.message);
     return;
   }
 }
@@ -70,7 +70,7 @@ export const getAIData = async (uid) => {
       return doc.data();
     }
   } catch (err) {
-    console.error(err, err.message);
+    console.log(err, err.message);
     return;
   }
 }
@@ -162,7 +162,7 @@ const getPostUserData = async (id) => {
       }
     }
   } catch (err) {
-    console.error(err, "getPostUserData");
+    console.log(err, "getPostUserData");
     return {};
   }
 }
@@ -189,7 +189,7 @@ export const getPosts = async (userId, setData) => {
     result.push(data);
     setData(result || []);
   } catch (err) {
-    console.error(err, err.message, "getPosts");
+    console.log(err, err.message, "getPosts");
   }
 }
 
@@ -207,7 +207,7 @@ export const getStatus = async (docId, setData) => {
     }
     setData(result || []);
   } catch (err) {
-    console.error(err, err.message, "getStatus");
+    console.log(err, err.message, "getStatus");
   }
 }
 
@@ -228,7 +228,7 @@ export const postStatus = async (docId, statusData) => {
       return true;
     }
   } catch (err) {
-    console.error(err, err.message, "postStatus");
+    console.log(err, err.message, "postStatus");
     return false;
   }
 }
@@ -247,7 +247,7 @@ export const likeStatus = async (postId, statusId, uid) => {
       return true;
     }
   } catch (err) {
-    console.error(err, err.message, "postStatus");
+    console.log(err, err.message, "postStatus");
     return false;
   }
 }
@@ -273,7 +273,7 @@ export const deleteStatus = async (postId, statusId, uid) => {
       return true;
     }
   } catch (err) {
-    console.error(err, err.message, "postStatus");
+    console.log(err, err.message, "postStatus");
     return false;
   }
 }
@@ -310,7 +310,7 @@ export const createNewGroup = async (uid, groupData) => {
       }
     }
   } catch (err) {
-    console.error(err, err.message, "createNewGroup");
+    console.log(err, err.message, "createNewGroup");
   }
 }
 
@@ -328,7 +328,7 @@ export const updateGroupMembers = async (groupId, group) => {
 
     return true;
   } catch (err) {
-    console.error(err, err.message);
+    console.log(err, err.message);
     return;
   }
 }
@@ -349,7 +349,7 @@ export const getPeople = async (uid, setData) => {
     });
     setData(result?.filter(x => x.uid != uid) || []);
   } catch (err) {
-    console.error(err, err.message, "getPeople");
+    console.log(err, err.message, "getPeople");
     return;
   }
 }
@@ -371,7 +371,7 @@ export const getAllUsers = async (uid, setData) => {
     });
     setData(result?.filter(x => x.uid != uid) || []);
   } catch (err) {
-    console.error(err, err.message, "getAllUsers");
+    console.log(err, err.message, "getAllUsers");
     return;
   }
 }
@@ -409,7 +409,7 @@ export const getChats = async (userId, setData) => {
     }
     setData(result);
   } catch (err) {
-    console.error(err, err.message, "getMessages");
+    console.log(err, err.message, "getMessages");
   }
 }
 
@@ -457,7 +457,7 @@ export const getMessages = async (userId, friendId, type) => {
     }
     return result;
   } catch (err) {
-    console.error(err, err.message, "getMessages");
+    console.log(err, err.message, "getMessages");
   }
 }
 
@@ -476,7 +476,7 @@ export const sendMessage = async (userId, friendId, msgData) => {
       return true;
     }
   } catch (err) {
-    console.error(err, err.message, "getMessages");
+    console.log(err, err.message, "getMessages");
     return false;
   }
 }
@@ -488,7 +488,7 @@ export const getUserData = async (uid, setUserData = null) => {
     setUserData && setUserData(result);
     return result;
   } catch (err) {
-    console.error(err, err.message, "getUserData")
+    console.log(err, err.message, "getUserData")
   }
 }
 export const updateUserData = async (uid, data, merge = true) => {
@@ -496,7 +496,7 @@ export const updateUserData = async (uid, data, merge = true) => {
     await setDoc(doc(db, "users", uid), data, { merge });
     return true;
   } catch (err) {
-    console.error(err, err.message);
+    console.log(err, err.message);
     return;
   }
 }
@@ -516,7 +516,7 @@ export const logOut = async () => {
     await signOut(auth);
     console.log("User signed out successfully.");
   } catch (error) {
-    console.error("Error signing out:", error);
+    console.log("Error signing out:", error);
   }
 }
 export const deleteAccount = async (uid, name) => {
@@ -542,10 +542,10 @@ export const deleteAccount = async (uid, name) => {
       }));
       console.log("User deleted successfully.");
     } else {
-      console.error("No user is currently signed in.");
+      console.log("No user is currently signed in.");
     }
   } catch (error) {
-    console.error("Error deleting user:", error);
+    console.log("Error deleting user:", error);
   }
 }
 export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
@@ -558,7 +558,7 @@ export const updateVariables = async (uid, setUsername, setImageUrl, setGender, 
     setBio(userData?.bio);
     setImagePublicId(userData?.imagePublicId);
   } catch (err) {
-    console.error(err, err.message, "updateVariables");
+    console.log(err, err.message, "updateVariables");
   }
 }
 export const uploadFileAndGetURL = async (file, folder, type) => {
@@ -627,10 +627,10 @@ export function getCurrentTime() {
         bio: docData.bio
       }
     });
-    console.error(result);
+    console.log(result);
     return result;
   } catch (err) {
-    console.error(err, err.message, "getInitialUsers");
+    console.log(err, err.message, "getInitialUsers");
     return;
   }
 }
@@ -649,7 +649,7 @@ async function getNextUsers(lastuser) {
     console.log(result);
     return result;
   } catch (err) {
-    console.error(err, err.message, "getNextUsers");
+    console.log(err, err.message, "getNextUsers");
     return;
   }
 }
@@ -666,7 +666,7 @@ export const getDocWithPropertyEqual = async (collection, property, type, value,
     if (setData) return setData(result);
     return result;
   } catch (err) {
-    console.error(err, err.message, "getData");
+    console.log(err, err.message, "getData");
     return null;
   }
 };
