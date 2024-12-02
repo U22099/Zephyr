@@ -105,7 +105,11 @@ export const sendAIMessage = async (uid, name, msgData) => {
     }
     return result;
   } catch (err) {
-    console.error(err, err.message, "sendAIMessages");
+    console.log(err, err.message, "sendAIMessages");
+    return {
+      parts: [{ text: "No response, try again"}],
+      role: "model"
+    };
   }
 }
 
@@ -127,7 +131,7 @@ export const getAIMessages = async (uid) => {
     }
     return result;
   } catch (err) {
-    console.error(err, err.message, "getAIMessages");
+    console.log(err, err.message, "getAIMessages");
   }
 }
 
