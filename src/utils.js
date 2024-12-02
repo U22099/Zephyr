@@ -78,7 +78,7 @@ export const sendAIMessage = async (uid, name, msgData) => {
   try {
     let result;
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
-    if (!aiDoc?.empty && aiDoc.data()) {
+    if (!aiDoc?.empty) {
       const msgs = [...aiDoc.data().messages, msgData];
       const response = await sendRequest(name, aiDoc.data().messages, msgData, {
         temperature: aiDoc.data()?.temperature,
