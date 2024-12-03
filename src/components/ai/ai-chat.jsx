@@ -140,7 +140,7 @@ const Message = ({ m }) => {
           {m.role === "loading" ?
           <p className="text-primary animate-pulse font-bold">{m.content}</p> :
           /*m.type === "text" ? */
-          <div className="ai-display" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
+          <div className="ai-display break-words max-w-[80vw] md:max-w-[40vw]" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
           m.type === "video" ? 
