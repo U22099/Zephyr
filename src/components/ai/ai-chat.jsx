@@ -15,6 +15,7 @@ import { HiOutlinePhone } from "react-icons/hi";
 import { IoVideocamOutline } from "react-icons/io5";
 import { IoSend } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
+import { AiOutlineClear } from "react-icons/ai";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
@@ -58,6 +59,31 @@ export function AIChat() {
       const response = await sendAIMessage(uid, userData.username, msgData);
       const filtered = updatedMsg.filter(x => x.role != "loading") || [];
       setMsg([...filtered, response]);
+    } catch (err) {
+      console.log(err, err.message, "send message");
+    }
+  }
+  const clear = async () => {
+    try {
+      const updatedMsg = [...msg, {
+        content: "Clearing Messages...",
+        role: "loading"
+      }];
+      setMsg([...updatedMsg]);
+      setInput("");
+      const response = await clearAIMessages(uid);
+      if(response){
+        setMsg([]);
+        toast({
+          description: "AI chat cleared"
+        });
+      } else {
+        const filtered = updatedMsg.filter(x => x.role != "loading") || [];
+        setMsg([...filtered, {
+          role: "model",
+          parts: [{text: "An error occured, please try again"}]
+        }]);
+      }
     } catch (err) {
       console.log(err, err.message, "send message");
     }
@@ -110,6 +136,7 @@ export function AIChat() {
             type: dataType === "application" ? "pdf" : dataType
           });
         }}}/>*/}
+        <AiOutlineClear className="text-xl" onClick={clear}/>
         <Input placeholder="Ask Zephyr AI" value={input} onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
