@@ -81,11 +81,11 @@ export function AIChat() {
     }
   }, []);
   if(!component.current){
-    return <p className="text-primary animate-pulse justify-center items-center h-full w-full text-center">Initialising...</p>
+    return <p className="text-primary animate-pulse justify-center items-center h-full font-bold w-full text-center">Initialising...</p>
   }
   return (
-    <motion.main className="w-full h-full flex flex-col items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
-      <main className="flex flex-col gap-2 w-full p-2 mb-24 mt-5 h-full overflow-y-scroll scrollbar">
+    <motion.main className="w-full h-full flex flex-col items-center pb-24" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+      <main className="flex flex-col gap-2 w-full p-2 mt-5 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>

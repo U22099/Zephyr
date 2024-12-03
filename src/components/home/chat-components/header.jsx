@@ -62,7 +62,7 @@ export function Header() {
       <h3 className="col-span-6 w-full flex justify-center items-center text-center font-bold text-lg">Chats</h3>
       <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
         <Drawer>
-          <DrawerTrigger><p className="text-primary">AI</p></DrawerTrigger>
+          <DrawerTrigger asChild><p className="text-primary">AI</p></DrawerTrigger>
           <DrawerContent className="flex flex-col p-2 h-[90vh]">
             <DrawerHeader>
               <DrawerTitle className="text-primary">Zephyr AI
@@ -81,7 +81,7 @@ export function Header() {
       <input disabled={loading} type="file" accepts=".jpg, .png, .jpeg" id="image" onChange={post} hidden/>
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <Drawer>
-          <DrawerTrigger><FaPlus className="text-xl fill-white"/></DrawerTrigger>
+          <DrawerTrigger asChild><FaPlus className="text-xl fill-white"/></DrawerTrigger>
           <DrawerContent className="max-h-[90%] flex flex-col p-2">
             <DrawerHeader>
               <DrawerTitle>New Chats
