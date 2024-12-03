@@ -136,11 +136,11 @@ const Message = ({ m }) => {
   return (
     <main className={"flex w-full items-center " + (m.role === "user" ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
-        <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
+        <CardContent className="flex justify-start items-left p-0.5 w-fit h-fit text-left">
           {m.role === "loading" ?
           <p className="text-primary animate-pulse font-bold">{m.content}</p> :
           /*m.type === "text" ? */
-          <div className="ai-display break-words max-w-[80vw] md:max-w-[40vw]" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
+          <div className="ai-display break-words max-w-[80vw] md:max-w-[40vw] text-left" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
           m.type === "video" ? 
