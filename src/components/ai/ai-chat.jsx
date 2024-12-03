@@ -36,7 +36,7 @@ export function AIChat() {
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
     const body = document.getElementById("scroll");
-    body.scrollIntoView({
+    body&&body.scrollIntoView({
       behavior: "smooth"
     })
   }
