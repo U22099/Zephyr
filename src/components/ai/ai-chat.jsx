@@ -91,7 +91,6 @@ export function AIChat() {
   useEffect(() => {
     if (msg.length > 1) {
       scrollDown();
-      component.current = false;
     }
   }, [msg]);
   useEffect(() => {
