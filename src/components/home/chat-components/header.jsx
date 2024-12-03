@@ -68,7 +68,7 @@ export function Header() {
               <DrawerTitle className="text-primary">Zephyr AI
               </DrawerTitle>
               <DrawerDescription>
-               This AI is powered by google gemini model, chat count is limited to 3000 chats. clearing chats would reset the limit
+               Powered by google gemini model
               </DrawerDescription>
             </DrawerHeader>
             <AIChat />

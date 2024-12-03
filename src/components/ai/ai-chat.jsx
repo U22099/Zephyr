@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { usePage, useSocket, useUID, useUserData } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
@@ -84,7 +83,7 @@ export function AIChat() {
     return <p className="text-primary animate-pulse justify-center items-center h-full font-bold w-full text-center">Initialising...</p>
   }
   return (
-    <motion.main className="w-full h-full flex flex-col items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <main className="w-full h-full flex flex-col items-center">
       <main className="flex flex-col gap-2 w-full p-2 mt-5 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
@@ -111,7 +110,7 @@ export function AIChat() {
         <Input placeholder="Ask Zephyr AI" value={input} onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
-    </motion.main>
+    </main>
   )
 }
 
