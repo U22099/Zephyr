@@ -139,7 +139,7 @@ export function AIChat() {
             type: dataType === "application" ? "pdf" : dataType
           });
         }}}/>*/}
-        <AiOutlineClear className="text-2xl" onClick={clear}/>
+        <AiOutlineClear className="text-4xl" onClick={clear}/>
         <Input placeholder="Ask Zephyr AI" value={input} onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>

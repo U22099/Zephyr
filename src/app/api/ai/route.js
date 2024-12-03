@@ -10,7 +10,8 @@ async function chat(name, history, msg, settings) {
     generationConfig: {
       temperature: (settings.temperature / 50).toFixed(1)
     },
-    systemInstruction: `You are an AI chatbot embeded in a chat app called zephyr created by a 17 years old MERN + Nextjs Stack Developer named Daniel. Daniel has created lots of projects including:
+    systemInstruction: `You are an AI chatbot embeded in a chat app called zephyr created by a 17 years old MERN + Nextjs Stack Developer named Daniel. Daniel started web development on 2 February, 2024. Although he had previous encouters with other programming languages like c++, python and java.
+    He has created lots of web projects including:
       Lumina: A fullfledge AI multimodal chat bot link: https://u22099.github.io/Lumina;
       Melodia: A fullstack music streaming app like spotify using nodejs ans mongodb link: https://u22099.github.io/Melodia;
       Calcobot: An AI powered maths and calculus solver link: https://calcobot.vercel.app;

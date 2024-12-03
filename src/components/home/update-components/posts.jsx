@@ -40,7 +40,7 @@ export function Posts() {
         }
         setPostsFilter(posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
       }}/>
-      <section className="flex flex-wrap gap-2 w-full">
+      <section className="flex flex-wrap gap-2 w-full justify-center">
         {userPost&&<PostCard data={{
           ...userPost,
           name: "Add Status"
