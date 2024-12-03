@@ -197,11 +197,11 @@ const Message = ({ m, type, uid }) => {
         {type === "group" && <CardHeader className="w-full flex justify-start p-0">
           <p className="w-24 truncate text-muted-foreground text-sm">~{m.senderName}</p>
         </CardHeader>}
-        <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit">
+        <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit text-left">
           {m.type === "upload" ? 
-          <p className="text-primary font-bold animate-pulse">{m.content}</p> : 
+          <p className="text-primary font-bold animate-pulse text-left">{m.content}</p> : 
           m.type === "text" ? 
-          <p>{m.content}</p> : 
+          <p className="text-left">{m.content}</p> : 
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : 
           m.type === "video" ? 
