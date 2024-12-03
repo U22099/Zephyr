@@ -35,9 +35,6 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
-    if((msg[msg.length - 1]?.role === "model")&&!component.current){
-      return;
-    }
     const body = document.getElementById("scroll");
     body.scrollIntoView({
       behavior: "smooth"
@@ -89,8 +86,15 @@ export function AIChat() {
     }
   }
   useEffect(() => {
-    if (msg.length > 1) {
+    if (component.current) {
       scrollDown();
+    }
+  }, [component.current]);
+  useEffect(() => {
+    if(msg.length > 1){
+      if (msg[msg.length - 1].role != "model") {
+        scrollDown();
+      }
     }
   }, [msg]);
   useEffect(() => {
@@ -135,7 +139,7 @@ export function AIChat() {
             type: dataType === "application" ? "pdf" : dataType
           });
         }}}/>*/}
-        <AiOutlineClear className="text-xl" onClick={clear}/>
+        <AiOutlineClear className="text-2xl" onClick={clear}/>
         <Input placeholder="Ask Zephyr AI" value={input} onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
