@@ -145,8 +145,8 @@ export function Chat() {
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data}})}>
-              <h1 className="text-xl font-bold truncate w-32">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground truncate w-40 text-start">{page.data.type === "personal" ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
+              <h1 className="text-xl font-bold truncate w-32 flex justify-start">{page.data.name}</h1>
+              <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{page.data.type === "personal" ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
           </section>
         </section>
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
