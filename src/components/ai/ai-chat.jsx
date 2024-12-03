@@ -19,7 +19,7 @@ import { AiOutlineClear } from "react-icons/ai";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
-import { sendAIMessage, getAIMessages, convertToTimeString, toBase64 } from "@/utils";
+import { sendAIMessage, getAIMessages, clearAIMessages, convertToTimeString, toBase64 } from "@/utils";
 import { useToast } from "@/hooks/use-toast";
 import { Remarkable } from 'remarkable';
 import hljs from "highlight.js";

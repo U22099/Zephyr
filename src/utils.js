@@ -82,6 +82,18 @@ export const getAIData = async (uid, setData) => {
   }
 }
 
+export const clearAIMessages = async (uid) => {
+  try{
+    await updateDoc(doc(db, "ai-chats", uid), {
+      messages: []
+    });
+    return true;
+  } catch(err) {
+    console.error(err, err.message, "clearAIMessages");
+    return false;
+  }
+}
+
 export const sendAIMessage = async (uid, name, msgData) => {
   try {
     let result;
