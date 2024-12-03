@@ -46,7 +46,6 @@ export function AI() {
   }, [uid]);
   useEffect(() => {
     if(aiData){
-      console.log(aiData)
       setModelType(aiData?.modelType);
       setTemperature(aiData?.temperature);
       setBehavior(aiData?.behavior);
