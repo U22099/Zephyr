@@ -34,6 +34,9 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
+    if((msg[msg.length - 1]?.role === "model")&&!component.current){
+      return;
+    }
     const body = document.getElementById("scroll");
     body.scrollIntoView({
       behavior: "smooth"
@@ -61,8 +64,8 @@ export function AIChat() {
   }
   useEffect(() => {
     if (msg.length > 1) {
-      console.log(msg);
       scrollDown();
+      component.current = false;
     }
   }, [msg]);
   useEffect(() => {
@@ -84,7 +87,7 @@ export function AIChat() {
   }
   return (
     <main className="w-full h-full flex flex-col items-center">
-      <main className="flex flex-col gap-2 w-full p-2 mt-5 h-full overflow-y-scroll scrollbar">
+      <main className="flex flex-col gap-2 w-full p-2 mt-5 mb-20 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
