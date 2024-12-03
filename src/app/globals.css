@@ -106,14 +106,14 @@
   .ai-display pre,
   .ai-display code *,
   .ai-display pre *{
-  	@apply break-words text-wrap max-w-[80vw] md:max-w-[40vw]
+  	@apply break-words whitespace-pre-wrap max-w-[80vw] md:max-w-[40vw]
   }
   .ai-display ol,
   .ai-display ul{
     @apply ml-4 list-disc
   }
   .ai-display * {
-    @apply break-words text-primary max-w-[80vw] md:max-w-[40vw]
+    @apply break-words text-wrap max-w-[80vw] md:max-w-[40vw]
   }
   .ai-display a{
     @apply text-primary
