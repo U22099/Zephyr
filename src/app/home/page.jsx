@@ -40,6 +40,12 @@ export default function Home() {
           active: `${Date.now()}`
         })
       });
+      window.addEventListener("beforeunload", async (e) => {
+       e.preventDefault();
+       await updateUserData(user.uid, {
+          active: `${Date.now()}`
+        })
+      })
       setSocket(socket);
     } catch(err) {
       console.log(err, err.message, "init");
