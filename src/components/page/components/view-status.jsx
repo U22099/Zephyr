@@ -101,7 +101,7 @@ function PostViewCard({ userData, post, setPosts }) {
         </section>
       </CardContent>
       <CardFooter className="w-full">
-        <Button className="w-full" disabled={loading || post.likes.includes(uid)} onClick={async () => await addLikes()}>Likes {likes || 0}</Button>
+        <Button className="w-full" disabled={loading || post.likes.includes(uid) || likes > post.likes.length} onClick={async () => await addLikes()}>Likes {likes || 0}</Button>
       </CardFooter>
     </Card>
   )
