@@ -85,7 +85,7 @@ export function AIChat() {
   }
   return (
     <motion.main className="w-full h-full flex flex-col" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
-      <main className="flex flex-col gap-2 w-full p-2 mb-16 mt-5 h-full overflow-y-scroll scrollbar">
+      <main className="flex flex-col gap-2 w-full p-2 mb-20 mt-5 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
@@ -140,7 +140,7 @@ const Message = ({ m }) => {
           {m.role === "loading" ?
           <p className="text-primary animate-pulse font-bold">{m.content}</p> :
           /*m.type === "text" ? */
-          <div className="ai-display break-words w-fit" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
+          <div className="ai-display" dangerouslySetInnerHTML={{__html: md.render(m.parts[0].text)}} /> /*: null
           m.type === "image" ? 
           <img className="rounded h-60 w-60 object-cover" src={m.content} /> : 
           m.type === "video" ? 

@@ -102,11 +102,9 @@
   body {
     @apply bg-background text-foreground;
   }
-  .ai-display code {
-	@apply break-words text-wrap
-  }
+  .ai-display code,
   .ai-display code *{
-  	@apply break-words text-wrap
+  	@apply break-words
   }
   .ai-display ol,
   .ai-display ul{
