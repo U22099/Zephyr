@@ -84,13 +84,13 @@ export function AIChat() {
     return <p className="text-primary animate-pulse justify-center items-center h-full font-bold w-full text-center">Initialising...</p>
   }
   return (
-    <motion.main className="w-full h-full flex flex-col items-center pb-24" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-full h-full flex flex-col items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <main className="flex flex-col gap-2 w-full p-2 mt-5 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
       </main>
-      <footer className="flex items-center gap-2 fixed bottom-0 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
+      <footer className="flex items-center gap-2 sticky bottom-0 backdrop-blur-sm pt-2 border-t z-10 w-full mx-auto p-3">
         {/*<label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
