@@ -103,10 +103,10 @@
     @apply bg-background text-foreground;
   }
   .ai-display code {
-	@apply break-words  whitespace-pre-wrap
+	@apply break-words text-wrap
   }
   .ai-display code *{
-  	@apply break-words whitespace-pre-wrap
+  	@apply break-words text-wrap
   }
   .ai-display ol,
   .ai-display ul{

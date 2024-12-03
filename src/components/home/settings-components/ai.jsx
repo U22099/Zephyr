@@ -19,13 +19,13 @@ import { useToast } from "@/hooks/use-toast";
 
 export function AI() {
   const { toast } = useToast();
-  const [ aiData, setAIData ] = useState();
   const uid = useUID(state => state.uid);
+  const [ aiData, setAIData ] = useState();
   const [loading, setLoading] = useState();
   const [info, setInfo] = useState("");
   const [behavior, setBehavior] = useState("");
   const [modelType, setModelType] = useState("intelligent");
-  const [temperature, setTemperature] = useState(aiData?.temperature || 20);
+  const [temperature, setTemperature] = useState(20);
 
   const update = async () => {
     setLoading(true);
@@ -42,10 +42,11 @@ export function AI() {
     setLoading(false);
   }
   useEffect(() => {
-    getAIData(uid, setAIData);
-  }, []);
+    if(uid) getAIData(uid, setAIData);
+  }, [uid]);
   useEffect(() => {
     if(aiData){
+      console.log(aiData)
       setModelType(aiData?.modelType);
       setTemperature(aiData?.temperature);
       setBehavior(aiData?.behavior);
