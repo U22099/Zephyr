@@ -54,7 +54,7 @@ export function VideoCall() {
           to: page.data.uid,
           roomID,
         });
-        socket.on("video-call-accepted", data => {
+        socket.on("video-call-accepted", async data => {
           if (page.data.uid === data.uid) {
             await joinRoom(roomID, token);
           }

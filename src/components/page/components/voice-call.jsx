@@ -54,7 +54,7 @@ export function VoiceCall() {
           to: page.data.uid,
           roomID,
         });
-        socket.on("voice-call-accepted", data => {
+        socket.on("voice-call-accepted", async data => {
           if (page.data.uid === data.uid) {
             await joinRoom(roomID, token);
           }
