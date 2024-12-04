@@ -29,8 +29,8 @@ export function Chat() {
   const uid = useUID(state => state.uid);
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
-  const [ msg, setMsg ] = useState([]);
-  const [ input, setInput ] = useState("");
+  const [msg, setMsg] = useState([]);
+  const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
     //if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
@@ -42,7 +42,7 @@ export function Chat() {
   const sendMsg = async (arg = null) => {
     try {
       let msgData
-      if(!arg){
+      if (!arg) {
         msgData = {
           content: input,
           read: false,
@@ -50,7 +50,7 @@ export function Chat() {
           senderId: uid,
           timestamp: Date.now(),
         }
-      } else if (arg.type === "raw-file"){
+      } else if (arg.type === "raw-file") {
         msgData = {
           content: arg.data,
           read: false,
@@ -59,7 +59,7 @@ export function Chat() {
           timestamp: Date.now(),
         }
       } else {
-        try{
+        try {
           setMsg([...msg, {
             content: "uploading...",
             type: "upload",
@@ -74,19 +74,19 @@ export function Chat() {
             timestamp: Date.now(),
           }
           setMsg(msg.filter(x => x.type != "upload"));
-        } catch(err){
+        } catch (err) {
           console.log(err.message);
           return;
         }
       }
       setInput("");
-      if(page.data.type === "group"){
+      if (page.data.type === "group") {
         msgData.senderName = userData.username;
         msgData.read = [uid];
       }
       setMsg([...msg, msgData]);
       await sendMessage(uid, page.data.uid, msgData);
-      if(page.data.type === "group"){
+      if (page.data.type === "group") {
         socket.emit("group-send-message", {
           groupId: page.data.uid,
           data: msgData,
@@ -101,21 +101,35 @@ export function Chat() {
     } catch (err) {
       console.log(err, err.message, "send message");
     }
-  } 
+  }
   useEffect(() => {
-    if(msg.length > 1){
+    if (msg.length > 1) {
       scrollDown();
     }
   }, [msg]);
   useEffect(() => {
-    if(page.data.type === "group"){
+    socket.on("incoming-voice-call", data => {
+      setPage({
+        open: true,
+        component: "incoming-voice-call",
+        data
+      })
+    });
+    socket.on("incoming-video-call", data => {
+      setPage({
+        open: true,
+        component: "incoming-video-call",
+        data
+      })
+    });
+    if (page.data.type === "group") {
       socket.emit("join-group", page.data.uid);
       socket.on("group-recieve-message", data => {
         setMsg([...msg, data]);
       })
     } else {
       socket.on("recieve-message", data => {
-        if(data.senderId === page.data.uid){
+        if (data.senderId === page.data.uid) {
           setMsg([...msg, data]);
         }
       });
@@ -123,14 +137,14 @@ export function Chat() {
   }, [socket]);
   useEffect(() => {
     const fetchMsgs = async () => {
-      try{
+      try {
         const result = (await getMessages(uid, page.data.uid, page.data.type)) || [];
         setMsg([...result.sort((a, b) => a.timestamp - b.timestamp)]);
-      } catch(err){
+      } catch (err) {
         console.log(err, err.message, "fetchMsgs")
       }
     }
-    if(!component.current){
+    if (!component.current) {
       fetchMsgs();
       component.current = true;
     }
@@ -149,7 +163,13 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{page.data.type === "personal" ? (page.data.active === "online" ? "online" : `last seen at ${convertToTimeString(page.data.active)}`) : page.data.members.join(",")}</p>
           </section>
         </section>
-        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8"/>
+        <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
+            open: true,
+            component: "voice-call",
+            data: {
+              ...page.data
+            }
+        })}/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10"/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
@@ -191,7 +211,7 @@ export function Chat() {
 }
 
 const Message = ({ m, type, uid }) => {
-  return(
+  return (
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
         {type === "group" && <CardHeader className="w-full flex justify-start p-0">

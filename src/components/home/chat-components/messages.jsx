@@ -14,16 +14,30 @@ import { AiFillAudio } from "react-icons/ai";
 import { useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
-export function Messages({ docData }){
+export function Messages({ docData }) {
   //Trying to create a deep copy of docData
   const doc = JSON.parse(JSON.stringify(docData));
-  
+
   const { toast } = useToast();
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timestamp);
   useEffect(() => {
+    socket.on("incoming-voice-call", data => {
+      setPage({
+        open: true,
+        component: "incoming-voice-call",
+        data
+      })
+    });
+    socket.on("incoming-video-call", data => {
+      setPage({
+        open: true,
+        component: "incoming-video-call",
+        data
+      })
+    });
     if (doc.type === "group") {
       socket.emit("join-group", doc.uid);
       socket.on("group-recieve-message", data => {
@@ -49,7 +63,7 @@ export function Messages({ docData }){
       });
     }
   }, [socket])
-  return(
+  return (
     <main className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
       component: "chat",
@@ -60,23 +74,24 @@ export function Messages({ docData }){
       <Avatar className="w-16 h-16">
         <AvatarImage className="w-16 h-16 object-cover rounded-full" src={doc.image} alt="profile-image"/>
         <AvatarFallback className="text-3xl text-primary">{doc.name ? doc.name[0] : "Z"}</AvatarFallback>
-      </Avatar>
-      <section className="py-1 h-full flex flex-col justify-center border-b gap-1 w-full">
-        <header className="flex gap-1 items-center justify-between">
+      </Avatar> <
+    section className = "py-1 h-full flex flex-col justify-center border-b gap-1 w-full" >
+    <header className="flex gap-1 items-center justify-between">
           <h1 className="text-xl font-bold">{doc.name}</h1>
           {doc.lastMessage&&<p className={(doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
-        {doc.lastMessage.type === "text" ? <p className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-full truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.content || ""}</p>
-        : ["image", "audio", "video", "raw-file"].includes(doc.lastMessage.type) ? 
+    {
+      doc.lastMessage.type === "text" ? <p className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-full truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.content || ""}</p> :
+        ["image", "audio", "video", "raw-file"].includes(doc.lastMessage.type) ?
         <div className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
             {(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.type === "image" ? <FaImage/> : doc.lastMessage.type === "audio" ? <AiFillAudio /> : doc.lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
             <p className="truncate">
               {doc.lastMessage.type === "image" ? "Image" : doc.lastMessage.type === "audio" ? "Audio" : doc.lastMessage.type === "video" ? "Video" : "Raw File"}
             </p>
-          </div> 
-          : null
-        }
-      </section>
-    </main>
+          </div> :
+        null
+    }
+    </section> <
+    /main>
   )
 }

@@ -47,6 +47,7 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^11.0.2",
     "vaul": "^1.1.1",
+    "zego-express-engine-webrtc": "3.7.4",
     "zustand": "^5.0.1"
   },
   "devDependencies": {

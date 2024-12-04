@@ -18,6 +18,21 @@ import { saveData } from "@/storage";
 import { v4 } from "uuid";
 import axios from "axios";
 
+export const generateToken = async (userID) => {
+  try {
+    const res = await axios.post("/api/gt", {
+      appID: process.env.NEXT_PUBLIC_ZEGO_APP_ID,
+      secret: process.env.NEXT_PUBLIC_ZEGO_SERVER_ID,
+      userId,
+    });
+    if (res.status === 200) {
+      return res.data.data;
+    } else return;
+  } catch (err) {
+    console.log(err, err.message, "generateToken")
+  }
+}
+
 export const getData = async (uid, collection, setData = null) => {
   try {
     const data = await getDoc(doc(db, collection, uid));
@@ -34,10 +49,10 @@ async function sendRequest(name, history, data, settings) {
     const res = await axios.post("/api/ai", {
       name,
       history,
-      data, 
+      data,
       settings
     });
-    if(res.status === 200){
+    if (res.status === 200) {
       return res.data.data;
     } else {
       return false;
@@ -59,14 +74,14 @@ export const updateAIData = async (uid, data, merge = true) => {
 export const getAIData = async (uid, setData) => {
   try {
     const aiDoc = await getDoc(doc(db, "ai-chats", uid));
-    if(!aiDoc.exists()){
+    if (!aiDoc.exists()) {
       await setDoc(doc(db, "ai-chats", uid), {
         messages: [],
         temperature: 20,
         modelType: "intelligent",
         info: "",
         behavior: ""
-      }); 
+      });
       setData({
         messages: [],
         temperature: 20,
@@ -83,12 +98,12 @@ export const getAIData = async (uid, setData) => {
 }
 
 export const clearAIMessages = async (uid) => {
-  try{
+  try {
     await updateDoc(doc(db, "ai-chats", uid), {
       messages: []
     });
     return true;
-  } catch(err) {
+  } catch (err) {
     console.error(err, err.message, "clearAIMessages");
     return false;
   }
@@ -109,17 +124,17 @@ export const sendAIMessage = async (uid, name, msgData) => {
       if (response) {
         await updateDoc(aiDoc.ref, {
           messages: [...msgs, {
-            parts: [{ text: response}],
+            parts: [{ text: response }],
             role: "model"
           }]
         });
         result = {
-            parts: [{ text: response}],
-            role: "model"
+          parts: [{ text: response }],
+          role: "model"
         };
       } else {
         result = {
-          parts: [{ text: "No response, try again"}],
+          parts: [{ text: "No response, try again" }],
           role: "model"
         }
       }
@@ -128,7 +143,7 @@ export const sendAIMessage = async (uid, name, msgData) => {
   } catch (err) {
     console.log(err, err.message, "sendAIMessages");
     return {
-      parts: [{ text: "No response, try again"}],
+      parts: [{ text: "No response, try again" }],
       role: "model"
     };
   }
