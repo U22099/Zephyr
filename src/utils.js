@@ -18,7 +18,7 @@ import { saveData } from "@/storage";
 import { v4 } from "uuid";
 import axios from "axios";
 
-export const generateToken = async (userID) => {
+export const generateToken = async (userId) => {
   try {
     const res = await axios.post("/api/gt", {
       appID: process.env.NEXT_PUBLIC_ZEGO_APP_ID,
