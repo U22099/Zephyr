@@ -17,11 +17,9 @@ import { useToast } from "@/hooks/use-toast";
 export function Messages({ docData }) {
   //Trying to create a deep copy of docData
   const doc = JSON.parse(JSON.stringify(docData));
-  
-  let lastMessage = {
+  const [ lastMessage, setLastMessage ] = useState({
     ...doc.lastMessage
-  };
-
+  })
   const { toast } = useToast();
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
@@ -45,9 +43,7 @@ export function Messages({ docData }) {
     if (doc.type === "group") {
       socket.emit("join-group", doc.uid);
       socket.on("group-recieve-message", data => {
-        lastMessage = {
-          ...data
-        }
+        setLastMessage({...data})
         toast({
           title: doc.name,
           description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`
@@ -56,9 +52,7 @@ export function Messages({ docData }) {
     } else {
       socket.on("recieve-message", data => {
         if (data.senderId === doc.uid) {
-          lastMessage = {
-            ...data
-          }
+          setLastMessage({...data})
           console.log(lastMessage);
           toast({
             title: doc.name,
