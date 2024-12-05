@@ -36,7 +36,7 @@ export function VideoCall() {
     zego.on("roomStreamUpdate", async (roomID, updateType, streamList, extendedData) => {
       if (updateType === "ADD") {
         console.log(streamList);
-        streamList.forEach(stream => {
+        streamList.forEach(async stream => {
           const stream = await zego.startPlayingStream(stream.streamID, {
             audio: true,
             video: true
