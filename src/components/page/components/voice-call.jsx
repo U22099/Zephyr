@@ -1,7 +1,11 @@
 import { useUserData, usePage, useUID, useSocket } from "@/store";
 import { generateToken } from "@/utils";
 import { useState, useEffect } from "react";
-import { ZegoExpressEngine } from "zego-express-engine-webrtc";
+import dynamic from 'next/dynamic';
+
+const { ZegoExpressEngine } = dynamic(() => import('zego-express-engine-webrtc'), {
+  ssr: false,
+});
 
 export function VoiceCall() {
   const { page, setPage } = usePage();

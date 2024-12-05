@@ -1,7 +1,9 @@
 import { useUserData, usePage, useUID, useSocket } from "@/store";
 import { generateToken } from "@/utils";
 import { useState, useEffect } from "react";
-import { ZegoExpressEngine } from "zego-express-engine-webrtc";
+const { ZegoExpressEngine } = dynamic(() => import('zego-express-engine-webrtc'), {
+  ssr: false,
+});
 
 export function VideoCall() {
   const { page, setPage } = usePage();
