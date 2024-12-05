@@ -21,7 +21,7 @@ import axios from "axios";
 export const generateToken = async (userId) => {
   try {
     const res = await axios.post("/api/gt", {
-      appID: process.env.NEXT_PUBLIC_ZEGO_APP_ID,
+      appId: process.env.NEXT_PUBLIC_ZEGO_APP_ID,
       secret: process.env.NEXT_PUBLIC_ZEGO_SERVER_ID,
       userId,
     });

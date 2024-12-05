@@ -105,7 +105,7 @@ function generateToken04(appId, userId, secret, effectiveTimeInSeconds, payload)
 export const POST = async (req) => {
   try {
     const { appId, secret, userId, } = await req.json();
-    const res = generateToken04(appId, userId, secret, 7200, null);
+    const res = generateToken04(parseInt(appId), userId, secret, 7200, null);
     return NextResponse.json({ data: res }, { status: 200 });
   } catch (err) {
     console.log(err);
