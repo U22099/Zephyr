@@ -17,6 +17,10 @@ import { useToast } from "@/hooks/use-toast";
 export function Messages({ docData }) {
   //Trying to create a deep copy of docData
   const doc = JSON.parse(JSON.stringify(docData));
+  
+  const lastMessage = {
+    ...doc.lastMessage
+  };
 
   const { toast } = useToast();
   const uid = useUID(state => state.uid);
@@ -41,7 +45,7 @@ export function Messages({ docData }) {
     if (doc.type === "group") {
       socket.emit("join-group", doc.uid);
       socket.on("group-recieve-message", data => {
-        doc.lastMessage = {
+        lastMessage = {
           ...data
         }
         toast({
@@ -52,7 +56,7 @@ export function Messages({ docData }) {
     } else {
       socket.on("recieve-message", data => {
         if (data.senderId === doc.uid) {
-          doc.lastMessage = {
+          lastMessage = {
             ...data
           }
           toast({
@@ -78,15 +82,15 @@ export function Messages({ docData }) {
     section className = "py-1 h-full flex flex-col justify-center border-b gap-1 w-full" >
     <header className="flex gap-1 items-center justify-between">
           <h1 className="text-xl font-bold">{doc.name}</h1>
-          {doc.lastMessage&&<p className={(doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
+          {lastMessage&&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
     {
-      doc.lastMessage.type === "text" ? <p className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-full truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.content || ""}</p> :
-        ["image", "audio", "video", "raw-file"].includes(doc.lastMessage.type) ?
-        <div className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId != uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
-            {(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.type === "image" ? <FaImage/> : doc.lastMessage.type === "audio" ? <AiFillAudio /> : doc.lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
+      lastMessage.type === "text" ? <p className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-full truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.content || ""}</p> :
+        ["image", "audio", "video", "raw-file"].includes(lastMessage.type) ?
+        <div className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
+            {(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.type === "image" ? <FaImage/> : lastMessage.type === "audio" ? <AiFillAudio /> : lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
             <p className="truncate">
-              {doc.lastMessage.type === "image" ? "Image" : doc.lastMessage.type === "audio" ? "Audio" : doc.lastMessage.type === "video" ? "Video" : "Raw File"}
+              {lastMessage.type === "image" ? "Image" : lastMessage.type === "audio" ? "Audio" : lastMessage.type === "video" ? "Video" : "Raw File"}
             </p>
           </div> :
         null
