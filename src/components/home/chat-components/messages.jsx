@@ -59,6 +59,7 @@ export function Messages({ docData }) {
           lastMessage = {
             ...data
           }
+          console.log(lastMessage);
           toast({
             title: doc.name,
             description: `${data.type === "text" ? data.content : data.type}`
