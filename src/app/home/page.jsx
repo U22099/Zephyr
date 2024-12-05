@@ -35,17 +35,13 @@ export default function Home() {
         })
       });
       socket.emit("add-user", user.uid);
-      socket.on("disconnect", async () => {
-        await updateUserData(user.uid, {
-          active: `${Date.now()}`
-        })
+      socket.io.engine.on('error', (err) => {
+        console.log('Engine.IO error:', err);
+        // Handle network error
       });
-      window.addEventListener("beforeunload", async (e) => {
-       e.preventDefault();
-       await updateUserData(user.uid, {
-          active: `${Date.now()}`
-        })
-      })
+      socket.on("disconnect", async (err) => {
+        console.log(err)()
+      });
       setSocket(socket);
     } catch(err) {
       console.log(err, err.message, "init");

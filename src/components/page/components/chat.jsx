@@ -32,6 +32,7 @@ export function Chat() {
   const [msg, setMsg] = useState([]);
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
+  const [ status, setStatus ] = useState();
   const scrollDown = () => {
     //if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
     const body = document.getElementById("scroll");
@@ -108,6 +109,14 @@ export function Chat() {
     }
   }, [msg]);
   useEffect(() => {
+    socket.emit("get-user-active-status", {id: page.data.uid});
+    socket.on("recieve-user-active-status", data => {
+      if(data === page.data.uid){
+        setStatus("active");
+      } else {
+        setStatus("offline");
+      }
+    })
     socket.on("incoming-voice-call", data => {
       setPage({
         open: true,
