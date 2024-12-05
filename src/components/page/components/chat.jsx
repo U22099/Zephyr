@@ -125,12 +125,12 @@ export function Chat() {
     if (page.data.type === "group") {
       socket.emit("join-group", page.data.uid);
       socket.on("group-recieve-message", data => {
-        setMsg([...msg, data]);
+        setMsg(prev => prev.push(data));
       })
     } else {
       socket.on("recieve-message", data => {
         if (data.senderId === page.data.uid) {
-          setMsg([...msg, data]);
+        setMsg(prev => prev.push(data));
         }
       });
     }
