@@ -5,6 +5,11 @@ import {
   CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
 import { generateToken } from "@/utils";
 import { useState, useEffect } from "react";
