@@ -37,7 +37,7 @@ export function VideoCall() {
       if (updateType === "ADD") {
         console.log(streamList);
         streamList.forEach(async stream => {
-          const stream = await zego.startPlayingStream(stream.streamID, {
+          const streamed = await zego.startPlayingStream(stream.streamID, {
             audio: true,
             video: true
           });
@@ -46,7 +46,7 @@ export function VideoCall() {
             ...remoteUsers,
             {
               streamID: stream.streamID,
-              stream
+              stream: streamed
             }
           ]);
         });

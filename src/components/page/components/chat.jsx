@@ -170,7 +170,14 @@ export function Chat() {
               ...page.data
             }
         })}/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10"/>
+        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10" 
+        onClick={() => setPage({
+            open: true,
+            component: "video-call",
+            data: {
+              ...page.data
+            }
+        })}/>
       </header>
       <main className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
