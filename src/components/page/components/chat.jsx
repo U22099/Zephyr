@@ -109,41 +109,53 @@ export function Chat() {
     }
   }, [msg]);
   useEffect(() => {
-    socket.emit("get-user-active-status", {id: page.data.uid});
-    socket.on("recieve-user-active-status", data => {
-      if(data === page.data.uid){
-        setStatus("online");
-      } else {
-        setStatus("offline");
-      }
-    })
-    socket.on("incoming-voice-call", data => {
-      setPage({
-        open: true,
-        component: "incoming-voice-call",
-        data
-      })
-    });
-    socket.on("incoming-video-call", data => {
-      setPage({
-        open: true,
-        component: "incoming-video-call",
-        data
-      })
-    });
-    if (page.data.type === "group") {
-      socket.emit("join-group", page.data.uid);
-      socket.on("group-recieve-message", data => {
-          setMsg(prev => [...prev, data]);
-      })
+  socket.emit("get-user-active-status", { id: page.data.uid });
+
+  const handleRecieveUserActiveStatus = (data) => {
+    if (data === page.data.uid) {
+      setStatus("online");
     } else {
-      socket.on("recieve-message", data => {
-        if (data.senderId === page.data.uid) {
-          setMsg(prev => [...prev, data]);
-        }
-      });
+      setStatus("offline");
     }
-  }, [socket]);
+  };
+
+  const handleIncomingVoiceCall = (data) => {
+    setPage({ open: true, component: "incoming-voice-call", data });
+  };
+
+  const handleIncomingVideoCall = (data) => {
+    setPage({ open: true, component: "incoming-video-call", data });
+  };
+
+  const handleGroupRecieveMessage = (data) => {
+    setMsg((prev) => [...prev, data]);
+  };
+
+  const handleRecieveMessage = (data) => {
+    if (data.senderId === page.data.uid) {
+      setMsg((prev) => [...prev, data]);
+    }
+  };
+
+  socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
+  socket.on("incoming-voice-call", handleIncomingVoiceCall);
+  socket.on("incoming-video-call", handleIncomingVideoCall);
+
+  if (page.data.type === "group") {
+    socket.emit("join-group", page.data.uid);
+    socket.on("group-recieve-message", handleGroupRecieveMessage);
+  } else {
+    socket.on("recieve-message", handleRecieveMessage);
+  }
+
+  return () => {
+    socket.off("recieve-user-active-status", handleRecieveUserActiveStatus);
+    socket.off("incoming-voice-call", handleIncomingVoiceCall);
+    socket.off("incoming-video-call", handleIncomingVideoCall);
+    socket.off("group-recieve-message", handleGroupRecieveMessage);
+    socket.off("recieve-message", handleRecieveMessage);
+  };
+}, [socket, page.data.uid, page.data.type]);
   useEffect(() => {
     const fetchMsgs = async () => {
       try {
