@@ -3,7 +3,6 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardClose,
 } from "@/components/ui/card";
 import {
   Avatar,
@@ -59,10 +58,10 @@ export function IncomingVoiceCall() {
           <AvatarFallback className="text-3xl text-primary">{page.data.userData.name ? page.data.userData.name[0] : "Z"}</AvatarFallback>
         </Avatar>
         <h3 className="max-w-40 truncate">{page.data.userData.name}</h3>
-        <CardClose className="flex gap-2 justify-center items-center">
+        <section className="flex gap-2 justify-center items-center">
           <Button onClick={reject} variant="outline">Decline</Button>
           <Button onClick={accept} className="animate-pulse">Accept</Button>
-        </CardClose>
+        </section>
       </CardContent>
     </Card>
   )
