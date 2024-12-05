@@ -18,7 +18,7 @@ export function Messages({ docData }) {
   //Trying to create a deep copy of docData
   const doc = JSON.parse(JSON.stringify(docData));
   
-  const lastMessage = {
+  let lastMessage = {
     ...doc.lastMessage
   };
 
