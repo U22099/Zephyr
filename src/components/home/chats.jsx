@@ -1,11 +1,12 @@
 import { Header } from "./chat-components/header";
 import { Input } from "@/components/ui/input";
 import { Messages } from "./chat-components/messages";
-import { useUID, usePage } from "@/store";
+import { useUID, usePage, useSocket } from "@/store";
 import { getChats } from "@/utils";
 import { useState, useEffect } from "react";
 
 export function Chats() {
+  const socket = useSocket(state => state.socket);
   const uid = useUID(state => state.uid);
   const page = usePage(state => state.page);
   const [ filteredFriends, setFilteredFriends ] = useState([]);
@@ -18,6 +19,34 @@ export function Chats() {
   useEffect(() => {
     setFilteredFriends([...friends]);
   }, [friends]);
+  useEffect(() => {
+    const updatePersonalFriendList = data => {
+      setFriends(prev => prev.map(x => {
+        if((x.uid === data.senderId)&&x.type === "personal"){
+          x.lastMessage = {
+            ...data
+          }
+          return x;
+        } else return x;
+      }));
+    }
+    const updateGroupFriendList = data => {
+      setFriends(prev => prev.map(x => {
+        if((x.uid === data.groupId)&&x.type === "group"){
+          x.lastMessage = {
+            ...data
+          }
+          return x;
+        } else return x;
+      }));
+    }
+    socket.on("recieve-message", updatePersonalFriendList);
+    socket.on("group-recieve-message", updateGroupFriendList);
+    return () => {
+      socket.off("recieve-message", updatePersonalFriendList);
+      socket.off("group-recieve-message", updateGroupFriendList);
+    }
+  }, []);
   return (
     <main className="flex flex-col w-screen gap-3 p-2">
       <Header />
