@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import crypto from "crypto"; // Import crypto module
 var ErrorCode; // Define enum for error codes
 (function (ErrorCode) {
