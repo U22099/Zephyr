@@ -112,7 +112,7 @@ export function Chat() {
     socket.emit("get-user-active-status", {id: page.data.uid});
     socket.on("recieve-user-active-status", data => {
       if(data === page.data.uid){
-        setStatus("active");
+        setStatus("online");
       } else {
         setStatus("offline");
       }
@@ -134,16 +134,12 @@ export function Chat() {
     if (page.data.type === "group") {
       socket.emit("join-group", page.data.uid);
       socket.on("group-recieve-message", data => {
-        setMsg([...msg, {
-          ...data
-        }]);
+          setMsg(prev => [...prev, data]);
       })
     } else {
       socket.on("recieve-message", data => {
         if (data.senderId === page.data.uid) {
-          setMsg([...msg, {
-          ...data
-        }]);
+          setMsg(prev => [...prev, data]);
         }
       });
     }
