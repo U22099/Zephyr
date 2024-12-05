@@ -26,42 +26,50 @@ export function Messages({ docData }) {
   const setPage = usePage(state => state.setPage);
   const time = convertToTimeString(doc.lastMessage.timestamp);
   useEffect(() => {
-    socket.on("incoming-voice-call", data => {
-      setPage({
-        open: true,
-        component: "incoming-voice-call",
-        data
-      })
+  const handleIncomingVoiceCall = (data) => {
+    setPage({ open: true, component: "incoming-voice-call", data });
+  };
+
+  const handleIncomingVideoCall = (data) => {
+    setPage({ open: true, component: "incoming-video-call", data });
+  };
+
+  const handleGroupRecieveMessage = (data) => {
+    setLastMessage({ ...data });
+    toast({
+      title: doc.name,
+      description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`,
     });
-    socket.on("incoming-video-call", data => {
-      setPage({
-        open: true,
-        component: "incoming-video-call",
-        data
-      })
-    });
-    if (doc.type === "group") {
-      socket.emit("join-group", doc.uid);
-      socket.on("group-recieve-message", data => {
-        setLastMessage({...data})
-        toast({
-          title: doc.name,
-          description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`
-        });
-      })
-    } else {
-      socket.on("recieve-message", data => {
-        if (data.senderId === doc.uid) {
-          setLastMessage({...data})
-          console.log(lastMessage);
-          toast({
-            title: doc.name,
-            description: `${data.type === "text" ? data.content : data.type}`
-          });
-        }
+  };
+
+  const handleRecieveMessage = (data) => {
+    if (data.senderId === doc.uid) {
+      setLastMessage({ ...data });
+      console.log(lastMessage);
+      toast({
+        title: doc.name,
+        description: `${data.type === "text" ? data.content : data.type}`,
       });
     }
-  }, [socket])
+  };
+
+  socket.on("incoming-voice-call", handleIncomingVoiceCall);
+  socket.on("incoming-video-call", handleIncomingVideoCall);
+
+  if (doc.type === "group") {
+    socket.emit("join-group", doc.uid);
+    socket.on("group-recieve-message", handleGroupRecieveMessage);
+  } else {
+    socket.on("recieve-message", handleRecieveMessage);
+  }
+
+  return () => {
+    socket.off("incoming-voice-call", handleIncomingVoiceCall);
+    socket.off("incoming-video-call", handleIncomingVideoCall);
+    socket.off("group-recieve-message", handleGroupRecieveMessage);
+    socket.off("recieve-message", handleRecieveMessage);
+  };
+}, [socket, doc.uid, doc.type]);
   return (
     <main className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
       open: true,
