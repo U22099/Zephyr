@@ -242,8 +242,8 @@ const Message = ({ m, type, uid }) => {
   return (
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
-        {type === "group" && <CardHeader className={"w-full flex p-0 w-24 truncate " + (m.senderId === uid ? "justify-end text-end items-end" : "justify-start text-start")}>
-          <p className="text-muted-foreground text-sm">~{m.senderName}</p>
+        {type === "group" && <CardHeader className="w-full flex p-0">
+          <p className={"text-muted-foreground text-sm w-24 truncate flex " + (m.senderId === uid ? "self-end text-end justify-end" : "justify-start text-start self-start")}>~{m.senderName}</p>
         </CardHeader>}
         <CardContent className="flex justify-start items-center p-0.5 w-fit h-fit text-left">
           {m.type === "upload" ? 
