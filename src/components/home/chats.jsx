@@ -6,7 +6,7 @@ import { getChats } from "@/utils";
 import { useState, useEffect } from "react";
 
 export function Chats() {
-  const socket = useSocket(state => state.socket);
+  //const socket = useSocket(state => state.socket);
   const uid = useUID(state => state.uid);
   const page = usePage(state => state.page);
   const [ filteredFriends, setFilteredFriends ] = useState([]);
@@ -19,7 +19,7 @@ export function Chats() {
   useEffect(() => {
     setFilteredFriends([...friends]);
   }, [friends]);
-  useEffect(() => {
+  /*useEffect(() => {
     const updatePersonalFriendList = data => {
       setFriends(prev => prev.map(x => {
         if((x.uid === data.senderId)&&x.type === "personal"){
@@ -46,7 +46,7 @@ export function Chats() {
       socket.off("recieve-message", updatePersonalFriendList);
       socket.off("group-recieve-message", updateGroupFriendList);
     }
-  }, []);
+  }, [socket]);*/
   return (
     <main className="flex flex-col w-screen gap-3 p-2">
       <Header />
