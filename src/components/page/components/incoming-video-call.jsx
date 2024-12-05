@@ -1,10 +1,10 @@
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetClose,
-} from "@/components/ui/sheet";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardClose,
+} from "@/components/ui/card";
 import {
   Avatar,
   AvatarFallback,
@@ -47,23 +47,23 @@ export function IncomingVideoCall() {
     socket.emit("video-call-rejected", { to: page.data.from });
   }
   return (
-    <Sheet defaultOpen={true}>
-      <SheetHeader>
-        <SheetTitle>
-          Video Call
-        </SheetTitle>
-      </SheetHeader>
-      <SheetContent className="flex gap-2 justify-start items-center p-2 py-3">
-        <Avatar className="w-20 h-20">
-          <AvatarImage className="w-20 h-20 object-cover rounded-full" src={page.data.userData.image} alt="profile-image"/>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          Voice Call
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-2 justify-start items-center p-2 py-3 h-full w-full">
+        <Avatar className="w-32 h-32">
+          <AvatarImage className="w-32 h-32 object-cover rounded-full" src={page.data.userData.image} alt="profile-image"/>
           <AvatarFallback className="text-3xl text-primary">{page.data.userData.name ? page.data.userData.name[0] : "Z"}</AvatarFallback>
         </Avatar>
         <h3 className="max-w-40 truncate">{page.data.userData.name}</h3>
-        <SheetClose className="flex gap-2 justify-center items-center">
+        <CardClose className="flex gap-2 justify-center items-center">
           <Button onClick={reject} variant="outline">Decline</Button>
           <Button onClick={accept} className="animate-pulse">Accept</Button>
-        </SheetClose>
-      </SheetContent>
-    </Sheet>
+        </CardClose>
+      </CardContent>
+    </Card>
   )
 }
