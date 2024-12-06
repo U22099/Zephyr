@@ -338,7 +338,8 @@ export const createNewGroup = async (uid, groupData) => {
           type: "text",
           read: [],
           senderName: "Admin",
-          senderId: uid
+          senderId: uid,
+          timestamp: Date.now()
         }
       });
       return {

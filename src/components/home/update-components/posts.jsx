@@ -48,7 +48,7 @@ export function Posts() {
           open: true,
           component: "add-status"
         })} />}
-        {userPost?.lastPost?.content&&<PostCard data={userPost} action={() => setPage({
+        {userPost&&<PostCard data={userPost} action={() => setPage({
           open: true,
           component: "view-status",
           data: {
