@@ -179,7 +179,7 @@ export function Chat() {
             <AvatarImage className="w-12 h-12 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
             <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
           </Avatar>
-          <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data}})}>
+          <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data, status}})}>
               <h1 className="text-xl font-bold truncate w-32 flex justify-start">{page.data.name}</h1>
               <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{page.data.type === "personal" ? status || "" : page.data.members.join(",")}</p>
           </section>
