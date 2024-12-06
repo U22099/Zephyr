@@ -13,6 +13,7 @@ import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
 export function Messages({ docData }) {
   //Trying to create a deep copy of docData
@@ -39,6 +40,13 @@ export function Messages({ docData }) {
     toast({
       title: doc.name,
       description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`,
+      action: <ToastAction onClick={() => setPage({
+      open: true,
+      component: "chat",
+      data: {
+        ...doc
+      }
+    })}>Open</ToastAction>
     });
   };
 
@@ -48,6 +56,13 @@ export function Messages({ docData }) {
       toast({
         title: doc.name,
         description: `${data.type === "text" ? data.content : data.type}`,
+        action: <ToastAction onClick={() => setPage({
+      open: true,
+      component: "chat",
+      data: {
+        ...doc
+      }
+    })}>Open</ToastAction>
       });
     }
   };
