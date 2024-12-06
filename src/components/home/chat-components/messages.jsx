@@ -20,12 +20,12 @@ export function Messages({ docData }) {
   const doc = JSON.parse(JSON.stringify(docData));
   const [ lastMessage, setLastMessage ] = useState({
     ...doc.lastMessage
-  })
+  });
   const { toast } = useToast();
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
-  const time = convertToTimeString(doc.lastMessage.timestamp);
+  const time = doc.lastMessage ? convertToTimeString(doc.lastMessage.timestamp) : "";
   useEffect(() => {
   const handleIncomingVoiceCall = (data) => {
     setPage({ open: true, component: "incoming-voice-call", data });
@@ -85,7 +85,7 @@ export function Messages({ docData }) {
       <section className="py-1 h-full flex flex-col justify-center border-b gap-1 w-full" >
     <header className="flex gap-1 items-center justify-between">
           <h1 className="text-xl font-bold">{doc.name}</h1>
-          {lastMessage&&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
+          { (lastMessage != {}) &&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
     {
       lastMessage.type === "text" ? <p className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-48 truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.content || ""}</p> :
