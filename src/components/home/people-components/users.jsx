@@ -124,7 +124,7 @@ export function Users() {
           </section>
           <DrawerFooter>
             { groupError && <p className="font-bold text-red-700 text-sm text-mono">{groupError}</p> }
-            <Button disabled={!(group.name&&group.participants.length > 2) || groupLoading} onClick={createGroup}>{groupLoading ? <AiOutlineLoading className="animate-spin text-md"/> : "Create"}</Button>
+            <Button disabled={!(group.name&&(group.participants.length > 2)&&group.image) || groupLoading} onClick={createGroup}>{groupLoading ? <AiOutlineLoading className="animate-spin text-md"/> : "Create"}</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

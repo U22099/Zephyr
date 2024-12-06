@@ -337,6 +337,7 @@ export const createNewGroup = async (uid, groupData) => {
           content: "Welcome",
           type: "text",
           read: [],
+          senderName: "Admin",
           senderId: uid
         }
       });
@@ -360,7 +361,7 @@ export const updateGroupMembers = async (groupId, group) => {
     const chatDoc = (await getDocs(query(collection(db, "chats"), where("groupId", "==", groupId)))).docs.find(x => x.data().groupId === groupId);
 
     await setDoc(chatDoc.ref, {
-      participants: [...chatDoc.data().participants, ...group.participants]
+      participants: [...group.participants]
     }, { merge: true });
 
     await setDoc(doc(db, "users", groupId), {
