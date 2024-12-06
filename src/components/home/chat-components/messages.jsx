@@ -40,13 +40,6 @@ export function Messages({ docData }) {
     toast({
       title: doc.name,
       description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`,
-      action: <ToastAction onClick={() => setPage({
-      open: true,
-      component: "chat",
-      data: {
-        ...doc
-      }
-    })}>Open</ToastAction>
     });
   };
 
@@ -56,13 +49,6 @@ export function Messages({ docData }) {
       toast({
         title: doc.name,
         description: `${data.type === "text" ? data.content : data.type}`,
-        action: <ToastAction onClick={() => setPage({
-      open: true,
-      component: "chat",
-      data: {
-        ...doc
-      }
-    })}>Open</ToastAction>
       });
     }
   };
