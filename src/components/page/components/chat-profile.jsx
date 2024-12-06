@@ -53,7 +53,7 @@ export function ChatProfile() {
     }
   }, []);
   useEffect(() => {
-    if(people.length){
+    if (people.length) {
       setPeopleFilter([...people]);
     }
   }, [people]);

@@ -19,7 +19,7 @@ import { useState, useEffect } from "react";
 import { ImBin } from "react-icons/im";
 
 export function ViewStatus() {
-  const [ posts, setPosts ] = useState([]);
+  const [posts, setPosts] = useState([]);
   const { page, setPage } = usePage();
   useEffect(() => {
     getStatus(page.data.uid, setPosts);
@@ -43,10 +43,10 @@ export function ViewStatus() {
 
 function PostViewCard({ userData, post, setPosts }) {
   const uid = useUID(state => state.uid);
-  const [ likes, setLikes ] = useState(post.likes.length);
+  const [likes, setLikes] = useState(post.likes.length);
   const [loading, setLoading] = useState(false);
   const [deleteloading, setDeleteLoading] = useState(false);
-  
+
   const addLikes = async () => {
     try {
       setLoading(true);
@@ -58,7 +58,7 @@ function PostViewCard({ userData, post, setPosts }) {
       setLoading(false);
     }
   }
-  
+
   const deletePost = async () => {
     try {
       setDeleteLoading(true);

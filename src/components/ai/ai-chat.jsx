@@ -36,14 +36,14 @@ export function AIChat() {
   const socket = useSocket(state => state.socket);
   const scrollDown = () => {
     const body = document.getElementById("scroll");
-    body&&body.scrollIntoView({
+    body && body.scrollIntoView({
       behavior: "smooth"
     })
   }
   const sendMsg = async () => {
     try {
       const msgData = {
-        parts: [{text: input}],
+        parts: [{ text: input }],
         role: "user",
       }
       const loading = {
@@ -69,7 +69,7 @@ export function AIChat() {
       setMsg([...updatedMsg]);
       setInput("");
       const response = await clearAIMessages(uid);
-      if(response){
+      if (response) {
         setMsg([]);
         toast({
           description: "AI chat cleared"
@@ -78,7 +78,7 @@ export function AIChat() {
         const filtered = updatedMsg.filter(x => x.role != "loading") || [];
         setMsg([...filtered, {
           role: "model",
-          parts: [{text: "An error occured, please try again"}]
+          parts: [{ text: "An error occured, please try again" }]
         }]);
       }
     } catch (err) {
@@ -91,7 +91,7 @@ export function AIChat() {
     }
   }, [component.current]);
   useEffect(() => {
-    if(msg.length > 1){
+    if (msg.length > 1) {
       if (msg[msg.length - 1].role != "model") {
         scrollDown();
       }
@@ -111,7 +111,7 @@ export function AIChat() {
       component.current = true;
     }
   }, []);
-  if(!component.current){
+  if (!component.current) {
     return <p className="text-primary animate-pulse justify-center items-center h-full font-bold w-full text-center">Initialising...</p>
   }
   return (

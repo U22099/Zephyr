@@ -4,8 +4,8 @@ import { MessageCircle } from 'lucide-react';
 import { Cog } from 'lucide-react';
 import { motion } from "framer-motion";
 
-export function Navigation({nav, setNav}){
-  return(
+export function Navigation({ nav, setNav }) {
+  return (
     <motion.main initial={{x: -300}} animate={{x: 0}} transition={{duration: 0.3}} exit={{x: -300}} className="fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 w-full py-2 border-t">
       <div className="flex flex-col justify-center items-center text-center">
         <CircleDotDashed className={"text-lg " + (nav === 0 ? "fill-violet-800" : "text-muted-foreground")} onClick={() => setNav(0)} id="updates"/>

@@ -27,7 +27,7 @@ export function Posts() {
     }
   }, [uid]);
   useEffect(() => {
-    if(posts){
+    if (posts) {
       setUserPost(posts.find(x => x.uid === uid));
       setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).sort((a, b) => a.lastPost?.timestamp - b.lastPost?.timestamp)]);
     }
@@ -69,10 +69,10 @@ export function Posts() {
 
 function PostCard({ data, action }) {
   return (
-    <Card className="backdrop-blur-sm flex justify-center items-center w-20 h-32 overflow-hidden" onClick={action}>
-      <CardContent className="flex flex-col items-start justify-between p-2 w-24 h-40 relative">
+    <Card className="backdrop-blur-sm flex justify-center items-center w-20 h-36 overflow-hidden" onClick={action}>
+      <CardContent className="flex flex-col items-start justify-between p-2 w-20 h-36 relative">
         {data.name === "Add Status" ? 
-         <div className="p-2 rounded-full bg-primary flex justify-center items-center w-12 h-12">
+         <div className="p-2 rounded-full bg-primary flex justify-center items-center w-10 h-10">
           <FaPlus className="text-xl fill-black dark:fill-white"/>
         </div> : <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={data?.image} alt="profile-image"/>
@@ -90,7 +90,7 @@ function PostCard({ data, action }) {
           data.lastPost.type === "audio" ? 
           <div> <AiFillAudio/> Audio</div> : null}
         </section>
-        <h2 className="text-center self-end text-md font-semibold w-20 truncate">{data.name}</h2>
+        <h2 className="text-center self-end text-sm font-semibold w-16 truncate">{data.name}</h2>
       </CardContent>
     </Card>
   )

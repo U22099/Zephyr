@@ -43,7 +43,7 @@ export function IncomingVoiceCall() {
     });
   }
   const reject = () => {
-    socket.emit("voice-call-rejected", {to: page.data.from});
+    socket.emit("voice-call-rejected", { to: page.data.from });
   }
   return (
     <Card>
