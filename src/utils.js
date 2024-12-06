@@ -348,7 +348,7 @@ export const createNewGroup = async (uid, groupData) => {
         image: data?.secure_url || null,
         type: "group",
         admin: uid,
-        members: groupData.members.join(","),
+        members: groupData.members,
         description: groupData.description,
         participants: groupData.participants,
       }
@@ -550,7 +550,7 @@ export const updateUserData = async (uid, data, merge = true) => {
 export const deleteConversation = async (userId, friendId, type) => {
   const chatDoc = await findFriend(userId, friendId);
   if(type === "group"){
-    const groupDoc = await getDoc(doc(db, "users", groupId))
+    const groupDoc = await getDoc(doc(db, "users", friendId))
     const res = await deleteFile(groupDoc.data().imagePublicId);
     if(res){
       await deleteDoc(chatDoc.ref);
