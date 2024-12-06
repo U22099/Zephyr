@@ -69,7 +69,7 @@ export function Posts() {
 
 function PostCard({ data, action }) {
   return (
-    <Card className="backdrop-blur-sm flex justify-center items-center w-24 h-40 overflow-hidden" onClick={action}>
+    <Card className="backdrop-blur-sm flex justify-center items-center w-20 h-32 overflow-hidden" onClick={action}>
       <CardContent className="flex flex-col items-start justify-between p-2 w-24 h-40 relative">
         {data.name === "Add Status" ? 
          <div className="p-2 rounded-full bg-primary flex justify-center items-center w-12 h-12">
