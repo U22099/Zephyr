@@ -546,7 +546,7 @@ export const leaveGroup = async (userId, groupId, name) => {
   await updateDoc(chatDoc.ref, {
     participants: [...chatDoc.data().participants.filter(x => x != userId)]
   });
-  const groupDoc = await getDoc(doc(db, "users", userId));
+  const groupDoc = await getDoc(doc(db, "users", groupId));
   await updateDoc(groupDoc.ref, {
     members: [...groupDoc.data().members.filter(x => x != name)]
   })
