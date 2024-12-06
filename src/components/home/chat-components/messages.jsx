@@ -39,7 +39,7 @@ export function Messages({ docData }) {
     setLastMessage({ ...data });
     toast({
       title: doc.name,
-      description: `~${data.senderName}: ${data.type === "text" ? data.content : data.type}`,
+      description: `~${data.senderName}: ${data.type === "text" ? (data.content.length > 70 ? `${data.content.slice(0, 70)}...` : data.content) : data.type}`,
     });
   };
 
@@ -48,7 +48,7 @@ export function Messages({ docData }) {
       setLastMessage({ ...data });
       toast({
         title: doc.name,
-        description: `${data.type === "text" ? data.content : data.type}`,
+        description: `${data.type === "text" ? (data.content.length > 70 ? `${data.content.slice(0, 70)}...` : data.content) : data.type}`,
       });
     }
   };

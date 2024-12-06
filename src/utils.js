@@ -287,12 +287,16 @@ export const likeStatus = async (postId, statusId, uid) => {
 
 export const deleteStatus = async (postId, statusId, uid) => {
   try {
+    const docRef = doc(db, "posts", postId);
     const postDoc = (await getDocs(
       query(
-        collection(doc(db, "posts", postId), "status"),
+        collection(docRef, "status"),
         where("statusId", "==", statusId))
     )).docs[0];
     if (postDoc?.exists()) {
+      await updateDoc(docRef, {
+        lastMessage: {}
+      });
       if (postDoc.data().type != "text") {
         const deleted = await deleteFile(postDoc.data().content.public_id);
         if (deleted) {

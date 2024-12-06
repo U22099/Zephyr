@@ -30,17 +30,11 @@ export default function Home() {
       await getUserData(user.uid, setUserData);
       setUID(user.uid);
       socket.on("connect", async () => {
-        await updateUserData(user.uid, {
-          active: "online"
-        })
+        socket.emit("add-user", user.uid);
       });
-      socket.emit("add-user", user.uid);
       socket.io.engine.on('error', (err) => {
         console.log('Engine.IO error:', err);
         // Handle network error
-      });
-      socket.on("disconnect", async (err) => {
-        console.log(err)()
       });
       setSocket(socket);
     } catch(err) {

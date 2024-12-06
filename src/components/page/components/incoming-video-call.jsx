@@ -10,7 +10,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { usePage, useSocket } from "@/store";
+import { usePage, useSocket, useUserData } from "@/store";
 
 export function IncomingVideoCall() {
   const socket = useSocket(state => state.socket);
