@@ -148,7 +148,7 @@ export function ChatProfile() {
               async () => {
                 setLoading(true);
                 if((page.data.type === "group"&&page.data.admin === uid) || page.data.type === "personal"){
-                  await deleteConversation(uid, page.data.uid);
+                  await deleteConversation(uid, page.data.uid, page.data.type);
                 } else {
                   await leaveGroup(uid, page.data.uid, userData.username);
                 }

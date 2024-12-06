@@ -547,9 +547,18 @@ export const updateUserData = async (uid, data, merge = true) => {
     return;
   }
 }
-export const deleteConversation = async (userId, friendId) => {
+export const deleteConversation = async (userId, friendId, type) => {
   const chatDoc = await findFriend(userId, friendId);
-  await deleteDoc(chatDoc.ref);
+  if(type === "group"){
+    const groupDoc = await getDoc(doc(db, "users", groupId))
+    const res = await deleteFile(groupDoc.data().imagePublicId);
+    if(res){
+      await deleteDoc(chatDoc.ref);
+      await deleteDoc(groupDoc.ref);
+    }
+  } else {
+    await deleteDoc(chatDoc.ref);
+  }
 }
 export const leaveGroup = async (userId, groupId, name) => {
   const chatDoc = await findFriend(userId, groupId);
