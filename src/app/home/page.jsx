@@ -45,9 +45,9 @@ export default function Home() {
     if (user) {
       init();
     }
-    /*return () => {
+    return () => {
       socket.disconnect();
-    }*/
+    }
   }, [user]);
   return (
     <>
