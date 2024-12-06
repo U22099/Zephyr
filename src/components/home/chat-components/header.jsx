@@ -85,7 +85,7 @@ export function Header() {
       <label htmlFor="image" className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
         {loading ? <AiOutlineLoading className="animate-spin text-md"/> : <FaCamera className="text-xl fill-black dark:fill-white"/>}
       </label>
-      <input disabled={loading} type="file" accepts=".jpg, .png, .jpeg" id="image" onChange={post} hidden/>
+      <input disabled={loading} type="file" accept=".jpg, .png, .jpeg" id="image" onChange={post} hidden/>
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <Drawer>
           <DrawerTrigger asChild><FaPlus className="text-xl fill-white"/></DrawerTrigger>
