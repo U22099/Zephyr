@@ -332,7 +332,13 @@ export const createNewGroup = async (uid, groupData) => {
       await addDoc(collection(db, "chats"), {
         groupId: id,
         type: "group",
-        participants: [...groupData.participants]
+        participants: [...groupData.participants],
+        lastMessage: {
+          content: "Welcome",
+          type: "text",
+          read: [],
+          senderId: uid
+        }
       });
       return {
         uid: id,
@@ -419,12 +425,12 @@ export const getChats = async (userId, setData) => {
     ));
     let result = [];
     if (!documents?.empty && documents) {
-      await Promise.all(documents.docs.map(async document => {
+      await Promise.all(documents.docs.map(async documentD => {
         let id = "";
-        if (document.data().type === "personal") {
-          id = document.data().participants.find(x => x != userId);
-        } else if (document.data().type === "group") {
-          id = document.data().groupId;
+        if (documentD.data().type === "personal") {
+          id = documentD.data().participants.find(x => x != userId);
+        } else if (documentD.data().type === "group") {
+          id = documentD.data().groupId;
         }
         const docData = await getDoc(doc(db, "users", id));
         if (docData.exists()) {
@@ -438,7 +444,7 @@ export const getChats = async (userId, setData) => {
             active: userData.active,
             admin: userData.admin,
             members: userData.members,
-            lastMessage: document.data().lastMessage || {}
+            lastMessage: documentD.data().lastMessage || {}
           }
           result.push(data);
         }

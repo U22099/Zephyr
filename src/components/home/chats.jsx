@@ -47,7 +47,7 @@ export function Chats() {
         if(!e.target.value) setFilteredFriends([...friends])
       setFilteredFriends(friends.filter(x => x.name.toLowerCase().includes(e.target.value.toLowerCase())))}
       }/>
-      {filteredFriends&&filteredFriends.sort((a,b) => b.lastMessage.timestamp - a.lastMessage.timestamp).map((doc, i) => <Messages key={i} docData={doc}/>)}
+      {filteredFriends&&filteredFriends.sort((a,b) => (b.lastMessage.timestamp || 0) - (a.lastMessage.timestamp || 0)).map((doc, i) => <Messages key={i} docData={doc}/>)}
     </main>
   )
 }

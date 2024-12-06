@@ -87,7 +87,7 @@ export function Messages({ docData }) {
           <h1 className="text-xl font-bold">{doc.name}</h1>
           { (lastMessage != {}) &&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
-    {
+    {lastMessage != {} && (
       lastMessage.type === "text" ? <p className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-48 truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.content || ""}</p> :
         ["image", "audio", "video", "raw-file"].includes(lastMessage.type) ?
         <div className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
@@ -96,7 +96,7 @@ export function Messages({ docData }) {
               {lastMessage.type === "image" ? "Image" : lastMessage.type === "audio" ? "Audio" : lastMessage.type === "video" ? "Video" : "Raw File"}
             </p>
           </div> :
-        null
+        null)
     }
     </section> 
   </main>
