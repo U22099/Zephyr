@@ -44,7 +44,7 @@ export function ChatProfile() {
   const [peopleFilter, setPeopleFilter] = useState([]);
   const [group, setGroup] = useState({
     members: page.data.type === "group" ? [...page.data.members] : [],
-    participants: [],
+    participants: page.data.type === "group" ? [...page.data.participants] : [],
   });
   const [addmemberloading, setAddmemberloading] = useState(false);
   useEffect(() => {

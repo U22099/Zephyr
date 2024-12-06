@@ -349,6 +349,7 @@ export const createNewGroup = async (uid, groupData) => {
         admin: uid,
         members: groupData.members.join(","),
         description: groupData.description,
+        participants: groupData.participants,
       }
     }
   } catch (err) {
@@ -445,6 +446,7 @@ export const getChats = async (userId, setData) => {
             active: userData.active,
             admin: userData.admin,
             members: userData.members,
+            participants: documentD.data().participants,
             lastMessage: documentD.data().lastMessage || {}
           }
           result.push(data);
