@@ -89,6 +89,10 @@ export function VoiceCall() {
           from: uid,
           to: page.data.uid,
           roomID,
+          userData: {
+            image: userData.image,
+            name: userData.username
+          }
         });
         socket.on("voice-call-accepted", async data => {
           if (page.data.uid === data.from) {
