@@ -99,7 +99,7 @@ export function Users() {
         <DrawerTrigger>
           <Button variant="outline">Create new group</Button>
         </DrawerTrigger>
-        <DrawerContent className="max-h-[90%]">
+        <DrawerContent className="max-h-[90vh] h-[70vh]">
           <DrawerHeader>
             <DrawerTitle>Group</DrawerTitle>
             <DrawerDescription>
@@ -201,9 +201,9 @@ function GroupProfile({ group, setGroup }){
         </section>
         <section className="flex flex-col items-center gap-2 w-full">
           <Input defaultValue={group.name} className="font-semibold" onChange={(e) => setName(e.target.value)}/>
-          <div>
+          <div className="w-full">
             <Label htmlFor="description">Description</Label>
-            <Textarea placeholder="Add group description" id="description" onChange={(e) => setDescription(e.target.value)} />
+            <Textarea className="w-full" placeholder="Add group description" id="description" onChange={(e) => setDescription(e.target.value)} />
           </div>
         </section>
       </CardContent>

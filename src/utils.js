@@ -337,13 +337,11 @@ export const createNewGroup = async (uid, groupData) => {
       return {
         uid: id,
         name: groupData.name,
-        imageURL: data?.secure_url || null,
-        imagePublicId: data?.public_id || null,
+        image: data?.secure_url || null,
         type: "group",
         admin: uid,
         members: groupData.members.join(","),
         description: groupData.description,
-        participants: [...groupData.participants]
       }
     }
   } catch (err) {
@@ -401,9 +399,11 @@ export const getAllUsers = async (uid, setData) => {
         uid: doc.id,
         image: docData.imageURL,
         name: docData.username || docData.name,
-        bio: docData.bio || docData.description,
+        bio: docData.bio,
+        description: docData.description,
         type: docData.type,
-        active: docData.active || docData.members,
+        active: docData.active,
+        members: docData.members,
       });
     });
     setData(result?.filter(x => x.uid != uid) || []);
