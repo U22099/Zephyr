@@ -103,6 +103,7 @@ export function VideoCall() {
 
   return (
     <main className="h-screen p-2 flex justify-center items-center text-center">
+      {!remoteUsers&&<p className="text-2xl text-primary font-bold">Calling...</p>}
       <section className="grid gap-4 grid-cols-[repeat(auto-fill, minmax(200px, 1fr))] h-full">
         {remoteUsers.map(user => <UserCard key={user.streamID} user={user} />)}
       </section>
