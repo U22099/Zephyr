@@ -29,7 +29,7 @@ export default function Home() {
     try{
       await getUserData(user.uid, setUserData);
       setUID(user.uid);
-      socket.on("connection", async () => {
+      socket.on("connection", (id) => {
         socket.emit("add-user", user.uid);
       });
       socket.io.engine.on('error', (err) => {

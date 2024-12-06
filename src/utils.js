@@ -544,9 +544,12 @@ export const deleteConversation = async (userId, friendId) => {
 export const leaveGroup = async (userId, groupId, name) => {
   const chatDoc = await findFriend(userId, groupId);
   await updateDoc(chatDoc.ref, {
-    participants: [...chatDoc.data().participants.filter(x => x != userId)],
-    members: [...chatDoc.data().members.filter(x => x != name)]
+    participants: [...chatDoc.data().participants.filter(x => x != userId)]
   });
+  const groupDoc = await getDoc(doc(db, "users", userId));
+  await updateDoc(groupDoc.ref, {
+    members: [...groupDoc.data().members.filter(x => x != name)]
+  })
 }
 export const logOut = async () => {
   try {
