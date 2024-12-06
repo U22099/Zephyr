@@ -128,8 +128,8 @@ export function Profile() {
                 <AvatarImage src={imageBase64String || userData?.imageURL} className="object-cover rounded-full" />
                 <AvatarFallback className="text-2xl text-primary">{userData.username ? userData.username[0] : "Z"}</AvatarFallback>
               </Avatar>
-              <Label htmlFor="image" className="underline text-primary text-lg">Edit</Label>
-              <input id="image" accept="image/*" type="file" onChange={(e) => setImage(e.target.files[0])} hidden/>
+              <Label htmlFor="image-profile" className="underline text-primary text-lg">Edit</Label>
+              <input id="image-profile" accept="image/*" type="file" onChange={(e) => setImage(e.target.files[0])} hidden/>
             </div>
             <ModeToggle className="text-lg"/>
           </section>

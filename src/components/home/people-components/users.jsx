@@ -192,8 +192,8 @@ function GroupProfile({ group, setGroup }){
               <AvatarImage src={image} className="object-cover rounded-full" />
               <AvatarFallback className="text-xl text-primary">{name ? name[0] : "Z"}</AvatarFallback>
             </Avatar>
-            <Label htmlFor="image" className="underline text-primary text-md">Edit</Label>
-            <input id="image" accept="image/*" type="file" onChange={async (e) => {
+            <Label htmlFor="image-group" className="underline text-primary text-md">Edit</Label>
+            <input id="image-group" accept="image/*" type="file" onChange={async (e) => {
               const data = await toBase64(e.target.files[0]);
               setImage(data);
             }} hidden/>

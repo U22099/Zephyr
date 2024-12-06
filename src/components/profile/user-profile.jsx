@@ -34,8 +34,8 @@ export function UserProfile({ setGender, gender, username, setUsername, imageUrl
                     <AvatarImage className="w-36 h-36 object-cover rounded-full" src={imageBase64String || imageUrl} alt="profile-image"/>
                     <AvatarFallback className="text-3xl text-primary">{username ? username[0] : "Z"}</AvatarFallback>
                   </Avatar>
-                  <Label htmlFor="image" className="underline text-primary text-lg">Edit</Label>
-                  <input id="image" accept="image/*" type="file"
+                  <Label htmlFor="image-profile-2" className="underline text-primary text-lg">Edit</Label>
+                  <input id="image-profile-2" accept="image/*" type="file"
                   onChange={(e) => setImage(e.target.files[0])} hidden/>
                 </div>
                 <ModeToggle className="text-lg"/> 

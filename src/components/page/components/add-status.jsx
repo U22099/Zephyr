@@ -68,9 +68,9 @@ export function AddStatus() {
             })}>
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
-        <label htmlFor="image" className=" p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12">
+        <label htmlFor="image-status" className=" p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12">
           <FaImage className="text-xl fill-black dark:fill-white"/>
-          <input disabled={loading} type="file" accept=".png, .jpg, .jpeg" id="image" onChange={async (e) => {
+          <input disabled={loading} type="file" accept=".png, .jpg, .jpeg" id="image-status" onChange={async (e) => {
           if (e.target.files[0].size > (20 * 1024 * 1024)) {
             toast({
               description: "File size is too large, pick a file less than 20mb"
