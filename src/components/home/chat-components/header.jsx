@@ -33,6 +33,10 @@ export function Header() {
           description: "File size is too large, pick a file less than 20mb"
         });
         return;
+      } else if (["video", "audio", "pdf"].some(x => e.target.files[0].type.includes(x))) {
+        toast({
+          description: "You can only post images or texts"
+        });
       }
       const data = await toBase64(e.target.files[0]);
       const url = await uploadFileAndGetURL(data, "posts", "image");

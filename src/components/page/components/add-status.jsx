@@ -70,12 +70,16 @@ export function AddStatus() {
         </div>
         <label htmlFor="image" className=" p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12">
           <FaImage className="text-xl fill-black dark:fill-white"/>
-          <input disabled={loading} type="file" accept=".png, .jpg, .jpeg, .mp4, .mov, .wav, .mp3," id="image" onChange={async (e) => {
+          <input disabled={loading} type="file" accept=".png, .jpg, .jpeg" id="image" onChange={async (e) => {
           if (e.target.files[0].size > (20 * 1024 * 1024)) {
             toast({
               description: "File size is too large, pick a file less than 20mb"
             });
             return;
+          } else if(["video", "audio", "pdf"].some(x => e.target.files[0].type.includes(x))){
+            toast({
+              description: "You can only post images or texts"
+            });
           }
           const data = await toBase64(e.target.files[0]);
           setImage(data);} } hidden/>
