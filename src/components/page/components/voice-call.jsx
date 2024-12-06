@@ -66,14 +66,14 @@ export function VoiceCall() {
       streamList.forEach(stream => zego.stopPublishingStream(stream.streamID));
       zego.destroyStream(localStream);
       zego.logoutRoom(roomID);
-      setPage({
-        open: true,
-        component: "chat",
-        data: {
-          ...page.data,
-        }
-      });
     }
+    setPage({
+      open: true,
+      component: "chat",
+      data: {
+        ...page.data,
+      }
+    });
   }
   useEffect(() => {
     const zg = new ZegoExpressEngine(process.env.NEXT_PUBLIC_ZEGO_APP_ID, process.env.NEXT_PUBLIC_ZEGO_SERVER_ID);
