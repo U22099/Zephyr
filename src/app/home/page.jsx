@@ -20,8 +20,7 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    const usersession = getSession();
-    if(!(usersession?.uid)){
+    if(!(JSON.parse(localStorage.getItem("logged")))){
       router.push("/");
     }
   }, [router]);

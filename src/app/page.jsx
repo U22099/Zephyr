@@ -13,9 +13,7 @@ import { storeSession, getSession } from "@/lib/utility/index";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    const usersession = getSession();
-    console.log(usersession);
-    if (usersession.uid) {
+    if (JSON.parse(localStorage.getItem("logged"))) {
       router.push("/home");
     }
   }, [router]);
@@ -52,6 +50,7 @@ export default function Home() {
             storeSession({
               uid: Math.floor(Math.random() * 253637)
             });
+            localStorage.setItem("logged", JSON.stringify(true));
             router.push("/home");
             return true;
           }
@@ -63,6 +62,7 @@ export default function Home() {
         } catch (err) {
           console.log(err, err.message, "Doc");
         }
+        localStorage.setItem("logged", JSON.stringify(true));
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
