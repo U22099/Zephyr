@@ -20,7 +20,8 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    if(!getSession()){
+    const usersession = getSession();
+    if(!usersession?.uid){
       router.push("/");
     }
   }, [router]);

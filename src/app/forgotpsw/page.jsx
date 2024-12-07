@@ -11,7 +11,8 @@ import { getSession } from "@/lib/utility/index";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    if (getSession()) {
+    const usersession = getSession();
+    if (usersession?.uid) {
       router.push("/home");
     }
   }, [router]);

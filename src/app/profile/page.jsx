@@ -15,7 +15,8 @@ import axios from "axios";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    if (getSession()) {
+    const usersession = getSession();
+    if (usersession?.uid) {
       if(JSON.parse(localStorage.getItem("visited"))){
         router.push("/home");
       } else {
