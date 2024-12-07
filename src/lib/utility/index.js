@@ -27,6 +27,7 @@ export const getSession = () => {
   try {
     const decodedCookie = decodeURIComponent(session);
     user = JSON.parse(decodedCookie) || null;
+    console.log(user);
   } catch (error) {
     console.error("Error parsing session cookie:", error);
   }

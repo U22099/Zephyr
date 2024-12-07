@@ -14,6 +14,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     const usersession = getSession();
+    console.log(usersession);
     if (usersession.uid) {
       router.push("/home");
     }
@@ -65,7 +66,7 @@ export default function Home() {
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
-        if (existUser?.length) router.push("/profile");
+        router.push("/profile");
       }
       return true;
     } catch (err) {

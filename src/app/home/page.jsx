@@ -21,7 +21,7 @@ export default function Home() {
   const router = useRouter();
   useEffect(() => {
     const usersession = getSession();
-    if(!usersession?.uid){
+    if(!(usersession?.uid)){
       router.push("/");
     }
   }, [router]);
