@@ -21,7 +21,7 @@ export function VoiceCall() {
           showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
-            mode: ZegoUIKitPrebuilt.VideoConference
+            mode: ZegoUIKitPrebuilt.VideoConference,
           },
           onLeaveRoom: () => {
             setPage({
@@ -57,7 +57,7 @@ export function VoiceCall() {
           showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
-            mode: ZegoUIKitPrebuilt.VideoConference
+            mode: ZegoUIKitPrebuilt.VideoConference,
           },
           onLeaveRoom: () => {
             setPage({
@@ -75,8 +75,8 @@ export function VoiceCall() {
     startCall();
   }, []);
   return (
-    <main className="flex flex-col h-full w-full gap-4">
-      <section ref={element} className="bg-none backdrop-blur-sm p-3 rounded"></section>
+    <main className="flex flex-col h-full w-full gap-4 items-center justify-center">
+      <section ref={element} className="mt-5 bg-none backdrop-blur-sm p-3 rounded"></section>
     </main>
   );
 }
