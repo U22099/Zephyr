@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Zephyr",
-  description: "AI powered chat app with status post.",
+  description: "Zephyr is a feature-rich chat application built using the Next.js and Firebase.  It offers a comprehensive suite of communication tools, including one-on-one and group chat, video calls, voice calls, status updates, and AI chat interface.  Zephyr is highly customizable, allowing users to personalize their experience.",
   icons: icon.icons,
   themeColor: "#391c1a",
   manifest: "/manifest.json",
