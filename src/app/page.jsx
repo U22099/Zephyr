@@ -43,6 +43,7 @@ export default function Home() {
         user = (await signInWithEmailAndPassword(auth, email, password))?.user;
       } else {
         user = (await createUserWithEmailAndPassword(auth, email, password))?.user;
+        localStorage.removeItem("visited");
       }
       if (user) {
         try {

@@ -31,6 +31,7 @@ export function DangerZone() {
       <CardContent className="flex flex-col items-center gap-2 p-2 w-full">
         <Button className="w-full" disabled={logoutloading} variant="destructive" onClick={async () => {
           setLogoutloading(true);
+          localStorage.removeItem("logged");
           await logOut();
           deleteSession();
           setLogoutloading(false);
@@ -55,6 +56,8 @@ export function DangerZone() {
                 setDeleteloading(true);
                 await deleteAccount(uid, userData.username);
                 deleteSession();
+                localStorage.removeItem("logged");
+                localStorage.removeItem("visited");
                 setDeleteloading(false);
                 router.push("/");
               }}
