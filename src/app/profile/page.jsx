@@ -19,11 +19,10 @@ export default function Home() {
       if(JSON.parse(localStorage.getItem("visited"))){
         router.push("/home");
       } else {
-        localStorage.setItem("visited", JSON.stringify(true))
+        localStorage.setItem("visited", JSON.stringify(true));
       }
-      return;
     } else router.push("/");
-  }, [])
+  }, [router]);
   const [pageLoading, setPageLoading] = useState(true);
   const [user, userLoading, userError] = useAuthState(auth);
 

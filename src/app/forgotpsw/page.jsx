@@ -1,7 +1,7 @@
 "use client";
 
 import { ForgotPSW } from "@/components/forms/forgotpsw-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
@@ -14,7 +14,7 @@ export default function Home() {
     if (getSession()) {
       router.push("/home");
     }
-  }, []);
+  }, [router]);
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();

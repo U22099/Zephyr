@@ -1,7 +1,7 @@
 "use client";
 
 import { SignIn } from "@/components/forms/sign-in-form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fetchSignInMethodsForEmail, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/auth";
@@ -16,7 +16,7 @@ export default function Home() {
     if (getSession()) {
       router.push("/home");
     }
-  }, []);
+  }, [router]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

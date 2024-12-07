@@ -20,10 +20,10 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    if(getSession()){
-      return;
-    } else router.push("/");
-  }, []);
+    if(!getSession()){
+      router.push("/");
+    }
+  }, [router]);
   const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
   const setSocket = useSocket(state => state.setSocket);
   const isMobile = useIsMobile();
