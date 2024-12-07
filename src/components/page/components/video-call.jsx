@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
 
-export function VoiceCall() {
+export function VideoCall() {
   const element = useRef();
   const { page, setPage } = usePage();
   const userData = useUserData(state => state.userData);
