@@ -18,6 +18,8 @@ export function VoiceCall() {
         zp.joinRoom({
           container: element.current,
           showPreJoinView: false,
+          turnOnMicrophoneWhenJoining: false,
+          turnOnCameraWhenJoining: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: ZegoUIKitPrebuilt.VideoConference
@@ -53,6 +55,8 @@ export function VoiceCall() {
         zp.joinRoom({
           container: element.current,
           showPreJoinView: false,
+          turnOnMicrophoneWhenJoining: false,
+          turnOnCameraWhenJoining: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: ZegoUIKitPrebuilt.VideoConference

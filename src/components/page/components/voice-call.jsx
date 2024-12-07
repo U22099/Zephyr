@@ -16,6 +16,7 @@ export function VoiceCall() {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
+          turnOnMicrophoneWhenJoining: false,
           turnOnCameraWhenJoining: false,
           showMyCameraToggleButton: false,
           showAudioVideoSettingsButton: false,
@@ -55,6 +56,7 @@ export function VoiceCall() {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
+          turnOnMicrophoneWhenJoining: false,
           turnOnCameraWhenJoining: false,
           showMyCameraToggleButton: false,
           showAudioVideoSettingsButton: false,
