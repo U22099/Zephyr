@@ -120,11 +120,19 @@ export function Chat() {
     };
 
     const handleIncomingVoiceCall = (data) => {
-      setPage({ open: true, component: "voice-call", data });
+      setPage({ open: true, component: "voice-call", data: {
+        ...data,
+        doc: page.data,
+        incoming: true,
+      } });
     };
 
     const handleIncomingVideoCall = (data) => {
-      setPage({ open: true, component: "video-call", data });
+      setPage({ open: true, component: "video-call", data: {
+        ...data,
+        doc: page.data,
+        incoming: true,
+      } });
     };
 
     const handleGroupRecieveMessage = (data) => {
@@ -188,7 +196,8 @@ export function Chat() {
             open: true,
             component: "voice-call",
             data: {
-              ...page.data
+              ...page.data,
+              incoming: false
             }
         })}/>
         <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10" 
@@ -196,7 +205,8 @@ export function Chat() {
             open: true,
             component: "video-call",
             data: {
-              ...page.data
+              ...page.data,
+              incoming: false
             }
         })}/>
       </header>

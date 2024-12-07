@@ -3,6 +3,7 @@ import { useUserData, usePage, useUID, useSocket } from "@/store";
 export function VoiceCall() {
   const element = useRef();
   const { page, setPage } = usePage();
+  const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   useEffect(() => {
@@ -10,7 +11,7 @@ export function VoiceCall() {
       const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
       if (!page.data.incoming) {
         const roomID = `3664${Date.now()}393`
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, roomID, uid, Math.random() * 50000);
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, roomID, uid, userData.username);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         const url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID;
         zp.joinRoom({
@@ -38,18 +39,18 @@ export function VoiceCall() {
           to: page.data.uid,
           from: uid,
           roomID,
-          url,
           type: page.data.type
         });
       } else {
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, Math.random() * 50000);
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, userData.username);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
+        const url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + page.data.roomID
         zp.joinRoom({
           container: element.current,
           sharedLinks: [
             {
               name: 'Personal link',
-              url: page.data.url
+              url
                 },
           ],
           scenario: {
@@ -60,7 +61,7 @@ export function VoiceCall() {
               open: true,
               component: "chat",
               data: {
-                ...page.data
+                ...page.data.doc
               }
             });
           }
@@ -71,7 +72,8 @@ export function VoiceCall() {
     startCall();
   }, []);
   return (
-    <main ref={element}>
+    <main className="flex h-full w-full justify-center items-center">
+      <section ref={element}></section>
     </main>
   );
 }

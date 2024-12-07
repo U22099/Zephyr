@@ -33,8 +33,8 @@ export function Messages({ docData }) {
       component: "voice-call", 
       data: {
       ...data,
+      doc,
       incoming: true,
-      ...doc
     }});
   };
 
@@ -44,8 +44,8 @@ export function Messages({ docData }) {
       component: "video-call", 
       data: {
       ...data,
+      doc,
       incoming: true,
-      ...doc
     }});
   };
 
