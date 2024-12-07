@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
-import { IoClose } from "react-icons/io5";
 
 export function VoiceCall() {
   const element = useRef();
@@ -12,7 +11,7 @@ export function VoiceCall() {
     const startCall = async () => {
       const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
       if (!page.data.incoming) {
-        const roomID = `3664${Date.now()}393`
+        const roomID = `3664${Date.now()}393`;
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, roomID, uid, userData.username);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
@@ -21,7 +20,7 @@ export function VoiceCall() {
           showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
-            mode: ZegoUIKitPrebuilt.VideoConference,
+            mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
           },
           onLeaveRoom: () => {
             setPage({
@@ -57,7 +56,7 @@ export function VoiceCall() {
           showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
-            mode: ZegoUIKitPrebuilt.VideoConference,
+            mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
           },
           onLeaveRoom: () => {
             setPage({
@@ -76,7 +75,7 @@ export function VoiceCall() {
   }, []);
   return (
     <main className="flex flex-col h-full w-full gap-4 items-center justify-center">
-      <section ref={element} className="mt-5 bg-none backdrop-blur-sm p-3 rounded"></section>
+      <section ref={element} className="mt-5 relative bg-none backdrop-blur-sm p-3 rounded"></section>
     </main>
   );
 }
