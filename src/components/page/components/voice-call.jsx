@@ -1,4 +1,86 @@
-import {
+import { useState, useEffect, useRef } from "react";
+import { useUserData, usePage, useUID, useSocket } from "@/store";
+export function VoiceCall() {
+  const element = useRef();
+  const { page, setPage } = usePage();
+  const uid = useUID(state => state.uid);
+  const socket = useSocket(state => state.socket);
+  useEffect(() => {
+    const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
+    if (!page.data.incoming) {
+      const roomID = `3664${Date.now()}393`
+      const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, roomID, uid, Math.random() * 50000);
+      const zp = ZegoUIKitPrebuilt.create(kitToken);
+      const url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID;
+      zp.joinRoom({
+        container: element.current,
+        sharedLinks: [
+          {
+            name: 'Personal link',
+            url
+              },
+        ],
+        scenario: {
+          mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+        },
+        onLeaveRoom: () => {
+          setPage({
+            open: true,
+            component: "chat",
+            data: {
+              ...page.data
+            }
+          });
+        }
+      });
+      socket.emit("outgoing-voice-call", {
+        to: page.data.uid,
+        from: uid,
+        roomID,
+        url,
+        type: page.data.type
+      });
+    } else {
+      const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, Math.random() * 50000);
+      const zp = ZegoUIKitPrebuilt.create(kitToken);
+      zp.joinRoom({
+        container: element.current,
+        sharedLinks: [
+          {
+            name: 'Personal link',
+            url: page.data.url
+              },
+        ],
+        scenario: {
+          mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+        },
+        onLeaveRoom: () => {
+          setPage({
+            open: true,
+            component: "chat",
+            data: {
+              ...page.data
+            }
+          });
+        }
+      });
+    }
+  }, []);
+  return (
+    <main ref={element}>
+    </main>
+  );
+}
+
+
+
+
+
+
+
+
+
+/*import {
   Card,
   CardHeader,
   CardContent,
@@ -30,36 +112,40 @@ export function VoiceCall() {
   const [remoteUsers, setRemoteUsers] = useState([]);
 
   const joinRoom = async (roomID, token) => {
-    await zego.loginRoom(roomID, token, { userID: uid, userName: userData.username }, { userUpdate: true });
-    const localStream = await zego.createStream({
-      camera: {
-        audio: true,
-        video: false
-      }
-    });
-    await zego.startPublishingStream(`${Date.now()}`, localStream);
-    setLocalStream(localStream);
-    zego.on("roomStreamUpdate", async (roomID, updateType, streamList, extendedData) => {
-      if (updateType === "ADD") {
-        console.log(streamList);
-        streamList.forEach(async stream => {
-          const streamed = await zego.startPlayingStream(stream.streamID, {
-            audio: true,
-            video: true
+    try{
+      await zego.loginRoom(roomID, token, { userID: uid, userName: userData.username }, { userUpdate: true });
+      const localStream = await zego.createStream({
+        camera: {
+          audio: true,
+          video: false
+        }
+      });
+      await zego.startPublishingStream(`${Date.now()}`, localStream);
+      setLocalStream(localStream);
+      zego.on("roomStreamUpdate", async (roomID, updateType, streamList, extendedData) => {
+        if (updateType === "ADD") {
+          console.log(streamList);
+          streamList.forEach(async stream => {
+            const streamed = await zego.startPlayingStream(stream.streamID, {
+              audio: true,
+              video: false
+            });
+  
+            setRemoteUsers([
+              ...remoteUsers,
+              {
+                streamID: stream.streamID,
+                stream: streamed
+              }
+            ]);
           });
-
-          setRemoteUsers([
-            ...remoteUsers,
-            {
-              streamID: stream.streamID,
-              stream: streamed
-            }
-          ]);
-        });
-      } else if (updateType === "DELETE" && zego && localStream && streamList) {
-        endCall(streamList);
-      }
-    });
+        } else if (updateType === "DELETE" && zego && localStream && streamList) {
+          endCall(streamList);
+        }
+      });
+    } catch(err) {
+      console.log(err);
+    }
   }
   const endCall = (streamList) => {
     if (zego && localStream) {
@@ -83,6 +169,7 @@ export function VoiceCall() {
   useEffect(() => {
     const connect = async () => {
       const token = await generateToken(uid);
+      console.log(token)
       if (socket && !page.data.incoming && zego) {
         const roomID = `108${Date.now()}297`;
         socket.emit("outgoing-voice-call", {
@@ -98,6 +185,15 @@ export function VoiceCall() {
           if (page.data.uid === data.from) {
             await joinRoom(data.roomID, token);
           }
+        });
+        socket.on("voice-call-rejected", () => {
+          setPage({
+            open: true,
+            component: "chat",
+            data: {
+              ...page.data,
+            }
+          });
         })
       } else if (page.data.incoming && zego) {
         await joinRoom(page.data.roomID, token);
@@ -137,4 +233,4 @@ const UserCard = ({ user }) => {
       </CardContent>
     </Card>
   )
-}
+}*/

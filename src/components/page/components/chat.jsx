@@ -120,11 +120,11 @@ export function Chat() {
     };
 
     const handleIncomingVoiceCall = (data) => {
-      setPage({ open: true, component: "incoming-voice-call", data });
+      setPage({ open: true, component: "voice-call", data });
     };
 
     const handleIncomingVideoCall = (data) => {
-      setPage({ open: true, component: "incoming-video-call", data });
+      setPage({ open: true, component: "video-call", data });
     };
 
     const handleGroupRecieveMessage = (data) => {

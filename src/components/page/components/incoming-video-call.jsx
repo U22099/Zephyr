@@ -1,4 +1,4 @@
-import {
+/*import {
   Card,
   CardContent,
   CardHeader,
@@ -52,7 +52,7 @@ export function IncomingVideoCall() {
           Voice Call
         </CardTitle>
       </CardHeader>
-      <CardContent className="flex flex-col gap-2 justify-start items-center p-2 py-3 h-full w-full">
+      <CardContent className="flex flex-col gap-2 justify-center items-center p-2 py-3 h-full w-full">
         <Avatar className="w-32 h-32">
           <AvatarImage className="w-32 h-32 object-cover rounded-full" src={page.data.userData.image} alt="profile-image"/>
           <AvatarFallback className="text-3xl text-primary">{page.data.userData.name ? page.data.userData.name[0] : "Z"}</AvatarFallback>
@@ -65,4 +65,4 @@ export function IncomingVideoCall() {
       </CardContent>
     </Card>
   )
-}
+}*/

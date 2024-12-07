@@ -28,11 +28,23 @@ export function Messages({ docData }) {
   const time = doc.lastMessage ? convertToTimeString(doc.lastMessage.timestamp) : "";
   useEffect(() => {
   const handleIncomingVoiceCall = (data) => {
-    setPage({ open: true, component: "incoming-voice-call", data });
+    setPage({ 
+      open: true, 
+      component: "voice-call", 
+      data: {
+      ...data,
+      ...doc
+    }});
   };
 
   const handleIncomingVideoCall = (data) => {
-    setPage({ open: true, component: "incoming-video-call", data });
+    setPage({ 
+      open: true, 
+      component: "video-call", 
+      data: {
+      ...data,
+      ...doc
+    }});
   };
 
   const handleGroupRecieveMessage = (data) => {
