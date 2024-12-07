@@ -9,12 +9,22 @@ import { updateProfile } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { updateVariables, toBase64, uploadFileAndGetURL } from "@/utils";
 import { useTheme } from "next-themes";
-import { deleteSession } from "@/lib/utility/index";
+import { deleteSession, getSession } from "@/lib/utility/index";
 import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
-  const [ pageLoading, setPageLoading ] = useState(true);
+  useEffect(() => {
+    if (getSession()) {
+      if(JSON.parse(localStorage.getItem("visited"))){
+        router.push("/home");
+      } else {
+        localStorage.setItem("visited", JSON.stringify(true))
+      }
+      return;
+    } else router.push("/");
+  }, [])
+  const [pageLoading, setPageLoading] = useState(true);
   const [user, userLoading, userError] = useAuthState(auth);
 
   const [image, setImage] = useState();
@@ -44,7 +54,7 @@ export default function Home() {
     }
     if (imageBase64String) {
       try {
-        const deleted = await axios.delete("/api/file", { data: {publicId: imagePublicId }});
+        const deleted = await axios.delete("/api/file", { data: { publicId: imagePublicId } });
         if (deleted.status === 200) {
           newImageUrl = await uploadFileAndGetURL(imageBase64String, "images", "image");
         }
@@ -85,7 +95,7 @@ export default function Home() {
       deleteSession();
       router.push("/");
     } else {
-      if(user){
+      if (user) {
         updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
         setPageLoading(false);
       }

@@ -8,14 +8,19 @@ import { useSignInWithGoogle, useSignInWithGithub } from "react-firebase-hooks/a
 import { auth, db } from "@/firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
-import { storeSession } from "@/lib/utility/index";
+import { storeSession, getSession } from "@/lib/utility/index";
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    if (getSession()) {
+      router.push("/home");
+    }
+  }, []);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
 
 
   const [signInWithGoogle] = useSignInWithGoogle(auth);
@@ -40,8 +45,8 @@ export default function Home() {
         user = (await createUserWithEmailAndPassword(auth, email, password))?.user;
       }
       if (user) {
-        try{
-          if(existUser?.length){
+        try {
+          if (existUser?.length) {
             storeSession({
               uid: Math.floor(Math.random() * 253637)
             });
@@ -53,13 +58,13 @@ export default function Home() {
             imageURL: user.photoURL,
             type: "personal"
           }, { merge: true });
-        } catch(err) {
+        } catch (err) {
           console.log(err, err.message, "Doc");
         }
         storeSession({
           uid: Math.floor(Math.random() * 253637)
         });
-        if(existUser?.length) router.push("/profile");
+        if (existUser?.length) router.push("/profile");
       }
       return true;
     } catch (err) {
@@ -77,7 +82,7 @@ export default function Home() {
       const user = (await signInWithGoogle())?.user;
       if (user) {
         const exists = await getDoc(doc(db, "users", user.uid));
-        if(exists.exists()){
+        if (exists.exists()) {
           storeSession({
             uid: Math.floor(Math.random() * 253637)
           });
@@ -107,7 +112,7 @@ export default function Home() {
       const user = (await signInWithGithub())?.user;
       if (user) {
         const exists = await getDoc(doc(db, "users", user.uid));
-        if(exists.exists()){
+        if (exists.exists()) {
           storeSession({
             uid: Math.floor(Math.random() * 253637)
           });

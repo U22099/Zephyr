@@ -6,11 +6,18 @@ import { fetchSignInMethodsForEmail, sendPasswordResetEmail } from "firebase/aut
 import { auth } from "@/firebase";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { getSession } from "@/lib/utility/index";
+
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    if (getSession()) {
+      router.push("/home");
+    }
+  }, []);
   const [email, setEmail] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
-  const router = useRouter();
   const { toast } = useToast();
 
   const passwordReset = async () => {

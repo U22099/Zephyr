@@ -14,8 +14,16 @@ import { auth } from "@/firebase";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { io } from 'socket.io-client';
 import { deleteSession } from "@/lib/utility/index";
+import { getSession } from "@/lib/utility/index";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    if(getSession()){
+      return;
+    } else router.push("/");
+  }, []);
   const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
   const setSocket = useSocket(state => state.setSocket);
   const isMobile = useIsMobile();
