@@ -17,6 +17,8 @@ export function VoiceCall() {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
+          showPreJoinView: false,
+          maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: ZegoUIKitPrebuilt.VideoConference
           },
@@ -50,6 +52,8 @@ export function VoiceCall() {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
+          showPreJoinView: false,
+          maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: ZegoUIKitPrebuilt.VideoConference
           },
@@ -70,15 +74,6 @@ export function VoiceCall() {
   }, []);
   return (
     <main className="flex flex-col h-full w-full gap-4">
-      <header className="flex justify-start w-full p-2">
-        <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
-            open: true,
-            component: "chat",
-            data: page.data.doc ? page.data.doc : page.data
-        })}>
-          <IoClose className="text-xl fill-black dark:fill-white"/>
-        </div>
-      </header>
       <section ref={element}></section>
     </main>
   );

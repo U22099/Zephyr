@@ -69,6 +69,8 @@ export function Messages({ docData }) {
 
   socket.on("incoming-voice-call", handleIncomingVoiceCall);
   socket.on("incoming-video-call", handleIncomingVideoCall);
+  socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
+  socket.on("group-incoming-video-call", handleIncomingVideoCall);
 
   if (doc.type === "group") {
     socket.emit("join-group", doc.uid);
@@ -80,6 +82,8 @@ export function Messages({ docData }) {
   return () => {
     socket.off("incoming-voice-call", handleIncomingVoiceCall);
     socket.off("incoming-video-call", handleIncomingVideoCall);
+    socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
+    socket.off("group-incoming-video-call", handleIncomingVideoCall);
     socket.off("group-recieve-message", handleGroupRecieveMessage);
     socket.off("recieve-message", handleRecieveMessage);
   };
