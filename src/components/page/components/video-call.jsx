@@ -31,14 +31,14 @@ export function VoiceCall() {
           }
         });
         if (page.data.type === "group") {
-          socket.emit("group-outgoing-voice-call", {
+          socket.emit("group-outgoing-video-call", {
             to: page.data.uid,
             from: uid,
             roomID,
             type: "group"
           });
         } else {
-          socket.emit("outgoing-voice-call", {
+          socket.emit("outgoing-video-call", {
             to: page.data.uid,
             from: uid,
             roomID,
