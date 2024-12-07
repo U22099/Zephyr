@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
+import { IoClose } from "react-icons/io5";
 
-export function VideoCall() {
+export function VoiceCall() {
   const element = useRef();
   const { page, setPage } = usePage();
   const userData = useUserData(state => state.userData);
@@ -14,17 +15,10 @@ export function VideoCall() {
         const roomID = `3664${Date.now()}393`
         const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, roomID, uid, userData.username);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
-        const url = window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID;
         zp.joinRoom({
           container: element.current,
-          sharedLinks: [
-            {
-              name: 'Personal link',
-              url
-                },
-          ],
           scenario: {
-            mode: ZegoUIKitPrebuilt.VideoConference, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+            mode: ZegoUIKitPrebuilt.VideoConference
           },
           onLeaveRoom: () => {
             setPage({
@@ -36,43 +30,55 @@ export function VideoCall() {
             });
           }
         });
-        socket.emit("outgoing-video-call", {
-          to: page.data.uid,
-          from: uid,
-          roomID,
-          url,
-          type: page.data.type
-        });
+        if (page.data.type === "group") {
+          socket.emit("group-outgoing-voice-call", {
+            to: page.data.uid,
+            from: uid,
+            roomID,
+            type: "group"
+          });
+        } else {
+          socket.emit("outgoing-voice-call", {
+            to: page.data.uid,
+            from: uid,
+            roomID,
+            type: "personal"
+          });
+        }
       } else {
-        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, Math.random() * 50000);
+        const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, userData.username);
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
-          sharedLinks: [
-            {
-              name: 'Personal link',
-              url: page.data.url
-                },
-          ],
           scenario: {
-            mode: ZegoUIKitPrebuilt.VideoConference, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+            mode: ZegoUIKitPrebuilt.VideoConference
           },
           onLeaveRoom: () => {
             setPage({
               open: true,
               component: "chat",
               data: {
-                ...page.data
+                ...page.data.doc
               }
             });
           }
         });
       }
     }
+
     startCall();
   }, []);
   return (
-    <main className="flex h-full w-full justify-center items-center">
+    <main className="flex flex-col h-full w-full gap-4">
+      <header className="flex justify-start w-full p-2">
+        <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
+            open: true,
+            component: "chat",
+            data: page.data.doc ? page.data.doc : page.data
+        })}>
+          <IoClose className="text-xl fill-black dark:fill-white"/>
+        </div>
+      </header>
       <section ref={element}></section>
     </main>
   );
