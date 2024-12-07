@@ -17,9 +17,8 @@ export function VoiceCall() {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
-          showPreJoinView: false,
-          turnOnMicrophoneWhenJoining: false,
-          turnOnCameraWhenJoining: false,
+          showPreJoinView: true,
+          showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: ZegoUIKitPrebuilt.VideoConference
@@ -54,9 +53,8 @@ export function VoiceCall() {
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
           container: element.current,
-          showPreJoinView: false,
-          turnOnMicrophoneWhenJoining: false,
-          turnOnCameraWhenJoining: false,
+          showPreJoinView: true,
+          showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: ZegoUIKitPrebuilt.VideoConference
@@ -78,7 +76,7 @@ export function VoiceCall() {
   }, []);
   return (
     <main className="flex flex-col h-full w-full gap-4">
-      <section ref={element}></section>
+      <section ref={element} className="bg-none backdrop-blur-sm p-3 rounded"></section>
     </main>
   );
 }

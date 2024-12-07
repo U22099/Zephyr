@@ -21,7 +21,8 @@ export function VoiceCall() {
           showMyCameraToggleButton: false,
           showAudioVideoSettingsButton: false,
           showScreenSharingButton: false,
-          showPreJoinView: false,
+          showPreJoinView: true,
+          showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
@@ -61,7 +62,8 @@ export function VoiceCall() {
           showMyCameraToggleButton: false,
           showAudioVideoSettingsButton: false,
           showScreenSharingButton: false,
-          showPreJoinView: false,
+          showPreJoinView: true,
+          showLeavingView: false,
           maxUsers: page.data.type === "group" ? 1000 : 2,
           scenario: {
             mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
@@ -83,7 +85,7 @@ export function VoiceCall() {
   }, []);
   return (
     <main className="flex flex-col h-full w-full gap-4">
-      <section ref={element}></section>
+      <section ref={element} className="bg-none backdrop-blur-sm p-3 rounded"></section>
     </main>
   );
 }
