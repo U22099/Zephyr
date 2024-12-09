@@ -59,8 +59,8 @@ export default function Home() {
   }, [user]);
   return (
     <>
-    { loading ? <Loading /> : (page.open&&isMobile) ? <Page /> : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-screen w-screen p-2 grid-cols-4"}>
-      <section className={"flex h-screen flex-col items-start justify-start w-full scrollbar" + (!isMobile&&"col-span-1")}>
+    { loading ? <Loading /> : (page.open&&isMobile) ? <Page /> : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-full w-full p-2 grid-cols-5"}>
+      <section className={"flex h-screen flex-col items-start justify-start w-full scrollbar" + (!isMobile&&" col-span-2")}>
       { nav === 0 ? <Updates /> 
       : nav === 1 ? <People />
       : nav === 2 ? <Chats />
