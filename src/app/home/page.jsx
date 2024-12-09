@@ -65,8 +65,8 @@ export default function Home() {
       <section className="flex h-full flex-col items-start justify-start w-full">
         <Page />
       </section>
-      : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar" : " grid h-full p-2 grid-cols-6"}>
-        <section className={"flex h-full flex-col items-start justify-start w-full scrollbar" + !isMobile&&" col-span-2"}>
+      : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar" : "grid h-full w-full scrollbar p-2 grid-cols-6"}>
+        <section className={"flex h-full flex-col items-start justify-start scrollbar" + !isMobile&&" col-span-2"}>
         { nav === 0 ? <Updates /> 
         : nav === 1 ? <People />
         : nav === 2 ? <Chats />
