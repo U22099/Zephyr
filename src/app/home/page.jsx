@@ -59,23 +59,25 @@ export default function Home() {
   }, [user]);
   return (
     <>
-    { loading ? <Loading /> : (page.open&&isMobile) ? 
+    { loading ? 
+    <Loading /> 
+    : (page.open&&isMobile) ? 
       <section className="flex h-full flex-col items-start justify-start w-full">
         <Page />
       </section>
-      : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-full w-full p-2 grid-cols-5"}>
-      <section className={"flex h-screen flex-col items-start justify-start w-full scrollbar" + (!isMobile&&" col-span-2")}>
-      { nav === 0 ? <Updates /> 
-      : nav === 1 ? <People />
-      : nav === 2 ? <Chats />
-      : nav === 3 ? <Settings /> 
-      : <Chats />}
-      <Navigation setNav={setNav} nav={nav}/>
-      </section>
-      {!isMobile&&
-      <section className="col-span-3">
-        <Page/>
-      </section>}
+      : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar" : " grid h-full p-2 grid-cols-6"}>
+        <section className={"flex h-full flex-col items-start justify-start w-full scrollbar" + !isMobile&&" col-span-2"}>
+        { nav === 0 ? <Updates /> 
+        : nav === 1 ? <People />
+        : nav === 2 ? <Chats />
+        : nav === 3 ? <Settings /> 
+        : <Chats />}
+        <Navigation setNav={setNav} nav={nav}/>
+        </section>
+        {!isMobile&&
+        <section className="col-span-4 w-full flex justify-start items-center">
+          <Page/>
+        </section>}
     </main>}
     </>
   )
