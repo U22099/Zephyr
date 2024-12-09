@@ -28,12 +28,6 @@ export const metadata = {
   },
   description: APP_DESCRIPTION,
   manifest: "/manifest.json",
-  appleWebApp: {
-    capable: true,
-    statusBarStyle: "default",
-    title: APP_DEFAULT_TITLE,
-    // startUpImage: [],
-  },
   formatDetection: {
     telephone: false,
   },
@@ -55,9 +49,6 @@ export const metadata = {
     description: APP_DESCRIPTION,
   },
 };
-export const viewport = {
-  themeColor: "#5b21b6"
-}
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
