@@ -584,6 +584,8 @@ export const deleteAccount = async (uid, name) => {
     if (user) {
       await deleteUser(user);
       await deleteDoc(doc(db, "users", uid));
+      await deleteDoc(doc(db, "posts", uid));
+      await deleteDoc(doc(db, "ai-chats", uid));
       const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
       await Promise.all(docs.docs.map(async doc => {
         if (doc.data().type === "personal") {
