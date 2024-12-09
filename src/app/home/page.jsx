@@ -59,7 +59,11 @@ export default function Home() {
   }, [user]);
   return (
     <>
-    { loading ? <Loading /> : (page.open&&isMobile) ? <Page /> : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-full w-full p-2 grid-cols-5"}>
+    { loading ? <Loading /> : (page.open&&isMobile) ? 
+      <section className="flex h-full flex-col items-start justify-start w-full">
+        <Page />
+      </section>
+      : <main className={isMobile ? "flex h-screen flex-col items-start justify-start w-full" : "grid h-full w-full p-2 grid-cols-5"}>
       <section className={"flex h-screen flex-col items-start justify-start w-full scrollbar" + (!isMobile&&" col-span-2")}>
       { nav === 0 ? <Updates /> 
       : nav === 1 ? <People />
@@ -68,7 +72,10 @@ export default function Home() {
       : <Chats />}
       <Navigation setNav={setNav} nav={nav}/>
       </section>
-      {!isMobile&&<Page className="col-span-3"/>}
+      {!isMobile&&
+      <section className="col-span-3">
+        <Page/>
+      </section>}
     </main>}
     </>
   )

@@ -254,8 +254,8 @@ export function Chat() {
 
 const Message = ({ m, type, uid }) => {
   return (
-    <main className={"flex w-fit max-w-[80vw] md:max-w-[60vw] items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
-      <Card className="flex flex-col gap-1 w-fit justify-center items-start p-2 min-w-[20%]">
+    <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
+      <Card className="flex flex-col gap-1 w-fit max-w-[70vw] md:max-w-[60vw] justify-center items-start p-2 min-w-[20%]">
         {type === "group" && <CardHeader className="w-full flex p-0">
           <p className={"text-muted-foreground text-sm w-24 truncate flex p-0 " + (m.senderId === uid ? "self-end text-end justify-end" : "justify-start text-start self-start")}>~{m.senderName}</p>
         </CardHeader>}
