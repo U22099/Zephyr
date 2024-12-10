@@ -613,7 +613,17 @@ export const deleteAccount = async (uid, name) => {
     const user = auth.currentUser;
     if (user) {
       await deleteDoc(doc(db, "users", uid));
-      await deleteDoc(doc(db, "posts", uid));
+      const postRef = doc(db, "posts", uid);
+      const statuses = await getDocs(collection(postRef, "status"));
+      await Promise.all(statuses.docs.map(async status => {
+        if (status.data().type === "text") {
+          await deleteDoc(status.ref);
+        } else {
+          const fileRes = await deleteFile(status.data().content.public_id);
+          if (fileRes) await deleteDoc(status.ref);
+        }
+      }));
+      await deleteDoc(postRef);
       await deleteDoc(doc(db, "ai-chats", uid));
       const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
       await Promise.all(docs.docs.map(async document => {
@@ -639,8 +649,8 @@ export const deleteAccount = async (uid, name) => {
         } else {
           const groupUser = await getDoc(doc(db, "users", document.data().groupId));
           const messages = await getDocs(collection(document.ref, "messages"));
-          if(groupUser.admin === uid){
-            if(messages.docs.length < 10){
+          if (groupUser.admin === uid) {
+            if (messages.docs.length < 10) {
               await deleteConversation(uid, document.data().groupId);
             } else {
               await Promise.all(messages.docs.map(async msgDoc => {
