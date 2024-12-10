@@ -567,7 +567,7 @@ export const deleteConversation = async (userId, friendId, type) => {
     const groupDoc = await getDoc(doc(db, "users", friendId))
     const res = await deleteFile(groupDoc.data().imagePublicId);
     if (res) {
-      await Promise.all(messages.docs.map(document => {
+      await Promise.all(messages.docs.map(async document => {
         if (document.data().type === "text") {
           await deleteDoc(document.ref);
         } else {
@@ -580,7 +580,7 @@ export const deleteConversation = async (userId, friendId, type) => {
     }
   } else {
     await deleteDoc(chatDoc.ref);
-    await Promise.all(messages.docs.map(document => {
+    await Promise.all(messages.docs.map(async document => {
       if (document.data().type === "text") {
         await deleteDoc(document.ref);
       } else {
@@ -620,13 +620,13 @@ export const deleteAccount = async (uid, name) => {
         if (document.data().type === "personal") {
           const messages = await getDocs(collection(document.ref, "messages"));
           if (messages.docs.length > 20) {
-            await Promise.all(messages.docs.map(msgDoc => {
+            await Promise.all(messages.docs.map(async msgDoc => {
               if (!(msgDoc.data().type === "text")) {
                 await deleteFile(msgDoc.data().content.public_id);
               }
             }));
           } else {
-            await Promise.all(messages.docs.map(msgDoc => {
+            await Promise.all(messages.docs.map(async msgDoc => {
               if (msgDoc.data().type === "text") {
                 await deleteDoc(msgDoc.ref);
               } else {
@@ -643,7 +643,7 @@ export const deleteAccount = async (uid, name) => {
             if(messages.docs.length < 10){
               await deleteConversation(uid, document.data().groupId);
             } else {
-              await Promise.all(messages.docs.map(msgDoc => {
+              await Promise.all(async messages.docs.map(msgDoc => {
                 await deleteFile(msgDoc.data().public_id);
               }));
             }
