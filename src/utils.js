@@ -477,7 +477,7 @@ export const getMessages = async (userId, friendId, type) => {
     let result = [];
     if (chatDoc?.exists()) {
       if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
-        if (type === "group") {
+        if (type === "group"&&!chatDoc.data().lastMessage.read.includes(userId)) {
           await updateDoc(doc(db, "chats", chatDoc.id), {
             "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
           });
