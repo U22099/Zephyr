@@ -120,19 +120,27 @@ export function Chat() {
     };
 
     const handleIncomingVoiceCall = (data) => {
-      setPage({ open: true, component: "voice-call", data: {
-        ...data,
-        doc: page.data,
-        incoming: true,
-      } });
+      setPage({
+        open: true,
+        component: "voice-call",
+        data: {
+          ...data,
+          doc: page.data,
+          incoming: true,
+        }
+      });
     };
 
     const handleIncomingVideoCall = (data) => {
-      setPage({ open: true, component: "video-call", data: {
-        ...data,
-        doc: page.data,
-        incoming: true,
-      } });
+      setPage({
+        open: true,
+        component: "video-call",
+        data: {
+          ...data,
+          doc: page.data,
+          incoming: true,
+        }
+      });
     };
 
     const handleGroupRecieveMessage = (data) => {
@@ -172,15 +180,15 @@ export function Chat() {
     const fetchMsgs = async () => {
       try {
         const result = (await getMessages(uid, page.data.uid, page.data.type)) || [];
-        if(result[0].permissiondenied){
-          setPage({
-            open: false,
-            component: "default"
-          });
+        if (result[0].permissiondenied) {
           toast({
             title: "Permission Denied",
             description: "You can only be added to a group by the admin",
             variant: "destructive"
+          });
+          setPage({
+            open: false,
+            component: "default"
           });
           return;
         } else setMsg([...result.sort((a, b) => a.timestamp - b.timestamp)]);

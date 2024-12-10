@@ -497,7 +497,7 @@ export const getMessages = async (userId, friendId, type) => {
         });
       }
     } else {
-      if (type === "group" && !chatDoc.data().participants.includes(userId)) {
+      if (type === "group") {
         return [{ permissiondenied: true }];
         /*await updateDoc(chatDoc.ref, {
           participants: [
