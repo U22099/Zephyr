@@ -106,7 +106,7 @@ export function Messages({ docData }) {
       </Avatar> 
       <section className="py-1 h-full flex flex-col justify-center border-b gap-1 w-full" >
     <header className="flex gap-1 items-center justify-between">
-          <h1 className="text-xl font-bold">{doc.name}</h1>
+          <h1 className="text-xl font-bold w-48 truncate">{doc.name}</h1>
           { (lastMessage != {}) &&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
     {lastMessage != {} && (
