@@ -44,11 +44,11 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error }) {
           <div className="grid w-full items-center gap-4">
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Email</Label>
-              <Input id="name" placeholder="Input your email" type="email" onChange={(e) => setEmail(e.target.value)} required/>
+              <Input id="name" placeholder="Input your email" type="email" onChange={(e) => setEmail(e.target.value.trim())} required/>
             </div>
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="name">Password</Label>
-              <Input id="name" placeholder="Input your password" type="password" onChange={(e) => setPassword(e.target.value)} required />
+              <Input id="name" placeholder="Input your password" type="password" onChange={(e) => setPassword(e.target.value.trim())} required />
             </div>
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
             <Button type="submit" onClick={async () => {
