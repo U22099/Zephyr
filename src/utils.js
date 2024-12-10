@@ -622,8 +622,7 @@ export const deleteAccount = async (uid, name) => {
           if (messages.docs.length > 20) {
             await Promise.all(messages.docs.map(msgDoc => {
               if (!(msgDoc.data().type === "text")) {
-                const fileRes = await deleteFile(msgDoc.data().content.public_id);
-                if (fileRes) await deleteDoc(msgDoc.ref);
+                await deleteFile(msgDoc.data().content.public_id);
               }
             }));
           } else {
@@ -638,17 +637,28 @@ export const deleteAccount = async (uid, name) => {
           }
           await deleteDoc(document.ref);
         } else {
-          await updateDoc(document.ref, {
-            participants: [
-              ...document.data().participants.filter(x => x != uid)
-            ]
-          });
           const groupUser = await getDoc(doc(db, "users", document.data().groupId));
-          await updateDoc(groupUser.ref, {
-            members: [
-              ...groupUser.data().members.filter(x => x != name)
-            ]
-          });
+          const messages = await getDocs(collection(document.ref, "messages"));
+          if(groupUser.admin === uid){
+            if(messages.docs.length < 10){
+              await deleteConversation(uid, document.data().groupId);
+            } else {
+              await Promise.all(messages.docs.map(msgDoc => {
+                await deleteFile(msgDoc.data().public_id);
+              }));
+            }
+          } else {
+            await updateDoc(document.ref, {
+              participants: [
+                ...document.data().participants.filter(x => x != uid)
+              ]
+            });
+            await updateDoc(groupUser.ref, {
+              members: [
+                ...groupUser.data().members.filter(x => x != name)
+              ]
+            });
+          }
         }
       }));
       await deleteUser(user);
