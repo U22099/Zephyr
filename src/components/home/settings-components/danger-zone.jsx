@@ -45,7 +45,7 @@ export function DangerZone() {
             <DialogHeader>
               <DialogTitle>Delete Account</DialogTitle>
               <DialogDescription>
-                Please note that this would delete your user data permanently from our database, effectively removing you from all group chat and deleting all personal chat.
+                Please note that this would delete your user data permanently from our database, effectively removing you from all group chat and deleting all personal chat. But due to limited writable data operation messages above length of 20 are retained as staled/orphaned although images,audios and files would he cleared from our database.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>

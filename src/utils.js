@@ -562,15 +562,32 @@ export const updateUserData = async (uid, data, merge = true) => {
 }
 export const deleteConversation = async (userId, friendId, type) => {
   const chatDoc = await findFriend(userId, friendId);
+  const messages = await getDocs(collection(chatDoc.ref, "messages"));
   if (type === "group") {
     const groupDoc = await getDoc(doc(db, "users", friendId))
     const res = await deleteFile(groupDoc.data().imagePublicId);
     if (res) {
+      await Promise.all(messages.docs.map(document => {
+        if (document.data().type === "text") {
+          await deleteDoc(document.ref);
+        } else {
+          const fileRes = await deleteFile(document.data().content.public_id);
+          if (fileRes) await deleteDoc(document.ref);
+        }
+      }));
       await deleteDoc(chatDoc.ref);
       await deleteDoc(groupDoc.ref);
     }
   } else {
     await deleteDoc(chatDoc.ref);
+    await Promise.all(messages.docs.map(document => {
+      if (document.data().type === "text") {
+        await deleteDoc(document.ref);
+      } else {
+        await deleteFile(document.data().content.public_id);
+        await deleteDoc(document.ref);
+      }
+    }));
   }
 }
 export const leaveGroup = async (userId, groupId, name) => {
@@ -601,6 +618,24 @@ export const deleteAccount = async (uid, name) => {
       const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
       await Promise.all(docs.docs.map(async document => {
         if (document.data().type === "personal") {
+          const messages = await getDocs(collection(document.ref, "messages"));
+          if (messages.docs.length > 20) {
+            await Promise.all(messages.docs.map(msgDoc => {
+              if (!(msgDoc.data().type === "text")) {
+                const fileRes = await deleteFile(msgDoc.data().content.public_id);
+                if (fileRes) await deleteDoc(msgDoc.ref);
+              }
+            }));
+          } else {
+            await Promise.all(messages.docs.map(msgDoc => {
+              if (msgDoc.data().type === "text") {
+                await deleteDoc(msgDoc.ref);
+              } else {
+                const fileRes = await deleteFile(msgDoc.data().content.public_id);
+                if (fileRes) await deleteDoc(msgDoc.ref);
+              }
+            }));
+          }
           await deleteDoc(document.ref);
         } else {
           await updateDoc(document.ref, {
