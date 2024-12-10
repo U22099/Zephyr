@@ -61,11 +61,24 @@ export default function Home() {
           description: "Check your email to verify your account"
         });
         localStorage.removeItem("visited");
+        localStorage.setItem("registered", JSON.stringify(true));
         return;
       }
       if (user) {
         try {
-          if (existUser?.length) {
+          if (JSON.parse(localStorage.getItem("registered"))) {
+            await setDoc(doc(db, "users", user.uid), {
+              username: user.displayName,
+              imageURL: user.photoURL,
+              type: "personal"
+            }, { merge: true });
+            localStorage.setItem("logged", JSON.stringify(true));
+            storeSession({
+              uid: Math.floor(Math.random() * 253637)
+            });
+            localStorage.removeItem("registered");
+            router.push("/profile");
+          } else if (existUser?.length) {
             storeSession({
               uid: Math.floor(Math.random() * 25363727363)
             });
@@ -73,16 +86,6 @@ export default function Home() {
             router.push("/home");
             return;
           }
-          await setDoc(doc(db, "users", user.uid), {
-            username: user.displayName,
-            imageURL: user.photoURL,
-            type: "personal"
-          }, { merge: true });
-          localStorage.setItem("logged", JSON.stringify(true));
-          storeSession({
-            uid: Math.floor(Math.random() * 253637)
-          });
-          router.push("/profile");
         } catch (err) {
           console.log(err, err.message, "Doc");
         }
