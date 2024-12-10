@@ -55,11 +55,11 @@ export function DangerZone() {
               async () => {
                 setDeleteloading(true);
                 await deleteAccount(uid, userData.username);
-                deleteSession();
                 localStorage.removeItem("logged");
                 localStorage.removeItem("visited");
-                setDeleteloading(false);
+                deleteSession();
                 router.push("/");
+                setDeleteloading(false);
               }}
               type="submit"
               variant="destructive">{deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : "Continue"}</Button>

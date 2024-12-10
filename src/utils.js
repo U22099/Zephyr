@@ -582,7 +582,6 @@ export const deleteAccount = async (uid, name) => {
   try {
     const user = auth.currentUser;
     if (user) {
-      await deleteUser(user);
       await deleteDoc(doc(db, "users", uid));
       await deleteDoc(doc(db, "posts", uid));
       await deleteDoc(doc(db, "ai-chats", uid));
@@ -604,6 +603,7 @@ export const deleteAccount = async (uid, name) => {
           });
         }
       }));
+      await deleteUser(user);
       console.log("User deleted successfully.");
     } else {
       console.log("No user is currently signed in.");
