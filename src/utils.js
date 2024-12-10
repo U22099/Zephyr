@@ -643,7 +643,7 @@ export const deleteAccount = async (uid, name) => {
             if(messages.docs.length < 10){
               await deleteConversation(uid, document.data().groupId);
             } else {
-              await Promise.all(async messages.docs.map(msgDoc => {
+              await Promise.all(messages.docs.map(async msgDoc => {
                 await deleteFile(msgDoc.data().public_id);
               }));
             }
