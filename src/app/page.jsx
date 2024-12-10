@@ -43,7 +43,7 @@ export default function Home() {
       let user;
       if (existUser?.length) {
         user = (await signInWithEmailAndPassword(auth, email, password))?.user;
-        if (!user.emailVerified && !["texte@exemplo.us", "teste@exemplo.us"].includes(email)) {
+        if (!user.emailVerified) {
           await signOut(auth);
           toast({
             title: "Email Verification",
