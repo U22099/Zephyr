@@ -476,18 +476,6 @@ export const getMessages = async (userId, friendId, type) => {
     const chatDoc = await findFriend(userId, friendId);
     let result = [];
     if (chatDoc?.exists()) {
-      if(type === "group" && !chatDoc.data().participants.includes(userId)){
-        return [{permissiondenied: true}];
-        /*await updateDoc(chatDoc.ref, {
-          participants: [
-            ...chatDoc.data().participants,
-            userId
-          ]
-        });
-        await updateDoc(doc(db, "users", chatDoc.data.groupId), {
-          
-        });*/
-      }
       if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
         if (type === "group") {
           await updateDoc(doc(db, "chats", chatDoc.id), {
@@ -509,10 +497,23 @@ export const getMessages = async (userId, friendId, type) => {
         });
       }
     } else {
-      await addDoc(collection(db, "chats"), {
-        type,
-        participants: [userId, friendId]
-      });
+      if (type === "group" && !chatDoc.data().participants.includes(userId)) {
+        return [{ permissiondenied: true }];
+        /*await updateDoc(chatDoc.ref, {
+          participants: [
+            ...chatDoc.data().participants,
+            userId
+          ]
+        });
+        await updateDoc(doc(db, "users", chatDoc.data.groupId), {
+          
+        });*/
+      } else {
+        await addDoc(collection(db, "chats"), {
+          type,
+          participants: [userId, friendId]
+        });
+      }
     }
     return result;
   } catch (err) {
@@ -561,10 +562,10 @@ export const updateUserData = async (uid, data, merge = true) => {
 }
 export const deleteConversation = async (userId, friendId, type) => {
   const chatDoc = await findFriend(userId, friendId);
-  if(type === "group"){
+  if (type === "group") {
     const groupDoc = await getDoc(doc(db, "users", friendId))
     const res = await deleteFile(groupDoc.data().imagePublicId);
-    if(res){
+    if (res) {
       await deleteDoc(chatDoc.ref);
       await deleteDoc(groupDoc.ref);
     }
