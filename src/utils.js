@@ -477,7 +477,7 @@ export const getMessages = async (userId, friendId, type) => {
     let result = [];
     if (chatDoc?.exists()) {
       if(type === "group" && !chatDoc.data().participants.includes(userId)){
-        return { permissiondenied: true };
+        return [{permissiondenied: true}];
         /*await updateDoc(chatDoc.ref, {
           participants: [
             ...chatDoc.data().participants,
