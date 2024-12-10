@@ -73,7 +73,7 @@ function PostCard({ data, action }) {
       <CardContent className="flex flex-col items-start justify-between p-2 w-20 h-36 relative">
         {data.name === "Add Status" ? 
          <div className="p-2 rounded-full bg-primary flex justify-center items-center w-10 h-10">
-          <FaPlus className="text-xl fill-black dark:fill-white"/>
+          <FaPlus className="text-xl fill-white"/>
         </div> : <Avatar className="w-10 h-10">
           <AvatarImage className="w-10 h-10 object-cover rounded-full" src={data?.image} alt="profile-image"/>
           <AvatarFallback className="text-md text-primary">{
@@ -82,7 +82,7 @@ function PostCard({ data, action }) {
         </Avatar>}
         <section className="absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center p-1 break-words text-center bg-primary">
           {data.lastPost.type === "text" ? 
-          <p className="text-sm truncate">{data.lastPost.content}</p> : 
+          <p className="text-sm truncate text-white">{data.lastPost.content}</p> : 
           data.lastPost.type === "image" ? 
           <img className="rounded h-full w-full object-cover" src={data.lastPost.content?.secure_url || data.image} /> : 
           data.lastPost.type === "video" ? 
@@ -90,7 +90,7 @@ function PostCard({ data, action }) {
           data.lastPost.type === "audio" ? 
           <div> <AiFillAudio/> Audio</div> : null}
         </section>
-        <h2 className="text-center self-end text-sm font-semibold w-16 truncate">{data.name}</h2>
+        <h2 className="text-center self-end text-sm font-semibold w-16 truncate text-white">{data.name}</h2>
       </CardContent>
     </Card>
   )
