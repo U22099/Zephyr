@@ -587,18 +587,21 @@ export const deleteAccount = async (uid, name) => {
       await deleteDoc(doc(db, "posts", uid));
       await deleteDoc(doc(db, "ai-chats", uid));
       const docs = await getDocs(query(collection(db, "chats"), where("participants", "array-contains", uid)));
-      await Promise.all(docs.docs.map(async doc => {
-        if (doc.data().type === "personal") {
-          await deleteDoc(doc.ref);
+      await Promise.all(docs.docs.map(async document => {
+        if (document.data().type === "personal") {
+          await deleteDoc(document.ref);
         } else {
-          await updateDoc(doc.ref, {
+          await updateDoc(document.ref, {
             participants: [
-              ...doc.data().participants.filter(x => x != uid)
-            ],
-            members: [
-              ...doc.data().members.filter(x => x != name)
+              ...document.data().participants.filter(x => x != uid)
             ]
-          })
+          });
+          const groupUser = await getDoc(doc(db, "users", document.data().groupId));
+          await updateDoc(groupUser.ref, {
+            members: [
+              ...groupUser.data().members.filter(x => x != name)
+            ]
+          });
         }
       }));
       console.log("User deleted successfully.");
