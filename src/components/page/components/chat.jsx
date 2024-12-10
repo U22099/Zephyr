@@ -46,7 +46,6 @@ export function Chat() {
       if (!arg) {
         msgData = {
           content: input,
-          read: false,
           type: "text",
           senderId: uid,
           timestamp: Date.now(),
@@ -84,6 +83,8 @@ export function Chat() {
       if (page.data.type === "group") {
         msgData.senderName = userData.username;
         msgData.read = [uid];
+      } else {
+        msgData.read = false;
       }
       setMsg([...msg, msgData]);
       await sendMessage(uid, page.data.uid, msgData);
