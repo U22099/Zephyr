@@ -456,7 +456,7 @@ export const getChats = async (userId, setData) => {
     }
     setData(result);
   } catch (err) {
-    console.log(err, err.message, "getMessages");
+    console.log(err, err.message, "getChats");
   }
 }
 
@@ -476,8 +476,8 @@ export const getMessages = async (userId, friendId, type) => {
     const chatDoc = await findFriend(userId, friendId);
     let result = [];
     if (chatDoc?.exists()) {
-      if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId) {
-        if (type === "group"&&!chatDoc.data().lastMessage.read.includes(userId)) {
+      if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId && (chatDoc.lastMessage.read != true || !chatDoc.data().lastMessage.read.includes(userId))) {
+        if (type === "group") {
           await updateDoc(doc(db, "chats", chatDoc.id), {
             "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
           });
