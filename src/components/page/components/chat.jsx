@@ -53,7 +53,6 @@ export function Chat() {
       } else if (arg.type === "raw-file") {
         msgData = {
           content: arg.data,
-          read: false,
           type: arg.type,
           senderId: uid,
           timestamp: Date.now(),
@@ -68,7 +67,6 @@ export function Chat() {
           const fileUrl = await uploadFileAndGetURL(arg.data, "files", arg.type);
           msgData = {
             content: fileUrl,
-            read: false,
             type: arg.data.split(",")[0].split(";")[0].split(":")[1].split("/")[0],
             senderId: uid,
             timestamp: Date.now(),

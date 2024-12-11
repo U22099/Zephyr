@@ -443,7 +443,7 @@ export const getChats = async (userId, setData) => {
             name: userData.username || userData.name,
             image: userData.imageURL,
             bio: userData.bio || userData.description,
-            type: userData.type,
+            type: documentD.data().type,
             active: userData.active,
             admin: userData.admin,
             members: userData.members,

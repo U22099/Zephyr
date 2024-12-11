@@ -97,7 +97,7 @@ export function Messages({ docData }) {
       open: true,
       component: "chat",
       data: {
-        ...doc
+        ...docData
       }
     })}>
       <Avatar className="w-16 h-16">
