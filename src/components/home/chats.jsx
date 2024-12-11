@@ -40,7 +40,7 @@ export function Chats() {
   };
 }, [socket]);*/
   return (
-    <main className="flex flex-col w-screen gap-3 p-2 mb-8">
+    <main className="flex flex-col w-screen gap-3 p-2 mb-12">
       <Header />
       <h1 className="font-extrabold text-2xl">Chats</h1>
       <Input placeholder="Search..." onChange={(e) => {
