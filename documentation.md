@@ -17,3 +17,5 @@ Voice Calls:  Make and receive voice calls with individual contacts or groups.
 Status Updates:  Share text-based status updates with your contacts.
 AI-Powered Features: Zephyr integrates AI capabilities for enhanced communication and user experience.
 Customization:  Users can personalize their chat interface with themes, colors, and settings.
+
+Challenges I faced while building Zephyr: I use phone to code because I don’t have access to a good laptop. And the tech stack was Nextjs so I can’t test or preview the project.I’d have to deploy after making changes to view and make corrections. I later finished it in a month
