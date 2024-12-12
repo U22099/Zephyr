@@ -29,29 +29,18 @@ export default function Home() {
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [signInWithGithub] = useSignInWithGithub(auth);
 
-  const resendVerificationLink = async (email, password) => {
+  const resendVerificationLink = async (user) => {
     try {
-      const existUser = await fetchSignInMethodsForEmail(auth, email);
-      if (!existUser?.length) {
-        const user = (await signInWithEmailAndPassword(auth, email, password))?.user;
-        await sendEmailVerification(user);
-        await signOut(auth);
-        toast({
-          title: "Email Verification",
-          description: "Check your email/spam folder to verify your account"
-        });
-        localStorage.removeItem("visited");
-        localStorage.setItem("registered", JSON.stringify(true));
-        setResend(false);
-        return;
-      } else {
-        toast({
-          description: "Email is not linked to an account",
-          variant: "destructive"
-        });
-        setResend(false);
-        return;
-      }
+      await sendEmailVerification(user);
+      await signOut(auth);
+      toast({
+        title: "Email Verification",
+        description: "Check your email/spam folder to verify your account"
+      });
+      localStorage.removeItem("visited");
+      localStorage.setItem("registered", JSON.stringify(true));
+      setResend(false);
+      return;
     } catch (err) {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
@@ -70,17 +59,13 @@ export default function Home() {
       setError("password is too short");
       return;
     }
-    if (resend) {
-      await resendVerificationLink(email, password);
-      return;
-    }
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(auth, email);
       let user;
       if (existUser?.length) {
         user = (await signInWithEmailAndPassword(auth, email, password))?.user;
-        if (!user.emailVerified) {
+        if (!user.emailVerified && !resend) {
           await signOut(auth);
           toast({
             title: "Email Verification",
@@ -89,6 +74,9 @@ export default function Home() {
           });
           setResend(true);
           setLoading(false);
+          return;
+        } else if (resend) {
+          await resendVerificationLink(user);
           return;
         }
       } else {
