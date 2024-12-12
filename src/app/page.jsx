@@ -55,6 +55,8 @@ export default function Home() {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
       return;
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -84,6 +86,7 @@ export default function Home() {
             variant: "destructive"
           });
           setResend(true);
+          setLoading(false);
           return;
         }
       } else {
@@ -96,6 +99,7 @@ export default function Home() {
         });
         localStorage.removeItem("visited");
         localStorage.setItem("registered", JSON.stringify(true));
+        setLoading(false);
         return;
       }
       if (user) {
@@ -129,8 +133,6 @@ export default function Home() {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
       return;
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -159,8 +161,6 @@ export default function Home() {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
       return false;
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -192,8 +192,6 @@ export default function Home() {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
       return false;
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -210,7 +208,7 @@ export default function Home() {
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <SignIn resend={resend setEmail={setEmail} setPassword={setPassword} signIn={signIn} loading={loading} error={error}/>
+      <SignIn resend={resend} setEmail={setEmail} setPassword={setPassword} signIn={signIn} loading={loading} error={error}/>
     </main>
   );
 }
