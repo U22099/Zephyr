@@ -23,6 +23,7 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [resend, setResend] = useState(false);
 
 
   const [signInWithGoogle] = useSignInWithGoogle(auth);
@@ -37,6 +38,35 @@ export default function Home() {
       setError("password is too short");
       return;
     }
+    if (resend) {
+      try {
+        const existUser = await fetchSignInMethodsForEmail(auth, email);
+        let user;
+        if (!existUser?.length) {
+          user = (await signInWithEmailAndPassword(auth, email, password))?.user;
+          await sendEmailVerification(user);
+          await signOut(auth);
+          toast({
+            title: "Email Verification",
+            description: "Check your email/spam folder to verify your account"
+          });
+          localStorage.removeItem("visited");
+          localStorage.setItem("registered", JSON.stringify(true));
+          setResend(false);
+          return;
+        } else {
+          toast({
+            description: "Email is not linked to an account, refresh the page to create one and get a verification link",
+            variant: "destructive"
+          });
+          return;
+        }
+      } catch (e) {
+        console.log(err);
+        setError(err?.code || err?.message || "try again, an error occured");
+        return;
+      }
+    }
     try {
       setLoading(true);
       const existUser = await fetchSignInMethodsForEmail(auth, email);
@@ -50,6 +80,7 @@ export default function Home() {
             description: "Please verify your email address to login",
             variant: "destructive"
           });
+          setResend(true);
           return;
         }
       } else {
@@ -176,7 +207,7 @@ export default function Home() {
   }
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-4">
-      <SignIn setEmail={setEmail} setPassword={setPassword} signIn={signIn} loading={loading} error={error}/>
+      <SignIn resend={resend} setEmail={setEmail} setPassword={setPassword} signIn={signIn} loading={loading} error={error}/>
     </main>
   );
 }
