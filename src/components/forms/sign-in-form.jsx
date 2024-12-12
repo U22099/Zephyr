@@ -53,7 +53,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error, resend }
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
             <Button type="submit" onClick={async () => {
                 await signIn("credentials");
-              }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : resend ? "Sign In" : "Resend Verification Link"}</Button>
+              }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : !resend ? "Sign In" : "Resend Verification Link"}</Button>
             <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-primary">Forgot password?</Link>
           </div>
         </form>
