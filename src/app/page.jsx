@@ -29,7 +29,7 @@ export default function Home() {
   const [signInWithGoogle] = useSignInWithGoogle(auth);
   const [signInWithGithub] = useSignInWithGithub(auth);
 
-  const resendVerificationLink = (email, password) => {
+  const resendVerificationLink = async (email, password) => {
     try {
       const existUser = await fetchSignInMethodsForEmail(auth, email);
       if (!existUser?.length) {
@@ -46,9 +46,10 @@ export default function Home() {
         return;
       } else {
         toast({
-          description: "Email is not linked to an account, refresh the page to create one and get a verification link",
+          description: "Email is not linked to an account",
           variant: "destructive"
         });
+        setResend(false);
         return;
       }
     } catch (err) {
@@ -70,7 +71,8 @@ export default function Home() {
       return;
     }
     if (resend) {
-      resendVerificationLink(email, password);
+      await resendVerificationLink(email, password);
+      return;
     }
     try {
       setLoading(true);
