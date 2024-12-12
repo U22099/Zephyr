@@ -85,7 +85,7 @@ export default function Home() {
         await signOut(auth);
         toast({
           title: "Email Verification",
-          description: "Check your email to verify your account"
+          description: "Check your email/spam folder to verify your account"
         });
         localStorage.removeItem("visited");
         localStorage.setItem("registered", JSON.stringify(true));
