@@ -33,6 +33,11 @@ export function Chat() {
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
   const [status, setStatus] = useState();
+  const [ongoingCall, setOngoingCall] = useState({
+    confirm: false,
+    data: null
+  });
+
   const scrollDown = () => {
     //if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
     const body = document.getElementById("scroll");
@@ -102,6 +107,55 @@ export function Chat() {
       console.log(err, err.message, "send message");
     }
   }
+  const handleRecieveUserActiveStatus = (data) => {
+    if (data === page.data.uid) {
+      setStatus("online");
+    } else {
+      setStatus("offline");
+    }
+  };
+
+  const handleIncomingVoiceCall = (data) => {
+    setPage({
+      open: true,
+      component: "voice-call",
+      data: {
+        ...data,
+        doc: page.data,
+        incoming: true,
+      }
+    });
+  };
+
+  const handleIncomingVideoCall = (data) => {
+    setPage({
+      open: true,
+      component: "video-call",
+      data: {
+        ...data,
+        doc: page.data,
+        incoming: true,
+      }
+    });
+  };
+
+  const handleOngoingCall = (data) => {
+    setOngoingCall({
+      confirm: true,
+      data,
+    });
+  };
+
+  const handleGroupRecieveMessage = (data) => {
+    setMsg((prev) => [...prev, data]);
+  };
+
+  const handleRecieveMessage = (data) => {
+    if (data.senderId === page.data.uid) {
+      setMsg((prev) => [...prev, data]);
+    }
+  };
+
   useEffect(() => {
     if (msg.length > 1) {
       scrollDown();
@@ -109,54 +163,13 @@ export function Chat() {
   }, [msg]);
   useEffect(() => {
     socket.emit("get-user-active-status", { id: page.data.uid });
-
-    const handleRecieveUserActiveStatus = (data) => {
-      if (data === page.data.uid) {
-        setStatus("online");
-      } else {
-        setStatus("offline");
-      }
-    };
-
-    const handleIncomingVoiceCall = (data) => {
-      setPage({
-        open: true,
-        component: "voice-call",
-        data: {
-          ...data,
-          doc: page.data,
-          incoming: true,
-        }
-      });
-    };
-
-    const handleIncomingVideoCall = (data) => {
-      setPage({
-        open: true,
-        component: "video-call",
-        data: {
-          ...data,
-          doc: page.data,
-          incoming: true,
-        }
-      });
-    };
-
-    const handleGroupRecieveMessage = (data) => {
-      setMsg((prev) => [...prev, data]);
-    };
-
-    const handleRecieveMessage = (data) => {
-      if (data.senderId === page.data.uid) {
-        setMsg((prev) => [...prev, data]);
-      }
-    };
-
+    socket.emit("ongoing-call-check", page.data.uid);
     socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
     socket.on("incoming-voice-call", handleIncomingVoiceCall);
     socket.on("incoming-video-call", handleIncomingVideoCall);
     socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
     socket.on("group-incoming-video-call", handleIncomingVideoCall);
+    socket.on("ongoing-call-confirmed", handleOngoingCall);
 
     if (page.data.type === "group") {
       socket.emit("join-group", page.data.uid);
@@ -171,6 +184,7 @@ export function Chat() {
       socket.off("incoming-video-call", handleIncomingVideoCall);
       socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
       socket.off("group-incoming-video-call", handleIncomingVideoCall);
+      socket.off("ongoing-call-confirmed", handleOngoingCall);
       socket.off("group-recieve-message", handleGroupRecieveMessage);
       socket.off("recieve-message", handleRecieveMessage);
     };
@@ -214,6 +228,11 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
           </section>
         </section>
+        {ongoingCall.confirm ? <Button className="animate-pulse" onClick={() => {
+          if(callType === "voice"){
+            handleIncomingVoiceCall();
+          } else handleIncomingVideoCall();
+        }}>Join</Button> : 
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
             open: true,
             component: "voice-call",
@@ -221,8 +240,8 @@ export function Chat() {
               ...page.data,
               incoming: false
             }
-        })}/>
-        <IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10" 
+        })}/>}
+        {!ongoingCall.confirm&&<IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10" 
         onClick={() => setPage({
             open: true,
             component: "video-call",
@@ -230,7 +249,7 @@ export function Chat() {
               ...page.data,
               incoming: false
             }
-        })}/>
+        })}/>}
       </header>
       <section className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
