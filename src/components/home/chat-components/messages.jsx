@@ -22,7 +22,7 @@ export function Messages({ docData }) {
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
-  const time = doc.lastMessage ? convertToTimeString(doc.lastMessage.timestamp) : "";
+  const time = doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New";
   useEffect(() => {
   const handleIncomingVoiceCall = (data) => {
     if(data.from === doc.uid){

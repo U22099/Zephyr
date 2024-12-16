@@ -511,7 +511,8 @@ export const getMessages = async (userId, friendId, type) => {
       } else {
         await addDoc(collection(db, "chats"), {
           type,
-          participants: [userId, friendId]
+          participants: [userId, friendId],
+          lastMessage: {}
         });
       }
     }
