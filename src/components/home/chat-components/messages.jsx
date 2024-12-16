@@ -12,8 +12,6 @@ import { convertToTimeString } from "@/utils";
 import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 
 export function Messages({ docData }) {
   //Trying to create a deep copy of docData
@@ -21,7 +19,6 @@ export function Messages({ docData }) {
   const [ lastMessage, setLastMessage ] = useState({
     ...doc.lastMessage
   });
-  const { toast } = useToast();
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
@@ -54,20 +51,14 @@ export function Messages({ docData }) {
   };
 
   const handleGroupRecieveMessage = (data) => {
-    setLastMessage({ ...data });
-    toast({
-      title: doc.name,
-      description: `~${data.senderName}: ${data.type === "text" ? (data.content.length > 70 ? `${data.content.slice(0, 70)}...` : data.content) : data.type}`,
-    });
+    if(data.groupId === page.data.uid){
+      setLastMessage({ ...data });
+    }
   };
 
   const handleRecieveMessage = (data) => {
     if (data.senderId === doc.uid) {
       setLastMessage({ ...data });
-      toast({
-        title: doc.name,
-        description: `${data.type === "text" ? (data.content.length > 70 ? `${data.content.slice(0, 70)}...` : data.content) : data.type}`,
-      });
     }
   };
 

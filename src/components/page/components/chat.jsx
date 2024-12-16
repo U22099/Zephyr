@@ -94,12 +94,14 @@ export function Chat() {
       if (page.data.type === "group") {
         socket.emit("group-send-message", {
           groupId: page.data.uid,
+          name: page.data.name,
           data: msgData,
         })
       } else {
         socket.emit("send-message", {
           to: page.data.uid,
           from: uid,
+          name: page.data.name,
           data: msgData
         });
       }
@@ -109,9 +111,9 @@ export function Chat() {
   }
   const handleRecieveUserActiveStatus = (data) => {
     if (data === page.data.uid) {
-      setStatus("online");
+      setStatus("Online");
     } else {
-      setStatus("offline");
+      setStatus("Offline");
     }
   };
 
