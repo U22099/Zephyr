@@ -29,7 +29,7 @@
    const setSocket = useSocket(state => state.setSocket);
    const { toast } = useToast();
    const isMobile = useIsMobile();
-   const [user] = useAuthState(auth);
+   const [user, userLoading] = useAuthState(auth);
    const { nav, setNav } = useNav();
    const [loading, setLoading] = useState(true);
    const setUserData = useUserData(state => state.setUserData);
@@ -67,9 +67,10 @@
      }
    }
    useEffect(() => {
-     //deleteSession();
      if (user) {
        init();
+     } else if (!user && !userLoading){
+       deleteSession();
      }
      return () => {
        socket.off("group-recieve-message", handleGroupRecieveMessage);
