@@ -90,6 +90,7 @@ export function Users() {
         if(!e.target.value){
           setPeopleFilter([...people]);
           setGroupsFilter([...groups]);
+          return;
         }
         setPeopleFilter(people.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
         setGroupsFilter(groups.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));

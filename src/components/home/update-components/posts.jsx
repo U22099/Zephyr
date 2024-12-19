@@ -37,6 +37,7 @@ export function Posts() {
       <Input placeholder="Search..." onChange={(e) => {
         if(!e.target.value){
           setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).sort((a, b) => (a.lastPost?.timestamp || 0) - (b.lastPost?.timestamp || 0))]);
+          return;
         }
         setPostsFilter(posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
       }}/>
