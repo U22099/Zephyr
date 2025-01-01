@@ -46,6 +46,7 @@
    };
    const init = async () => {
      try {
+       console.log(user);
        await getUserData(user.uid, setUserData);
        setUID(user.uid);
        socket.emit("add-user", user.uid);
@@ -64,17 +65,16 @@
    useEffect(() => {
      if (user) {
        init();
-     } else if (!auth.currentUser){
-       console.log(userLoading, auth.currentUser);
-       //deleteSession();
-       //router.push("/");
+     } else if (!user && !userLoading){
+       deleteSession();
+       router.push("/");
      }
      return () => {
        socket.off("group-recieve-message", handleGroupRecieveMessage);
        socket.off("recieve-message", handleRecieveMessage);
        socket.disconnect();
      }
-   }, [user]);
+   }, [user, userLoading]);
    return (
      <>
     { loading ? 
