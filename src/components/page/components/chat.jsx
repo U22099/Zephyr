@@ -33,7 +33,7 @@ export function Chat() {
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
   const [status, setStatus] = useState();
-  const [typing, setTyping] = useState("");
+  const [typing, setTyping] = useState();
   const [ongoingCall, setOngoingCall] = useState({
     confirm: false,
     data: null
@@ -48,7 +48,11 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
-      let msgData
+      socket.emit("typing-status-off", {
+        to: page.data.uid,
+        from: uid
+      });
+      let msgData;
       if (!arg) {
         msgData = {
           content: input,
@@ -143,10 +147,12 @@ export function Chat() {
   };
 
   const handleOngoingCall = (data) => {
-    setOngoingCall({
-      confirm: true,
-      data,
-    });
+    if((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)){
+      setOngoingCall({
+        confirm: true,
+        data,
+      });
+    }
   };
 
   const handleGroupRecieveMessage = (data) => {
@@ -171,7 +177,7 @@ export function Chat() {
 
   const handleTypingStatusOff = (data) => {
     if (data.from === page.data.uid) {
-      setTyping("");
+      setTyping(null);
     }
   }
 
@@ -182,7 +188,11 @@ export function Chat() {
   }, [msg]);
   useEffect(() => {
     socket.emit("get-user-active-status", { id: page.data.uid });
-    socket.emit("ongoing-call-check", page.data.uid);
+    if (page.data.type === "personal") {
+      socket.emit("ongoing-call-check", uid);
+    } else {
+      socket.emit("ongoing-call-check", page.data.uid);
+    }
     socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
     socket.on("incoming-voice-call", handleIncomingVoiceCall);
     socket.on("incoming-video-call", handleIncomingVideoCall);
@@ -305,11 +315,15 @@ export function Chat() {
             type: isRawFile ? "raw-file" : isNotAudio ? dataType : "video",
           });
         }}}/>
-        <Input onBlur={() => {
+        <Input 
+        onBlur={() => {
           socket.emit("typing-status-off", {
             to: page.data.uid, from: uid
           });
-        }} placeholder="Type in message" value={input} onChange={(e) => {
+        }} 
+        placeholder="Type in message" 
+        value={input} 
+        onChange={(e) => {
         socket.emit("typing-status-on", {
           to: page.data.uid,
           from: uid,
