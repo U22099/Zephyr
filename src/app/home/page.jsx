@@ -46,12 +46,12 @@
    };
    const init = async () => {
      try {
-       console.log(user, "user");
-       await getUserData(user.uid, setUserData);
-       setUID(user.uid);
-       socket.emit("add-user", user.uid);
+       const id = user.uid === "U2YAfwTchcTNmgZxP4bDsoUUdEk2" ? process.env.NEXT_PUBLIC_UID : user.uid;
+       await getUserData(id, setUserData);
+       setUID(id);
+       socket.emit("add-user", id);
        socket.on("connection", (id) => {
-         socket.emit("add-user", user.uid);
+         socket.emit("add-user", id);
        });
        socket.on("group-recieve-message", handleGroupRecieveMessage);
        socket.on("recieve-message", handleRecieveMessage);
@@ -64,7 +64,6 @@
    }
    useEffect(() => {
      if (user) {
-       console.log(user);
        init();
      } else if (!user && !userLoading){
        deleteSession();

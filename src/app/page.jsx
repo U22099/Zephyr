@@ -95,7 +95,6 @@ export default function Home() {
               imageURL: user.photoURL,
               type: "personal"
             }, { merge: true });
-            localStorage.setItem("logged", JSON.stringify(true));
             storeSession({
               uid: Math.floor(Math.random() * 253637)
             });
@@ -105,7 +104,6 @@ export default function Home() {
             storeSession({
               uid: Math.floor(Math.random() * 25363727363)
             });
-            localStorage.setItem("logged", JSON.stringify(true));
             router.push("/home");
             return;
           }
