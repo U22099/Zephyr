@@ -70,7 +70,7 @@ export function Header() {
           <DrawerTrigger asChild> 
             <HiSparkles className="text-xl fill-black dark:fill-white"  />
           </DrawerTrigger>
-          <DrawerContent className="flex flex-col p-2 h-[90vh]">
+          <DrawerContent className="flex flex-col p-2 h-[95vh]">
             <DrawerHeader>
               <DrawerTitle className="text-primary">Zephyr AI
               </DrawerTitle>
