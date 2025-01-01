@@ -58,7 +58,7 @@ export function ChatProfile() {
     }
   }, [people]);
   return (
-    <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-full flex-col items-center justify-start w-full gap-1 p-2">
+    <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-full flex-col items-center justify-start w-full gap-1 p-2 scrollbar">
       <header className="sticky top-0 left-0 w-full flex justify-start text-center items-center backdrop-blur-sm pb-2 border-b z-10">
         <FaChevronLeft 
         onClick={() => setPage({open: true, component: 'chat', data: {...page.data}})}

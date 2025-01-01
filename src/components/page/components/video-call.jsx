@@ -27,6 +27,7 @@ export function VideoCall() {
               mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
             },
             onLeaveRoom: () => {
+              socket.emit("call-ended", page.data.uid)
               setPage({ open: true, component: "chat", data: { ...page.data } });
             }
           });
@@ -49,6 +50,9 @@ export function VideoCall() {
               mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
             },
             onLeaveRoom: () => {
+              if (page.data.type === "personal") {
+                socket.emit("call-ended", page.data.to)
+              }
               setPage({ open: true, component: "chat", data: { ...page.data.doc } });
             }
           });
