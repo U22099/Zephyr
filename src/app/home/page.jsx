@@ -83,7 +83,7 @@
     { loading ? 
     <Loading /> 
     : (page.open&&isMobile) ? 
-      <section className="flex h-full flex-col items-start justify-start w-full">
+      <section className="flex h-full items-start justify-start w-full scrollbar">
         <Page />
       </section>
       : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar" : "grid h-full w-full scrollbar p-2 grid-cols-6"}>
