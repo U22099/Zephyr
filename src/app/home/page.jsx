@@ -46,7 +46,7 @@
    };
    const init = async () => {
      try {
-       console.log(user);
+       console.log(user, "user");
        await getUserData(user.uid, setUserData);
        setUID(user.uid);
        socket.emit("add-user", user.uid);
@@ -64,6 +64,7 @@
    }
    useEffect(() => {
      if (user) {
+       console.log(user);
        init();
      } else if (!user && !userLoading){
        deleteSession();

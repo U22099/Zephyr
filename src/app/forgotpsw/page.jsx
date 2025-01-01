@@ -27,7 +27,7 @@ export default function Home() {
         try {
           await sendPasswordResetEmail(auth, email);
           toast({
-            description: "Email sent successfully, check your email to reset password.",
+            description: "Email sent successfully, check your email/junk or spam folder to reset password.",
           });
         } catch (err) {
           setError("An error occured, please try again");
