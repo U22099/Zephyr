@@ -15,13 +15,11 @@ import axios from "axios";
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    if (JSON.parse(localStorage.getItem("logged"))) {
-      if(JSON.parse(localStorage.getItem("visited"))){
-        router.push("/home");
-      } else {
-        localStorage.setItem("visited", JSON.stringify(true));
-      }
-    } else router.push("/");
+    if (JSON.parse(localStorage.getItem("visited"))) {
+      router.push("/home");
+    } else {
+      localStorage.setItem("visited", JSON.stringify(true));
+    }
   }, [router]);
   const [pageLoading, setPageLoading] = useState(true);
   const [user, userLoading, userError] = useAuthState(auth);

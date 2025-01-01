@@ -20,16 +20,11 @@
 
  export default function Home() {
    const router = useRouter();
-   useEffect(() => {
-     if (!(JSON.parse(localStorage.getItem("logged")))) {
-       router.push("/");
-     }
-   }, [router]);
    const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
    const setSocket = useSocket(state => state.setSocket);
    const { toast } = useToast();
    const isMobile = useIsMobile();
-   const [user, userLoading] = useAuthState(auth);
+   const [user] = useAuthState(auth);
    const { nav, setNav } = useNav();
    const [loading, setLoading] = useState(true);
    const setUserData = useUserData(state => state.setUserData);
@@ -69,8 +64,9 @@
    useEffect(() => {
      if (user) {
        init();
-     } else if (!user && !userLoading){
+     } else if (!auth.currentUser){
        deleteSession();
+       router.push("/");
      }
      return () => {
        socket.off("group-recieve-message", handleGroupRecieveMessage);

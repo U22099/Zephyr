@@ -555,6 +555,10 @@ export const getUserData = async (uid, setUserData = null) => {
 export const updateUserData = async (uid, data, merge = true) => {
   try {
     await setDoc(doc(db, "users", uid), data, { merge });
+    await updateDoc(doc(db, "posts", uid), {
+      username: data.username,
+      imageURL: data.imageURL
+    });
     return true;
   } catch (err) {
     console.log(err, err.message);
