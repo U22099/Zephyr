@@ -33,6 +33,7 @@ export function Chat() {
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
   const [status, setStatus] = useState();
+  const [typing, setTyping] = useState("");
   const [ongoingCall, setOngoingCall] = useState({
     confirm: false,
     data: null
@@ -158,6 +159,22 @@ export function Chat() {
     }
   };
 
+  const handleTypingStatusOn = (data) => {
+    if (data.from === page.data.uid) {
+      if (page.data.type === "group") {
+        setTyping(page.data.name + " is typing");
+      } else {
+        setTyping("typing");
+      }
+    }
+  }
+
+  const handleTypingStatusOff = (data) => {
+    if (data.from === page.data.uid) {
+      setTyping("");
+    }
+  }
+
   useEffect(() => {
     if (msg.length > 1) {
       scrollDown();
@@ -172,6 +189,8 @@ export function Chat() {
     socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
     socket.on("group-incoming-video-call", handleIncomingVideoCall);
     socket.on("ongoing-call-confirmed", handleOngoingCall);
+    socket.on("typing-status-on", handleTypingStatusOn);
+    socket.on("typing-status-off", handleTypingStatusOff);
 
     if (page.data.type === "group") {
       socket.emit("join-group", page.data.uid);
@@ -189,6 +208,8 @@ export function Chat() {
       socket.off("ongoing-call-confirmed", handleOngoingCall);
       socket.off("group-recieve-message", handleGroupRecieveMessage);
       socket.off("recieve-message", handleRecieveMessage);
+      socket.off("typing-status-on", handleTypingStatusOn);
+      socket.off("typing-status-off", handleTypingStatusOff);
     };
   }, [socket, page.data.uid, page.data.type]);
   useEffect(() => {
@@ -227,7 +248,7 @@ export function Chat() {
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data, status}})}>
               <h1 className="text-xl font-bold truncate w-32 flex justify-start">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
+              <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
           </section>
         </section>
         {ongoingCall.confirm ? <Button className="animate-pulse" onClick={() => {
@@ -284,7 +305,17 @@ export function Chat() {
             type: isRawFile ? "raw-file" : isNotAudio ? dataType : "video",
           });
         }}}/>
-        <Input placeholder="Type in message" value={input} onChange={(e) => setInput(e.target.value)}/>
+        <Input onBlur={() => {
+          socket.emit("typing-status-off", {
+            to: page.data.uid, from: uid
+          });
+        }} placeholder="Type in message" value={input} onChange={(e) => {
+        socket.emit("typing-status-on", {
+          to: page.data.uid,
+          from: uid,
+          name: userData.username
+        });
+        setInput(e.target.value)}}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
     </motion.main>
