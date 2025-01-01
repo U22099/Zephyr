@@ -51,7 +51,7 @@ export function SignIn({ setEmail, setPassword, signIn, loading, error, resend }
               <Input id="name" placeholder="Input your password" type="password" onChange={(e) => setPassword(e.target.value.trim())} required />
             </div>
             {error&&<p className="font-bold text-red-700 text-sm text-mono">{error}</p>}
-            <Button type="submit" onClick={async () => {
+            <Button disabled={loading || error} type="submit" onClick={async () => {
                 await signIn("credentials");
               }} className="w-full">{loading ? <AiOutlineLoading className="animate-spin text-md"/> : !resend ? "Sign In" : "Resend Verification Link"}</Button>
             <Link href="/forgotpsw" className="mt-5 mx-auto text-sm text-primary">Forgot password?</Link>
