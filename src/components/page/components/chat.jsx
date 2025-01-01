@@ -166,7 +166,7 @@ export function Chat() {
   };
 
   const handleTypingStatusOn = (data) => {
-    if (data.from === page.data.uid) {
+    if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       if (page.data.type === "group") {
         setTyping(page.data.name + " is typing");
       } else {
@@ -176,7 +176,7 @@ export function Chat() {
   }
 
   const handleTypingStatusOff = (data) => {
-    if (data.from === page.data.uid) {
+    if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       setTyping(null);
     }
   }
