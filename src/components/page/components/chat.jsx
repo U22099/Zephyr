@@ -181,6 +181,7 @@ export function Chat() {
   const handleTypingStatusOff = (data) => {
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       setTyping(null);
+      console.log("Pff")
     } else console.log("Mistake")
   }
 

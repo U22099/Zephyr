@@ -29,7 +29,7 @@ export function VoiceCall() {
               mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
             },
             onLeaveRoom: () => {
-              socket.emit("call-ended", page.data.uid)
+              //socket.emit("call-ended", page.data.uid)
               setPage({
                 open: true,
                 component: "chat",
@@ -72,7 +72,7 @@ export function VoiceCall() {
             },
             onLeaveRoom: () => {
               if (page.data.type === "personal") {
-                socket.emit("call-ended", page.data.to)
+                //socket.emit("call-ended", page.data.to)
               }
               setPage({
                 open: true,
