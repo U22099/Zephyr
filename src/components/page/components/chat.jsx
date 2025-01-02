@@ -156,7 +156,7 @@ export function Chat() {
     } else console.log("Mistake Ongoing call")
   };
 
-  const handleGroupRecieveMessage = (data) => {
+  const handleGroupRecieveMessage = async (data) => {
     setMsg((prev) => [...prev, data]);
     await readLastMessage(uid, page.data.uid, page.data.type)
   };
