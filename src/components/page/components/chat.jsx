@@ -153,7 +153,7 @@ export function Chat() {
         confirm: true,
         data,
       });
-    }
+    } else console.log("Mistake Ongoing call")
   };
 
   const handleGroupRecieveMessage = (data) => {
@@ -264,8 +264,8 @@ export function Chat() {
         </section>
         {ongoingCall.confirm ? <Button className="animate-pulse" onClick={() => {
           if(callType === "voice"){
-            handleIncomingVoiceCall();
-          } else handleIncomingVideoCall();
+            handleIncomingVoiceCall(ongoingCall.data);
+          } else handleIncomingVideoCall(ongoingCall.data);
         }}>Join</Button> : 
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
             open: true,
