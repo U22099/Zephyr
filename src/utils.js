@@ -522,21 +522,19 @@ export const getMessages = async (userId, friendId, type) => {
   }
 }
 
-export const readLastMessage = async (userId, friendId,   type) => {
+export const readLastMessage = async (userId, friendId, type) => {
   try {
     const chatDoc = await findFriend(userId, friendId);
     let result = [];
     if (chatDoc?.exists()) {
-      if (chatDoc.data().lastMessage && chatDoc.data().lastMessage.senderId !== userId && ((type === "personal" && chatDoc.data().lastMessage.read === false) || (type === "group" && !chatDoc.data().lastMessage.read.includes(userId)))) {
-        if (type === "group") {
-          await updateDoc(doc(db, "chats", chatDoc.id), {
-            "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
-          });
-        } else {
-          await updateDoc(doc(db, "chats", chatDoc.id), {
-            "lastMessage.read": true,
-          });
-        }
+      if (type === "group") {
+        await updateDoc(doc(db, "chats", chatDoc.id), {
+          "lastMessage.read": [...chatDoc.data().lastMessage.read, userId],
+        });
+      } else {
+        await updateDoc(doc(db, "chats", chatDoc.id), {
+          "lastMessage.read": true,
+        });
       }
     }
   } catch (err) {

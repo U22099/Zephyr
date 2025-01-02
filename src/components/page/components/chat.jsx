@@ -156,15 +156,13 @@ export function Chat() {
     } else console.log("Mistake Ongoing call")
   };
 
-  const handleGroupRecieveMessage = async (data) => {
+  const handleGroupRecieveMessage = (data) => {
     setMsg((prev) => [...prev, data]);
-    await readLastMessage(uid, page.data.uid, page.data.type)
   };
 
-  const handleRecieveMessage = async (data) => {
+  const handleRecieveMessage = (data) => {
     if (data.senderId === page.data.uid) {
       setMsg((prev) => [...prev, data]);
-      await readLastMessage(uid, page.data.uid, page.data.type)
     }
   };
 
@@ -180,14 +178,27 @@ export function Chat() {
 
   const handleTypingStatusOff = (data) => {
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
-      setTyping(null);
-      console.log("Pff")
+      setTyping("");
     } else console.log("Mistake")
   }
 
   useEffect(() => {
     if (msg.length > 1) {
       scrollDown();
+    }
+  }, [msg]);
+  
+  useEffect(() => {
+    const markAsRead = async () => {
+      try {
+        await readLastMessage(uid, page.data.uid, page.data.type);
+      } catch(err) {
+        console.log(err, "markAsRead");
+      }
+    }
+    const lastMessage = msg ? msg[msg.length - 1] : null;
+    if(lastMessage && lastMessage.senderId !== uid && ((type === "personal" && lastMessage.read === false) || (type === "group" && !lastMessage.read.includes(uid)))){
+      markAsRead();
     }
   }, [msg]);
   useEffect(() => {
@@ -330,12 +341,12 @@ export function Chat() {
         placeholder="Type in message" 
         value={input} 
         onChange={(e) => {
-        socket.emit("typing-status-on", {
-          to: page.data.uid,
-          from: uid,
-          name: userData.username,
-          type: page.data.type
-        });
+          socket.emit("typing-status-on", {
+            to: page.data.uid,
+            from: uid,
+            name: userData.username,
+            type: page.data.type
+          });
         setInput(e.target.value)}}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
