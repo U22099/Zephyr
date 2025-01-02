@@ -19,7 +19,7 @@ import { FaPlus } from "react-icons/fa";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
-import { sendMessage, getMessages, convertToTimeString, uploadFileAndGetURL, toBase64 } from "@/utils";
+import { sendMessage, getMessages, readLastMessage, convertToTimeString, uploadFileAndGetURL, toBase64 } from "@/utils";
 import { useToast } from "@/hooks/use-toast";
 
 export function Chat() {
@@ -158,18 +158,20 @@ export function Chat() {
 
   const handleGroupRecieveMessage = (data) => {
     setMsg((prev) => [...prev, data]);
+    await readLastMessage(uid, page.data.uid, page.data.type)
   };
 
-  const handleRecieveMessage = (data) => {
+  const handleRecieveMessage = async (data) => {
     if (data.senderId === page.data.uid) {
       setMsg((prev) => [...prev, data]);
+      await readLastMessage(uid, page.data.uid, page.data.type)
     }
   };
 
   const handleTypingStatusOn = (data) => {
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       if (page.data.type === "group") {
-        setTyping(page.data.name + " is typing");
+        setTyping(data.name + " is typing");
       } else {
         setTyping("typing");
       }
@@ -227,7 +229,7 @@ export function Chat() {
     const fetchMsgs = async () => {
       try {
         const result = (await getMessages(uid, page.data.uid, page.data.type)) || [];
-        if (result[0].permissiondenied) {
+        if (result && result[0]?.permissiondenied) {
           toast({
             title: "Permission Denied",
             description: "You can only be added to a group by the admin",
