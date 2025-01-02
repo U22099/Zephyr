@@ -50,7 +50,8 @@ export function Chat() {
     try {
       socket.emit("typing-status-off", {
         to: page.data.uid,
-        from: uid
+        from: uid,
+        type: page.data.type
       });
       let msgData;
       if (!arg) {
@@ -178,7 +179,7 @@ export function Chat() {
   const handleTypingStatusOff = (data) => {
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       setTyping(null);
-    }
+    } else console.log("Mistake")
   }
 
   useEffect(() => {
@@ -318,7 +319,9 @@ export function Chat() {
         <Input 
         onBlur={() => {
           socket.emit("typing-status-off", {
-            to: page.data.uid, from: uid
+            to: page.data.uid, 
+            from: uid, 
+            type: page.data.type
           });
         }} 
         placeholder="Type in message" 
@@ -327,7 +330,8 @@ export function Chat() {
         socket.emit("typing-status-on", {
           to: page.data.uid,
           from: uid,
-          name: userData.username
+          name: userData.username,
+          type: page.data.type
         });
         setInput(e.target.value)}}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
