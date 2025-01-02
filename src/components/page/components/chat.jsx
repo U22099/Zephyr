@@ -40,7 +40,7 @@ export function Chat() {
   });
 
   const scrollDown = () => {
-    //if((page.data.type === "group") && (msg&&msg[msg?.length-1]?.senderId != uid)) return;
+    if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId != uid)) return;
     const body = document.getElementById("scroll");
     body.scrollIntoView({
       behavior: "smooth"
@@ -48,11 +48,6 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
-      socket.emit("typing-status-off", {
-        to: page.data.uid,
-        from: uid,
-        type: page.data.type
-      });
       let msgData;
       if (!arg) {
         msgData = {
@@ -148,7 +143,7 @@ export function Chat() {
   };
 
   const handleOngoingCall = (data) => {
-    if((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)){
+    if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       setOngoingCall({
         confirm: true,
         data,
@@ -187,52 +182,51 @@ export function Chat() {
       scrollDown();
     }
   }, [msg]);
-  
+
   useEffect(() => {
     const markAsRead = async () => {
       try {
         await readLastMessage(uid, page.data.uid, page.data.type);
-      } catch(err) {
+      } catch (err) {
         console.log(err, "markAsRead");
       }
     }
     const lastMessage = msg ? msg[msg.length - 1] : null;
-    if(lastMessage && lastMessage.senderId !== uid && ((type === "personal" && lastMessage.read === false) || (type === "group" && !lastMessage.read.includes(uid)))){
+    if (lastMessage && lastMessage.senderId !== uid && ((type === "personal" && lastMessage.read === false) || (type === "group" && !lastMessage.read.includes(uid)))) {
       markAsRead();
     }
   }, [msg]);
+
   useEffect(() => {
-    socket.emit("get-user-active-status", { id: page.data.uid });
     if (page.data.type === "personal") {
       socket.emit("ongoing-call-check", uid);
+      socket.emit("get-user-active-status", { id: page.data.uid });
+      socket.on("recieve-message", handleRecieveMessage);
+      socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
+      socket.on("incoming-voice-call", handleIncomingVoiceCall);
+      socket.on("incoming-video-call", handleIncomingVideoCall);
     } else {
       socket.emit("ongoing-call-check", page.data.uid);
+      socket.emit("join-group", page.data.uid);
+      socket.on("group-recieve-message", handleGroupRecieveMessage);
+      socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
+      socket.on("group-incoming-video-call", handleIncomingVideoCall);
     }
-    socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
-    socket.on("incoming-voice-call", handleIncomingVoiceCall);
-    socket.on("incoming-video-call", handleIncomingVideoCall);
-    socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
-    socket.on("group-incoming-video-call", handleIncomingVideoCall);
     socket.on("ongoing-call-confirmed", handleOngoingCall);
     socket.on("typing-status-on", handleTypingStatusOn);
     socket.on("typing-status-off", handleTypingStatusOff);
-
-    if (page.data.type === "group") {
-      socket.emit("join-group", page.data.uid);
-      socket.on("group-recieve-message", handleGroupRecieveMessage);
-    } else {
-      socket.on("recieve-message", handleRecieveMessage);
-    }
-
     return () => {
-      socket.off("recieve-user-active-status", handleRecieveUserActiveStatus);
-      socket.off("incoming-voice-call", handleIncomingVoiceCall);
-      socket.off("incoming-video-call", handleIncomingVideoCall);
-      socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
-      socket.off("group-incoming-video-call", handleIncomingVideoCall);
+      if (page.data.type === "personal") {
+        socket.off("recieve-user-active-status", handleRecieveUserActiveStatus);
+        socket.off("incoming-voice-call", handleIncomingVoiceCall);
+        socket.off("incoming-video-call", handleIncomingVideoCall);
+        socket.off("recieve-message", handleRecieveMessage);
+      } else {
+        socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
+        socket.off("group-incoming-video-call", handleIncomingVideoCall);
+        socket.off("group-recieve-message", handleGroupRecieveMessage);
+      }
       socket.off("ongoing-call-confirmed", handleOngoingCall);
-      socket.off("group-recieve-message", handleGroupRecieveMessage);
-      socket.off("recieve-message", handleRecieveMessage);
       socket.off("typing-status-on", handleTypingStatusOn);
       socket.off("typing-status-off", handleTypingStatusOff);
     };
