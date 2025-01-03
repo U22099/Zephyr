@@ -31,7 +31,7 @@ export function Posts() {
       setUserPost(posts.find(x => x.uid === uid));
       setPostsFilter([
         ...posts
-          .filter(x => x.uid !== uid && !x.lastPost.timestamp)
+          .filter(x => x.uid !== uid && x.lastPost.timestamp)
       ]);
     }
   }, [posts]);
@@ -41,12 +41,12 @@ export function Posts() {
         if(!e.target.value){
           setPostsFilter([
             ...posts
-              .filter(x => x.uid !== uid && !x.lastPost.timestamp)
+              .filter(x => x.uid !== uid && x.lastPost.timestamp)
           ]);
           return;
         }
         setPostsFilter([            ...posts
-            .filter(x => x.uid !== uid && !x.lastPost.timestamp && x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
+            .filter(x => x.uid !== uid && x.lastPost.timestamp && x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
         ]);
       }}/>
       <section className="flex flex-wrap gap-2 w-full justify-center">
@@ -65,11 +65,7 @@ export function Posts() {
           }
         })} />}
         {postsFilter
-          .sort((a, b) => {
-            const tA = a.lastPost?.timestamp || 0;
-            const tB = b.lastPost?.timestamp || 0;
-            return tA - tB;
-          })
+          .sort((a, b) => a.lastPost.timestamp - b.lastPost.timestamp)
           .map((post,i) => <PostCard key={i} data={post} action={() => setPage({
           open: true,
           component: "view-status",
