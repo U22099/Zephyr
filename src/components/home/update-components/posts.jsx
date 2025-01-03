@@ -29,17 +29,44 @@ export function Posts() {
   useEffect(() => {
     if (posts) {
       setUserPost(posts.find(x => x.uid === uid));
-      setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).sort((a, b) => (a.lastPost?.timestamp || 0) - (b.lastPost?.timestamp || 0))]);
+      setPostsFilter([
+        ...posts
+          .filter(x => x.uid != uid)
+          .filter(x => x.lastPost)
+          .sort((a, b) => {
+            const tA = a.lastPost?.timestamp || 0;
+            const tB = b.lastPost?.timestamp || 0;
+            return tA - tB;
+          })
+      ]);
     }
   }, [posts]);
   return (
     <main className="flex flex-col gap-2 w-full overflow-y-scroll scrollbar">
       <Input placeholder="Search..." onChange={(e) => {
         if(!e.target.value){
-          setPostsFilter([...posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).sort((a, b) => (a.lastPost?.timestamp || 0) - (b.lastPost?.timestamp || 0))]);
+          setPostsFilter([
+            ...posts
+              .filter(x => x.uid != uid)
+              .filter(x => x.lastPost)
+              .sort((a, b) => {
+                const tA = a.lastPost?.timestamp || 0;
+                const tB = b.lastPost?.timestamp || 0;
+                return tA - tB;
+              })
+          ]);
           return;
         }
-        setPostsFilter(posts.filter(x => (x.uid != uid) || (x.uid != uid && x.lastPost != {})).filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase())));
+        setPostsFilter([            ...posts
+            .filter(x => x.uid != uid)
+            .filter(x => x.lastPost)
+            .filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
+            .sort((a, b) => {
+              const tA = a.lastPost?.timestamp || 0;
+              const tB = b.lastPost?.timestamp || 0;
+              return tA - tB;
+            })
+        ]);
       }}/>
       <section className="flex flex-wrap gap-2 w-full justify-center">
         {userPost&&<PostCard data={{
