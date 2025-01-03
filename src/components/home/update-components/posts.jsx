@@ -31,7 +31,7 @@ export function Posts() {
       setUserPost(posts.find(x => x.uid === uid));
       setPostsFilter([
         ...posts
-          .filter(x => x.uid !== uid && x.lastPost !== {})
+          .filter(x => x.uid !== uid && !x.lastPost.timestamp)
       ]);
     }
   }, [posts]);
@@ -41,12 +41,12 @@ export function Posts() {
         if(!e.target.value){
           setPostsFilter([
             ...posts
-              .filter(x => x.uid !== uid && x.lastPost !== {})
+              .filter(x => x.uid !== uid && !x.lastPost.timestamp)
           ]);
           return;
         }
         setPostsFilter([            ...posts
-            .filter(x => x.uid !== uid && x.lastPost !== {} && x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
+            .filter(x => x.uid !== uid && !x.lastPost.timestamp && x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
         ]);
       }}/>
       <section className="flex flex-wrap gap-2 w-full justify-center">
