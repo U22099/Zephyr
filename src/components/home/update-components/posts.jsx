@@ -31,13 +31,7 @@ export function Posts() {
       setUserPost(posts.find(x => x.uid === uid));
       setPostsFilter([
         ...posts
-          .filter(x => x.uid != uid)
-          .filter(x => x.lastPost)
-          .sort((a, b) => {
-            const tA = a.lastPost?.timestamp || 0;
-            const tB = b.lastPost?.timestamp || 0;
-            return tA - tB;
-          })
+          .filter(x => x.uid != uid && x.lastPost !== {})
       ]);
     }
   }, [posts]);
@@ -47,25 +41,12 @@ export function Posts() {
         if(!e.target.value){
           setPostsFilter([
             ...posts
-              .filter(x => x.uid != uid)
-              .filter(x => x.lastPost)
-              .sort((a, b) => {
-                const tA = a.lastPost?.timestamp || 0;
-                const tB = b.lastPost?.timestamp || 0;
-                return tA - tB;
-              })
+              .filter(x => x.uid != uid && x.lastPost !== {})
           ]);
           return;
         }
         setPostsFilter([            ...posts
-            .filter(x => x.uid != uid)
-            .filter(x => x.lastPost)
-            .filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
-            .sort((a, b) => {
-              const tA = a.lastPost?.timestamp || 0;
-              const tB = b.lastPost?.timestamp || 0;
-              return tA - tB;
-            })
+            .filter(x => x.uid != uid && x.lastPost !== {} && x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))
         ]);
       }}/>
       <section className="flex flex-wrap gap-2 w-full justify-center">
@@ -83,7 +64,13 @@ export function Posts() {
             ...userPost,
           }
         })} />}
-        {postsFilter.map((post,i) => <PostCard key={i} data={post} action={() => setPage({
+        {postsFilter
+          .sort((a, b) => {
+            const tA = a.lastPost?.timestamp || 0;
+            const tB = b.lastPost?.timestamp || 0;
+            return tA - tB;
+          })
+          .map((post,i) => <PostCard key={i} data={post} action={() => setPage({
           open: true,
           component: "view-status",
           data: {

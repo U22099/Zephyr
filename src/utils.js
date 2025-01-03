@@ -295,7 +295,13 @@ export const deleteStatus = async (postId, statusId, uid) => {
     )).docs[0];
     if (postDoc?.exists()) {
       await updateDoc(docRef, {
-        lastPost: {}
+        lastPost: {
+          type: "text",
+          content: "Post Deleted",
+          timestamp: Date.now(),
+          likes: [],
+          statusId: v4()
+        }
       });
       if (postDoc.data().type != "text") {
         const deleted = await deleteFile(postDoc.data().content.public_id);
