@@ -40,7 +40,7 @@ export function Chat() {
   });
 
   const scrollDown = () => {
-    if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId != uid)) return;
+    //if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId != uid)) return;
     const body = document.getElementById("scroll");
     body.scrollIntoView({
       behavior: "smooth"
@@ -97,7 +97,7 @@ export function Chat() {
           groupId: page.data.uid,
           name: page.data.name,
           data: msgData,
-        })
+        });
       } else {
         socket.emit("send-message", {
           to: page.data.uid,
@@ -191,8 +191,8 @@ export function Chat() {
         console.log(err, "markAsRead");
       }
     }
-    const lastMessage = msg ? msg[msg.length - 1] : null;
-    if (lastMessage && lastMessage.senderId !== uid && ((type === "personal" && lastMessage.read === false) || (type === "group" && !lastMessage.read.includes(uid)))) {
+    const lastMessage = msg&&msg.length > 0 ? msg[msg.length - 1] : null;
+    if (lastMessage && lastMessage.senderId !== uid && ((page.data.type === "personal" && lastMessage.read === false) || (page.data.type === "group" && !lastMessage.read.includes(uid)))) {
       markAsRead();
     }
   }, [msg]);
