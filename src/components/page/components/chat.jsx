@@ -40,7 +40,7 @@ export function Chat() {
   });
 
   const scrollDown = () => {
-    //if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId != uid)) return;
+    //if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId !== uid)) return;
     const body = document.getElementById("scroll");
     body.scrollIntoView({
       behavior: "smooth"
@@ -77,7 +77,7 @@ export function Chat() {
             senderId: uid,
             timestamp: Date.now(),
           }
-          setMsg(msg.filter(x => x.type != "upload"));
+          setMsg(msg.filter(x => x.type !== "upload"));
         } catch (err) {
           console.log(err.message);
           return;

@@ -54,7 +54,7 @@ export function AIChat() {
       setMsg([...updatedMsg]);
       setInput("");
       const response = await sendAIMessage(uid, userData.username, msgData);
-      const filtered = updatedMsg.filter(x => x.role != "loading") || [];
+      const filtered = updatedMsg.filter(x => x.role !== "loading") || [];
       setMsg([...filtered, response]);
     } catch (err) {
       console.log(err, err.message, "send message");
@@ -75,7 +75,7 @@ export function AIChat() {
           description: "AI chat cleared"
         });
       } else {
-        const filtered = updatedMsg.filter(x => x.role != "loading") || [];
+        const filtered = updatedMsg.filter(x => x.role !== "loading") || [];
         setMsg([...filtered, {
           role: "model",
           parts: [{ text: "An error occured, please try again" }]
@@ -92,7 +92,7 @@ export function AIChat() {
   }, [component.current]);
   useEffect(() => {
     if (msg.length > 1) {
-      if (msg[msg.length - 1].role != "model") {
+      if (msg[msg.length - 1].role !== "model") {
         scrollDown();
       }
     }
@@ -188,7 +188,7 @@ const Message = ({ m }) => {
           }} className="rounded h-60 w-60 object-cover" src={m.content} /> : null*/}
         </CardContent>
         {/*<CardFooter className="flex p-0 justify-end">
-          <p className="text-xs text-muted-foreground">{(m.type != "loading")&&convertToTimeString(m.timestamp)}</p>
+          <p className="text-xs text-muted-foreground">{(m.type !== "loading")&&convertToTimeString(m.timestamp)}</p>
         </CardFooter>*/}
       </Card>
     </main>

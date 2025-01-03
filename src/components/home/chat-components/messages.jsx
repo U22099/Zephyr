@@ -98,12 +98,12 @@ export function Messages({ docData }) {
       <section className="py-1 h-full flex flex-col justify-center border-b gap-1 w-full" >
     <header className="flex gap-1 items-center justify-between">
           <h1 className="text-xl font-bold w-48 truncate">{doc.name}</h1>
-          { (lastMessage != {}) &&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
+          { (lastMessage !== {}) &&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId !== uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
-    {lastMessage != {} && (
-      lastMessage.type === "text" ? <p className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary font-bold " : "") + "w-48 truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.content || ""}</p> :
+    {lastMessage !== {} && (
+      lastMessage.type === "text" ? <p className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId !== uid ? "text-primary font-bold " : "") + "w-48 truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.content || ""}</p> :
         ["image", "audio", "video", "raw-file"].includes(lastMessage.type) ?
-        <div className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId != uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
+        <div className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId !== uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
             {(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.type === "image" ? <FaImage/> : lastMessage.type === "audio" ? <AiFillAudio /> : lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
             <p className="truncate">
               {lastMessage.type === "image" ? "Image" : lastMessage.type === "audio" ? "Audio" : lastMessage.type === "video" ? "Video" : "Raw File"}

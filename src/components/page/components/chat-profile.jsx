@@ -95,8 +95,8 @@ export function ChatProfile() {
               <section className="flex flex-col gap-2">
                 <h3 className="text-lg">Members</h3>
                 {peopleFilter&&peopleFilter.sort((a, b) => a.name?.localeCompare(b.name)).filter(x => group?.members?.includes(x.name)).map((doc,i) => <CardList key={i} doc={doc} action={() => setGroup({
-                  members: group?.members.filter(x => x != doc.name),
-                  participants: group?.participants.filter(x => x != doc.uid)
+                  members: group?.members.filter(x => x !== doc.name),
+                  participants: group?.participants.filter(x => x !== doc.uid)
                 })}/>)}
               </section>
               <Separator />

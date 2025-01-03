@@ -63,7 +63,7 @@ function PostViewCard({ userData, post, setPosts }) {
     try {
       setDeleteLoading(true);
       await deleteStatus(userData.uid, post.statusId, uid);
-      setPosts(posts => posts.filter(x => x.statusId != post.statusId));
+      setPosts(posts => posts.filter(x => x.statusId !== post.statusId));
     } catch (err) {
       console.error(err, err.message, "addLikes");
     } finally {
