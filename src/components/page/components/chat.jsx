@@ -172,6 +172,7 @@ export function Chat() {
   }
 
   const handleTypingStatusOff = (data) => {
+    console.log("recieved");
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       setTyping("");
     } else console.log("Mistake")
@@ -331,6 +332,7 @@ export function Chat() {
             from: uid, 
             type: page.data.type
           });
+          console.log("sent");
         }} 
         placeholder="Type in message" 
         value={input} 
