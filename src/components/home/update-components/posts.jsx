@@ -95,11 +95,11 @@ function PostCard({ data, action }) {
           {data.lastPost.type === "text" ? 
           <p className="text-sm truncate text-white">{data.lastPost.content}</p> : 
           data.lastPost.type === "image" ? 
-          <img className="rounded h-full w-full object-cover" src={data.lastPost.content?.secure_url || data.image} /> : 
+          <img className="rounded-md h-full w-full object-cover" src={data.lastPost.content?.secure_url || data.image} /> : 
           data.lastPost.type === "video" ? 
-          <div> <FaVideo/> Video</div> : 
+          <div className="flex flex-wrap gap-2"> <FaVideo/> Video</div> : 
           data.lastPost.type === "audio" ? 
-          <div> <AiFillAudio/> Audio</div> : null}
+          <div className="flex flex-wrap gap-2"> <AiFillAudio/> Audio</div> : null}
         </section>
         <h2 className="text-center self-end text-sm font-semibold w-16 truncate text-white">{data.name}</h2>
       </CardContent>
