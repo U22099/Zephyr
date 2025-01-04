@@ -89,9 +89,9 @@ export function Header() {
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
         <Drawer>
           <DrawerTrigger asChild><FaPlus className="text-xl fill-white"/></DrawerTrigger>
-          <DrawerContent className="max-h-[90%] flex flex-col p-2">
+          <DrawerContent className="h-[85vh] flex flex-col">
             <DrawerHeader>
-              <DrawerTitle>New Chats
+              <DrawerTitle>New Chat
               </DrawerTitle>
             </DrawerHeader>
             <section className="overflow-y-scroll h-full scrollbar">

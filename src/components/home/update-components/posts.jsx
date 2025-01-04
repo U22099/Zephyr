@@ -93,9 +93,9 @@ function PostCard({ data, action }) {
           data?.name ? data.name[0] : "Z"
           }</AvatarFallback>
         </Avatar>}
-        <section className={(!data.lastPost.type === "image" ? "bg-primary p-1 break-words text-center": "" ) + " absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center"}>
+        <section className={(!data.lastPost.type === "image" ? "bg-transparent p-1 break-words text-center": "" ) + " absolute top-0 left-0 w-full h-full z-[-1] flex justify-center items-center"}>
           {data.lastPost.type === "text" ? 
-          <p className="text-sm truncate text-white">{data.lastPost.content}</p> : 
+          <p className="text-sm truncate">{data.lastPost.content}</p> : 
           data.lastPost.type === "image" ? 
           <img className="rounded-lg h-full w-full object-cover" src={data.lastPost.content?.secure_url || data.image} /> : 
           data.lastPost.type === "video" ? 

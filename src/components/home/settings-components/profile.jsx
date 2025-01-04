@@ -13,7 +13,7 @@ import {
 export function Profile(){
   const { userData, setUserData } = useUserData();
   return(
-    <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-muted-foreground">
+    <Card className="backdrop-blur-sm flex justify-center items-center w-full active:bg-muted">
       <CardContent className="flex items-center gap-2 p-2 w-full">
         <Avatar className="w-20 h-20">
           <AvatarImage src={userData?.imageURL} className="object-cover rounded-full" />
@@ -21,7 +21,7 @@ export function Profile(){
         </Avatar>
         <section>
           <h3 className="text-lg font-semibold">{userData?.username}</h3>
-          <p className="text-muted-foreground-foreground truncate w-32">{userData?.bio}</p>
+          <p className="text-muted-foreground truncate w-32">{userData?.bio}</p>
         </section>
       </CardContent>
     </Card>

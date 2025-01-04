@@ -98,9 +98,9 @@ export function Users() {
       }}/>
       <Drawer>
         <DrawerTrigger>
-          <Button variant="outline">Create new group</Button>
+          <Button variant="outline" className="active:bg-muted">Create new group</Button>
         </DrawerTrigger>
-        <DrawerContent className="max-h-[90vh] h-[70vh]">
+        <DrawerContent className="h-[85vh]">
           <DrawerHeader>
             <DrawerTitle>Group</DrawerTitle>
             <DrawerDescription>
@@ -155,7 +155,7 @@ export function Users() {
 
 function CardList({ doc, action }) {
   return (
-    <Card className="flex w-full justify-start items-center h-fit" onClick={action}>
+    <Card className="flex w-full justify-start items-center h-fit active:bg-muted" onClick={action}>
       <CardContent className="flex p-1 items-center gap-2">
         <Avatar className="w-12 h-12">
           <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>
