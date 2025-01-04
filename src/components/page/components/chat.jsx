@@ -192,7 +192,7 @@ export function Chat() {
       }
     }
     const lastMessage = msg&&msg.length > 0 ? msg[msg.length - 1] : null;
-    if (lastMessage && lastMessage.senderId !== uid && ((page.data.type === "personal" && lastMessage.read === false) || (page.data.type === "group" && !lastMessage.read.includes(uid)))) {
+    if (lastMessage && lastMessage.senderId !== uid && ((page.data.type === "personal" && lastMessage.read === false) || (page.data.type === "group" && !lastMessage.read.includes(uid))) && component.current) {
       markAsRead();
     }
   }, [msg]);

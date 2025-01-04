@@ -17,6 +17,7 @@ const auth = getAuth(app);
 
 // Initialize Firestore with offline persistence
 const db = getFirestore(app);
+
 const initializePersistence = async () => {
   try {
     await enableIndexedDbPersistence(db);
