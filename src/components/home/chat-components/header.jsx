@@ -28,9 +28,9 @@ export function Header() {
   const post = async (e) => {
     try {
       setLoading(true);
-      if (e.target.files[0].size > (20 * 1024 * 1024)) {
+      if (e.target.files[0].size > (5 * 1024 * 1024)) {
         toast({
-          description: "File size is too large, pick a file less than 20mb"
+          description: "Image size is too large, image size must not be larger than 5mb"
         });
         return;
       } else if (["video", "audio", "pdf"].some(x => e.target.files[0].type.includes(x))) {
