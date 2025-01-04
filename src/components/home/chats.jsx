@@ -49,7 +49,9 @@ export function Chats() {
           setFilteredFriends(friends.filter(x => x.name.toLowerCase().includes(e.target.value.toLowerCase())))}
         } 
       }/>
-      {filteredFriends&&filteredFriends.sort((a,b) => (b.lastMessage.timestamp || 0) - (a.lastMessage.timestamp || 0)).map((doc, i) => <Messages key={i} docData={doc}/>)}
+      <section className="flex flex-col w-full gap-1">
+        {filteredFriends&&filteredFriends.sort((a,b) => (b.lastMessage.timestamp || 0) - (a.lastMessage.timestamp || 0)).map((doc, i) => <Messages key={i} docData={doc}/>)}
+      </section>
     </main>
   )
 }

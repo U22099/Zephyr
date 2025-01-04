@@ -84,7 +84,7 @@ export function Messages({ docData }) {
   };
 }, [socket, doc.uid, doc.type]);
   return (
-    <main className="flex gap-2 active:bg-gray-800 w-full" onClick={() => setPage({
+    <main className="flex gap-2 active:bg-muted w-full p-1 rounded" onClick={() => setPage({
       open: true,
       component: "chat",
       data: {
