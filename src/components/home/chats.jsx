@@ -44,13 +44,17 @@ export function Chats() {
       <Header />
       <h1 className="font-extrabold text-2xl">Chats</h1>
       <Input placeholder="Search..." onChange={(e) => {
-        if(!e.target.value) { setFilteredFriends([...friends])
+        if(!e.target.value) { setFilteredFriends([...friends]);
         } else {
-          setFilteredFriends(friends.filter(x => x.name.toLowerCase().includes(e.target.value.toLowerCase())))}
-        } 
+          setFilteredFriends([...friends.filter(x => x.name?.toLowerCase()?.includes(e.target.value.toLowerCase()))]);
+        }} 
       }/>
       <section className="flex flex-col w-full gap-1">
-        {filteredFriends&&filteredFriends.sort((a,b) => (b.lastMessage.timestamp || 0) - (a.lastMessage.timestamp || 0)).map((doc, i) => <Messages key={i} docData={doc}/>)}
+        {filteredFriends&&filteredFriends.sort((a,b) => {
+              const tA = a.lastMessage?.timestamp || 0;
+              const tB = b.lastMessage?.timestamp || 0;
+              return tB-tA;
+            }).map((doc, i) => <Messages key={i} docData={doc}/>)}
       </section>
     </main>
   )
