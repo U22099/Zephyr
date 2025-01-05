@@ -13,9 +13,7 @@ import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
-export function Messages({ docData }) {
-  //Trying to create a deep copy of docData
-  const doc = JSON.parse(JSON.stringify(docData));
+export function Messages({ doc }) {
   const [ lastMessage, setLastMessage ] = useState({
     ...doc.lastMessage
   });
@@ -92,12 +90,13 @@ export function Messages({ docData }) {
     socket.off("recieve-message", handleRecieveMessage);
   };
 }, [socket, doc.uid, doc.type]);
+
   return (
     <main className="flex gap-2 active:bg-muted w-full p-1 rounded" onClick={() => setPage({
       open: true,
       component: "chat",
       data: {
-        ...docData
+        ...doc
       }
     })}>
       <Avatar className="w-16 h-16">

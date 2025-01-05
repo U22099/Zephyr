@@ -54,7 +54,7 @@ export function Chats() {
               const tA = a.lastMessage?.timestamp || 0;
               const tB = b.lastMessage?.timestamp || 0;
               return tB-tA;
-            }).map((doc, i) => <Messages key={i} docData={doc}/>)}
+            }).map((doc, i) => <Messages key={i} doc={doc}/>)}
       </section>
     </main>
   )
