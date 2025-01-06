@@ -18,8 +18,13 @@ export function Chats() {
   }, [uid, page]);
 
   useEffect(() => {
+    console.log(friend);
     setFilteredFriends([...friends]);
   }, [friends]);
+  
+  useEffect(() => {
+    console.log(filteredFriends);
+  }, [filteredFriends]);
 
   useEffect(() => {
     const handleIncomingVoiceCall = (data) => {

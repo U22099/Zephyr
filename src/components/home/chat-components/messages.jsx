@@ -14,24 +14,12 @@ import { AiFillAudio } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
 export function Messages({ doc }) {
-  const [ lastMessage, setLastMessage ] = useState({
-    ...doc.lastMessage
-  });
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
   const setPage = usePage(state => state.setPage);
   const [ time, setTime ] = useState(
     doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");
-  /*useEffect(() => {
-    if(lastMessage){
-      setTime(
-        doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New"
-      );
-    }
-  }, [lastMessage]);
-  
-  */
-  
+    
   useEffect(() => {
     if(doc.type === "group") socket.emit("join-group", doc.uid);
   }, []);
@@ -51,15 +39,15 @@ export function Messages({ doc }) {
       <section className="py-1 h-full flex flex-col justify-center border-b gap-1 w-full" >
     <header className="flex gap-1 items-center justify-between">
           <h1 className="text-xl font-bold w-48 truncate">{doc.name}</h1>
-          { (lastMessage !== {}) &&<p className={(doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId !== uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
+          { (doc.lastMessage !== {}) &&<p className={(doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId !== uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
-    {lastMessage !== {} && (
-      lastMessage.type === "text" ? <p className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId !== uid ? "text-primary font-bold " : "") + "w-48 truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.content || ""}</p> :
-        ["image", "audio", "video", "raw-file"].includes(lastMessage.type) ?
-        <div className={((doc.type === "group" ? !lastMessage.read.includes(uid) : !lastMessage.read)&&lastMessage.senderId !== uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
-            {(doc.type === "group")&&!(lastMessage.senderId === uid) ? lastMessage.senderName+": " : (lastMessage.senderId === uid) ? "You: " : ""}{lastMessage.type === "image" ? <FaImage/> : lastMessage.type === "audio" ? <AiFillAudio /> : lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
+    {doc.lastMessage !== {} && (
+      doc.lastMessage.type === "text" ? <p className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId !== uid ? "text-primary font-bold " : "") + "w-48 truncate text-sm text-muted-foreground"}>{(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.content || ""}</p> :
+        ["image", "audio", "video", "raw-file"].includes(doc.lastMessage.type) ?
+        <div className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId !== uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
+            {(doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{doc.lastMessage.type === "image" ? <FaImage/> : doc.lastMessage.type === "audio" ? <AiFillAudio /> : doc.lastMessage.type === "video" ? <FaVideo /> : <FaFile />}
             <p className="truncate">
-              {lastMessage.type === "image" ? "Image" : lastMessage.type === "audio" ? "Audio" : lastMessage.type === "video" ? "Video" : "Raw File"}
+              {doc.lastMessage.type === "image" ? "Image" : doc.lastMessage.type === "audio" ? "Audio" : doc.lastMessage.type === "video" ? "Video" : "Raw File"}
             </p>
           </div> :
         null)
