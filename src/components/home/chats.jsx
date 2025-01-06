@@ -6,7 +6,7 @@ import { getChats } from "@/utils";
 import { useState, useEffect } from "react";
 
 export function Chats() {
-  //const socket = useSocket(state => state.socket);
+  const socket = useSocket(state => state.socket);
   const uid = useUID(state => state.uid);
   const page = usePage(state => state.page);
   const [filteredFriends, setFilteredFriends] = useState([]);
@@ -16,29 +16,64 @@ export function Chats() {
       getChats(uid, setFriends);
     }
   }, [uid, page]);
+
   useEffect(() => {
     setFilteredFriends([...friends]);
   }, [friends]);
-  /*useEffect(() => {
-  const updateFriendLastMessage = (data) => {
-    setFriends((prev) => prev.map((x) => {
-      if ((x.uid === data.senderId || x.uid === data.groupId) && (x.type === "personal" || x.type === "group")) {
-        x.lastMessage = { ...data };
-        return x;
-      } else {
-        return x;
+
+  useEffect(() => {
+    const handleIncomingVoiceCall = (data) => {
+      const doc = friends.find(x => x.uid === data.from);
+      if (doc.uid) {
+        setPage({
+          open: true,
+          component: "voice-call",
+          data: {
+            ...data,
+            doc,
+            incoming: true,
+          }
+        });
       }
-    }));
-  };
+    };
 
-  socket.on("recieve-message", updateFriendLastMessage);
-  socket.on("group-recieve-message", updateFriendLastMessage);
+    const handleIncomingVideoCall = (data) => {
+      const doc = friends.find(x => x.uid === data.from);
+      if (doc.uid) {
+        setPage({
+          open: true,
+          component: "voice-call",
+          data: {
+            ...data,
+            doc,
+            incoming: true,
+          }
+        });
+      }
+    };
 
-  return () => {
-    socket.off("recieve-message", updateFriendLastMessage);
-    socket.off("group-recieve-message", updateFriendLastMessage);
-  };
-}, [socket]);*/
+    const handleRecieveMessage = (data) => setFriends((prev) => prev.map((x) => x.uid === data.senderId && x.type === "personal" ? { ...x, lastMessage: data } : x));
+
+    const handleGroupRecieveMessage = (data) => setFriends((prev) => prev.map((x) => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x));
+
+    socket.on("recieve-message", handleRecieveMessage);
+    socket.on("group-recieve-message", handleGroupRecieveMessage);
+
+    socket.on("incoming-voice-call", handleIncomingVoiceCall);
+    socket.on("incoming-video-call", handleIncomingVideoCall);
+    socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
+    socket.on("group-incoming-video-call", handleIncomingVideoCall);
+
+    return () => {
+      socket.off("incoming-voice-call", handleIncomingVoiceCall);
+      socket.off("incoming-video-call", handleIncomingVideoCall);
+      socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
+      socket.off("group-incoming-video-call", handleIncomingVideoCall);
+      socket.off("group-recieve-message", handleGroupRecieveMessage);
+      socket.off("recieve-message", handleRecieveMessage);
+    };
+  }, [socket]);
+
   return (
     <main className="flex flex-col w-screen gap-3 p-2 mb-12">
       <Header />

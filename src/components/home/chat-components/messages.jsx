@@ -22,7 +22,7 @@ export function Messages({ doc }) {
   const setPage = usePage(state => state.setPage);
   const [ time, setTime ] = useState(
     doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");
-  useEffect(() => {
+  /*useEffect(() => {
     if(lastMessage){
       setTime(
         doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New"
@@ -30,66 +30,11 @@ export function Messages({ doc }) {
     }
   }, [lastMessage]);
   
+  */
+  
   useEffect(() => {
-  const handleIncomingVoiceCall = (data) => {
-    if(data.from === doc.uid){
-      setPage({ 
-        open: true, 
-        component: "voice-call", 
-        data: {
-        ...data,
-        doc,
-        incoming: true,
-      }});
-    }
-  };
-
-  const handleIncomingVideoCall = (data) => {
-    if(data.from === doc.uid){
-      setPage({ 
-        open: true, 
-        component: "video-call", 
-        data: {
-        ...data,
-        doc,
-        incoming: true,
-      }});
-    }
-  };
-
-  const handleGroupRecieveMessage = (data) => {
-    if(data.groupId === page.data.uid){
-      setLastMessage({ ...data });
-    }
-  };
-
-  const handleRecieveMessage = (data) => {
-    if (data.senderId === doc.uid) {
-      setLastMessage({ ...data });
-    }
-  };
-
-  socket.on("incoming-voice-call", handleIncomingVoiceCall);
-  socket.on("incoming-video-call", handleIncomingVideoCall);
-  socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
-  socket.on("group-incoming-video-call", handleIncomingVideoCall);
-
-  if (doc.type === "group") {
-    socket.emit("join-group", doc.uid);
-    socket.on("group-recieve-message", handleGroupRecieveMessage);
-  } else {
-    socket.on("recieve-message", handleRecieveMessage);
-  }
-
-  return () => {
-    socket.off("incoming-voice-call", handleIncomingVoiceCall);
-    socket.off("incoming-video-call", handleIncomingVideoCall);
-    socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
-    socket.off("group-incoming-video-call", handleIncomingVideoCall);
-    socket.off("group-recieve-message", handleGroupRecieveMessage);
-    socket.off("recieve-message", handleRecieveMessage);
-  };
-}, [socket, doc.uid, doc.type]);
+    if(doc.type === "group") socket.emit("join-group", doc.uid);
+  }, []);
 
   return (
     <main className="flex gap-2 active:bg-muted w-full p-1 rounded" onClick={() => setPage({
