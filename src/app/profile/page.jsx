@@ -88,7 +88,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-    if (userError) {
+    if (userError || (!user && !userLoading)) {
       deleteSession();
       router.push("/");
     } else {
@@ -97,7 +97,7 @@ export default function Home() {
         setPageLoading(false);
       }
     }
-  }, [user]);
+  }, [user, userError, userLoading]);
 
   useEffect(() => {
     if (image) {
