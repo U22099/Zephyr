@@ -17,7 +17,7 @@
  import { getSession } from "@/lib/utility/index";
  import { useRouter } from "next/navigation";
  import { useToast } from "@/hooks/use-toast";
- import { toast as sonner_toast } from "@/component/ui/sonner";
+ import { toast as sonner_toast } from "@/components/ui/sonner";
 
  export default function Home() {
    const router = useRouter();
