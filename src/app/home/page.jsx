@@ -33,10 +33,7 @@
    const { page, setPage } = usePage();
 
    const handleIncomingVoiceCall = (data) => {
-     sonnerToast(
-       data.name,
-       {
-         description: "Incoming voice call...",
+     sonnerToast(data.name,{ description: "Incoming voice call...",
          action: {
            label: "Accept",
            onClick: () => setPage({
@@ -49,10 +46,7 @@
    }
 
    const handleIncomingVideoCall = (data) => {
-     sonnerToast(
-       data.name,
-       {
-         description: "Incoming video call...",
+     sonnerToast(data.name,{ description: "Incoming video call...",
          action: {
            label: "Accept",
            onClick: () => setPage({
