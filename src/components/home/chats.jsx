@@ -11,9 +11,10 @@ export function Chats() {
   const page = usePage(state => state.page);
   const [filteredFriends, setFilteredFriends] = useState([]);
   const [friends, setFriends] = useState([]);
-  const handleRecieveMessage = (data) => setFriends((prev) => prev.map((x) => x.uid === data.senderId && x.type === "personal" ? { ...x, lastMessage: data } : x));
+  
+  const handleRecieveMessage = (data) => { setFriends((prev) => prev.map((x) => x.uid === data.senderId && x.type === "personal" ? { ...x, lastMessage: data } : x)); }
 
-  const handleGroupRecieveMessage = (data) => setFriends((prev) => prev.map((x) => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x));
+  const handleGroupRecieveMessage = (data) => {  setFriends((prev) => prev.map((x) => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x)); }
 
   useEffect(() => {
     if (uid) {
