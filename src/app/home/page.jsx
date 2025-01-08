@@ -17,7 +17,7 @@
  import { getSession } from "@/lib/utility/index";
  import { useRouter } from "next/navigation";
  import { useToast } from "@/hooks/use-toast";
- import { toast as sonner_toast } from "sonner";
+ import { toast as sonnerToast } from "sonner";
 
  export default function Home() {
    const router = useRouter();
@@ -33,13 +33,13 @@
    const { page, setPage } = usePage();
 
    const handleIncomingVoiceCall = (data) => {
-     sonner_toast(
+     sonnerToast(
        data.name,
        {
          description: "Incoming voice call...",
          action: {
            label: "Accept",
-           action: () => setPage({
+           onClick: () => setPage({
              open: true,
              component: "voice-call",
              data: { ...data, incoming: true }
@@ -49,13 +49,13 @@
    }
 
    const handleIncomingVideoCall = (data) => {
-     sonner_toast(
+     sonnerToast(
        data.name,
        {
          description: "Incoming video call...",
          action: {
            label: "Accept",
-           action: () => setPage({
+           onClick: () => setPage({
              open: true,
              component: "video-call",
              data: { ...data, incoming: true }
