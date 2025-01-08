@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -60,6 +61,7 @@ export default function RootLayout({ children }) {
         >
           {children}
           <Toaster />
+          <Sonner position="top-center"/>
         </ThemeProvider>
       </body>
     </html>

@@ -17,6 +17,7 @@
  import { getSession } from "@/lib/utility/index";
  import { useRouter } from "next/navigation";
  import { useToast } from "@/hooks/use-toast";
+ import { toast as sonner_toast } from "@/component/ui/sonner";
 
  export default function Home() {
    const router = useRouter();
@@ -29,7 +30,39 @@
    const [loading, setLoading] = useState(true);
    const setUserData = useUserData(state => state.setUserData);
    const setUID = useUID(state => state.setUID);
-   const page = usePage(state => state.page);
+   const { page, setPage } = usePage();
+
+   const handleIncomingVoiceCall = (data) => {
+     sonner_toast(
+       data.name,
+       {
+         description: "Incoming voice call...",
+         action: {
+           label: "Accept",
+           action: () => setPage({
+             open: true,
+             component: "voice-call",
+             data: { ...data, incoming: true }
+           })
+         }
+       });
+   }
+
+   const handleIncomingVideoCall = (data) => {
+     sonner_toast(
+       data.name,
+       {
+         description: "Incoming video call...",
+         action: {
+           label: "Accept",
+           action: () => setPage({
+             open: true,
+             component: "video-call",
+             data: { ...data, incoming: true }
+           })
+         }
+       });
+   }
 
    const handleGroupRecieveMessage = (data) => {
      toast({
@@ -55,6 +88,10 @@
        });
        socket.on("group-recieve-message", handleGroupRecieveMessage);
        socket.on("recieve-message", handleRecieveMessage);
+       socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
+       socket.on("incoming-voice-call", handleIncomingVoiceCall);
+       socket.on("group-incoming-video-call", handleIncomingVideoCall);
+       socket.on("incoming-video-call", handleIncomingVideoCall);
        setSocket(socket);
      } catch (err) {
        console.log(err, err.message, "init");
@@ -65,13 +102,17 @@
    useEffect(() => {
      if (user) {
        init();
-     } else if (!user && !userLoading){
+     } else if (!user && !userLoading) {
        deleteSession();
        router.push("/");
      }
      return () => {
        socket.off("group-recieve-message", handleGroupRecieveMessage);
        socket.off("recieve-message", handleRecieveMessage);
+       socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
+       socket.off("incoming-voice-call", handleIncomingVoiceCall);
+       socket.off("group-incoming-video-call", handleIncomingVideoCall);
+       socket.off("incoming-video-call", handleIncomingVideoCall);
        socket.disconnect();
      }
    }, [user, userLoading]);

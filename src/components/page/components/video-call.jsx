@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
+ import { useToast } from "@/hooks/use-toast";
 
 export function VideoCall() {
   const element = useRef();
@@ -7,6 +8,7 @@ export function VideoCall() {
   const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
+  const { toast } = useToast();
 
   useEffect(() => {
     const startCall = async () => {
@@ -28,14 +30,17 @@ export function VideoCall() {
             },
             onLeaveRoom: () => {
               socket.emit("call-ended", page.data.uid)
-              setPage({ open: true, component: "chat", data: { ...page.data } });
+              setPage({
+                open: false,
+                component: "default",
+              });
             }
           });
 
           if (page.data.type === "group") {
-            socket.emit("group-outgoing-video-call", { to: page.data.uid, from: uid, roomID, type: "group" });
+            socket.emit("group-outgoing-video-call", { to: page.data.uid, from: uid, name: page.data.name, roomID, type: "group" });
           } else {
-            socket.emit("outgoing-video-call", { to: page.data.uid, from: uid, roomID, type: "personal" });
+            socket.emit("outgoing-video-call", { to: page.data.uid, from: uid, name: page.data.name, roomID, type: "personal" });
           }
         } else {
           const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, userData.username);
@@ -53,21 +58,25 @@ export function VideoCall() {
               if (page.data.type === "personal") {
                 socket.emit("call-ended", page.data.to)
               }
-              setPage({ open: true, component: "chat", data: { ...page.data.doc } });
+              setPage({
+                open: false,
+                component: "default",
+              });
             }
           });
         }
       } catch (error) {
         console.error("Error starting call:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An error occured, please try again"
+        })
         setPage({ open: true, component: "chat", data: { ...page.data } });
       }
     };
 
     startCall();
-
-    return () => {
-      // Clean up the ZegoUIKitPrebuilt instance here
-    };
   }, [page, uid, userData, socket]);
 
   return (

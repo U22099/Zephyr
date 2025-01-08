@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
+ import { useToast } from "@/hooks/use-toast";
 
 export function VoiceCall() {
   const element = useRef();
@@ -7,6 +8,8 @@ export function VoiceCall() {
   const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
+  
+  const { toast } = useToast();
   useEffect(() => {
     const startCall = async () => {
       try {
@@ -26,16 +29,13 @@ export function VoiceCall() {
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
             scenario: {
-              mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+              mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
             },
             onLeaveRoom: () => {
-              //socket.emit("call-ended", page.data.uid)
+              socket.emit("call-ended", page.data.uid)
               setPage({
-                open: true,
-                component: "chat",
-                data: {
-                  ...page.data
-                }
+                open: false,
+                component: "default",
               });
             }
           });
@@ -43,6 +43,7 @@ export function VoiceCall() {
             socket.emit("group-outgoing-voice-call", {
               to: page.data.uid,
               from: uid,
+              name: page.data.name,
               roomID,
               type: "group"
             });
@@ -50,6 +51,7 @@ export function VoiceCall() {
             socket.emit("outgoing-voice-call", {
               to: page.data.uid,
               from: uid,
+              name: page.data.name,
               roomID,
               type: "personal"
             });
@@ -68,25 +70,30 @@ export function VoiceCall() {
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
             scenario: {
-              mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall, // To implement 1-on-1 calls, modify the parameter here to [ZegoUIKitPrebuilt.OneONoneCall].
+              mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
             },
             onLeaveRoom: () => {
               if (page.data.type === "personal") {
-                //socket.emit("call-ended", page.data.to)
+                socket.emit("call-ended", page.data.to)
               }
               setPage({
-                open: true,
-                component: "chat",
-                data: {
-                  ...page.data.doc
-                }
+                open: false,
+                component: "default",
               });
             }
           });
         }
       } catch (error) {
         console.error("Error starting call:", error);
-        setPage({ open: true, component: "chat", data: { ...page.data } });
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An error occured, please try again"
+        })
+        setPage({
+          open: false,
+          component: "default",
+        });
       }
     }
     startCall();
