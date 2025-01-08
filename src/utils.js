@@ -711,7 +711,7 @@ export const deleteAccount = async (uid, name) => {
     console.log("Error deleting user:", error);
   }
 }
-export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId) => {
+export const updateVariables = async (uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setLoading) => {
   try {
     const dbUser = await getDoc(doc(db, "users", uid));
     const userData = dbUser.data();
@@ -722,6 +722,8 @@ export const updateVariables = async (uid, setUsername, setImageUrl, setGender, 
     setImagePublicId(userData?.imagePublicId);
   } catch (err) {
     console.log(err, err.message, "updateVariables");
+  } finally {
+    setLoading(false);
   }
 }
 export const uploadFileAndGetURL = async (file, folder, type) => {

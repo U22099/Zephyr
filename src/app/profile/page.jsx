@@ -93,8 +93,8 @@ export default function Home() {
       router.push("/");
     } else {
       if (user) {
-        updateVariables(user.uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId);
-        setPageLoading(false);
+        const uid = user.uid === "U2YAfwTchcTNmgZxP4bDsoUUdEk2" ? process.env.NEXT_PUBLIC_UID : user.uid
+        updateVariables(uid, setUsername, setImageUrl, setGender, setBio, setImagePublicId, setPageLoading);
       }
     }
   }, [user, userError, userLoading]);
