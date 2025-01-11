@@ -12,9 +12,9 @@ export function Chats() {
   const [filteredFriends, setFilteredFriends] = useState([]);
   const [friends, setFriends] = useState([]);
 
-  const handleRecieveMessage = (data) => { setFriends((prev) => prev.map(x => x.uid === data.senderId && x.type === "personal" ? { ...x, lastMessage: data } : x)); }
+  const handleRecieveMessage = (data) => { setFriends(prev => prev.map(x => x.uid === data.senderId && x.type === "personal" ? { ...x, lastMessage: data } : x)); }
 
-  const handleGroupRecieveMessage = (data) => { setFriends((prev) => prev.map(x => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x)); }
+  const handleGroupRecieveMessage = (data) => { setFriends(prev => prev.map(x => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x)); }
 
   useEffect(() => {
     if (uid) {
@@ -41,7 +41,7 @@ export function Chats() {
     }
   }, [friends]);
   
-  useEffect(() => {
+  /*useEffect(() => {
     socket.on("recieve-message", handleRecieveMessage);
     socket.on("group-recieve-message", handleGroupRecieveMessage);
 
@@ -49,7 +49,7 @@ export function Chats() {
       socket.off("group-recieve-message", handleGroupRecieveMessage);
       socket.off("recieve-message", handleRecieveMessage);
     };
-  }, [socket]);
+  }, [socket]);*/
 
   return (
     <main className="flex flex-col w-screen gap-3 p-2 mb-12">
