@@ -22,7 +22,7 @@ export const usePage = create(set => ({
   },
 }));
 export const useNav = create(set => ({
-  nav: 0,
+  nav: 2,
   setNav: (nav) => {
     set({ nav });
   },
