@@ -21,6 +21,7 @@
     text-wrap: balance;
   }
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -99,39 +100,51 @@
   * {
     @apply border-border;
   }
+
+  *::selection {
+    @apply bg-primary text-white fill-white
+  }
+
   body {
     @apply bg-background text-foreground;
   }
+
   .ai-display code,
   .ai-display pre,
   .ai-display code *,
-  .ai-display pre *{
-  	@apply break-words whitespace-pre-wrap max-w-[80vw] md:max-w-[40vw]
+  .ai-display pre * {
+    @apply break-words whitespace-pre-wrap max-w-[80vw] md:max-w-[40vw]
   }
+
   .ai-display ol,
-  .ai-display ul{
+  .ai-display ul {
     @apply ml-4 list-disc
   }
+
   .ai-display * {
     @apply break-words text-wrap max-w-[80vw] md:max-w-[40vw]
   }
-  .ai-display a{
+
+  .ai-display a {
     @apply text-primary
   }
 }
 
-.scrollbar{
+.scrollbar {
   scroll-behavior: smooth;
 }
+
 .scrollbar::-webkit-scrollbar {
   width: 3px;
   border-radius: 20px;
   transition: all 1s linear;
 }
+
 .scrollbar::-webkit-scrollbar-thumb {
   cursor: pointer;
   background: var(--primary-foreground);
 }
+
 .scrollbar::-webkit-scrollbar-track {
   background: transparent;
   cursor: pointer;
