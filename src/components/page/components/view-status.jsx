@@ -25,7 +25,7 @@ export function ViewStatus() {
     setPage({
       open: true,
       component: "picture",
-      data: { ...page.data, previousPage: "chat", imageDataToView: image }
+      data: { ...page.data, previousPage: "view-status", imageDataToView: image }
     });
   }
   useEffect(() => {
@@ -116,11 +116,11 @@ function PostViewCard({ userData, post, setPosts, viewImage }) {
           {post.type === "image" ? 
           (post.textContent ?
           <div className="flex flex-col gap-1 w-full">
-           <img onClick={() => viewImage(m.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
+           <img onClick={() => viewImage(post.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
            <p className="text-md font-semibold">{post.textContent}</p>
           </div> : 
-          <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
-          : <h3 className="text-xl font-bold">{post.content}</h3>}
+          <img onClick={() => viewImage(post.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
+          : <h2 className="text-xl font-bold">{post.content}</h2>}
         </section>
       </CardContent>
       <CardFooter className="w-full">

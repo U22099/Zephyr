@@ -51,7 +51,7 @@ export function ChatProfile() {
     setPage({
       open: true,
       component: "picture",
-      data: { ...page.data, previousPage: "chat", imageDataToView: image }
+      data: { ...page.data, previousPage: "chat-profile", imageDataToView: image }
     });
   }
   useEffect(() => {
@@ -73,7 +73,7 @@ export function ChatProfile() {
       </header>
       <section className="flex w-full justify-center flex-col items-center mt-10">
         <Avatar className="w-28 h-28">
-          <AvatarImage onClick={() => viewImage(m.content?.secure_url)} src={page.data.image} className="object-cover rounded-full" />
+          <AvatarImage onClick={() => viewImage(page.data.image)} src={page.data.image} className="object-cover rounded-full" />
           <AvatarFallback className="text-2xl text-primary">{page.data.name ? page.data.name[0] : "Z"}
           </AvatarFallback>
         </Avatar>
