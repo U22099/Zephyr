@@ -55,7 +55,7 @@ export function VideoCall() {
             },
             onLeaveRoom: () => {
               socket.emit("call-ended", page.data.uid);
-              await navigator.mediaDevices.getUserMedia({ audio: false, video: false });
+              stream.getTracks().forEach(track => track.stop());
               setPage({
                 open: false,
                 component: "default",
@@ -86,7 +86,7 @@ export function VideoCall() {
               if (page.data.type === "personal") {
                 socket.emit("call-ended", page.data.to)
               }
-              await navigator.mediaDevices.getUserMedia({ audio: false, video: false });
+              stream.getTracks().forEach(track => track.stop());
               setPage({
                 open: false,
                 component: "default",
