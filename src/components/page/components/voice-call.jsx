@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
- import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export function VoiceCall() {
   const element = useRef();
@@ -8,7 +8,7 @@ export function VoiceCall() {
   const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
   const socket = useSocket(state => state.socket);
-  
+
   const { toast } = useToast();
   useEffect(() => {
     const startCall = async () => {
@@ -31,6 +31,25 @@ export function VoiceCall() {
             scenario: {
               mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
             },
+            onJoinRoom: () => {
+              if (page.data.type === "group") {
+                socket.emit("group-outgoing-voice-call", {
+                  to: page.data.uid,
+                  from: uid,
+                  name: page.data.name,
+                  roomID,
+                  type: "group"
+                });
+              } else {
+                socket.emit("outgoing-voice-call", {
+                  to: page.data.uid,
+                  from: uid,
+                  name: page.data.name,
+                  roomID,
+                  type: "personal"
+                });
+              }
+            },
             onLeaveRoom: () => {
               socket.emit("call-ended", page.data.uid)
               setPage({
@@ -39,23 +58,6 @@ export function VoiceCall() {
               });
             }
           });
-          if (page.data.type === "group") {
-            socket.emit("group-outgoing-voice-call", {
-              to: page.data.uid,
-              from: uid,
-              name: page.data.name,
-              roomID,
-              type: "group"
-            });
-          } else {
-            socket.emit("outgoing-voice-call", {
-              to: page.data.uid,
-              from: uid,
-              name: page.data.name,
-              roomID,
-              type: "personal"
-            });
-          }
         } else {
           const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, userData.username);
           const zp = ZegoUIKitPrebuilt.create(kitToken);
