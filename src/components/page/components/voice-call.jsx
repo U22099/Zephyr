@@ -18,9 +18,29 @@ export function VoiceCall() {
           description: "Internet connection offline",
           variant: "destructive"
         });
+        setPage({
+          open: false,
+          component: "default",
+        });
         return;
       }
       try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: false
+        });
+        if (!stream) {
+          toast({
+            title: "Permision Denied",
+            description: "Audio access permission denied",
+            variant: "destructive"
+          });
+          setPage({
+            open: false,
+            component: "default",
+          });
+          return;
+        }
         const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
         if (!page.data.incoming) {
           const roomID = `3664${Date.now()}393`
@@ -104,7 +124,6 @@ export function VoiceCall() {
         });
       }
     }
-
     startCall();
   }, []);
   return (

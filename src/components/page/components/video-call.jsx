@@ -21,8 +21,23 @@ export function VideoCall() {
         return;
       }
       try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          audio: true,
+          video: true
+        });
+        if (!stream) {
+          toast({
+            title: "Permision Denied",
+            description: "Audio access permission denied",
+            variant: "destructive"
+          });
+          setPage({
+            open: false,
+            component: "default",
+          });
+          return;
+        }
         const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
-
         if (!page.data.incoming) {
           const roomID = `3664${Date.now()}393`;
           const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, roomID, uid, userData.username);
@@ -30,6 +45,8 @@ export function VideoCall() {
 
           zp.joinRoom({
             container: element.current,
+            turnOnMicrophoneWhenJoining: false,
+            turnOnCameraWhenJoining: false,
             showPreJoinView: false,
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
@@ -56,6 +73,8 @@ export function VideoCall() {
 
           zp.joinRoom({
             container: element.current,
+            turnOnMicrophoneWhenJoining: false,
+            turnOnCameraWhenJoining: false,
             showPreJoinView: false,
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
