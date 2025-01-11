@@ -1,0 +1,28 @@
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+import { IoClose } from "react-icons/io5";
+import { usePage } from "@/store";
+
+export function Picture() {
+  const { page, setPage } = usePage();
+  return (
+    <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-center gap-2">
+      <header className="flex justify-start w-full p-2">
+        <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
+            ...page,
+            component: page.data.previousPage
+            })}>
+          <IoClose className="text-xl fill-black dark:fill-white"/>
+        </div>
+      </header>
+      <Card>
+        <CardContent>
+          <img src={page.data.image} className="h-fit w-full rounded object-cover" />
+        </CardContent>
+      </Card>
+    </motion.main>
+  )
+}

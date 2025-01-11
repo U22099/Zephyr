@@ -7,6 +7,7 @@ import { ViewStatus } from "./components/view-status";
 import { VoiceCall } from "./components/voice-call";
 import { VideoCall } from "./components/video-call";
 import { Chat } from "./components/chat";
+import { Picture } from "./components/picture";
 
 export function Page() {
   const { page, setPage } = usePage();
@@ -28,6 +29,8 @@ export function Page() {
       return <VideoCall />
     case 'chat':
       return <Chat />
+    case 'picture':
+      return <Picture />
     default:
       return <Home />
   }

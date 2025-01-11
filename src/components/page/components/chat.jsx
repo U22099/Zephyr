@@ -184,6 +184,14 @@ export function Chat() {
       setTyping("");
     }
   }
+  
+  const viewImage = (image) => {
+    setPage({
+      open: true,
+      component: "picture",
+      data: {...page.data, previousPage: "chat", image}
+    });
+  }
 
   useEffect(() => {
     if (msg.length > 1) {
@@ -304,7 +312,7 @@ export function Chat() {
         })}/>}
       </header>
       <section className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
-        {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid}/>)}
+        {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid} viewImage={viewImage}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>
       </section>
@@ -359,7 +367,7 @@ export function Chat() {
   )
 }
 
-const Message = ({ m, type, uid }) => {
+const Message = ({ m, type, uid, viewImage }) => {
   return (
     <main className={"flex w-full items-center " + (m.senderId === uid ? "justify-end text-end" : "justify-start text-start")}>
       <Card className="flex flex-col gap-1 w-fit max-w-[70vw] md:max-w-[60vw] justify-center items-start p-2 min-w-[20%]">
@@ -372,7 +380,7 @@ const Message = ({ m, type, uid }) => {
           m.type === "text" ? 
           <p className="text-left">{m.content}</p> : 
           m.type === "image" ? 
-          <img className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : 
+          <img onClick={() => viewImage(m.content?.secure_url)} className="rounded h-60 w-60 object-cover" src={m.content?.secure_url} /> : 
           m.type === "video" ? 
           <video className="rounded h-60 w-60 object-cover" controls src={m.content?.secure_url} /> : 
           m.type === "audio" ? 
