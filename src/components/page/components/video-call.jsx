@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useUserData, usePage, useUID, useSocket } from "@/store";
- import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 
 export function VideoCall() {
   const element = useRef();
@@ -12,6 +12,14 @@ export function VideoCall() {
 
   useEffect(() => {
     const startCall = async () => {
+      if (!navigator.onLine) {
+        toast({
+          title: "No internet connection",
+          description: "Internet connection offline",
+          variant: "destructive"
+        });
+        return;
+      }
       try {
         const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
 

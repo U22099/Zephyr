@@ -41,6 +41,14 @@ export function AIChat() {
     })
   }
   const sendMsg = async () => {
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
     try {
       const msgData = {
         parts: [{ text: input }],

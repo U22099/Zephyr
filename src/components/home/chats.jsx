@@ -27,7 +27,7 @@ export function Chats() {
 
   const handleTypingStatusOn = (data) => {
     setFriends(prev => prev.map(x => {
-      if ((x.type === "personal" && data.from === x.uid) || (x.type === "group" && data.to === x.uid)) {
+      if ((x.type === data.type && data.from === x.uid) || (x.type === data.type && data.to === x.uid)) {
         if (x.type === "group") {
           return { ...x, typing: data.name + " is typing" };
         } else {
@@ -39,7 +39,7 @@ export function Chats() {
 
   const handleTypingStatusOff = (data) => {
     setFriends(prev => prev.map(x => {
-      if ((x.type === "personal" && data.from === x.uid) || (x.type === "group" && data.to === x.uid)) {
+      if ((x.type === data.type && data.from === x.uid) || (x.type === data.type && data.to === x.uid)) {
         if (x.type === "group") {
           return { ...x, typing: "" };
         } else {

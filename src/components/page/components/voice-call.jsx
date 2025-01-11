@@ -12,6 +12,14 @@ export function VoiceCall() {
   const { toast } = useToast();
   useEffect(() => {
     const startCall = async () => {
+      if (!navigator.onLine) {
+        toast({
+          title: "No internet connection",
+          description: "Internet connection offline",
+          variant: "destructive"
+        });
+        return;
+      }
       try {
         const { ZegoUIKitPrebuilt } = await import("@zegocloud/zego-uikit-prebuilt");
         if (!page.data.incoming) {
@@ -96,6 +104,7 @@ export function VoiceCall() {
         });
       }
     }
+
     startCall();
   }, []);
   return (

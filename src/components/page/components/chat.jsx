@@ -48,6 +48,14 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
+      if(!navigator.onLine){
+        toast({
+          title: "No internet connection",
+          description: "Internet connection offline",
+          variant: "destructive"
+        });
+        return;
+      }
       let msgData;
       if (!arg) {
         msgData = {

@@ -20,7 +20,7 @@ import { useToast } from "@/hooks/use-toast";
 export function AI() {
   const { toast } = useToast();
   const uid = useUID(state => state.uid);
-  const [ aiData, setAIData ] = useState();
+  const [aiData, setAIData] = useState();
   const [loading, setLoading] = useState();
   const [info, setInfo] = useState("");
   const [behavior, setBehavior] = useState("");
@@ -28,6 +28,14 @@ export function AI() {
   const [temperature, setTemperature] = useState(20);
 
   const update = async () => {
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
     setLoading(true);
     await updateAIData(uid, {
       info,
@@ -42,10 +50,10 @@ export function AI() {
     setLoading(false);
   }
   useEffect(() => {
-    if(uid) getAIData(uid, setAIData);
+    if (uid) getAIData(uid, setAIData);
   }, [uid]);
   useEffect(() => {
-    if(aiData){
+    if (aiData) {
       setModelType(aiData?.modelType);
       setTemperature(aiData?.temperature);
       setBehavior(aiData?.behavior);

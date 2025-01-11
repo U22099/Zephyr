@@ -24,12 +24,20 @@ export function DangerZone() {
   const router = useRouter();
   const userData = useUserData(state => state.userData);
   const uid = useUID(state => state.uid);
-  const [ deleteloading, setDeleteloading ] = useState(false);
-  const [ logoutloading, setLogoutloading ] = useState(false);
+  const [deleteloading, setDeleteloading] = useState(false);
+  const [logoutloading, setLogoutloading] = useState(false);
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full">
       <CardContent className="flex flex-col items-center gap-2 p-2 w-full">
         <Button className="w-full" disabled={logoutloading} variant="destructive" onClick={async () => {
+          if (!navigator.onLine) {
+            toast({
+              title: "No internet connection",
+              description: "Internet connection offline",
+              variant: "destructive"
+            });
+            return;
+          }
           setLogoutloading(true);
           localStorage.removeItem("logged");
           await logOut();
@@ -53,6 +61,14 @@ export function DangerZone() {
               disabled={deleteloading}
               onClick={
               async () => {
+                if (!navigator.onLine) {
+                  toast({
+                    title: "No internet connection",
+                    description: "Internet connection offline",
+                    variant: "destructive"
+                  });
+                  return;
+                }
                 setDeleteloading(true);
                 await deleteAccount(uid, userData.username);
                 localStorage.removeItem("logged");

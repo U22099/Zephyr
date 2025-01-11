@@ -24,6 +24,14 @@ export function AddStatus() {
   const [statusText, setStatusText] = useState();
   const post = async (e) => {
     try {
+      if (!navigator.onLine) {
+        toast({
+          title: "No internet connection",
+          description: "Internet connection offline",
+          variant: "destructive"
+        });
+        return;
+      }
       setLoading(true);
       let postData;
       if (image) {

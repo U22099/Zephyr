@@ -179,6 +179,14 @@ export default function Home() {
   }
 
   const signIn = async (type) => {
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
     setError("");
     switch (type) {
       case "credentials":

@@ -31,26 +31,34 @@ export function Users() {
   const { userData, setUserData } = useUserData();
   const uid = useUID(state => state.uid);
   const setPage = usePage(state => state.setPage)
-  const [ group, setGroup ] = useState({
+  const [group, setGroup] = useState({
     name: "My-group",
     image: "",
     description: "",
     members: [userData.username],
     participants: [uid]
   });
-  const [ groupLoading, setGroupLoading ] = useState(false);
-  const [ groupError, setGroupError ] = useState("");
+  const [groupLoading, setGroupLoading] = useState(false);
+  const [groupError, setGroupError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [ groupsFilter, setGroupsFilter ] = useState([]);
-  const [ peopleFilter, setPeopleFilter ] = useState([]);
+  const [groupsFilter, setGroupsFilter] = useState([]);
+  const [peopleFilter, setPeopleFilter] = useState([]);
   const [groups, setGroups] = useState([]);
   const [people, setPeople] = useState([]);
   const [data, setData] = useState([]);
   const createGroup = async () => {
-    try{
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
+    try {
       setGroupLoading(true);
       const groupData = await createNewGroup(uid, group);
-      if(groupData){ 
+      if (groupData) {
         setPage({
           open: true,
           component: "chat",
@@ -59,7 +67,7 @@ export function Users() {
           }
         });
       }
-    } catch(err) {
+    } catch (err) {
       setGroupLoading(false);
       setGroupError(err.message);
       console.log(err, err.message);
@@ -77,7 +85,7 @@ export function Users() {
     }
   }, [data]);
   useEffect(() => {
-    console.log(people,groups);
+    console.log(people, groups);
     setGroupsFilter([...groups]);
     setPeopleFilter([...people]);
   }, [people, groups]);
@@ -172,10 +180,10 @@ function CardList({ doc, action }) {
   )
 }
 
-function GroupProfile({ group, setGroup }){
-  const [ name, setName ] = useState(group.name);
-  const [ description, setDescription ] = useState(group.description);
-  const [ image, setImage ] = useState(group.image);
+function GroupProfile({ group, setGroup }) {
+  const [name, setName] = useState(group.name);
+  const [description, setDescription] = useState(group.description);
+  const [image, setImage] = useState(group.image);
   useEffect(() => {
     setGroup({
       ...group,
@@ -183,7 +191,7 @@ function GroupProfile({ group, setGroup }){
       image,
       description,
     });
-  }, [ name, image ]);
+  }, [name, image]);
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-full mt-6">
       <CardContent className="flex flex-col justify-center gap-2 p-2 w-full">

@@ -41,6 +41,14 @@ export default function Home() {
   const [error, setError] = useState();
 
   const updateUserProfile = async () => {
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
     setLoading(true);
     setError("");
     let newImageUrl;

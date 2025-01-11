@@ -48,6 +48,14 @@ function PostViewCard({ userData, post, setPosts }) {
   const [deleteloading, setDeleteLoading] = useState(false);
 
   const addLikes = async () => {
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
     try {
       setLoading(true);
       await likeStatus(userData.uid, post.statusId, uid);
@@ -60,6 +68,14 @@ function PostViewCard({ userData, post, setPosts }) {
   }
 
   const deletePost = async () => {
+    if (!navigator.onLine) {
+      toast({
+        title: "No internet connection",
+        description: "Internet connection offline",
+        variant: "destructive"
+      });
+      return;
+    }
     try {
       setDeleteLoading(true);
       await deleteStatus(userData.uid, post.statusId, uid);
