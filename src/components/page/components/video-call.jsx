@@ -54,7 +54,8 @@ export function VideoCall() {
               mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
             },
             onLeaveRoom: () => {
-              socket.emit("call-ended", page.data.uid)
+              socket.emit("call-ended", page.data.uid);
+              await navigator.mediaDevices.getUserMedia({ audio: false, video: false });
               setPage({
                 open: false,
                 component: "default",
@@ -85,6 +86,7 @@ export function VideoCall() {
               if (page.data.type === "personal") {
                 socket.emit("call-ended", page.data.to)
               }
+              await navigator.mediaDevices.getUserMedia({ audio: false, video: false });
               setPage({
                 open: false,
                 component: "default",
