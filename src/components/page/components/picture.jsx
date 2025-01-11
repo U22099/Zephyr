@@ -9,7 +9,7 @@ import { usePage } from "@/store";
 export function Picture() {
   const { page, setPage } = usePage();
   return (
-    <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-center gap-2">
+    <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 1}} className="flex flex-col w-full p-2 justify-center gap-2">
       <header className="flex justify-start w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
             ...page,
