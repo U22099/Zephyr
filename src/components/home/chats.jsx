@@ -32,13 +32,8 @@ export function Chats() {
   }, [uid, page]);
 
   useEffect(() => {
-    console.log(friends);
     setFilteredFriends(filteredFriendsMemo);
   }, [filteredFriendsMemo, searchQuery]);
-
-  useEffect(() => {
-    console.log(filteredFriends);
-  }, [filteredFriends]);
 
   useEffect(() => {
     if (friends) {

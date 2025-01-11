@@ -118,6 +118,30 @@ export function Chat() {
     }
   };
 
+  const handleIncomingVoiceCall = data => {
+    if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
+      setOngoingCall({
+        confirm: true,
+        data: {
+          ...data,
+          callType: "voice"
+        }
+      });
+    }
+  }
+
+  const handleIncomingVideoCall = data => {
+    if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
+      setOngoingCall({
+        confirm: true,
+        data: {
+          ...data,
+          callType: "video"
+        }
+      });
+    }
+  }
+
   const handleOngoingCall = (data) => {
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       setOngoingCall({
@@ -180,10 +204,14 @@ export function Chat() {
       socket.emit("get-user-active-status", { id: page.data.uid });
       socket.on("recieve-message", handleRecieveMessage);
       socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
+      socket.on("incoming-video-call", handleIncomingVideoCall);
+      socket.on("incoming-voice-call", handleIncomingVoiceCall);
     } else {
       socket.emit("ongoing-call-check", page.data.uid);
       socket.emit("join-group", page.data.uid);
       socket.on("group-recieve-message", handleGroupRecieveMessage);
+      socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
+      socket.on("group-incoming-video-call", handleIncomingVideoCall);
     }
     socket.on("ongoing-call-confirmed", handleOngoingCall);
     socket.on("typing-status-on", handleTypingStatusOn);
@@ -192,8 +220,12 @@ export function Chat() {
       if (page.data.type === "personal") {
         socket.off("recieve-user-active-status", handleRecieveUserActiveStatus);
         socket.off("recieve-message", handleRecieveMessage);
+        socket.off("incoming-video-call", handleIncomingVideoCall);
+        socket.off("incoming-voice-call", handleIncomingVoiceCall);
       } else {
         socket.off("group-recieve-message", handleGroupRecieveMessage);
+        socket.off("group-incoming-voice-call", handleIncomingVoiceCall);
+        socket.off("group-incoming-video-call", handleIncomingVideoCall);
       }
       socket.off("ongoing-call-confirmed", handleOngoingCall);
       socket.off("typing-status-on", handleTypingStatusOn);
@@ -240,10 +272,10 @@ export function Chat() {
           </section>
         </section>
         {ongoingCall.confirm ? <Button className="animate-pulse" onClick={() => {
-          if(callType === "voice"){
-            setPage({ open: true, component: "voice-call", data: {...page.data, incoming: true, }});
+          if(ongoingCall.data.callType === "voice"){
+            setPage({ open: true, component: "voice-call", data: {...page.data, ...ongoingCall.data, incoming: true, }});
           } else { 
-            setPage({ open: true, component: "video-call", data: { ...page.data, incoming: true }});
+            setPage({ open: true, component: "video-call", data: { ...page.data, ...ongoingCall.data, incoming: true }});
           }
         }}>Join</Button> : 
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
