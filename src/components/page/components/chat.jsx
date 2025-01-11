@@ -95,14 +95,14 @@ export function Chat() {
       if (page.data.type === "group") {
         socket.emit("group-send-message", {
           groupId: page.data.uid,
-          name: userData.username,
+          name: page.data.name,
           data: msgData,
         });
       } else {
         socket.emit("send-message", {
           to: page.data.uid,
           from: uid,
-          name: page.data.name,
+          name: userData.username,
           data: msgData
         });
       }
@@ -203,8 +203,8 @@ export function Chat() {
     socket.on("typing-status-on", handleTypingStatusOn);
     socket.on("typing-status-off", handleTypingStatusOff);
     if (page.data.type === "personal") {
-      socket.emit("ongoing-call-check", uid);
       socket.emit("get-user-active-status", { id: page.data.uid });
+      socket.emit("ongoing-call-check", uid);
       socket.on("recieve-message", handleRecieveMessage);
       socket.on("recieve-user-active-status", handleRecieveUserActiveStatus);
       socket.on("incoming-video-call", handleIncomingVideoCall);
@@ -271,13 +271,13 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
           </section>
         </section>
-        {ongoingCall.confirm ? <Button className="animate-ping font-bold text-lg" onClick={() => {
+        {ongoingCall.confirm ? <div className="bg-primary rounded-md  p-2 animate-ping"><Button className="animate-pulse font-bold" size="lg" onClick={() => {
           if(ongoingCall.data.callType === "voice"){
             setPage({ open: true, component: "voice-call", data: {...page.data, ...ongoingCall.data, incoming: true, }});
           } else { 
             setPage({ open: true, component: "video-call", data: { ...page.data, ...ongoingCall.data, incoming: true }});
           }
-        }}>Join</Button> : 
+        }}>Join</Button></div> : 
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
             open: true,
             component: "voice-call",
