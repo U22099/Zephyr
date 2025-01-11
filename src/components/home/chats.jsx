@@ -11,10 +11,10 @@ export function Chats() {
   const page = usePage(state => state.page);
   const [filteredFriends, setFilteredFriends] = useState([]);
   const [friends, setFriends] = useState([]);
-  
+
   const handleRecieveMessage = (data) => { setFriends((prev) => prev.map(x => x.uid === data.senderId && x.type === "personal" ? { ...x, lastMessage: data } : x)); }
 
-  const handleGroupRecieveMessage = (data) => {  setFriends((prev) => prev.map(x => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x)); }
+  const handleGroupRecieveMessage = (data) => { setFriends((prev) => prev.map(x => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x)); }
 
   useEffect(() => {
     if (uid) {
@@ -31,6 +31,16 @@ export function Chats() {
     console.log(filteredFriends);
   }, [filteredFriends]);
 
+  useEffect(() => {
+    if(friends){
+      friends.forEach(x => {
+        if(x.type === "group"){
+          socket.emit("join-group", x.uid);
+        }
+      })
+    }
+  }, [friends]);
+  
   useEffect(() => {
     socket.on("recieve-message", handleRecieveMessage);
     socket.on("group-recieve-message", handleGroupRecieveMessage);
