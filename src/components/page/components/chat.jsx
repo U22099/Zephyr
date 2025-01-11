@@ -48,6 +48,12 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
+      socket.emit("typing-status-off", {
+        to: page.data.uid,
+        from: uid,
+        type: page.data.type
+      });
+      console.log("sent");
       let msgData;
       if (!arg) {
         msgData = {
@@ -271,7 +277,7 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
           </section>
         </section>
-        {ongoingCall.confirm ? <Button className="animate-pulse" onClick={() => {
+        {ongoingCall.confirm ? <Button className="animate-ping font-bold text-lg" onClick={() => {
           if(ongoingCall.data.callType === "voice"){
             setPage({ open: true, component: "voice-call", data: {...page.data, ...ongoingCall.data, incoming: true, }});
           } else { 
