@@ -18,6 +18,8 @@ import { saveData } from "@/storage";
 import { v4 } from "uuid";
 import axios from "axios";
 
+console.log("Hey dev😉","careful with the tokens and storage data😂", "web github repo: https://github.com/U22099/Zephyr");
+
 export const generateToken = async (userId) => {
   try {
     const res = await axios.post("/api/gt", {
