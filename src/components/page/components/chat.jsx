@@ -48,12 +48,6 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
-      socket.emit("typing-status-off", {
-        to: page.data.uid,
-        from: uid,
-        type: page.data.type
-      });
-      console.log("sent");
       let msgData;
       if (!arg) {
         msgData = {
@@ -101,7 +95,7 @@ export function Chat() {
       if (page.data.type === "group") {
         socket.emit("group-send-message", {
           groupId: page.data.uid,
-          name: page.data.name,
+          name: userData.username,
           data: msgData,
         });
       } else {
@@ -205,6 +199,9 @@ export function Chat() {
   }, [msg]);
 
   useEffect(() => {
+    socket.on("ongoing-call-confirmed", handleOngoingCall);
+    socket.on("typing-status-on", handleTypingStatusOn);
+    socket.on("typing-status-off", handleTypingStatusOff);
     if (page.data.type === "personal") {
       socket.emit("ongoing-call-check", uid);
       socket.emit("get-user-active-status", { id: page.data.uid });
@@ -219,9 +216,6 @@ export function Chat() {
       socket.on("group-incoming-voice-call", handleIncomingVoiceCall);
       socket.on("group-incoming-video-call", handleIncomingVideoCall);
     }
-    socket.on("ongoing-call-confirmed", handleOngoingCall);
-    socket.on("typing-status-on", handleTypingStatusOn);
-    socket.on("typing-status-off", handleTypingStatusOff);
     return () => {
       if (page.data.type === "personal") {
         socket.off("recieve-user-active-status", handleRecieveUserActiveStatus);
@@ -340,18 +334,18 @@ export function Chat() {
             from: uid, 
             type: page.data.type
           });
-          console.log("sent");
         }} 
         placeholder="Type in message" 
         value={input} 
-        onChange={(e) => {
+        onFocus={() => { 
           socket.emit("typing-status-on", {
             to: page.data.uid,
             from: uid,
             name: userData.username,
             type: page.data.type
           });
-        setInput(e.target.value)}}/>
+        }}
+        onChange={(e) => setInput(e.target.value)}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
     </motion.main>
