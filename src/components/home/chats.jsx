@@ -25,6 +25,30 @@ export function Chats() {
 
   const handleGroupRecieveMessage = (data) => { setFriends(prev => prev.map(x => x.uid === data.groupId && x.type === "group" ? { ...x, lastMessage: data } : x)); }
 
+  const handleTypingStatusOn = (data) => {
+    setFriends(prev => prev.map(x => {
+      if ((x.type === "personal" && data.from === x.uid) || (x.type === "group" && data.to === x.uid)) {
+        if (x.type === "group") {
+          return { ...x, typing: data.name + " is typing" };
+        } else {
+          return { ...x, typing: "typing..." };
+        }
+      } else return x;
+    }));
+  }
+
+  const handleTypingStatusOff = (data) => {
+    setFriends(prev => prev.map(x => {
+      if ((x.type === "personal" && data.from === x.uid) || (x.type === "group" && data.to === x.uid)) {
+        if (x.type === "group") {
+          return { ...x, typing: "" };
+        } else {
+          return { ...x, typing: "" };
+        }
+      } else return x;
+    }));
+  }
+
   useEffect(() => {
     if (uid) {
       getChats(uid, setFriends);
@@ -49,7 +73,8 @@ export function Chats() {
     if (socket) {
       socket.on("recieve-message", handleRecieveMessage);
       socket.on("group-recieve-message", handleGroupRecieveMessage);
-
+      socket.on("typing-status-on", handleTypingStatusOn);
+      socket.on("typing-status-off", handleTypingStatusOff);
       return () => {
         socket.off("group-recieve-message", handleGroupRecieveMessage);
         socket.off("recieve-message", handleRecieveMessage);
