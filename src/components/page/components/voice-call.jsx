@@ -51,7 +51,7 @@ export function VoiceCall() {
             socket.emit("outgoing-voice-call", {
               to: page.data.uid,
               from: uid,
-              name: page.data.name,
+              name: userData.username,
               roomID,
               type: "personal"
             });

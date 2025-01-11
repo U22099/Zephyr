@@ -40,7 +40,7 @@ export function VideoCall() {
           if (page.data.type === "group") {
             socket.emit("group-outgoing-video-call", { to: page.data.uid, from: uid, name: page.data.name, roomID, type: "group" });
           } else {
-            socket.emit("outgoing-video-call", { to: page.data.uid, from: uid, name: page.data.name, roomID, type: "personal" });
+            socket.emit("outgoing-video-call", { to: page.data.uid, from: uid, name: userData.username, roomID, type: "personal" });
           }
         } else {
           const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, userData.username);
