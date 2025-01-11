@@ -271,13 +271,13 @@ export function Chat() {
               <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
           </section>
         </section>
-        {ongoingCall.confirm ? <div className="bg-primary rounded-md  p-2 animate-ping"><Button className="animate-pulse font-bold" size="lg" onClick={() => {
+        {ongoingCall.confirm ? <Button className="animate-pulse font-bold" size="lg" onClick={() => {
           if(ongoingCall.data.callType === "voice"){
             setPage({ open: true, component: "voice-call", data: {...page.data, ...ongoingCall.data, incoming: true, }});
           } else { 
             setPage({ open: true, component: "video-call", data: { ...page.data, ...ongoingCall.data, incoming: true }});
           }
-        }}>Join</Button></div> : 
+        }}>Join</Button> : 
         <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
             open: true,
             component: "voice-call",
