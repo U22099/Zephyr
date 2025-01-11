@@ -47,6 +47,13 @@ export function ChatProfile() {
     participants: page.data.type === "group" ? [...page.data.participants] : [],
   });
   const [addmemberloading, setAddmemberloading] = useState(false);
+  const viewImage = (image) => {
+    setPage({
+      open: true,
+      component: "picture",
+      data: { ...page.data, previousPage: "chat", imageDataToView: image }
+    });
+  }
   useEffect(() => {
     if ((page.data.type === "group") && (page.data.admin === uid)) {
       getPeople(uid, setPeople);
@@ -66,7 +73,7 @@ export function ChatProfile() {
       </header>
       <section className="flex w-full justify-center flex-col items-center mt-10">
         <Avatar className="w-28 h-28">
-          <AvatarImage src={page.data.image} className="object-cover rounded-full" />
+          <AvatarImage onClick={() => viewImage(m.content?.secure_url)} src={page.data.image} className="object-cover rounded-full" />
           <AvatarFallback className="text-2xl text-primary">{page.data.name ? page.data.name[0] : "Z"}
           </AvatarFallback>
         </Avatar>

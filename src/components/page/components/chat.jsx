@@ -189,7 +189,7 @@ export function Chat() {
     setPage({
       open: true,
       component: "picture",
-      data: {...page.data, previousPage: "chat", image}
+      data: {...page.data, previousPage: "chat", imageDataToView: image}
     });
   }
 

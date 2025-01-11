@@ -19,8 +19,8 @@ export function Picture() {
         </div>
       </header>
       <Card>
-        <CardContent>
-          <img src={page.data.image} className="h-fit w-full rounded object-cover" />
+        <CardContent className="p-3 pt-3">
+          <img src={page.data.imageDataToView} className="w-full rounded object-fit" />
         </CardContent>
       </Card>
     </motion.main>

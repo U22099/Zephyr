@@ -21,6 +21,13 @@ import { ImBin } from "react-icons/im";
 export function ViewStatus() {
   const [posts, setPosts] = useState([]);
   const { page, setPage } = usePage();
+  const viewImage = (image) => {
+    setPage({
+      open: true,
+      component: "picture",
+      data: { ...page.data, previousPage: "chat", imageDataToView: image }
+    });
+  }
   useEffect(() => {
     getStatus(page.data.uid, setPosts);
   }, []);
@@ -34,14 +41,14 @@ export function ViewStatus() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      {posts ? posts.sort((a,b) => b.timestamp - a.timestamp).map((post,i) => <PostViewCard key={i} post={post} setPosts={setPosts} userData={page.data} />) :
+      {posts ? posts.sort((a,b) => b.timestamp - a.timestamp).map((post,i) => <PostViewCard key={i} post={post} setPosts={setPosts} userData={page.data} viewImage={viewImage}/>) :
         <h3 className="text-2xl font-bold text-center">No Posts</h3>
       }
     </motion.main>
   )
 }
 
-function PostViewCard({ userData, post, setPosts }) {
+function PostViewCard({ userData, post, setPosts, viewImage }) {
   const uid = useUID(state => state.uid);
   const [likes, setLikes] = useState(post.likes.length);
   const [loading, setLoading] = useState(false);
@@ -109,7 +116,7 @@ function PostViewCard({ userData, post, setPosts }) {
           {post.type === "image" ? 
           (post.textContent ?
           <div className="flex flex-col gap-1 w-full">
-           <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
+           <img onClick={() => viewImage(m.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
            <p className="text-md font-semibold">{post.textContent}</p>
           </div> : 
           <img src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
