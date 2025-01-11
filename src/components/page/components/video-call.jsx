@@ -22,7 +22,7 @@ export function VideoCall() {
 
           zp.joinRoom({
             container: element.current,
-            showPreJoinView: true,
+            showPreJoinView: false,
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
             scenario: {
@@ -48,7 +48,7 @@ export function VideoCall() {
 
           zp.joinRoom({
             container: element.current,
-            showPreJoinView: true,
+            showPreJoinView: false,
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
             scenario: {

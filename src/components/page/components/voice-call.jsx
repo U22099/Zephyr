@@ -25,30 +25,11 @@ export function VoiceCall() {
             showMyCameraToggleButton: false,
             showAudioVideoSettingsButton: false,
             showScreenSharingButton: false,
-            showPreJoinView: true,
+            showPreJoinView: false,
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
             scenario: {
               mode: page.data.type === "personal" ? ZegoUIKitPrebuilt.OneONoneCall : ZegoUIKitPrebuilt.GroupCall,
-            },
-            onJoinRoom: () => {
-              if (page.data.type === "group") {
-                socket.emit("group-outgoing-voice-call", {
-                  to: page.data.uid,
-                  from: uid,
-                  name: page.data.name,
-                  roomID,
-                  type: "group"
-                });
-              } else {
-                socket.emit("outgoing-voice-call", {
-                  to: page.data.uid,
-                  from: uid,
-                  name: page.data.name,
-                  roomID,
-                  type: "personal"
-                });
-              }
             },
             onLeaveRoom: () => {
               socket.emit("call-ended", page.data.uid)
@@ -58,6 +39,23 @@ export function VoiceCall() {
               });
             }
           });
+          if (page.data.type === "group") {
+            socket.emit("group-outgoing-voice-call", {
+              to: page.data.uid,
+              from: uid,
+              name: page.data.name,
+              roomID,
+              type: "group"
+            });
+          } else {
+            socket.emit("outgoing-voice-call", {
+              to: page.data.uid,
+              from: uid,
+              name: page.data.name,
+              roomID,
+              type: "personal"
+            });
+          }
         } else {
           const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, page.data.roomID, uid, userData.username);
           const zp = ZegoUIKitPrebuilt.create(kitToken);
@@ -68,7 +66,7 @@ export function VoiceCall() {
             showMyCameraToggleButton: false,
             showAudioVideoSettingsButton: false,
             showScreenSharingButton: false,
-            showPreJoinView: true,
+            showPreJoinView: false,
             showLeavingView: false,
             maxUsers: page.data.type === "group" ? 1000 : 2,
             scenario: {
