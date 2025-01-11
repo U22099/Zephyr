@@ -172,9 +172,9 @@ export function Chat() {
   const handleTypingStatusOn = (data) => {
     if ((page.data.type === "personal" && data.from === page.data.uid) || (page.data.type === "group" && data.to === page.data.uid)) {
       if (page.data.type === "group") {
-        setTyping(data.name + " is typing");
+        setTyping(data.name + " is typing...");
       } else {
-        setTyping("typing");
+        setTyping("typing...");
       }
     }
   }
@@ -275,7 +275,7 @@ export function Chat() {
           </Avatar>
           <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data, status}})}>
               <h1 className="text-xl font-bold truncate w-32 flex justify-start">{page.data.name}</h1>
-              <p className="text-sm text-muted-foreground truncate w-40 flex justify-start">{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
+              <p className={ (typing ? "italic " : "") +"text-sm text-muted-foreground truncate w-40 flex justify-start"}>{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
           </section>
         </section>
         {ongoingCall.confirm ? <Button className="animate-pulse font-bold" size="lg" onClick={() => {

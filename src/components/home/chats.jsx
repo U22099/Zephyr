@@ -29,7 +29,7 @@ export function Chats() {
     setFriends(prev => prev.map(x => {
       if ((x.type === data.type && data.from === x.uid) || (x.type === data.type && data.to === x.uid)) {
         if (x.type === "group") {
-          return { ...x, typing: data.name + " is typing" };
+          return { ...x, typing: data.name + " is typing..." };
         } else {
           return { ...x, typing: "typing..." };
         }
