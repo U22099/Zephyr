@@ -6,7 +6,7 @@
  import { Settings } from "@/components/home/settings";
  import { Loading } from "@/components/loading";
  import { Page } from "@/components/page/pages";
- import { useNav, useUserData, useUID, usePage, useSocket } from "@/store";
+ import { useNav, useUserData, useUID, usePage, useSocket, useDraft } from "@/store";
  import { getUserData, updateUserData } from "@/utils";
  import { useEffect, useState } from "react";
  import { useAuthState } from "react-firebase-hooks/auth";
@@ -24,6 +24,7 @@
    const socket = io(process.env.NEXT_PUBLIC_SERVER_URL);
    const setSocket = useSocket(state => state.setSocket);
    const { toast } = useToast();
+   const setDraft = useDraft(state => state.setDraft);
    const isMobile = useIsMobile();
    const [user, userLoading] = useAuthState(auth);
    const { nav, setNav } = useNav();
@@ -73,6 +74,7 @@
    };
    const init = async () => {
      try {
+       setDraft(JSON.parse(localStorage.getItem("draft")) || []);
        const id = user.uid === "U2YAfwTchcTNmgZxP4bDsoUUdEk2" ? process.env.NEXT_PUBLIC_UID : user.uid;
        await getUserData(id, setUserData);
        setUID(id);

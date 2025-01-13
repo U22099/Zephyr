@@ -34,7 +34,7 @@ export const useSocket = create(set => ({
   },
 }));
 export const useDraft = create(set => ({
-  draft: JSON.parse(localStorage.getItem("draft")) || [],
+  draft: [],
   setDraft: (draft) => {
     set({ draft });
   },

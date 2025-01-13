@@ -363,10 +363,10 @@ export function Chat() {
           });
         }}
         onChange={(e) => {
-          setDraft([
-            ...draft.filter(x => x.uid !== page.data.uid),
-            { uid: page.data.uid.slice(-6), content: e.target.value }
-          ]);
+        setDraft([
+          ...draft.filter(x => x.uid !== page.data.uid),
+          { uid: page.data.uid.slice(-6), content: e.target.value }
+        ]);
           setInput(e.target.value)
           localStorage.setItem("draft", JSON.stringify(draft));
         }}/>
