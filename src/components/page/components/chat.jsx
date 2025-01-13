@@ -200,6 +200,12 @@ export function Chat() {
       scrollDown();
     }
   }, [msg]);
+  
+  useEffect(() => {
+     if(draft){
+       localStorage.setItem("draft", JSON.stringify(draft));
+     }
+   }, [draft]);
 
   useEffect(() => {
     const markAsRead = async () => {
