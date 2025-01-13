@@ -30,7 +30,7 @@ export function Chat() {
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
   const { draft, setDraft } = useDraft();
-  const [ chatDraft, setChatDraft ] = useState( draft.find(x => x.uid === page.data.uid ) || null);
+  const [chatDraft, setChatDraft] = useState(draft.find(x => x.uid === page.data.uid) || null);
   const [msg, setMsg] = useState([]);
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
@@ -50,7 +50,7 @@ export function Chat() {
   }
   const sendMsg = async (arg = null) => {
     try {
-      if(!navigator.onLine){
+      if (!navigator.onLine) {
         toast({
           title: "No internet connection",
           description: "Internet connection offline",
@@ -186,21 +186,14 @@ export function Chat() {
       setTyping("");
     }
   }
-  
+
   const viewImage = (image) => {
     setPage({
       open: true,
       component: "picture",
-      data: {...page.data, previousPage: "chat", imageDataToView: image}
+      data: { ...page.data, previousPage: "chat", imageDataToView: image }
     });
   }
-  
-  useEffect(() => {
-    setDraft([
-      ...draft.filter(x => x.uid !== page.data.uid),
-      { uid: page.data.uid, content: input }
-    ]);
-  }, [input]);
 
   useEffect(() => {
     if (msg.length > 1) {
@@ -370,7 +363,12 @@ export function Chat() {
             type: page.data.type
           });
         }}
-        onChange={(e) => setInput(e.target.value)}/>
+        onChange={(e) => {
+        setDraft([
+          ...draft.filter(x => x.uid !== page.data.uid),
+          { uid: page.data.uid, content: e.target.value }
+        ]);
+        setInput(e.target.value)}}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
     </motion.main>
