@@ -18,7 +18,7 @@ export function Messages({ doc }) {
   const draft = useDraft(state => state.draft);
   const setPage = usePage(state => state.setPage);
   const [messageDraft,_] = useState(
-      draft.find(x => x.uid === doc.uid) || null
+      draft.find(x => x.uid === doc.uid.slice(-6)) || null
     )
   const [time, setTime ] = useState(
     doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");

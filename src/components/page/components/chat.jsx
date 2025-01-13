@@ -30,7 +30,7 @@ export function Chat() {
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
   const { draft, setDraft } = useDraft();
-  const [chatDraft, setChatDraft] = useState(draft.find(x => x.uid === page.data.uid) || null);
+  const [chatDraft, setChatDraft] = useState(draft.find(x => x.uid === page.data.uid.slice(-6)) || null);
   const [msg, setMsg] = useState([]);
   const [input, setInput] = useState(chatDraft ? chatDraft.content : "");
   const socket = useSocket(state => state.socket);
@@ -202,12 +202,6 @@ export function Chat() {
   }, [msg]);
   
   useEffect(() => {
-     if(draft){
-       localStorage.setItem("draft", JSON.stringify(draft));
-     }
-   }, [draft]);
-
-  useEffect(() => {
     const markAsRead = async () => {
       try {
         await readLastMessage(uid, page.data.uid, page.data.type);
@@ -369,11 +363,13 @@ export function Chat() {
           });
         }}
         onChange={(e) => {
-        setDraft([
-          ...draft.filter(x => x.uid !== page.data.uid),
-          { uid: page.data.uid, content: e.target.value }
-        ]);
-        setInput(e.target.value)}}/>
+          setDraft([
+            ...draft.filter(x => x.uid !== page.data.uid),
+            { uid: page.data.uid.slice(-6), content: e.target.value }
+          ]);
+          setInput(e.target.value)
+          localStorage.setItem("draft", JSON.stringify(draft));
+        }}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
     </motion.main>
