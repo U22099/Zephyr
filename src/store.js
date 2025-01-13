@@ -33,4 +33,10 @@ export const useSocket = create(set => ({
     set({ socket });
   },
 }));
+export const useDraft = create(set => ({
+  draft: [],
+  setDraft: (draft) => {
+    set({ draft });
+  },
+}));
 /*set((state) => ({ userData: { ...state.userData, ...newData } }))*/

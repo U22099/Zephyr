@@ -7,7 +7,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { usePage, useUID } from "@/store";
+import { usePage, useUID, useDraft } from "@/store";
 import { convertToTimeString } from "@/utils";
 import { FaImage, FaVideo, FaFile } from "react-icons/fa6";
 import { AiFillAudio } from "react-icons/ai";
@@ -15,8 +15,12 @@ import { useEffect, useState } from "react";
 
 export function Messages({ doc }) {
   const uid = useUID(state => state.uid);
+  const draft = useDraft(state => state.draft);
   const setPage = usePage(state => state.setPage);
-  const [ time, setTime ] = useState(
+  const [messageDraft,_] = useState(
+      draft.find(x => x.uid === doc.uid) || null
+    )
+  const [time, setTime ] = useState(
     doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");
 
   return (
@@ -36,7 +40,7 @@ export function Messages({ doc }) {
           <h1 className="text-xl font-bold w-48 truncate">{doc.name}</h1>
           { (doc.lastMessage !== {}) &&<p className={(doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId !== uid ? "text-primary font-bold text-sm" : "text-sm"}>{time}</p>}
         </header>
-    {doc.lastMessage !== {} && (
+    {!(messageDraft&&messageDraft.content) ? doc.lastMessage !== {} && ( 
       doc.lastMessage.type === "text" ? <p className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId !== uid ? "text-primary font-bold " : doc.typing ? "italic " : "") + "w-48 truncate text-sm text-muted-foreground"}>{doc.typing ? doc.typing : (doc.type === "group")&&!(doc.lastMessage.senderId === uid) ? doc.lastMessage.senderName+": " : (doc.lastMessage.senderId === uid) ? "You: " : ""}{!doc.typing ? doc.lastMessage.content || "" : ""}</p> :
         ["image", "audio", "video", "raw-file"].includes(doc.lastMessage.type) ?
         <div className={((doc.type === "group" ? !doc.lastMessage.read.includes(uid) : !doc.lastMessage.read)&&doc.lastMessage.senderId !== uid ? "text-primary fill-primary font-bold " : "text-muted-foreground ") + "text-sm flex gap-1 items-center"}>
@@ -45,7 +49,7 @@ export function Messages({ doc }) {
               {doc.lastMessage.type === "image" ? "Image" : doc.lastMessage.type === "audio" ? "Audio" : doc.lastMessage.type === "video" ? "Video" : "Raw File"}
             </p>
           </div> :
-        null)
+        null) : <div className="flex gap-2"><span className="text-primary font-extrabold">Draft:</span><span className="w-40 truncate text-sm text-muted-foreground">{messageDraft.content}</span></div>
     }
     </section> 
   </main>

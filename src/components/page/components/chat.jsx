@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { usePage, useSocket, useUID, useUserData } from "@/store";
+import { usePage, useSocket, useUID, useUserData, useDraft } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
   Card,
@@ -29,6 +29,8 @@ export function Chat() {
   const uid = useUID(state => state.uid);
   const userData = useUserData(state => state.userData);
   const { setPage, page } = usePage();
+  const { draft, setDraft } = useDraft();
+  const [ chatDraft, setChatDraft ] = useState( draft.find(x => x.uid === page.data.uid ) || null);
   const [msg, setMsg] = useState([]);
   const [input, setInput] = useState("");
   const socket = useSocket(state => state.socket);
@@ -192,6 +194,13 @@ export function Chat() {
       data: {...page.data, previousPage: "chat", imageDataToView: image}
     });
   }
+  
+  useEffect(() => {
+    setDraft([
+      ...draft.filter(x => x.uid !== page.data.uid),
+      { uid: page.data.uid, content: input }
+    ]);
+  }, [input]);
 
   useEffect(() => {
     if (msg.length > 1) {
@@ -351,7 +360,8 @@ export function Chat() {
           });
         }} 
         placeholder="Type in message" 
-        value={input} 
+        value={input}
+        defaultValue={chatDraft ? chatDraft.content : null}
         onFocus={() => { 
           socket.emit("typing-status-on", {
             to: page.data.uid,
