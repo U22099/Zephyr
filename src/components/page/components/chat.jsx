@@ -363,12 +363,11 @@ export function Chat() {
           });
         }}
         onChange={(e) => {
-        setDraft([
-          ...draft.filter(x => x.uid !== page.data.uid),
-          { uid: page.data.uid.slice(-6), content: e.target.value }
-        ]);
+          const newDraft = [            ...draft.filter(x => x.uid !== page.data.uid.slice(-6)), { uid: page.data.uid.slice(-6), content: e.target.value }
+          ];
+          setDraft(newDraft);
           setInput(e.target.value)
-          localStorage.setItem("draft", JSON.stringify(draft));
+          localStorage.setItem("draft", JSON.stringify(newDraft));
         }}/>
         <Button onClick={async () => {if(input){await sendMsg()}}}><IoSend /></Button>
       </footer>
