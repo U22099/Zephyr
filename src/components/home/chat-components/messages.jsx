@@ -49,7 +49,7 @@ export function Messages({ doc }) {
               {doc.lastMessage.type === "image" ? "Image" : doc.lastMessage.type === "audio" ? "Audio" : doc.lastMessage.type === "video" ? "Video" : "Raw File"}
             </p>
           </div> :
-        null) : <div className="flex gap-2 items-center text-sm"><span className="text-primary font-bold">Draft:</span><span className="w-40 truncate text-muted-foreground">{messageDraft.content}</span></div>
+        null) : <div className="flex gap-1.5 items-center text-sm"><span className="text-primary font-bold">Draft:</span><span className="w-40 truncate text-muted-foreground">{messageDraft.content}</span></div>
     }
     </section> 
   </main>

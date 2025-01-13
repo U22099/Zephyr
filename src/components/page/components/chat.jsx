@@ -32,7 +32,7 @@ export function Chat() {
   const { draft, setDraft } = useDraft();
   const [chatDraft, setChatDraft] = useState(draft.find(x => x.uid === page.data.uid) || null);
   const [msg, setMsg] = useState([]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(chatDraft ? chatDraft.content : "");
   const socket = useSocket(state => state.socket);
   const [status, setStatus] = useState();
   const [typing, setTyping] = useState();
@@ -354,7 +354,6 @@ export function Chat() {
         }} 
         placeholder="Type in message" 
         value={input}
-        defaultValue={chatDraft ? chatDraft.content : null}
         onFocus={() => { 
           socket.emit("typing-status-on", {
             to: page.data.uid,
