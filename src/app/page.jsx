@@ -138,8 +138,9 @@ export default function Home() {
           type: "personal"
         }, { merge: true });
         router.push("/profile");
+        return true;
       }
-      return true;
+      return false;
     } catch (err) {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");
@@ -169,8 +170,9 @@ export default function Home() {
           uid: Math.floor(Math.random() * 253637)
         });
         router.push("/profile");
+        return true;
       }
-      return true;
+      return false;
     } catch (err) {
       console.log(err);
       setError(err?.code || err?.message || "try again, an error occured");

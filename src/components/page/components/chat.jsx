@@ -93,7 +93,11 @@ export function Chat() {
           return;
         }
       }
+      const newDraft = [...draft.filter(x => x.uid !== page.data.uid.slice(-6)), { uid: page.data.uid.slice(-6), content: "" }
+          ];
+      setDraft(newDraft);
       setInput("");
+      localStorage.setItem("draft", JSON.stringify(newDraft));
       if (page.data.type === "group") {
         msgData.senderName = userData.username;
         msgData.read = [uid];
@@ -200,7 +204,7 @@ export function Chat() {
       scrollDown();
     }
   }, [msg]);
-  
+
   useEffect(() => {
     const markAsRead = async () => {
       try {
