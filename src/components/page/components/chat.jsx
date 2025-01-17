@@ -283,7 +283,7 @@ export function Chat() {
   return (
     <motion.main className="w-full h-full flex flex-col justify-start items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className={"sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-between" + (!isMobile ? " col-span-4" : " w-full")}>
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center justify-start gap-3">
           <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7" onClick={() => setPage({open: false, component: 'default'})}/>
           <section className="flex items-center gap-2 max-w-[70%]">
             <Avatar className="w-12 h-12">
