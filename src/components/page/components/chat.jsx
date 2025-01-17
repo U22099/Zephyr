@@ -296,7 +296,7 @@ export function Chat() {
             </section>
           </section>
         </div>
-        <div className="">
+        <div className="flex items-center justify-center gap-3">
           {ongoingCall.confirm ? <Button className="animate-pulse font-bold" size="lg" onClick={() => {
             if(ongoingCall.data.callType === "voice"){
               setPage({ open: true, component: "voice-call", data: {...page.data, ...ongoingCall.data, incoming: true, }});
@@ -328,7 +328,7 @@ export function Chat() {
         {/*For scrolling*/}
         <div id="scroll"></div>
       </section>
-      <footer className={"flex items-center gap-2 fixed bottom-0 left-0 md:right-0 backdrop-blur-sm pt-2 border-t z-10 mx-auto md:mx-none p-3" +!isMobile&&" col-span-4"}>
+      <footer className={"flex items-center gap-2 fixed bottom-0 left-0 md:right-0 backdrop-blur-sm pt-2 border-t z-10 mx-auto md:mx-none p-3" + !isMobile&&" col-span-4"}>
         <label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
