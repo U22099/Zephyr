@@ -291,12 +291,12 @@ export function Chat() {
               <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
             </Avatar>
             <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data, status}})}>
-                <h1 className="text-xl font-bold truncate w-32 flex justify-start">{page.data.name}</h1>
-                <p className={ (typing ? "italic " : "") +"text-sm text-muted-foreground truncate w-40 flex justify-start"}>{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
+                <h1 className="text-xl font-bold w-32 truncate flex justify-start">{page.data.name}</h1>
+                <p className={ (typing ? "italic " : "") +"text-sm text-muted-foreground w-40 truncate flex justify-start"}>{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
             </section>
           </section>
         </div>
-        <div className="flex items-center justify-center gap-3">
+        <div className="flex items-center justify-start gap-3">
           {ongoingCall.confirm ? <Button className="animate-pulse font-bold" size="lg" onClick={() => {
             if(ongoingCall.data.callType === "voice"){
               setPage({ open: true, component: "voice-call", data: {...page.data, ...ongoingCall.data, incoming: true, }});
