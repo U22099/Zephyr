@@ -122,7 +122,7 @@
         <Page />
       </section>
       : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar" : "grid h-full w-full scrollbar p-2 grid-cols-7"}>
-        <section className={"flex h-full flex-col w-full items-start justify-start scrollbar" + !isMobile&&" col-span-3"}>
+        <section className={"flex h-full flex-col w-full items-start justify-start scrollbar" + (!isMobile ? " col-span-3" : "")}>
         { nav === 0 ? <Updates /> 
         : nav === 1 ? <People />
         : nav === 2 ? <Chats />
