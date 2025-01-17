@@ -7,6 +7,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Navigation({ nav, setNav }) {
   const isMobile = useIsMobile();
+  console.log(isMobile);
   return (
     <motion.main initial={{x: -300}} animate={{x: 0}} transition={{duration: 0.3}} exit={{x: -300}} className={"fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 py-2 border-t" + (!isMobile ? " col-span-3" : "")}>
       <div className="flex flex-col justify-center items-center text-center">
