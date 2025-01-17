@@ -97,6 +97,26 @@
 
 
 @layer base {
+  .scrollbar {
+    scroll-behavior: smooth;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 3px;
+    border-radius: 20px;
+    transition: all 1s linear;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: var(--primary-foreground);
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: pointer;
+  }
+
   * {
     @apply border-border;
   }
@@ -128,24 +148,4 @@
   .ai-display a {
     @apply text-primary
   }
-}
-
-.scrollbar {
-  scroll-behavior: smooth;
-}
-
-.scrollbar::-webkit-scrollbar {
-  width: 3px;
-  border-radius: 20px;
-  transition: all 1s linear;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  cursor: pointer;
-  background: var(--primary-foreground);
-}
-
-.scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-  cursor: pointer;
 }
