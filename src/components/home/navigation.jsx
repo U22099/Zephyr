@@ -3,10 +3,12 @@ import { Users } from 'lucide-react';
 import { MessageCircle } from 'lucide-react';
 import { Cog } from 'lucide-react';
 import { motion } from "framer-motion";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Navigation({ nav, setNav }) {
+  const isMobile = useIsMobile();
   return (
-    <motion.main initial={{x: -300}} animate={{x: 0}} transition={{duration: 0.3}} exit={{x: -300}} className="fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 col-span-3 py-2 border-t">
+    <motion.main initial={{x: -300}} animate={{x: 0}} transition={{duration: 0.3}} exit={{x: -300}} className={"fixed bottom-0 flex justify-around py-1 bg-transparent backdrop-blur-md p-2 py-2 border-t" +!isMobile&&" col-span-3"}>
       <div className="flex flex-col justify-center items-center text-center">
         <CircleDotDashed className={"text-lg " + (nav === 0 ? "fill-violet-800" : "text-muted-foreground")} onClick={() => setNav(0)} id="updates"/>
         <label htmlFor="updates" className={(!(nav === 0) ? "text-muted-foreground ":"") + "text-sm font-semibold"}>Updates</label>
