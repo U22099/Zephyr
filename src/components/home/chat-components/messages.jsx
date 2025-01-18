@@ -24,7 +24,7 @@ export function Messages({ doc }) {
     doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");
 
   return (
-    <main className="flex gap-2 active:bg-muted w-full p-1 rounded" onClick={() => setPage({
+    <main className="flex gap-2 active:bg-muted w-full p-1 rounded cursor-pointer" onClick={() => setPage({
       open: true,
       component: "chat",
       data: {

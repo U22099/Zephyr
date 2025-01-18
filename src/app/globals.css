@@ -97,6 +97,22 @@
 
 
 @layer base {
+  ::-webkit-scrollbar {
+    width: 3px;
+    border-radius: 20px;
+    transition: all 1s linear;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: var(--primary-foreground);
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: pointer;
+  }
+
   .scrollbar {
     scroll-behavior: smooth;
   }

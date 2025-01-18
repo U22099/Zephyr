@@ -34,7 +34,7 @@ export function ViewStatus() {
   return (
     <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-center gap-2">
       <header className="flex justify-start w-full p-2">
-        <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12" onClick={() => setPage({
+        <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12 cursor-pointer" onClick={() => setPage({
             open: false,
             component: "default"
             })}>
@@ -110,7 +110,7 @@ function PostViewCard({ userData, post, setPosts, viewImage }) {
             </section>
           </section>
           {userData.uid === uid&&
-            (deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : <ImBin onClick={async () => await deletePost()} disabled={deleteloading} className="text-xl fill-black dark:fill-white"/>)}
+            (deleteloading ? <AiOutlineLoading className="animate-spin text-md"/> : <ImBin onClick={async () => await deletePost()} disabled={deleteloading} className="text-xl fill-black dark:fill-white cursor-pointer"/>)}
         </header>
         <section className="flex w-full flex-col gap-1">
           {post.type === "image" ? 
@@ -119,7 +119,7 @@ function PostViewCard({ userData, post, setPosts, viewImage }) {
            <img onClick={() => viewImage(post.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover" />
            <p className="text-md font-semibold">{post.textContent}</p>
           </div> : 
-          <img onClick={() => viewImage(post.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover" />)
+          <img onClick={() => viewImage(post.content?.secure_url)} src={post.content.secure_url} className="h-60 w-full rounded object-cover cursor-pointer" />)
           : <h2 className="text-xl font-bold">{post.content}</h2>}
         </section>
       </CardContent>

@@ -66,14 +66,14 @@ export function ChatProfile() {
   }, [people]);
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-full flex-col items-center justify-start w-full gap-1 p-2 scrollbar mb-6">
-      <header className="sticky top-0 left-0 w-full flex justify-start text-center items-center backdrop-blur-sm pb-2 border-b z-10">
+      <header className="sticky top-0 left-0 w-full flex justify-start text-center items-center backdrop-blur-sm pb-2 border-b z-10 cursor-pointer">
         <FaChevronLeft 
         onClick={() => setPage({open: true, component: 'chat', data: {...page.data}})}
         className="self-start dark:fill-white fill-black w-6 h-6"/>
       </header>
       <section className="flex w-full justify-center flex-col items-center mt-10">
         <Avatar className="w-28 h-28">
-          <AvatarImage onClick={() => viewImage(page.data.image)} src={page.data.image} className="object-cover rounded-full" />
+          <AvatarImage onClick={() => viewImage(page.data.image)} src={page.data.image} className="object-cover rounded-full cursor-pointer" />
           <AvatarFallback className="text-2xl text-primary">{page.data.name ? page.data.name[0] : "Z"}
           </AvatarFallback>
         </Avatar>

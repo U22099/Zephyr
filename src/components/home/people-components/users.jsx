@@ -163,7 +163,7 @@ export function Users() {
 
 function CardList({ doc, action }) {
   return (
-    <Card className="flex w-full justify-start items-center h-fit active:bg-muted" onClick={action}>
+    <Card className="flex w-full justify-start items-center h-fit active:bg-muted cursor-pointer" onClick={action}>
       <CardContent className="flex p-1 items-center gap-2">
         <Avatar className="w-12 h-12">
           <AvatarImage className="w-12 h-12 object-cover rounded-full" src={doc?.image} alt="profile-image"/>

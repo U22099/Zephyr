@@ -123,7 +123,7 @@ export function Profile() {
   return (
     <motion.main initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}} className="flex h-full flex-col items-start justify-start w-full gap-4 p-2">
       <header className="sticky top-0 left-0 w-full flex justify-center text-center items-center backdrop-blur-sm relative pb-2 border-b z-10">
-        <div className="absolute left-0 top-[-30%] flex justify-center items-center p-3" onClick={() => setPage({open: false, component: 'default'})}>
+        <div className="absolute left-0 top-[-30%] flex justify-center items-center p-3 cursor-pointer" onClick={() => setPage({open: false, component: 'default'})}>
           <FaChevronLeft className="self-start dark:fill-white fill-black w-6 h-6"/>
         </div>
         <h3 className="font-bold text-lg">Edit Profile</h3>

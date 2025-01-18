@@ -130,10 +130,10 @@
         : <Chats />}
         <Navigation setNav={setNav} nav={nav}/>
         </section>
-        {!isMobile&&
+        {/*!isMobile&&
         <section className="col-span-4 w-full flex justify-start items-center">
           <Page/>
-        </section>}
+        </section>*/}
     </main>}
     </>
    )
