@@ -8,10 +8,12 @@ import { VoiceCall } from "./components/voice-call";
 import { VideoCall } from "./components/video-call";
 import { Chat } from "./components/chat";
 import { Picture } from "./components/picture";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function Page() {
   const { page, setPage } = usePage();
-  if (!page.open) return;
+  const isMobile = useIsMobile();
+  if (!page.open&&isMobile) return;
   switch (page.component) {
     case 'default':
       return <Home />
