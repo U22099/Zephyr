@@ -89,7 +89,7 @@ export function Header() {
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8 cursor-pointer">
         <Drawer>
           <DrawerTrigger asChild><FaPlus className="text-xl fill-white"/></DrawerTrigger>
-          <DrawerContent className="h-[85vh] flex flex-col">
+          <DrawerContent className="h-[85vh] flex flex-col p-2">
             <DrawerHeader>
               <DrawerTitle>New Chat
               </DrawerTitle>

@@ -30,7 +30,7 @@ export function ViewStatus() {
   }
   useEffect(() => {
     getStatus(page.data.uid, setPosts);
-  }, []);
+  }, [page.data.uid]);
   return (
     <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-center items-start gap-2">
       <header className="flex justify-start w-full p-2">

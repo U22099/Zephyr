@@ -279,7 +279,7 @@ export function Chat() {
       fetchMsgs();
       component.current = true;
     }
-  }, []);
+  }, [page.data.uid]);
   return (
     <motion.main className="w-full h-full flex flex-col justify-start items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-between w-full">
