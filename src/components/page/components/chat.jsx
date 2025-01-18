@@ -256,7 +256,7 @@ export function Chat() {
     };
   }, [socket, page.data.uid, page.data.type]);
   useEffect(() => {
-    component.current = true;
+    component.current = false;
     setMsg([]);
     const fetchMsgs = async () => {
       try {
