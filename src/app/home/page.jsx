@@ -117,7 +117,7 @@
      <>
     { loading ? 
     <Loading /> 
-    : (page.open&&!isMobile) ? 
+    : (page.open&&isMobile) ? 
       <section className="flex h-full items-start justify-start w-full scrollbar">
         <Page />
       </section>
