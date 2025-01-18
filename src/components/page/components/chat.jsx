@@ -284,13 +284,13 @@ export function Chat() {
     <motion.main className="w-full h-full flex flex-col justify-start items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-between w-full">
         <div className="flex items-center justify-start gap-3">
-          <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7" onClick={() => setPage({open: false, component: 'default'})}/>
+          <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7 cursor-pointer" onClick={() => setPage({open: false, component: 'default'})}/>
           <section className="flex items-center gap-2 max-w-[70%]">
             <Avatar className="w-12 h-12">
               <AvatarImage className="w-12 h-12 object-cover rounded-full" src={page.data.image} alt="profile-image"/>
               <AvatarFallback className="text-3xl text-primary">{page.data.name ? page.data.name[0] : "Z"}</AvatarFallback>
             </Avatar>
-            <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data, status}})}>
+            <section className="py-1 h-full flex flex-col items-start justify-start gap-1 w-full active:text-muted-foreground cursor-pointer" onClick={() => setPage({open: true, component: "chat-profile", data: {...page.data, status}})}>
                 <h1 className="text-xl font-bold w-32 truncate flex justify-start">{page.data.name}</h1>
                 <p className={ (typing ? "italic " : "") +"text-sm text-muted-foreground w-40 truncate flex justify-start"}>{typing ? typing : page.data.type === "personal" ? status || "" : page.data.members?.join(",")}</p>
             </section>
@@ -304,7 +304,7 @@ export function Chat() {
               setPage({ open: true, component: "video-call", data: { ...page.data, ...ongoingCall.data, incoming: true }});
             }
           }}>Join</Button> : 
-          <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8" onClick={() => setPage({
+          <HiOutlinePhone className="self-center dark:stroke-white stroke-black w-8 h-8 cursor-pointer" onClick={() => setPage({
               open: true,
               component: "voice-call",
               data: {
@@ -312,7 +312,7 @@ export function Chat() {
                 incoming: false
               }
           })}/>}
-          {!ongoingCall.confirm&&<IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10" 
+          {!ongoingCall.confirm&&<IoVideocamOutline className="self-center dark:stroke-white stroke-black w-10 h-10 cursor-pointer" 
           onClick={() => setPage({
               open: true,
               component: "video-call",
