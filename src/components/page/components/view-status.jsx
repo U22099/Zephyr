@@ -41,7 +41,7 @@ export function ViewStatus() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      <div className="flex flex-col md:flex-row w-full p-2 justify-start gap-2 flex-wrap">
+      <div className="flex flex-col md:flex-row w-full p-2 justify-start gap-2 flex-wrap select-none">
       {posts ? posts.sort((a,b) => b.timestamp - a.timestamp).map((post,i) => <PostViewCard key={i} post={post} setPosts={setPosts} userData={page.data} viewImage={viewImage}/>) :
         <h3 className="text-2xl font-bold text-center">No Posts</h3>
       }

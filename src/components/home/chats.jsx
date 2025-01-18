@@ -85,9 +85,9 @@ export function Chats() {
   return (
     <main className="flex flex-col w-full gap-3 p-2 mb-12">
       <Header />
-      <h1 className="font-extrabold text-2xl">Chats</h1>
+      <h1 className="font-extrabold text-2xl select-none">Chats</h1>
       <Input placeholder="Search..." onChange={(e) => setSearchQuery(e.target.value)}/>
-      <section className="flex flex-col w-full gap-1">
+      <section className="flex flex-col w-full gap-1 select-none">
         {filteredFriends&&filteredFriends.sort((a,b) => {
               const tA = a.lastMessage?.timestamp || 0;
               const tB = b.lastMessage?.timestamp || 0;
