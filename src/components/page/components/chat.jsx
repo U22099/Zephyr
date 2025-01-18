@@ -256,6 +256,8 @@ export function Chat() {
     };
   }, [socket, page.data.uid, page.data.type]);
   useEffect(() => {
+    component.current = true;
+    setMsg([]);
     const fetchMsgs = async () => {
       try {
         const result = (await getMessages(uid, page.data.uid, page.data.type)) || [];

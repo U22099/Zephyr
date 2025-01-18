@@ -29,6 +29,7 @@ export function ViewStatus() {
     });
   }
   useEffect(() => {
+    setPosts([]);
     getStatus(page.data.uid, setPosts);
   }, [page.data.uid]);
   return (
