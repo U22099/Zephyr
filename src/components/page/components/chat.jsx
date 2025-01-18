@@ -328,7 +328,7 @@ export function Chat() {
         {/*For scrolling*/}
         <div id="scroll"></div>
       </section>
-      <footer className="flex fixed items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-2 border-t z-10 mx-auto md:mx-none p-3 w-fit">
+      <footer className={"flex fixed items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-2 border-t z-10 mx-auto md:mx-none p-3" + (!isMobile ? " w-fit": " w-full")}>
         <label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
