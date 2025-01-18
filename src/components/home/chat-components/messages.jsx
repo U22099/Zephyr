@@ -25,12 +25,12 @@ export function Messages({ doc }) {
 
   return (
     <main className="flex gap-2 active:bg-muted w-full p-1 rounded cursor-pointer" onClick={() => setPage({
-      open: true,
-      component: "chat",
-      data: {
-        ...doc
-      }
-    })}>
+          open: true,
+          component: "chat",
+          data: {
+            ...doc
+          }
+        })}>
       <Avatar className="w-16 h-16">
         <AvatarImage className="w-16 h-16 object-cover rounded-full" src={doc.image} alt="profile-image"/>
         <AvatarFallback className="text-3xl text-primary">{doc.name ? doc.name[0] : "Z"}</AvatarFallback>
