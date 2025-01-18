@@ -18,7 +18,7 @@ export function Picture() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      <Card>
+      <Card className="md:w-fit">
         <CardContent className="p-3 pt-3">
           <img src={page.data.imageDataToView} className="w-full rounded object-fit md:w-1/2" />
         </CardContent>

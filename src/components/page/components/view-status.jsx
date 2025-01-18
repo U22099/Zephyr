@@ -41,7 +41,7 @@ export function ViewStatus() {
           <IoClose className="text-xl fill-black dark:fill-white"/>
         </div>
       </header>
-      <div className="flex flex-col md:flex-row w-full p-2 justify-center gap-2 flex-wrap">
+      <div className="flex flex-col md:flex-row w-full p-2 justify-start gap-2 flex-wrap">
       {posts ? posts.sort((a,b) => b.timestamp - a.timestamp).map((post,i) => <PostViewCard key={i} post={post} setPosts={setPosts} userData={page.data} viewImage={viewImage}/>) :
         <h3 className="text-2xl font-bold text-center">No Posts</h3>
       }
@@ -96,7 +96,7 @@ function PostViewCard({ userData, post, setPosts, viewImage }) {
     }
   }
   return (
-    <Card className="flex gap-2 flex-col w-full md:w-1/2">
+    <Card className="flex gap-2 flex-col w-full md:w-[40%]">
       <CardContent className="flex flex-col gap-2 w-full">
         <header className="mt-2 flex justify-between w-full">
           <section className="flex gap-1">
