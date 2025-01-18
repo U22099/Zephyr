@@ -17,11 +17,20 @@ export function Messages({ doc }) {
   const uid = useUID(state => state.uid);
   const draft = useDraft(state => state.draft);
   const setPage = usePage(state => state.setPage);
-  const [messageDraft,_] = useState(
+  const [messageDraft, setMessageDraft] = useState(
       draft.find(x => x.uid === doc.uid.slice(-6)) || null
     )
   const [time, setTime ] = useState(
     doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");
+    
+    
+  useEffect(() => {
+    setMessageDraft(draft.find(x => x.uid === doc.uid.slice(-6)) || null);
+  }, [draft]);
+  
+  useEffect(() => {
+    setTime(doc.lastMessage.timestamp ? convertToTimeString(doc.lastMessage.timestamp) : "New");
+  }, [doc.lastMessage.time]);
 
   return (
     <main className="flex gap-2 active:bg-muted w-full p-1 rounded cursor-pointer" onClick={() => setPage({
