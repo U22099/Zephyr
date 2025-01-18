@@ -58,14 +58,14 @@ export function Header() {
   }
   return (
     <main className="sticky top-0 left-0 w-full grid grid-cols-10 grid-gap-2 backdrop-blur-sm relative pt-2 pb-4 border-b z-10">
-      <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8" onClick={() => setPage({
+      <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8 cursor-pointer" onClick={() => setPage({
         open: true,
         component: "profile"
       })}>
         <FaUser className="text-xl fill-white"/>
       </div>
       <h3 className="col-span-6 w-full flex justify-center items-center text-center font-bold text-lg">Chats</h3>
-      <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
+      <div className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8 cursor-pointer">
         <Drawer>
           <DrawerTrigger asChild> 
             <HiSparkles className="text-xl fill-black dark:fill-white"  />
@@ -82,11 +82,11 @@ export function Header() {
           </DrawerContent>
         </Drawer>
       </div>
-      <label htmlFor="image-post" className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8">
+      <label htmlFor="image-post" className="col-span-1 p-1 rounded-full bg-muted flex justify-center items-center w-8 h-8 cursor-pointer">
         {loading ? <AiOutlineLoading className="animate-spin text-md"/> : <FaCamera className="text-xl fill-black dark:fill-white"/>}
       </label>
       <input disabled={loading} type="file" accept=".jpg, .png, .jpeg" id="image-post" onChange={post} hidden/>
-      <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8">
+      <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8 cursor-pointer">
         <Drawer>
           <DrawerTrigger asChild><FaPlus className="text-xl fill-white"/></DrawerTrigger>
           <DrawerContent className="h-[85vh] flex flex-col">

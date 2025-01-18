@@ -20,7 +20,7 @@ export function Picture() {
       </header>
       <Card>
         <CardContent className="p-3 pt-3">
-          <img src={page.data.imageDataToView} className="w-full rounded object-fit" />
+          <img src={page.data.imageDataToView} className="w-full rounded object-fit md:w-1/2" />
         </CardContent>
       </Card>
     </motion.main>
