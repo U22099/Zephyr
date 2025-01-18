@@ -117,12 +117,12 @@
      <>
     { loading ? 
     <Loading /> 
-    : (page.open) ? 
+    : (page.open&&!isMobile) ? 
       <section className="flex h-full items-start justify-start w-full scrollbar">
         <Page />
       </section>
-      : <main className={/*isMobile ? */"flex h-full flex-col items-start justify-start w-full scrollbar"/* : "grid h-full w-full scrollbar p-2 grid-cols-7"*/}>
-        <section className="flex h-full flex-col w-full items-start justify-start scrollbar">
+      : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar" : "grid h-full w-full scrollbar p-2 grid-cols-6"}>
+        <section className={"flex h-full flex-col w-full items-start justify-start scrollbar" + (!isMobile ? " col-span-2" : "")}>
         { nav === 0 ? <Updates /> 
         : nav === 1 ? <People />
         : nav === 2 ? <Chats />
@@ -130,10 +130,10 @@
         : <Chats />}
         <Navigation setNav={setNav} nav={nav}/>
         </section>
-        {/*!isMobile&&
+        {!isMobile&&
         <section className="col-span-4 w-full flex justify-start items-center">
           <Page/>
-        </section>*/}
+        </section>}
     </main>}
     </>
    )
