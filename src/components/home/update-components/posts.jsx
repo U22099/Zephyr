@@ -83,7 +83,7 @@ export function Posts() {
 function PostCard({ data, action }) {
   return (
     <Card className="backdrop-blur-sm flex justify-center items-center w-20 h-36 overflow-hidden cursor-pointer md:w-52 md:h-60" onClick={action}>
-      <CardContent className="flex flex-col items-start justify-between p-2 w-20 h-36 relative">
+      <CardContent className="flex flex-col items-start justify-between p-2 w-20 h-36 md:w-52 md:h-60 relative">
         {data.name === "Add Status" ? 
          <div className="p-2 rounded-full bg-primary flex justify-center items-center w-10 h-10">
           <FaPlus className="text-xl fill-white"/>
@@ -103,7 +103,7 @@ function PostCard({ data, action }) {
           data.lastPost.type === "audio" ? 
           <div className="flex flex-wrap gap-2"> <AiFillAudio/> Audio</div> : null}
         </section>
-        <h2 className="text-center self-end text-sm font-semibold w-16 truncate text-white">{data.name}</h2>
+        <h2 className="text-center self-end text-sm font-semibold w-16 md:w-48 truncate text-white">{data.name}</h2>
       </CardContent>
     </Card>
   )

@@ -32,7 +32,7 @@ export function ViewStatus() {
     getStatus(page.data.uid, setPosts);
   }, []);
   return (
-    <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-center gap-2">
+    <motion.main initial={{y: 300}} animate={{y: 0}} exit={{y: 300}} transition={{duration: 0.3}} className="flex flex-col w-full p-2 justify-start gap-2">
       <header className="flex justify-start w-full p-2">
         <div className="p-2 rounded-full bg-muted flex justify-center items-center w-12 h-12 cursor-pointer" onClick={() => setPage({
             open: false,
@@ -96,7 +96,7 @@ function PostViewCard({ userData, post, setPosts, viewImage }) {
     }
   }
   return (
-    <Card className="flex gap-2 flex-col w-full">
+    <Card className="flex gap-2 flex-col w-full md:w-1/2">
       <CardContent className="flex flex-col gap-2 w-full">
         <header className="mt-2 flex justify-between w-full">
           <section className="flex gap-1">
