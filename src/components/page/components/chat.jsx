@@ -327,7 +327,7 @@ export function Chat() {
           })}/>}
         </div>
       </header>
-      <section className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar min-h-[calc(100vh-10px)]">
+      <section className="flex flex-col gap-2 w-full p-2 mb-16 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid} viewImage={viewImage}/>)}
         {/*For scrolling*/}
         <div id="scroll"></div>

@@ -121,8 +121,8 @@
       <section className="flex h-screen items-start justify-start w-full scrollbar overflow-y-scroll">
         <Page />
       </section>
-      : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar overflow-hidden max-h-[calc(100vh-2px)]" : "grid h-full w-full scrollbar p-2 grid-cols-6 overflow-hidden max-h-[calc(100vh-2px)]"}>
-        <section className={"flex h-[calc(100vh-2px)] flex-col w-full items-start justify-start" + (!isMobile ? " col-span-2" : "")}>
+      : <main className={isMobile ? "flex h-full flex-col items-start justify-start w-full scrollbar overflow-hidden max-h-screen" : "grid h-full w-full scrollbar grid-cols-6 overflow-hidden max-h-screen"}>
+        <section className={"flex h-full flex-col w-full items-start justify-start" + (!isMobile ? " col-span-2" : "")}>
         { nav === 0 ? <Updates /> 
         : nav === 1 ? <People />
         : nav === 2 ? <Chats />
@@ -131,7 +131,7 @@
         <Navigation setNav={setNav} nav={nav}/>
         </section>
         {!isMobile&&
-        <section className="col-span-4 w-full flex justify-center items-start overflow-y-scroll h-[calc(100vh-2px)]">
+        <section className="col-span-4 w-full flex justify-center items-start overflow-y-scroll h-full">
           <Page/>
         </section>}
     </main>}
