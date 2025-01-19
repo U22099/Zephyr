@@ -131,7 +131,7 @@
         <Navigation setNav={setNav} nav={nav}/>
         </section>
         {!isMobile&&
-        <section className="col-span-4 w-full flex justify-center items-start overflow-y-scroll h-full">
+        <section className="col-span-4 w-full flex justify-center items-start overflow-hidden">
           <Page/>
         </section>}
     </main>}
