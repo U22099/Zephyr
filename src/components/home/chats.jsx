@@ -3,12 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Messages } from "./chat-components/messages";
 import { useUID, usePage, useSocket, useFriends } from "@/store";
 import { getChats } from "@/utils";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 
 export function Chats() {
   const socket = useSocket(state => state.socket);
   const uid = useUID(state => state.uid);
   const page = usePage(state => state.page);
+  const initRender = useRef(false);
   const [filteredFriends, setFilteredFriends] = useState([]);
   const { friends, setFriends } = useFriends();
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,12 +61,13 @@ export function Chats() {
   }, [filteredFriendsMemo, searchQuery]);
 
   useEffect(() => {
-    if (friends) {
+    if (friends&&!initRender) {
       friends.forEach(x => {
         if (x.type === "group") {
           socket.emit("join-group", x.uid);
         }
-      })
+      });
+      initRender.current = true;
     }
   }, [friends]);
 

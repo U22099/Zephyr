@@ -108,7 +108,7 @@ export function Chat() {
         msgData.read = false;
       }
       setMsg([...msg, msgData]);
-      setFriends(prev => prev.map(x => x.uid === page.data.uid ? { ...x, lastMessage: msgData } : x));
+      setFriends(prev => prev.map(x => (x.uid === page.data.uid&&x.type === page.data.type) ? { ...x, lastMessage: msgData } : x));
       await sendMessage(uid, page.data.uid, msgData);
       if (page.data.type === "group") {
         socket.emit("group-send-message", {
