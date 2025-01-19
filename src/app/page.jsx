@@ -89,7 +89,7 @@ export default function Home() {
       }
       if (user) {
         try {
-          if (JSON.parse(localStorage.getItem("registered"))) {
+          if (JSON.parse(localStorage.getItem("registered")) && !existUser?.length) {
             await setDoc(doc(db, "users", user.uid), {
               username: user.displayName,
               imageURL: user.photoURL,
