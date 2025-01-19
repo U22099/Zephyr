@@ -284,7 +284,7 @@ export function Chat() {
   }, [page.data.uid]);
   return (
     <motion.main className="w-full h-full flex flex-col justify-start items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
-      <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm pb-2 border-b z-10 items-center text-center pt-1 justify-between w-full">
+      <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm pb-3 border-b z-10 items-center text-center pt-1 justify-between w-full">
         <div className="flex items-center justify-start gap-3 w-full">
           <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7 cursor-pointer" onClick={() => setPage({open: false, component: 'default'})}/>
           <section className="flex items-center gap-2 max-w-[70%] w-full">
@@ -330,7 +330,7 @@ export function Chat() {
         {/*For scrolling*/}
         <div id="scroll"></div>
       </section>
-      <footer className={"flex fixed items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-2 border-t z-10 mx-auto md:mx-none p-3" + (!isMobile ? " w-fit": " w-full")}>
+      <footer className={"flex w-full items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-3 border-t z-10 mx-auto md:mx-none p-3" + (!isMobile ? " sticky": " fixed")}>
         <label htmlFor="file">
           <FaPlus className="fill-primary text-xl" />
         </label>
