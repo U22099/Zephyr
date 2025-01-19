@@ -85,7 +85,7 @@ export function Chats() {
   }, [socket]);
 
   return (
-    <main className="flex flex-col w-full gap-3 p-2 mb-12 min-h-screen overflow-y-scroll scrollbar">
+    <main className="flex flex-col w-full h-screen gap-3 p-2 mb-12 min-h-screen overflow-y-scroll scrollbar">
       <Header />
       <h1 className="font-extrabold text-2xl select-none">Chats</h1>
       <Input placeholder="Search..." onChange={(e) => setSearchQuery(e.target.value)}/>
