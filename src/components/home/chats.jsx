@@ -1,7 +1,7 @@
 import { Header } from "./chat-components/header";
 import { Input } from "@/components/ui/input";
 import { Messages } from "./chat-components/messages";
-import { useUID, usePage, useSocket } from "@/store";
+import { useUID, usePage, useSocket, useFriends } from "@/store";
 import { getChats } from "@/utils";
 import { useState, useEffect, useMemo } from "react";
 
@@ -10,7 +10,7 @@ export function Chats() {
   const uid = useUID(state => state.uid);
   const page = usePage(state => state.page);
   const [filteredFriends, setFilteredFriends] = useState([]);
-  const [friends, setFriends] = useState([]);
+  const { friends, setFriends } = useFriends();
   const [searchQuery, setSearchQuery] = useState('');
 
   const filteredFriendsMemo = useMemo(() => {

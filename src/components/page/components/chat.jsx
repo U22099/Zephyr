@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { usePage, useSocket, useUID, useUserData, useDraft } from "@/store";
+import { usePage, useSocket, useUID, useUserData, useDraft, useFriends } from "@/store";
 import { FaChevronLeft } from "react-icons/fa";
 import {
   Card,
@@ -33,6 +33,7 @@ export function Chat() {
   const { setPage, page } = usePage();
   const { draft, setDraft } = useDraft();
   const [chatDraft, setChatDraft] = useState(draft.find(x => x.uid === page.data.uid.slice(-6)) || null);
+  const setFriends = useFriends(state => state.setFriends);
   const [msg, setMsg] = useState([]);
   const [input, setInput] = useState(chatDraft ? chatDraft.content : "");
   const socket = useSocket(state => state.socket);
@@ -107,6 +108,7 @@ export function Chat() {
         msgData.read = false;
       }
       setMsg([...msg, msgData]);
+      setFriends(prev => prev.map(x => x.uid === page.data.uid ? { ...x, lastMessage: msgData } : x));
       await sendMessage(uid, page.data.uid, msgData);
       if (page.data.type === "group") {
         socket.emit("group-send-message", {

@@ -39,4 +39,11 @@ export const useDraft = create(set => ({
     set({ draft });
   },
 }));
+
+export const useFriends = create(set => ({
+  friends: [],
+  setFriends: (friends) => {
+    set({ friends });
+  },
+}));
 /*set((state) => ({ userData: { ...state.userData, ...newData } }))*/
