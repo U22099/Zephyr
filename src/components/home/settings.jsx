@@ -5,7 +5,7 @@ import { AI } from "./settings-components/ai";
 export function Settings() {
   const setPage = usePage(state => state.setPage);
   return (
-    <main className="flex flex-col w-full gap-3 p-4 mt-12 select-none h-screen  overflow-y-screen scrollbar">
+    <main className="flex flex-col w-full gap-3 p-4 pb-12 select-none h-screen  overflow-y-scroll scrollbar min-h-screen">
       <h1 className="font-extrabold text-2xl">Settings</h1>
       <section onClick={() => setPage({
         open: true,
