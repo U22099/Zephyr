@@ -85,7 +85,6 @@ export function Users() {
     }
   }, [data]);
   useEffect(() => {
-    console.log(people, groups);
     setGroupsFilter([...groups]);
     setPeopleFilter([...people]);
   }, [people, groups]);

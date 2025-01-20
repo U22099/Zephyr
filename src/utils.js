@@ -779,7 +779,6 @@ export function getCurrentTime() {
 
 console.log("Hey dev😉","careful with the tokens and storage data😂", "web github repo: https://github.com/U22099/Zephyr");
 
-
 //Wanted to add pagination but jeez the db structure is getting too complicated already🤦‍️
 
 /*async function getInitialUsers() {
