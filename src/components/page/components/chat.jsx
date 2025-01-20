@@ -205,7 +205,7 @@ export function Chat() {
 
   useEffect(() => {
     if (msg.length > 1) {
-      scrollDown();
+      //scrollDown();
     }
   }, [msg]);
 
