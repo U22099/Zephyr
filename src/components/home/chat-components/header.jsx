@@ -57,7 +57,7 @@ export function Header() {
     }
   }
   return (
-    <main className="sticky top-0 left-0 w-full grid grid-cols-10 grid-gap-2 backdrop-blur-sm relative pt-2 pb-4 border-b z-10">
+    <main className="sticky top-0 left-0 w-full grid grid-cols-10 grid-gap-2 backdrop-blur-sm relative py-4 border-b z-10">
       <div className="col-span-1 p-1 rounded-full bg-primary flex justify-center items-center w-8 h-8 cursor-pointer" onClick={() => setPage({
         open: true,
         component: "profile"

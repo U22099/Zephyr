@@ -47,9 +47,7 @@ export function Chat() {
   const scrollDown = () => {
     //if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId !== uid)) return;
     const body = document.getElementById("scroll");
-    body.scrollIntoView({
-      behavior: "smooth"
-    })
+    body.scrollTop = body.scrollHeight;
   }
   const sendMsg = async (arg = null) => {
     try {
@@ -205,7 +203,7 @@ export function Chat() {
 
   useEffect(() => {
     if (msg.length > 1) {
-      //scrollDown();
+      scrollDown();
     }
   }, [msg]);
 
@@ -286,7 +284,7 @@ export function Chat() {
   }, [page.data.uid]);
   return (
     <motion.main className="w-full h-screen flex flex-col justify-start items-center overflow-y-scroll scrollbar mb-16" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
-      <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm pb-2.5 border-b z-10 items-center text-center pt-1 justify-between w-full">
+      <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm py-0.5 border-b z-10 items-center text-center justify-between w-full">
         <div className="flex items-center justify-start gap-3 w-full">
           <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7 cursor-pointer" onClick={() => setPage({open: false, component: 'default'})}/>
           <section className="flex items-center gap-2 max-w-[70%] w-full">
@@ -327,10 +325,8 @@ export function Chat() {
           })}/>}
         </div>
       </header>
-      <section className="flex flex-col gap-2 w-full p-2 h-full">
+      <section className="flex flex-col gap-2 w-full p-2 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid} viewImage={viewImage}/>)}
-        {/*For scrolling*/}
-        <div id="scroll"></div>
       </section>
       <footer className={"flex w-full items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-3 border-t z-10 mx-auto md:mx-none p-3" + (!isMobile ? " sticky": " fixed")}>
         <label htmlFor="file">
