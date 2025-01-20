@@ -46,7 +46,7 @@ export function Chat() {
 
   const scrollDown = () => {
     //if ((page.data.type === "group") && (msg && msg[msg?.length - 1]?.senderId !== uid)) return;
-    const body = document.getElementById("scroll");
+    const body = document.getElementById("body");
     body.scrollTop = body.scrollHeight;
   }
   const sendMsg = async (arg = null) => {
@@ -325,7 +325,7 @@ export function Chat() {
           })}/>}
         </div>
       </header>
-      <section className="flex flex-col gap-2 w-full p-2 h-full overflow-y-scroll scrollbar">
+      <section id="body" className="flex flex-col gap-2 w-full p-2 h-full overflow-y-scroll scrollbar">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid} viewImage={viewImage}/>)}
       </section>
       <footer className={"flex w-full items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-3 border-t z-10 mx-auto md:mx-none p-3" + (!isMobile ? " sticky": " fixed")}>
