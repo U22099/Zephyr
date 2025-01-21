@@ -283,7 +283,7 @@ export function Chat() {
     }
   }, [page.data.uid]);
   return (
-    <motion.main className="w-full h-screen flex flex-col justify-start items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-full h-screen flex flex-col justify-start items-center scrollbar" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm py-0.5 border-b z-10 items-center text-center justify-between w-full">
         <div className="flex items-center justify-start gap-3 w-full">
           <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7 cursor-pointer" onClick={() => setPage({open: false, component: 'default'})}/>
