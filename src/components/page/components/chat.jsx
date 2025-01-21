@@ -283,7 +283,7 @@ export function Chat() {
     }
   }, [page.data.uid]);
   return (
-    <motion.main className="w-full h-screen flex flex-col justify-start items-center scrollbar mb-16" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
+    <motion.main className="w-full h-screen flex flex-col justify-start items-center" initial={{x: 300}} animate={{x: 0}} exit={{x: 300}} transition={{duration: 0.3}}>
       <header className="sticky top-0 left-0 md:right-0 flex px-2 backdrop-blur-sm py-0.5 border-b z-10 items-center text-center justify-between w-full">
         <div className="flex items-center justify-start gap-3 w-full">
           <FaChevronLeft className="self-center dark:fill-white fill-black w-7 h-7 cursor-pointer" onClick={() => setPage({open: false, component: 'default'})}/>
@@ -325,7 +325,7 @@ export function Chat() {
           })}/>}
         </div>
       </header>
-      <section id="body" className="flex flex-col gap-2 w-full p-2 h-full overflow-y-scroll scrollbar">
+      <section id="body" className="flex flex-col gap-2 w-full p-2 h-full overflow-y-scroll scrollbar pb-16">
         {msg&&msg.map((doc, i) => <Message key={i} m={doc} type={page.data.type} uid={uid} viewImage={viewImage}/>)}
       </section>
       <footer className={"flex w-full items-center gap-2 bottom-0 left-0 md:right-0 backdrop-blur-sm pt-3 border-t z-10 mx-auto md:mx-none p-3" + (!isMobile ? " sticky": " fixed")}>
