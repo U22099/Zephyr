@@ -50,6 +50,7 @@ export const metadata = {
     description: APP_DESCRIPTION,
   },
 };
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
