@@ -3,10 +3,10 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 async function chat(name, history, msg, settings) {
   // Create a new Google Generative AI instance using the API key from environment variables.
-  const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_AI_API_KEY);
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   // Get the Gemini model.  System instruction sets the model's behavior.
   const model = genAI.getGenerativeModel({
-    model: settings.modelType === "fast" ? "gemini-1.5-flash-8b" : "gemini-1.5-pro",
+    model: settings.modelType === "fast" ? "gemini-2.0-flash" : "gemini-2.5-flash-preview-05-20",
     generationConfig: {
       temperature: (settings.temperature / 50).toFixed(1)
     },

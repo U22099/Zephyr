@@ -106,7 +106,7 @@ function generateToken04(appId, userId, secret, effectiveTimeInSeconds, payload)
 export const POST = async (req) => {
   try {
     const { userId, } = await req.json();
-    const res = generateToken04(parseInt(process.env.NEXT_PUBLIC_ZEGO_APP_ID), userId, process.env.NEXT_PUBLIC_ZEGO_SERVER_ID, 7200, null);
+    const res = generateToken04(parseInt(process.env.ZEGO_APP_ID), userId, process.env.ZEGO_SERVER_ID, 7200, null);
     return NextResponse.json({ data: res }, { status: 200 });
   } catch (err) {
     console.log(err);
