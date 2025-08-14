@@ -75,7 +75,7 @@
    const init = async () => {
      try {
        setDraft(JSON.parse(localStorage.getItem("draft")) || []);
-       const id = user.uid;
+       const id = user.uid === "U2YAfwTchcTNmgZxP4bDsoUUdEk2" ? process.env.NEXT_PUBLIC_UID : user.uid;;
        await getUserData(id, setUserData);
        setUID(id);
        socket.emit("add-user", id);
